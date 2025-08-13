@@ -14,16 +14,16 @@ namespace MauiApp1
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
+#if WINDOWS10_0_19041_0_OR_GREATER
             builder.Services.AddTransient<IFolderPicker, MauiApp1.Platforms.Windows.FolderPicker>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<App>();
-
-#if DEBUG
-    		builder.Logging.AddDebug();
 #endif
 
+            builder.Logging.AddDebug();
+
             return builder.Build();
+
         }
     }
 }

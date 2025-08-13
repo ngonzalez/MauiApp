@@ -14,9 +14,7 @@
             var pickedFolder = await _folderPicker.PickFolder();
 
             FolderLabel.Text = pickedFolder;
-
-            SemanticScreenReader.Announce(FolderLabel.Text);
-        }
+       }
 
     }
 }
