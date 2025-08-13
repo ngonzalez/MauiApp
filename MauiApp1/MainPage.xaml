@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+
+            <Label 
+                Text=""
+                Grid.Row="0"
+                FontSize="18"
+                FontAttributes="Bold"
+                x:Name="FolderLabel"
+                HorizontalOptions="Center" />
+
+            <Button 
+                Text="Pick Folder"
+                FontAttributes="Bold"
+                Grid.Row="1"
+                SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
+                Clicked="OnPickFolderClicked"
+                HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
