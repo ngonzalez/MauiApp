@@ -3065,11 +3065,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ngonzalez\\source\\repos\\MauiApp1\\MauiApp1\\MauiApp1.csproj",
+      "projectUniqueName": "C:\\Users\\ngonzalez\\Dev-Win\\MauiApp\\MauiApp1\\MauiApp1.csproj",
       "projectName": "MauiApp1",
-      "projectPath": "C:\\Users\\ngonzalez\\source\\repos\\MauiApp1\\MauiApp1\\MauiApp1.csproj",
+      "projectPath": "C:\\Users\\ngonzalez\\Dev-Win\\MauiApp\\MauiApp1\\MauiApp1.csproj",
       "packagesPath": "C:\\Users\\ngonzalez\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ngonzalez\\source\\repos\\MauiApp1\\MauiApp1\\obj\\",
+      "outputPath": "C:\\Users\\ngonzalez\\Dev-Win\\MauiApp\\MauiApp1\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
