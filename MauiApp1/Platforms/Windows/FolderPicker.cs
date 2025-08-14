@@ -1,5 +1,13 @@
-﻿using WindowsFolderPicker = Windows.Storage.Pickers.FolderPicker;
+﻿using Microsoft.Maui.Layouts;
+using System;
+using System.Collections.ObjectModel;
+using WindowsFolderPicker = Windows.Storage.Pickers.FolderPicker;
 
+
+//public class Item
+//{
+//    public string Name { get; set; }
+//}
 namespace MauiApp1.Platforms.Windows
 {
     public class FolderPicker : IFolderPicker
@@ -17,8 +25,8 @@ namespace MauiApp1.Platforms.Windows
             WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
 
             var result = await folderPicker.PickSingleFolderAsync();
-
-            return result?.Path;
+            
+            return result.Path;
         }
     }
 }
