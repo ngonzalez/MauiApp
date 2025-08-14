@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "aviiX+Z1yfU=",
+  "dgSpecHash": "u/7sDx4CFAs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ngonzalez\\source\\repos\\MauiApp1\\MauiApp1\\MauiApp1.csproj",
+  "projectFilePath": "C:\\Users\\ngonzalez\\Dev-Win\\MauiApp\\MauiApp1\\MauiApp1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ngonzalez\\.nuget\\packages\\microsoft.extensions.configuration\\9.0.0\\microsoft.extensions.configuration.9.0.0.nupkg.sha512",
     "C:\\Users\\ngonzalez\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\9.0.0\\microsoft.extensions.configuration.abstractions.9.0.0.nupkg.sha512",
