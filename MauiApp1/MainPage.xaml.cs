@@ -1,15 +1,46 @@
-﻿using System;
+﻿using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
+
+public static class MimeTypeMapper
+{
+    private static readonly IDictionary<string, string> _mappings =
+        new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            {".png", "image/png"},
+        };
+
+    public static string GetMimeType(string extension)
+    {
+        if (extension == null)
+        {
+            throw new ArgumentNullException("extension");
+        }
+        if (!extension.StartsWith("."))
+        {
+            extension = "." + extension;
+        }
+        string mime;
+        return _mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
+    }
+}
 
 namespace MauiApp1
 {
     public partial class MainPage : ContentPage
     {
-        public class Item
+        public class Folder
         {
-            public string Name { get; set; }
+            public required string Path { get; set; }
         }
-        public ObservableCollection<Item> Items { get; set; }
+
+        public class File
+        {
+            public required string Name { get; set; }
+            public required string Path { get; set; }
+            public required string MimeType { get; set; }
+        }
+        public ObservableCollection<Folder> Folders { get; set; }
+        public ObservableCollection<File> Files { get; set; }
 
         private readonly IFolderPicker _folderPicker;
 
@@ -17,25 +48,45 @@ namespace MauiApp1
         {
             InitializeComponent();
             _folderPicker = folderPicker;
-            Items = new ObservableCollection<Item>{};
+            Folders = new ObservableCollection<Folder>{ };
+            Files = new ObservableCollection<File> { };
             BindingContext = this;
         }
         private async void OnPickFolderClicked(object sender, EventArgs e)
         {
-            var pickedFolder = await _folderPicker.PickFolder();
+            var folderPath = await _folderPicker.PickFolder();
 
-            FolderLabel.Text = pickedFolder;
+            FolderLabel.Text = folderPath;
 
-            while (Items.Count() > 0)
+            while (Folders.Count() > 0)
             {
-                Items.RemoveAt(0);
+                Folders.RemoveAt(0);
             }
 
-            var files = Directory.EnumerateFiles(pickedFolder);
-            foreach (var file in files)
+            Folder folder = new Folder { Path = folderPath };
+
+            Folders.Add(folder);
+
+            var files = Directory.EnumerateFiles(folder.Path);
+
+            while (Files.Count() > 0)
             {
-                Items.Add(
-                    new Item { Name = file }
+                Folders.RemoveAt(0);
+            }
+
+            foreach (string filePath in files)
+            {
+
+                string fileName = Path.GetFileName(filePath);
+                string fileExt = Path.GetExtension(filePath);
+                string mimeType = MimeTypeMapper.GetMimeType(fileExt);
+
+                Files.Add(
+                    new File {
+                        Name = fileName,
+                        Path = filePath,
+                        MimeType = mimeType,
+                    }
                 );
             }
         }

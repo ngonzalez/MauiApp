@@ -29,13 +29,34 @@
                 Clicked="OnPickFolderClicked"
                 HorizontalOptions="Center" />
 
-            <CollectionView ItemsSource="{Binding Items}">
+            <CollectionView ItemsSource="{Binding Files}">
                 <CollectionView.EmptyView>
                     <Label Text="No data found." HorizontalOptions="Center" VerticalOptions="Center" />
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Label Text="{Binding Name}" FontSize="20" Padding="10" />
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{Binding Name}"
+                               FontAttributes="Bold"
+                               Padding="10" />
+
+                            <Label Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{Binding MimeType}"
+                               FontAttributes="Italic"
+                               VerticalOptions="End" />
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
