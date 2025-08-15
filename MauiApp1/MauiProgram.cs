@@ -16,6 +16,7 @@ namespace MauiApp1
                 });
 //#if WINDOWS
             builder.Services.AddTransient<IFolderPicker, MauiApp1.Platforms.Windows.FolderPicker>();
+            builder.Services.AddTransient<AccountPage>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<App>();
 //#endif
