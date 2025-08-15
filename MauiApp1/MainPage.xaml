@@ -45,17 +45,15 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="1"
-                               Grid.Column="1"
+                            <Label Grid.Row="0"
+                               Grid.Column="0"
                                Text="{Binding Name}"
                                FontAttributes="Bold"
                                Padding="10" />
 
                             <Label Grid.Row="1"
-                               Grid.Column="1"
-                               Text="{Binding MimeType}"
-                               FontAttributes="Italic"
-                               VerticalOptions="End" />
+                               Grid.Column="0"
+                               Text="{Binding MimeType}" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

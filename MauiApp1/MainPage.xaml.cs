@@ -31,6 +31,7 @@ namespace MauiApp1
         public class Folder
         {
             public required string Path { get; set; }
+            public required string Type { get; set; }
         }
 
         public class File
@@ -38,6 +39,7 @@ namespace MauiApp1
             public required string Name { get; set; }
             public required string Path { get; set; }
             public required string MimeType { get; set; }
+            public required string Type { get; set; }
         }
         public ObservableCollection<Folder> Folders { get; set; }
         public ObservableCollection<File> Files { get; set; }
@@ -56,22 +58,22 @@ namespace MauiApp1
         {
             var folderPath = await _folderPicker.PickFolder();
 
-            FolderLabel.Text = folderPath;
+            Folder rootFolder = new Folder { Path = folderPath, Type = "root" };
+
+            FolderLabel.Text = rootFolder.Path;
 
             while (Folders.Count() > 0)
             {
                 Folders.RemoveAt(0);
             }
 
-            Folder folder = new Folder { Path = folderPath };
+            Folders.Add(rootFolder);
 
-            Folders.Add(folder);
-
-            var files = Directory.EnumerateFiles(folder.Path);
+            var files = Directory.EnumerateFiles(rootFolder.Path);
 
             while (Files.Count() > 0)
             {
-                Folders.RemoveAt(0);
+                Files.RemoveAt(0);
             }
 
             foreach (string filePath in files)
@@ -86,8 +88,63 @@ namespace MauiApp1
                         Name = fileName,
                         Path = filePath,
                         MimeType = mimeType,
+                        Type = rootFolder.Type,
                     }
                 );
+            }
+
+            var folders = Directory.EnumerateDirectories(rootFolder.Path);
+
+            foreach (string folder_Path in folders)
+            {
+                Folder folder = new Folder { Path = folder_Path, Type = "folder" };
+
+                var folderFiles = Directory.EnumerateFiles(folder.Path);
+
+                foreach (string folderFilePath in folderFiles)
+                {
+
+                    string folderFileFileName = Path.GetFileName(folderFilePath);
+                    string folderFileFileExt = Path.GetExtension(folderFilePath);
+                    string folderFileMimeType = MimeTypeMapper.GetMimeType(folderFileFileExt);
+
+                    Files.Add(
+                        new File
+                        {
+                            Name = folderFileFileName,
+                            Path = folderFilePath,
+                            MimeType = folderFileMimeType,
+                            Type = folder.Type,
+                        }
+                    );
+                }
+
+                var folderFolders = Directory.EnumerateDirectories(folder.Path);
+
+                foreach (string subfolderPath in folderFolders)
+                {
+                    Folder subfolder = new Folder { Path = subfolderPath, Type = "subfolder" };
+
+                    var subfolderFiles = Directory.EnumerateFiles(subfolder.Path);
+
+                    foreach (string subfolderFilePath in subfolderFiles)
+                    {
+
+                        string subfolderFileFileName = Path.GetFileName(subfolderFilePath);
+                        string subfolderFileFileExt = Path.GetExtension(subfolderFilePath);
+                        string subfolderFileMimeType = MimeTypeMapper.GetMimeType(subfolderFileFileExt);
+
+                        Files.Add(
+                            new File
+                            {
+                                Name = subfolderFileFileName,
+                                Path = subfolderFilePath,
+                                MimeType = subfolderFileMimeType,
+                                Type = subfolder.Type,
+                            }
+                        );
+                    }
+                }
             }
         }
     }
