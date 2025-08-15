@@ -58,6 +58,11 @@ namespace MauiApp1
         {
             var folderPath = await _folderPicker.PickFolder();
 
+            if (folderPath == "")
+            {
+                return;
+            }
+
             Folder rootFolder = new Folder { Path = folderPath, Type = "root" };
 
             FolderLabel.Text = rootFolder.Path;

@@ -3,11 +3,6 @@ using System;
 using System.Collections.ObjectModel;
 using WindowsFolderPicker = Windows.Storage.Pickers.FolderPicker;
 
-
-//public class Item
-//{
-//    public string Name { get; set; }
-//}
 namespace MauiApp1.Platforms.Windows
 {
     public class FolderPicker : IFolderPicker
@@ -24,9 +19,15 @@ namespace MauiApp1.Platforms.Windows
             // Associate the HWND with the file picker
             WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
 
-            var result = await folderPicker.PickSingleFolderAsync();
-            
-            return result.Path;
+            var file = await folderPicker.PickSingleFolderAsync();
+            if (file != null)
+            {
+                return file.Path;
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }
