@@ -1,6 +1,5 @@
 ﻿using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
-
 public static class MimeTypeMapper
 {
     private static readonly IDictionary<string, string> _mappings =
@@ -8,7 +7,6 @@ public static class MimeTypeMapper
         {
             {".png", "image/png"},
         };
-
     public static string GetMimeType(string extension)
     {
         if (extension == null)
@@ -28,29 +26,15 @@ namespace MauiApp1
 {
     public partial class MainPage : ContentPage
     {
-        public class Folder
-        {
-            public required string Path { get; set; }
-            public required string Type { get; set; }
-        }
-
-        public class File
-        {
-            public required string Name { get; set; }
-            public required string Path { get; set; }
-            public required string MimeType { get; set; }
-            public required string Type { get; set; }
-        }
         public ObservableCollection<Folder> Folders { get; set; }
         public ObservableCollection<File> Files { get; set; }
 
         private readonly IFolderPicker _folderPicker;
-
         public MainPage(IFolderPicker folderPicker)
         {
             InitializeComponent();
             _folderPicker = folderPicker;
-            Folders = new ObservableCollection<Folder>{ };
+            Folders = new ObservableCollection<Folder> { };
             Files = new ObservableCollection<File> { };
             BindingContext = this;
         }
