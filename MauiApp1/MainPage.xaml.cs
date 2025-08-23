@@ -1,5 +1,15 @@
-﻿using Microsoft.Maui.Storage;
+﻿using MauiApp1.Platforms.Windows;
+using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Services.Maps;
 public static class MimeTypeMapper
 {
     private static readonly IDictionary<string, string> _mappings =
@@ -30,13 +40,30 @@ namespace MauiApp1
         public ObservableCollection<File> Files { get; set; }
 
         private readonly IFolderPicker _folderPicker;
-        public MainPage(IFolderPicker folderPicker)
+
+        private readonly IApiService _apiService;
+
+        private readonly IAuthenticate _authenticate;
+        public MainPage(IFolderPicker folderPicker, IApiService apiService, IAuthenticate authenticate)
         {
             InitializeComponent();
             _folderPicker = folderPicker;
+            _apiService = apiService;
+            _authenticate = authenticate;
             Folders = new ObservableCollection<Folder> { };
             Files = new ObservableCollection<File> { };
             BindingContext = this;
+        }
+        public async void SendFiles()
+        {
+//            var json = JsonSerializer.Serialize(Files);
+//            var jsonContent = new StringContent(JsonSerializer.Serialize(json, _jsonOptions), Encoding.UTF8, "application/json");
+//            var response = await _apiService.CreatePostAsync(jsonContent);
+            await DisplayAlert("Alert", "response", "OK");
+        }
+        private async void OnSendDataClicked(object sender, EventArgs e)
+        {
+            //SendFiles();
         }
         private async void OnPickFolderClicked(object sender, EventArgs e)
         {

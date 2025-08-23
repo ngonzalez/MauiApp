@@ -17,6 +17,23 @@
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
+
+            <Entry
+                Placeholder="E-Mail Address"
+                TextChanged="OnEmailAddressCompleted" />
+
+            <Entry
+                Placeholder="Password"
+                IsPassword="True"
+                TextChanged="OnPasswordCompleted" />
+
+            <Button
+                Text="Sign-in"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Sign-in"
+                Clicked="OnSignInClicked"
+                HorizontalOptions="Center" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

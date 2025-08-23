@@ -60,6 +60,14 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+            <Button 
+                Text="Send Files"
+                FontAttributes="Bold"
+                Grid.Row="1"
+                SemanticProperties.Hint="POST data to our servers"
+                Clicked="OnSendDataClicked"
+                HorizontalOptions="Center" />
+
         </VerticalStackLayout>
     </ScrollView>
 
