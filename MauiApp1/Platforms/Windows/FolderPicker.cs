@@ -4,8 +4,6 @@ using System.Collections.ObjectModel;
 using WinRT.Interop;
 using WindowsFolderPicker = Windows.Storage.Pickers.FolderPicker;
 
-
-
 namespace MauiApp1.Platforms.Windows
 {
     public class FolderPicker : IFolderPicker
@@ -23,6 +21,7 @@ namespace MauiApp1.Platforms.Windows
             WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
 
             var file = await folderPicker.PickSingleFolderAsync();
+
             if (file != null)
             {
                 return file.Path;
