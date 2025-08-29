@@ -56,13 +56,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="AccountPage.xaml.cs">
-	    <DependentUpon>AccountPage.xaml</DependentUpon>
+	  <Compile Update="SignIn.xaml.cs">
+	    <DependentUpon>SignIn.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="AccountPage.xaml">
+	  <MauiXaml Update="SignIn.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
