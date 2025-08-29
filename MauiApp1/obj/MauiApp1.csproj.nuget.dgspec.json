@@ -58,7 +58,7 @@
             },
             "Microsoft.Maui.Controls": {
               "target": "Package",
-              "version": "[9.0.51, )"
+              "version": "[9.0.82, )"
             }
           },
           "imports": [

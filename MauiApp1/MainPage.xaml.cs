@@ -43,15 +43,15 @@ namespace MauiApp1
 
         private readonly IApiService _apiService;
 
-        private readonly IAuthenticate _authenticate;
-        public MainPage(IFolderPicker folderPicker, IApiService apiService, IAuthenticate authenticate)
+        private readonly AppShellViewModel _appShellViewModel;
+        public MainPage(IFolderPicker folderPicker, IApiService apiService, AppShellViewModel appShellViewModel)
         {
-            InitializeComponent();
             _folderPicker = folderPicker;
             _apiService = apiService;
-            _authenticate = authenticate;
+            _appShellViewModel = appShellViewModel; // _appShellViewModel.CurrentUser
             Folders = new ObservableCollection<Folder> { };
             Files = new ObservableCollection<File> { };
+            InitializeComponent();
             BindingContext = this;
         }
         public async void SendFiles()

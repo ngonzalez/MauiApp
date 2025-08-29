@@ -9,9 +9,10 @@
     FlyoutBehavior="Locked">
 
     <ShellContent
-        Title="Account"
-        ContentTemplate="{DataTemplate local:AccountPage}"
-        Route="AccountPage" />
+        Title="SignIn"
+        ContentTemplate="{DataTemplate local:SignInPage}"
+        FlyoutItemIsVisible="{Binding SignInIsVisible}"
+        Route="SignInPage" />
 
     <ShellContent
         Title="Home"
