@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -14,7 +15,17 @@ namespace MauiApp1.Platforms.Windows
         private readonly HttpClient _httpClient;
         public Authenticate()
         {
-            _httpClient = new HttpClient
+            // Create a CookieContainer to store cookies
+            var cookieContainer = new CookieContainer();
+
+            // Configure HttpClientHandler with the cookie container
+            var httpClientHandler = new HttpClientHandler
+            {
+                CookieContainer = cookieContainer,
+                UseCookies = true
+            };
+
+            _httpClient = new HttpClient(httpClientHandler)
             {
                 BaseAddress = new Uri("https://link12.ddns.net:4040")
             };
