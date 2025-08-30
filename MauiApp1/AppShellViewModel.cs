@@ -17,6 +17,6 @@ public class AppShellViewModel
     }
     public AppShellViewModel()
     {
-        _signInIsVisible = true;
+        _signInIsVisible = false;
     }
 }
