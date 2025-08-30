@@ -58,17 +58,14 @@ namespace MauiApp1
         }
         public async void SendFiles()
         {
-            var uploadFile = UploadFiles[0];
-            var json = JsonSerializer.Serialize(uploadFile);
-
             var _jsonOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = true
             };
-            var jsonContent = new StringContent(JsonSerializer.Serialize(json, _jsonOptions), Encoding.UTF8, "application/json");
-            var response = await _apiService.CreatePostAsync(jsonContent);
+            var body = new StringContent(JsonSerializer.Serialize(UploadFiles[0], _jsonOptions), Encoding.UTF8, "application/json");
+            var response = await _apiService.CreatePostAsync(body);
             await DisplayAlert("Alert", response, "OK");
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
