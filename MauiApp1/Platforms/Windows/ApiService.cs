@@ -18,12 +18,6 @@ namespace MauiApp1.Platforms.Windows
             {
                 BaseAddress = new Uri("https://link12.ddns.net:4040")
             };
-            _jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                WriteIndented = true
-            };
         }
         public async Task<string> CreatePostAsync(System.Net.Http.StringContent jsonContent)
         {

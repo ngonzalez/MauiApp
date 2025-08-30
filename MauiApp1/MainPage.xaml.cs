@@ -3,6 +3,7 @@ using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -37,7 +38,7 @@ namespace MauiApp1
     public partial class MainPage : ContentPage
     {
         public ObservableCollection<Folder> Folders { get; set; }
-        public ObservableCollection<File> Files { get; set; }
+        public ObservableCollection<UploadFile> UploadFiles { get; set; }
 
         private readonly IFolderPicker _folderPicker;
 
@@ -50,20 +51,33 @@ namespace MauiApp1
             _apiService = apiService;
             _appShellViewModel = appShellViewModel; // _appShellViewModel.CurrentUser
             Folders = new ObservableCollection<Folder> { };
-            Files = new ObservableCollection<File> { };
+            UploadFiles = new ObservableCollection<UploadFile> { };
             InitializeComponent();
             BindingContext = this;
         }
         public async void SendFiles()
         {
-//            var json = JsonSerializer.Serialize(Files);
-//            var jsonContent = new StringContent(JsonSerializer.Serialize(json, _jsonOptions), Encoding.UTF8, "application/json");
-//            var response = await _apiService.CreatePostAsync(jsonContent);
-            await DisplayAlert("Alert", "response", "OK");
+            var json = JsonSerializer.Serialize(UploadFiles[0]);
+            var _jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = true
+            };
+            var jsonContent = new StringContent(JsonSerializer.Serialize(json, _jsonOptions), Encoding.UTF8, "application/json");
+            var response = await _apiService.CreatePostAsync(jsonContent);
+            await DisplayAlert("Alert", json, "OK");
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
         {
             //SendFiles();
+        }
+        private static void CompressFile(string OriginalFileName, string CompressedFileName)
+        {
+            using FileStream originalFileStream = System.IO.File.Open(OriginalFileName, FileMode.Open);
+            using FileStream compressedFileStream = System.IO.File.Create(CompressedFileName);
+            using var compressor = new GZipStream(compressedFileStream, CompressionMode.Compress);
+            originalFileStream.CopyTo(compressor);
         }
         private async void OnPickFolderClicked(object sender, EventArgs e)
         {
@@ -87,9 +101,9 @@ namespace MauiApp1
 
             var files = Directory.EnumerateFiles(rootFolder.Path);
 
-            while (Files.Count() > 0)
+            while (UploadFiles.Count() > 0)
             {
-                Files.RemoveAt(0);
+                UploadFiles.RemoveAt(0);
             }
 
             foreach (string filePath in files)
@@ -99,12 +113,14 @@ namespace MauiApp1
                 string fileExt = Path.GetExtension(filePath);
                 string mimeType = MimeTypeMapper.GetMimeType(fileExt);
 
-                Files.Add(
-                    new File {
-                        Name = fileName,
-                        Path = filePath,
-                        MimeType = mimeType,
-                        Type = rootFolder.Type,
+                UploadFiles.Add(
+                    new UploadFile
+                    {
+                        // Name = fileName,
+                        uuid = Guid.NewGuid(),
+                        filePath = filePath,
+                        mimeType = mimeType,
+                        source = rootFolder.Type,
                     }
                 );
             }
@@ -124,13 +140,14 @@ namespace MauiApp1
                     string folderFileFileExt = Path.GetExtension(folderFilePath);
                     string folderFileMimeType = MimeTypeMapper.GetMimeType(folderFileFileExt);
 
-                    Files.Add(
-                        new File
+                    UploadFiles.Add(
+                        new UploadFile
                         {
-                            Name = folderFileFileName,
-                            Path = folderFilePath,
-                            MimeType = folderFileMimeType,
-                            Type = folder.Type,
+                            //Name = folderFileFileName,
+                            uuid = Guid.NewGuid(),
+                            filePath = folderFilePath,
+                            mimeType = folderFileMimeType,
+                            source = folder.Type,
                         }
                     );
                 }
@@ -150,13 +167,14 @@ namespace MauiApp1
                         string subfolderFileFileExt = Path.GetExtension(subfolderFilePath);
                         string subfolderFileMimeType = MimeTypeMapper.GetMimeType(subfolderFileFileExt);
 
-                        Files.Add(
-                            new File
+                        UploadFiles.Add(
+                            new UploadFile
                             {
-                                Name = subfolderFileFileName,
-                                Path = subfolderFilePath,
-                                MimeType = subfolderFileMimeType,
-                                Type = subfolder.Type,
+                                //Name = subfolderFileFileName,
+                                uuid = Guid.NewGuid(),
+                                filePath = subfolderFilePath,
+                                mimeType = subfolderFileMimeType,
+                                source = subfolder.Type,
                             }
                         );
                     }
