@@ -11,7 +11,6 @@ namespace MauiApp1.Platforms.Windows
     public class ApiService : IApiService
     {
         private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _jsonOptions;
         public ApiService()
         {
             _httpClient = new HttpClient

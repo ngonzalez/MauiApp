@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Services.Maps;
+using static System.Net.Mime.MediaTypeNames;
 public static class MimeTypeMapper
 {
     private static readonly IDictionary<string, string> _mappings =
@@ -57,7 +58,9 @@ namespace MauiApp1
         }
         public async void SendFiles()
         {
-            var json = JsonSerializer.Serialize(UploadFiles[0]);
+            var uploadFile = UploadFiles[0];
+            var json = JsonSerializer.Serialize(uploadFile);
+
             var _jsonOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
@@ -66,18 +69,11 @@ namespace MauiApp1
             };
             var jsonContent = new StringContent(JsonSerializer.Serialize(json, _jsonOptions), Encoding.UTF8, "application/json");
             var response = await _apiService.CreatePostAsync(jsonContent);
-            await DisplayAlert("Alert", json, "OK");
+            await DisplayAlert("Alert", response, "OK");
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
         {
-            //SendFiles();
-        }
-        private static void CompressFile(string OriginalFileName, string CompressedFileName)
-        {
-            using FileStream originalFileStream = System.IO.File.Open(OriginalFileName, FileMode.Open);
-            using FileStream compressedFileStream = System.IO.File.Create(CompressedFileName);
-            using var compressor = new GZipStream(compressedFileStream, CompressionMode.Compress);
-            originalFileStream.CopyTo(compressor);
+            SendFiles();
         }
         private async void OnPickFolderClicked(object sender, EventArgs e)
         {
@@ -109,16 +105,19 @@ namespace MauiApp1
             foreach (string filePath in files)
             {
 
-                string fileName = Path.GetFileName(filePath);
+                string _fileName = Path.GetFileName(filePath);
                 string fileExt = Path.GetExtension(filePath);
                 string mimeType = MimeTypeMapper.GetMimeType(fileExt);
+                byte[] rawData = File.ReadAllBytes(filePath);
+                string encoded = Convert.ToBase64String(rawData);
 
                 UploadFiles.Add(
+
                     new UploadFile
                     {
-                        // Name = fileName,
                         uuid = Guid.NewGuid(),
                         filePath = filePath,
+                        itemData = encoded,
                         mimeType = mimeType,
                         source = rootFolder.Type,
                     }
@@ -136,16 +135,18 @@ namespace MauiApp1
                 foreach (string folderFilePath in folderFiles)
                 {
 
-                    string folderFileFileName = Path.GetFileName(folderFilePath);
+                    string _folderFileFileName = Path.GetFileName(folderFilePath);
                     string folderFileFileExt = Path.GetExtension(folderFilePath);
                     string folderFileMimeType = MimeTypeMapper.GetMimeType(folderFileFileExt);
+                    byte[] folderFileRawData = File.ReadAllBytes(folderFilePath);
+                    string folderFileEncoded = Convert.ToBase64String(folderFileRawData);
 
                     UploadFiles.Add(
                         new UploadFile
                         {
-                            //Name = folderFileFileName,
                             uuid = Guid.NewGuid(),
                             filePath = folderFilePath,
+                            itemData = folderFileEncoded,
                             mimeType = folderFileMimeType,
                             source = folder.Type,
                         }
@@ -163,16 +164,18 @@ namespace MauiApp1
                     foreach (string subfolderFilePath in subfolderFiles)
                     {
 
-                        string subfolderFileFileName = Path.GetFileName(subfolderFilePath);
+                        string _subfolderFileFileName = Path.GetFileName(subfolderFilePath);
                         string subfolderFileFileExt = Path.GetExtension(subfolderFilePath);
                         string subfolderFileMimeType = MimeTypeMapper.GetMimeType(subfolderFileFileExt);
+                        byte[] subfolderFileRawData = File.ReadAllBytes(subfolderFilePath);
+                        string subfolderFileEncoded = Convert.ToBase64String(subfolderFileRawData);
 
                         UploadFiles.Add(
                             new UploadFile
                             {
-                                //Name = subfolderFileFileName,
                                 uuid = Guid.NewGuid(),
                                 filePath = subfolderFilePath,
+                                itemData = subfolderFileEncoded,
                                 mimeType = subfolderFileMimeType,
                                 source = subfolder.Type,
                             }
