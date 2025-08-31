@@ -13,30 +13,32 @@ namespace MauiApp1.Platforms.Windows
         public User _user;
 
         private readonly HttpClient _httpClient;
-        public Authenticate()
+
+        private readonly AppShellViewModel _appShellViewModel;
+        public Authenticate(AppShellViewModel appShellViewModel)
         {
-            // Create a CookieContainer to store cookies
-            var cookieContainer = new CookieContainer();
-
-            // Configure HttpClientHandler with the cookie container
-            var httpClientHandler = new HttpClientHandler
-            {
-                CookieContainer = cookieContainer,
-                UseCookies = true
-            };
-
-            _httpClient = new HttpClient(httpClientHandler)
+            _appShellViewModel = appShellViewModel;
+            _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri("https://link12.ddns.net:4040")
             };
         }
         public async Task<User> getCurrentUser()
         {
-            return _user;
+            return _appShellViewModel.CurrentUser;
         }
         public async Task<bool> setCurrentUser(User user)
         {
-            _user = user;
+            _appShellViewModel.CurrentUser = user;
+            return true;
+        }
+        public async Task<int> getSessionID()
+        {
+            return _appShellViewModel.SessionID;
+        }
+        public async Task<bool> setSessionID(int sessionID)
+        {
+            _appShellViewModel.SessionID = sessionID;
             return true;
         }
         public async Task<String> newSession(Dictionary<string, string> values)

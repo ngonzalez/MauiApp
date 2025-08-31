@@ -50,7 +50,7 @@ namespace MauiApp1
         {
             _folderPicker = folderPicker;
             _apiService = apiService;
-            _appShellViewModel = appShellViewModel; // _appShellViewModel.CurrentUser
+            _appShellViewModel = appShellViewModel;
             Folders = new ObservableCollection<Folder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
             InitializeComponent();
@@ -58,13 +58,7 @@ namespace MauiApp1
         }
         public async void SendFiles()
         {
-            var _jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                WriteIndented = true
-            };
-            var body = new StringContent(JsonSerializer.Serialize(UploadFiles[0], _jsonOptions), Encoding.UTF8, "application/json");
+            var body = new StringContent(JsonSerializer.Serialize(UploadFiles[0], _appShellViewModel.JSONOptions), Encoding.UTF8, "application/json");
             var response = await _apiService.CreatePostAsync(body);
             await DisplayAlert("Alert", response, "OK");
         }
@@ -112,7 +106,7 @@ namespace MauiApp1
 
                     new UploadFile
                     {
-                        uuid = Guid.NewGuid(),
+                        sessionId = _appShellViewModel.SessionID,
                         filePath = filePath,
                         itemData = encoded,
                         mimeType = mimeType,
@@ -141,7 +135,7 @@ namespace MauiApp1
                     UploadFiles.Add(
                         new UploadFile
                         {
-                            uuid = Guid.NewGuid(),
+                            sessionId = _appShellViewModel.SessionID,
                             filePath = folderFilePath,
                             itemData = folderFileEncoded,
                             mimeType = folderFileMimeType,
@@ -170,7 +164,7 @@ namespace MauiApp1
                         UploadFiles.Add(
                             new UploadFile
                             {
-                                uuid = Guid.NewGuid(),
+                                sessionId = _appShellViewModel.SessionID,
                                 filePath = subfolderFilePath,
                                 itemData = subfolderFileEncoded,
                                 mimeType = subfolderFileMimeType,

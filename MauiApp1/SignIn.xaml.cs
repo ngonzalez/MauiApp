@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MauiApp1;
 public class NewSessionResponse
 {
     public User user { get; set; }
     public string message { get; set; }
+    public int sessionId { get; set; }
 }
 public partial class SignInPage : ContentPage
 {
@@ -34,13 +36,16 @@ public partial class SignInPage : ContentPage
         var response = await _authenticate.newSession(values);
         var jsonResponse = JsonSerializer.Deserialize<NewSessionResponse>(response);
 
+        if (jsonResponse?.sessionId != null)
+        {
+            _authenticate.setSessionID(jsonResponse.sessionId);
+        }
+
         if (jsonResponse?.user != null)
         {
-            if (jsonResponse?.user?.uuid != null)
+            if (jsonResponse?.user?.id != null)
             {
                 await _authenticate.setCurrentUser(jsonResponse.user);
-                User currentUser = await _authenticate.getCurrentUser();
-                _appShellViewModel.CurrentUser = currentUser;
                 await Shell.Current.GoToAsync("mainpage");
             }
             else
