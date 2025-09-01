@@ -22,7 +22,7 @@ namespace MauiApp1.Platforms.Windows
                 BaseAddress = new Uri("http://192.168.1.11:3000")
             };
         }
-        public async Task<string> CreatePostAsync(System.Net.Http.HttpContent content)
+        public async Task<string> CreatePostAsync(System.Net.Http.StringContent content)
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
