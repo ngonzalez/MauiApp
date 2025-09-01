@@ -14,9 +14,10 @@
         FlyoutItemIsVisible="{Binding SignInIsVisible}"
         Route="SignInPage" />
 
-    <ShellContent
+    <!--ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        FlyoutItemIsVisible="{Binding HomeIsVisible}"
+        Route="MainPage" /-->
 
 </Shell>

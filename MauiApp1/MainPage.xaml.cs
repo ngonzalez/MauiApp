@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -12,12 +13,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Services.Maps;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 public static class MimeTypeMapper
 {
     private static readonly IDictionary<string, string> _mappings =
         new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
         {
-            {".png", "image/png"},
+            {".jpg", "image/jpeg"},
+            {".jpeg", "image/jpeg"},
         };
     public static string GetMimeType(string extension)
     {
@@ -58,9 +61,9 @@ namespace MauiApp1
         }
         public async void SendFiles()
         {
-            var body = new StringContent(JsonSerializer.Serialize(UploadFiles[0], _appShellViewModel.JSONOptions), Encoding.UTF8, "application/json");
+            UploadFile uploadFile = UploadFiles[0];
+            var body = new StringContent(JsonSerializer.Serialize(uploadFile, _appShellViewModel.JSONOptions), Encoding.UTF8, "application/json");
             var response = await _apiService.CreatePostAsync(body);
-            await DisplayAlert("Alert", response, "OK");
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
         {
@@ -95,24 +98,30 @@ namespace MauiApp1
 
             foreach (string filePath in files)
             {
-
                 string _fileName = Path.GetFileName(filePath);
                 string fileExt = Path.GetExtension(filePath);
                 string mimeType = MimeTypeMapper.GetMimeType(fileExt);
-                byte[] rawData = File.ReadAllBytes(filePath);
-                string encoded = Convert.ToBase64String(rawData);
+                if (mimeType != "application/octet-stream")
+                {
+                    byte[] rawData = File.ReadAllBytes(filePath);
+                    string encoded = Convert.ToBase64String(rawData);
+                    DateTime createdAt = File.GetCreationTime(filePath);
+                    DateTime updatedAt = File.GetLastAccessTime(filePath);
 
-                UploadFiles.Add(
-
-                    new UploadFile
-                    {
-                        sessionId = _appShellViewModel.SessionID,
-                        filePath = filePath,
-                        itemData = encoded,
-                        mimeType = mimeType,
-                        source = rootFolder.Type,
-                    }
-                );
+                    UploadFiles.Add(
+                        new UploadFile
+                        {
+                            sessionId = _appShellViewModel.SessionID,
+                            uuid = Guid.NewGuid(),
+                            createdAt = createdAt,
+                            updatedAt = updatedAt,
+                            filePath = filePath,
+                            itemData = encoded,
+                            mimeType = mimeType,
+                            source = rootFolder.Type,
+                        }
+                    );
+                }
             }
 
             var folders = Directory.EnumerateDirectories(rootFolder.Path);
@@ -125,23 +134,30 @@ namespace MauiApp1
 
                 foreach (string folderFilePath in folderFiles)
                 {
-
                     string _folderFileFileName = Path.GetFileName(folderFilePath);
                     string folderFileFileExt = Path.GetExtension(folderFilePath);
                     string folderFileMimeType = MimeTypeMapper.GetMimeType(folderFileFileExt);
-                    byte[] folderFileRawData = File.ReadAllBytes(folderFilePath);
-                    string folderFileEncoded = Convert.ToBase64String(folderFileRawData);
+                    if (folderFileMimeType != "application/octet-stream")
+                    {
+                        byte[] folderFileRawData = File.ReadAllBytes(folderFilePath);
+                        string folderFileEncoded = Convert.ToBase64String(folderFileRawData);
+                        DateTime folderFileCreatedAt = File.GetCreationTime(folderFilePath);
+                        DateTime folderFileUpdatedAt = File.GetLastAccessTime(folderFilePath);
 
-                    UploadFiles.Add(
-                        new UploadFile
-                        {
-                            sessionId = _appShellViewModel.SessionID,
-                            filePath = folderFilePath,
-                            itemData = folderFileEncoded,
-                            mimeType = folderFileMimeType,
-                            source = folder.Type,
-                        }
-                    );
+                        UploadFiles.Add(
+                            new UploadFile
+                            {
+                                sessionId = _appShellViewModel.SessionID,
+                                uuid = Guid.NewGuid(),
+                                createdAt = folderFileCreatedAt,
+                                updatedAt = folderFileUpdatedAt,
+                                filePath = folderFilePath,
+                                itemData = folderFileEncoded,
+                                mimeType = folderFileMimeType,
+                                source = folder.Type,
+                            }
+                        );
+                    }
                 }
 
                 var folderFolders = Directory.EnumerateDirectories(folder.Path);
@@ -154,23 +170,30 @@ namespace MauiApp1
 
                     foreach (string subfolderFilePath in subfolderFiles)
                     {
-
                         string _subfolderFileFileName = Path.GetFileName(subfolderFilePath);
                         string subfolderFileFileExt = Path.GetExtension(subfolderFilePath);
                         string subfolderFileMimeType = MimeTypeMapper.GetMimeType(subfolderFileFileExt);
-                        byte[] subfolderFileRawData = File.ReadAllBytes(subfolderFilePath);
-                        string subfolderFileEncoded = Convert.ToBase64String(subfolderFileRawData);
+                        if (subfolderFileMimeType != "application/octet-stream")
+                        {
+                            byte[] subfolderFileRawData = File.ReadAllBytes(subfolderFilePath);
+                            string subfolderFileEncoded = Convert.ToBase64String(subfolderFileRawData);
+                            DateTime subfolderFileCreatedAt = File.GetCreationTime(subfolderFilePath);
+                            DateTime subfolderFileUpdatedAt = File.GetLastAccessTime(subfolderFilePath);
 
-                        UploadFiles.Add(
-                            new UploadFile
-                            {
-                                sessionId = _appShellViewModel.SessionID,
-                                filePath = subfolderFilePath,
-                                itemData = subfolderFileEncoded,
-                                mimeType = subfolderFileMimeType,
-                                source = subfolder.Type,
-                            }
-                        );
+                            UploadFiles.Add(
+                                new UploadFile
+                                {
+                                    sessionId = _appShellViewModel.SessionID,
+                                    uuid = Guid.NewGuid(),
+                                    createdAt = subfolderFileCreatedAt,
+                                    updatedAt = subfolderFileUpdatedAt,
+                                    filePath = subfolderFilePath,
+                                    itemData = subfolderFileEncoded,
+                                    mimeType = subfolderFileMimeType,
+                                    source = subfolder.Type,
+                                }
+                            );
+                        }
                     }
                 }
             }

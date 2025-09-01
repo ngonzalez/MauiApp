@@ -5,6 +5,13 @@ using System.Text.Json.Serialization;
 public class AppShellViewModel
 {
 
+    private bool _homeIsVisible;
+    public bool HomeIsVisible
+    {
+        get { return _homeIsVisible; }
+        set { _homeIsVisible = value; }
+    }
+
     private bool _signInIsVisible;
     public bool SignInIsVisible
     {
@@ -33,8 +40,11 @@ public class AppShellViewModel
     }
 public AppShellViewModel()
     {
-        _signInIsVisible = false;
+        _signInIsVisible = true;
+        _homeIsVisible = true;
+
         CurrentUser = new User();
+
         JSONOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
