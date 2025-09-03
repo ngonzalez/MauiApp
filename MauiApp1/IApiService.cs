@@ -2,6 +2,6 @@
 {
     public interface IApiService
     {
-        Task<string> CreatePostAsync(System.Net.Http.StringContent jsonContent);
+        Task<string> CreatePostAsync(byte[] body);
     }
 }
