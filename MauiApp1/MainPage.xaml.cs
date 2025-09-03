@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,7 +63,7 @@ namespace MauiApp1
         public async void SendFiles()
         {
             UploadFile uploadFile = UploadFiles[0];
-            var body = new StringContent(JsonSerializer.Serialize(uploadFile, _appShellViewModel.JSONOptions), Encoding.UTF8, "application/json");
+            byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
             var response = await _apiService.CreatePostAsync(body);
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
