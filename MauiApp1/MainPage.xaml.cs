@@ -60,11 +60,26 @@ namespace MauiApp1
             InitializeComponent();
             BindingContext = this;
         }
+        public static byte[] Compress(byte[] raw)
+        {
+            using (MemoryStream memory = new MemoryStream())
+            {
+                using (GZipStream gzip = new GZipStream(memory, CompressionMode.Compress, true))
+                {
+                    gzip.Write(raw, 0, raw.Length);
+                }
+                return memory.ToArray();
+            }
+        }
         public async void SendFiles()
         {
             UploadFile uploadFile = UploadFiles[0];
+
             byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
-            var response = await _apiService.CreatePostAsync(body);
+
+            byte[] compressedBody = Compress(body);
+
+            var response = await _apiService.CreatePostAsync(compressedBody);
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
         {
