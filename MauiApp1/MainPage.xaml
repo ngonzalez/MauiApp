@@ -68,6 +68,14 @@
                 Clicked="OnSendDataClicked"
                 HorizontalOptions="Center" />
 
+            <Grid Padding="10">
+                <Label x:Name="progressBarText"></Label>
+            </Grid>
+
+            <Grid Padding="10">
+                <ProgressBar x:Name="progressBar"/>
+            </Grid>
+
         </VerticalStackLayout>
     </ScrollView>
 
