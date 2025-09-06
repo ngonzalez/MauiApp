@@ -12,7 +12,7 @@
             Text="Back to my account"
             x:Name="myAccountLink"
             BackgroundColor="Black"
-            TextColor="White"
+            TextColor="FloralWhite"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
 
