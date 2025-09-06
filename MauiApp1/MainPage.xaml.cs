@@ -60,7 +60,7 @@ namespace MauiApp1
             Folders = new ObservableCollection<Folder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
             InitializeComponent();
-            //BindingContext = this;
+            BindingContext = this;
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
         }
         public void accountLinkClicked(object sender, EventArgs e)
