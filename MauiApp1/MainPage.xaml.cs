@@ -13,6 +13,8 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Services.Maps;
+using System.ComponentModel;
+using System.Threading;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 public static class MimeTypeMapper
@@ -73,13 +75,26 @@ namespace MauiApp1
         }
         public async void SendFiles()
         {
-            UploadFile uploadFile = UploadFiles[0];
+            int filesCount = 0;
 
-            byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
+            int totalFilesCount = UploadFiles.Count();
 
-            byte[] compressedBody = Compress(body);
+            foreach(UploadFile uploadFile in UploadFiles)
+            {
+                filesCount++;
 
-            var response = await _apiService.CreatePostAsync(compressedBody);
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
+
+                byte[] compressedBody = Compress(body);
+
+                var response = await _apiService.CreatePostAsync(compressedBody);
+
+                double progress = ((double)filesCount / (double)totalFilesCount);
+
+                progressBarText.Text = Convert.ToString((progress * 100)) + "%";
+
+                await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
+            }
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
         {
