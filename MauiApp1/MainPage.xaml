@@ -7,6 +7,15 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+
+            <Button
+            Text="Back to my account"
+            x:Name="myAccountLink"
+            BackgroundColor="Black"
+            TextColor="White"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+
             <Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"

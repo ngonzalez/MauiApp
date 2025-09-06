@@ -11,6 +11,7 @@ namespace MauiApp1
             InitializeComponent();
 
             Routing.RegisterRoute("signin", typeof(SignInPage));
+            Routing.RegisterRoute("account", typeof(AccountPage));
             Routing.RegisterRoute("mainpage", typeof(MainPage));
 
             BindingContext = new AppShellViewModel();

@@ -60,7 +60,12 @@ namespace MauiApp1
             Folders = new ObservableCollection<Folder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
             InitializeComponent();
-            BindingContext = this;
+            //BindingContext = this;
+            myAccountLink.Clicked += new EventHandler(accountLinkClicked);
+        }
+        public void accountLinkClicked(object sender, EventArgs e)
+        {
+            Shell.Current.GoToAsync("account");
         }
         public static byte[] Compress(byte[] raw)
         {
@@ -94,6 +99,8 @@ namespace MauiApp1
                 progressBarText.Text = Convert.ToString((progress * 100)) + "%";
 
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
+
+                //await Shell.Current.GoToAsync("folders");
             }
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
