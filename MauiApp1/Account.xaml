@@ -27,6 +27,14 @@
             VerticalOptions="Center"
             HorizontalOptions="Center" />
 
+            <Button
+            Text="Sign-Out"
+            x:Name="signOutLink"
+            BackgroundColor="Black"
+            TextColor="FloralWhite"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

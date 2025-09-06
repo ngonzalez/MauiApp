@@ -49,5 +49,12 @@ namespace MauiApp1.Platforms.Windows
             var json = await response.Content.ReadAsStringAsync();
             return json;
         }
+        public async Task<String> deleteSession()
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var response = await _httpClient.DeleteAsync("/session");
+            var json = await response.Content.ReadAsStringAsync();
+            return json;
+        }
     }
 }

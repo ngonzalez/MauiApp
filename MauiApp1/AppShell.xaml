@@ -20,4 +20,8 @@
         FlyoutItemIsVisible="{Binding HomeIsVisible}"
         Route="MainPage" /-->
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+    </Shell.BackButtonBehavior>
+
 </Shell>
