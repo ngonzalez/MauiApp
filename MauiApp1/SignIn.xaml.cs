@@ -34,18 +34,19 @@ public partial class SignInPage : ContentPage
         };
 
         var response = await _authenticate.newSession(values);
-        var jsonResponse = JsonSerializer.Deserialize<NewSessionResponse>(response);
+
+        NewSessionResponse jsonResponse = JsonSerializer.Deserialize<NewSessionResponse>(response);
 
         if (jsonResponse?.sessionId != null)
         {
             _authenticate.setSessionID(jsonResponse.sessionId);
         }
-
         if (jsonResponse?.user != null)
         {
             if (jsonResponse?.user?.id != null)
             {
                 await _authenticate.setCurrentUser(jsonResponse.user);
+
                 await Shell.Current.GoToAsync("account");
             }
             else
@@ -53,7 +54,7 @@ public partial class SignInPage : ContentPage
                 await DisplayAlert("Login", string.Concat(jsonResponse.user.errors), "OK");
             }
         }
-        else
+        else if (jsonResponse?.message != null)
         {
             await DisplayAlert("Login", string.Concat(jsonResponse.message), "OK");
         }
