@@ -22,6 +22,8 @@
             <Button
             Text="Uploads"
             x:Name="uploadsLink"
+            BackgroundColor="Black"
+            TextColor="FloralWhite"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
 

@@ -11,8 +11,9 @@ public partial class AccountPage : ContentPage
 	{
         _appShellViewModel = appShellViewModel;
         InitializeComponent();
-        uploadsLink.Clicked  += new EventHandler(uploadsLinkClicked);
         myAccountLabel.Text = "My Account (" + _appShellViewModel.CurrentUser.emailAddress + ")";
+        uploadsLink.Clicked += new EventHandler(uploadsLinkClicked);
+        _appShellViewModel.HomeIsVisible = true;
     }
     public void uploadsLinkClicked(object sender, EventArgs e)
     {
