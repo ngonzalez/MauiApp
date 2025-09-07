@@ -25,10 +25,14 @@
             <Label 
                 Text=""
                 Grid.Row="0"
-                FontSize="18"
+                FontSize="15"
                 FontAttributes="Bold"
                 x:Name="FolderLabel"
                 HorizontalOptions="Center" />
+
+            <Label x:Name="labelFilesCount"
+                   FontSize="12"
+                   HorizontalOptions="Center" />
 
             <Button 
                 Text="Pick Folder"
@@ -38,36 +42,13 @@
                 Clicked="OnPickFolderClicked"
                 HorizontalOptions="Center" />
 
-            <CollectionView ItemsSource="{Binding UploadFiles}">
-                <CollectionView.EmptyView>
-                    <Label Text="No data found." HorizontalOptions="Center" VerticalOptions="Center" />
-                </CollectionView.EmptyView>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+            <Grid Padding="10">
+                <Label x:Name="progressBarText"></Label>
+            </Grid>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Label Grid.Row="0"
-                               Grid.Column="0"
-                               Text="{Binding filePath}"
-                               FontAttributes="Bold"
-                               Padding="10" />
-
-                            <Label Grid.Row="1"
-                               Grid.Column="0"
-                               Text="{Binding mimeType}" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <Grid Padding="10">
+                <ProgressBar x:Name="progressBar"/>
+            </Grid>
 
             <Button 
                 Text="Send Files"
@@ -76,14 +57,6 @@
                 SemanticProperties.Hint="POST data to our servers"
                 Clicked="OnSendDataClicked"
                 HorizontalOptions="Center" />
-
-            <Grid Padding="10">
-                <Label x:Name="progressBarText"></Label>
-            </Grid>
-
-            <Grid Padding="10">
-                <ProgressBar x:Name="progressBar"/>
-            </Grid>
 
         </VerticalStackLayout>
     </ScrollView>

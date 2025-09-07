@@ -52,6 +52,7 @@ namespace MauiApp1
         private readonly IApiService _apiService;
 
         private readonly AppShellViewModel _appShellViewModel;
+        public int UploadFilesCount { get; set; }
         public MainPage(IFolderPicker folderPicker, IApiService apiService, AppShellViewModel appShellViewModel)
         {
             _folderPicker = folderPicker;
@@ -62,6 +63,12 @@ namespace MauiApp1
             InitializeComponent();
             BindingContext = this;
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
+            labelFilesCount.Text = "no items found";
+        }
+
+        public int getUploadFilesCount()
+        {
+            return UploadFiles.Count();
         }
         public void accountLinkClicked(object sender, EventArgs e)
         {
@@ -92,7 +99,7 @@ namespace MauiApp1
 
                 byte[] compressedBody = Compress(body);
 
-                var response = await _apiService.CreatePostAsync(compressedBody);
+                //var response = await _apiService.CreatePostAsync(compressedBody);
 
                 double progress = ((double)filesCount / (double)totalFilesCount);
 
@@ -109,7 +116,9 @@ namespace MauiApp1
         }
         private async void OnPickFolderClicked(object sender, EventArgs e)
         {
-            var folderPath = await _folderPicker.PickFolder();
+            int UploadFilesCount = 0;
+
+            string folderPath = await _folderPicker.PickFolder();
 
             if (folderPath == "")
             {
@@ -145,6 +154,8 @@ namespace MauiApp1
                     string encoded = Convert.ToBase64String(rawData);
                     DateTime createdAt = File.GetCreationTime(filePath);
                     DateTime updatedAt = File.GetLastAccessTime(filePath);
+
+                    UploadFilesCount++;
 
                     UploadFiles.Add(
                         new UploadFile
@@ -182,6 +193,8 @@ namespace MauiApp1
                         DateTime folderFileCreatedAt = File.GetCreationTime(folderFilePath);
                         DateTime folderFileUpdatedAt = File.GetLastAccessTime(folderFilePath);
 
+                        UploadFilesCount++;
+
                         UploadFiles.Add(
                             new UploadFile
                             {
@@ -218,6 +231,8 @@ namespace MauiApp1
                             DateTime subfolderFileCreatedAt = File.GetCreationTime(subfolderFilePath);
                             DateTime subfolderFileUpdatedAt = File.GetLastAccessTime(subfolderFilePath);
 
+                            UploadFilesCount++;
+
                             UploadFiles.Add(
                                 new UploadFile
                                 {
@@ -235,6 +250,9 @@ namespace MauiApp1
                     }
                 }
             }
+
+            labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " items selected";
+
         }
     }
 }
