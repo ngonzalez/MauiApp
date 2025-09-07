@@ -8,20 +8,15 @@
     FlyoutIsPresented="True"
     FlyoutBehavior="Locked">
 
-    <ShellContent
-        Title="SignIn"
-        ContentTemplate="{DataTemplate local:SignInPage}"
-        FlyoutItemIsVisible="{Binding SignInIsVisible}"
-        Route="SignInPage" />
-
-    <!--ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        FlyoutItemIsVisible="{Binding HomeIsVisible}"
-        Route="MainPage" /-->
-
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
-    </Shell.BackButtonBehavior>
+    <FlyoutItem Title="SignIn">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate local:SignInPage}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Home">
+        <Tab IsVisible="{Binding IsVisible}">
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+        </Tab>
+    </FlyoutItem>
 
 </Shell>

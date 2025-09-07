@@ -5,19 +5,13 @@ using System.Text.Json.Serialization;
 public class AppShellViewModel
 {
 
-    private bool _homeIsVisible;
-    public bool HomeIsVisible
+    private bool _isVisible;
+    public bool IsVisible
     {
-        get { return _homeIsVisible; }
-        set { _homeIsVisible = value; }
+        get { return _isVisible; }
+        set { _isVisible = value; }
     }
 
-    private bool _signInIsVisible;
-    public bool SignInIsVisible
-    {
-        get { return _signInIsVisible; }
-        set { _signInIsVisible = value; }
-    }
     private User _user;
     public User CurrentUser
     {
@@ -40,8 +34,7 @@ public class AppShellViewModel
     }
 public AppShellViewModel()
     {
-        _signInIsVisible = true;
-        _homeIsVisible = true;
+        _isVisible = false;
 
         CurrentUser = new User();
 

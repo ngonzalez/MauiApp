@@ -1,7 +1,9 @@
 ﻿using MauiApp1.Platforms.Windows;
 using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Net.Http;
@@ -11,10 +13,9 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Services.Maps;
-using System.ComponentModel;
-using System.Threading;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 public static class MimeTypeMapper
@@ -44,8 +45,10 @@ namespace MauiApp1
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<Folder> Folders { get; set; }
+        public ObservableCollection<UploadFolder> Folders { get; set; }
         public ObservableCollection<UploadFile> UploadFiles { get; set; }
+        public ObservableCollection<Upload> Uploads { get; set; }
+        public int UploadFilesCount { get; set; }
 
         private readonly IFolderPicker _folderPicker;
 
@@ -57,11 +60,27 @@ namespace MauiApp1
             _folderPicker = folderPicker;
             _apiService = apiService;
             _appShellViewModel = appShellViewModel;
-            Folders = new ObservableCollection<Folder> { };
+            Folders = new ObservableCollection<UploadFolder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
+            Uploads = new ObservableCollection<Upload> { };
             InitializeComponent();
             BindingContext = this;
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
+            labelFilesCount.Text = "no items found";
+        }
+
+        public async void getAllUploads()
+        {
+            string ids = "";
+            string idParams = (ids != "" ? "?" + ids : "");
+            var response = await _apiService.GetAllUploads(idParams);
+            //await DisplayAlert("Login", response, "OK");
+            //Upload[] uploads = JsonSerializer.Deserialize<Upload[]>(response);
+            //await DisplayAlert("Login", string.Concat(JsonSerializer.Serialize(uploads)), "OK");
+        }
+        public int getUploadFilesCount()
+        {
+            return UploadFiles.Count();
         }
         public void accountLinkClicked(object sender, EventArgs e)
         {
@@ -92,7 +111,7 @@ namespace MauiApp1
 
                 byte[] compressedBody = Compress(body);
 
-                var response = await _apiService.CreatePostAsync(compressedBody);
+                //var response = await _apiService.CreatePostAsync(compressedBody);
 
                 double progress = ((double)filesCount / (double)totalFilesCount);
 
@@ -100,7 +119,7 @@ namespace MauiApp1
 
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
 
-                //await Shell.Current.GoToAsync("folders");
+                //getAllUploads();
             }
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
@@ -109,14 +128,16 @@ namespace MauiApp1
         }
         private async void OnPickFolderClicked(object sender, EventArgs e)
         {
-            var folderPath = await _folderPicker.PickFolder();
+            int UploadFilesCount = 0;
+
+            string folderPath = await _folderPicker.PickFolder();
 
             if (folderPath == "")
             {
                 return;
             }
 
-            Folder rootFolder = new Folder { Path = folderPath, Type = "root" };
+            UploadFolder rootFolder = new UploadFolder { Path = folderPath, Type = "root" };
 
             FolderLabel.Text = rootFolder.Path;
 
@@ -146,6 +167,8 @@ namespace MauiApp1
                     DateTime createdAt = File.GetCreationTime(filePath);
                     DateTime updatedAt = File.GetLastAccessTime(filePath);
 
+                    UploadFilesCount++;
+
                     UploadFiles.Add(
                         new UploadFile
                         {
@@ -166,7 +189,7 @@ namespace MauiApp1
 
             foreach (string folder_Path in folders)
             {
-                Folder folder = new Folder { Path = folder_Path, Type = "folder" };
+                UploadFolder folder = new UploadFolder { Path = folder_Path, Type = "folder" };
 
                 var folderFiles = Directory.EnumerateFiles(folder.Path);
 
@@ -181,6 +204,8 @@ namespace MauiApp1
                         string folderFileEncoded = Convert.ToBase64String(folderFileRawData);
                         DateTime folderFileCreatedAt = File.GetCreationTime(folderFilePath);
                         DateTime folderFileUpdatedAt = File.GetLastAccessTime(folderFilePath);
+
+                        UploadFilesCount++;
 
                         UploadFiles.Add(
                             new UploadFile
@@ -202,7 +227,7 @@ namespace MauiApp1
 
                 foreach (string subfolderPath in folderFolders)
                 {
-                    Folder subfolder = new Folder { Path = subfolderPath, Type = "subfolder" };
+                    UploadFolder subfolder = new UploadFolder { Path = subfolderPath, Type = "subfolder" };
 
                     var subfolderFiles = Directory.EnumerateFiles(subfolder.Path);
 
@@ -217,6 +242,8 @@ namespace MauiApp1
                             string subfolderFileEncoded = Convert.ToBase64String(subfolderFileRawData);
                             DateTime subfolderFileCreatedAt = File.GetCreationTime(subfolderFilePath);
                             DateTime subfolderFileUpdatedAt = File.GetLastAccessTime(subfolderFilePath);
+
+                            UploadFilesCount++;
 
                             UploadFiles.Add(
                                 new UploadFile
@@ -235,6 +262,9 @@ namespace MauiApp1
                     }
                 }
             }
+
+            labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " items selected";
+
         }
     }
 }
