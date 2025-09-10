@@ -2,8 +2,7 @@
 {
     public int? id { get; set; }
     public Guid? uuid { get; set; }
-
-    // public ImageFile[] imageFiles { get; set; }
+    public ImageFile[] imageFiles { get; set; }
 
     // public PdfFile[] pdfFiles { get; set; }
 
