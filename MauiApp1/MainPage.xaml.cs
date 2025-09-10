@@ -75,8 +75,8 @@ namespace MauiApp1
             string idParams = (ids != "" ? "?" + ids : "");
             var response = await _apiService.GetAllUploads(idParams);
             //await DisplayAlert("Login", response, "OK");
-            //Upload[] uploads = JsonSerializer.Deserialize<Upload[]>(response);
-            //await DisplayAlert("Login", string.Concat(JsonSerializer.Serialize(uploads)), "OK");
+            Upload[] uploads = JsonSerializer.Deserialize<Upload[]>(response);
+            await DisplayAlert("Login", string.Concat(JsonSerializer.Serialize(uploads)), "OK");
         }
         public int getUploadFilesCount()
         {
@@ -119,7 +119,7 @@ namespace MauiApp1
 
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
 
-                //getAllUploads();
+                getAllUploads();
             }
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
