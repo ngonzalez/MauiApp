@@ -45,7 +45,7 @@ namespace MauiApp1
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<UploadFolder> Folders { get; set; }
+        public ObservableCollection<UploadFolder> UploadFolders { get; set; }
         public ObservableCollection<UploadFile> UploadFiles { get; set; }
         public ObservableCollection<Upload> Uploads { get; set; }
         public int UploadFilesCount { get; set; }
@@ -60,13 +60,14 @@ namespace MauiApp1
             _folderPicker = folderPicker;
             _apiService = apiService;
             _appShellViewModel = appShellViewModel;
-            Folders = new ObservableCollection<UploadFolder> { };
+            UploadFolders = new ObservableCollection<UploadFolder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
             Uploads = new ObservableCollection<Upload> { };
             InitializeComponent();
             BindingContext = this;
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             labelFilesCount.Text = "no items found";
+            getAllUploads();
         }
 
         public async void getAllUploads()
@@ -75,8 +76,10 @@ namespace MauiApp1
             string idParams = (ids != "" ? "?" + ids : "");
             var response = await _apiService.GetAllUploads(idParams);
             //await DisplayAlert("Login", response, "OK");
-            Upload[] uploads = JsonSerializer.Deserialize<Upload[]>(response);
-            await DisplayAlert("Login", string.Concat(JsonSerializer.Serialize(uploads)), "OK");
+
+            var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
+            while (Uploads.Count() > 0) { Uploads.RemoveAt(0); }
+            foreach (var item in uploadsResponse) { Uploads.Add(item); }
         }
         public int getUploadFilesCount()
         {
@@ -141,12 +144,12 @@ namespace MauiApp1
 
             FolderLabel.Text = rootFolder.Path;
 
-            while (Folders.Count() > 0)
+            while (UploadFolders.Count() > 0)
             {
-                Folders.RemoveAt(0);
+                UploadFolders.RemoveAt(0);
             }
 
-            Folders.Add(rootFolder);
+            UploadFolders.Add(rootFolder);
 
             var files = Directory.EnumerateFiles(rootFolder.Path);
 
