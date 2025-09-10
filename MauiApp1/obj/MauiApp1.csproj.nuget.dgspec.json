@@ -54,11 +54,11 @@
           "dependencies": {
             "Microsoft.Extensions.Logging.Debug": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.Maui.Controls": {
               "target": "Package",
-              "version": "[9.0.82, )"
+              "version": "[9.0.110, )"
             }
           },
           "imports": [
@@ -86,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

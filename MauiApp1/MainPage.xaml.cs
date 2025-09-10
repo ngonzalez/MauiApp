@@ -65,7 +65,6 @@ namespace MauiApp1
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             labelFilesCount.Text = "no items found";
         }
-
         public int getUploadFilesCount()
         {
             return UploadFiles.Count();
