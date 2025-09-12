@@ -9,12 +9,12 @@
             Spacing="25">
 
             <Button
-            Text="Back to my account"
-            x:Name="myAccountLink"
-            BackgroundColor="Black"
-            TextColor="FloralWhite"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
+                Text="Back to my account"
+                x:Name="myAccountLink"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
 
             <Image
                 Source="dotnet_bot.png"
@@ -30,9 +30,10 @@
                 x:Name="FolderLabel"
                 HorizontalOptions="Center" />
 
-            <Label x:Name="labelFilesCount"
-                   FontSize="12"
-                   HorizontalOptions="Center" />
+            <Label
+                x:Name="labelFilesCount"
+                FontSize="12"
+                HorizontalOptions="Center" />
 
             <Button 
                 Text="Pick Folder"
@@ -43,49 +44,52 @@
                 HorizontalOptions="Center" />
 
             <Grid Padding="10">
-                <Label x:Name="progressBarText"></Label>
+                <Button
+                    Text="Send Files"
+                    FontAttributes="Bold"
+                    Grid.Row="1"
+                    SemanticProperties.Hint="POST data to our servers"
+                    Clicked="OnSendDataClicked"
+                    HorizontalOptions="Center" />
             </Grid>
 
             <Grid Padding="10">
-                <ProgressBar x:Name="progressBar"/>
+                <Label
+                    x:Name="progressBarText"></Label>
             </Grid>
 
-            <Button 
-                Text="Send Files"
-                FontAttributes="Bold"
-                Grid.Row="1"
-                SemanticProperties.Hint="POST data to our servers"
-                Clicked="OnSendDataClicked"
-                HorizontalOptions="Center" />
+            <Grid Padding="10">
+                <ProgressBar
+                    x:Name="progressBar"/>
+            </Grid>
 
-            <CollectionView ItemsSource="{Binding Uploads}">
-                <CollectionView.EmptyView>
-                    <Label Text="No data found." HorizontalOptions="Center" VerticalOptions="Center" />
-                </CollectionView.EmptyView>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   Text="{Binding id}"
-                                   FontAttributes="Bold"
-                                   Padding="10" />
-
-                            <Label Grid.Row="1"
-                                   Grid.Column="0"
-                                   Text="{Binding uuid}" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <Grid Padding="10">
+                <CollectionView ItemsSource="{Binding Folders}">
+                    <CollectionView.EmptyView>
+                        <Label Text="No data found." HorizontalOptions="Center" VerticalOptions="Center" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Text="{Binding name}"
+                                       FontAttributes="Bold"
+                                       FontSize="20"
+                                       Padding="10" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
 
         </VerticalStackLayout>
     </ScrollView>
