@@ -2,6 +2,7 @@
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Storage;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -47,7 +48,7 @@ namespace MauiApp1
     {
         public ObservableCollection<UploadFolder> UploadFolders { get; set; }
         public ObservableCollection<UploadFile> UploadFiles { get; set; }
-        public ObservableCollection<Upload> Uploads { get; set; }
+        public ObservableCollection<Folder> Folders { get; set; }
         public int UploadFilesCount { get; set; }
 
         private readonly IFolderPicker _folderPicker;
@@ -62,7 +63,7 @@ namespace MauiApp1
             _appShellViewModel = appShellViewModel;
             UploadFolders = new ObservableCollection<UploadFolder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
-            Uploads = new ObservableCollection<Upload> { };
+            Folders = new ObservableCollection<Folder> { };
             InitializeComponent();
             BindingContext = this;
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
@@ -72,14 +73,39 @@ namespace MauiApp1
 
         public async void getAllUploads()
         {
-            string ids = "";
-            string idParams = (ids != "" ? "?" + ids : "");
-            var response = await _apiService.GetAllUploads(idParams);
+            var response = await _apiService.GetAllUploads("");
+
             //await DisplayAlert("Login", response, "OK");
 
             var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
-            while (Uploads.Count() > 0) { Uploads.RemoveAt(0); }
-            foreach (var item in uploadsResponse) { Uploads.Add(item); }
+
+            while (Folders.Count() > 0) {
+                Folders.RemoveAt(0);
+            }
+
+            foreach (var item in uploadsResponse) {
+                if (item.imageFiles.Length > 0)
+                {
+                    foreach (ImageFile imageFile in item.imageFiles)
+                    {
+                        if (imageFile.folder != null && imageFile.folder.name != "")
+                        {
+                            bool found = false;
+                            foreach (Folder folder in Folders)
+                            {
+                                if (folder.name == imageFile.folder.name)
+                                {
+                                    found = true;
+                                }
+                            }
+                            if (!found)
+                            {
+                                Folders.Add(imageFile.folder);
+                            }
+                        }
+                    }
+                }
+            }
         }
         public int getUploadFilesCount()
         {
@@ -121,8 +147,6 @@ namespace MauiApp1
                 progressBarText.Text = Convert.ToString((progress * 100)) + "%";
 
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
-
-                getAllUploads();
             }
         }
         private async void OnSendDataClicked(object sender, EventArgs e)
