@@ -107,7 +107,7 @@ namespace MauiApp1
         {
             var response = await _apiService.GetAllUploads("");
 
-            //await DisplayAlert("Login", response, "OK");
+            await DisplayAlert("Login", response, "OK");
 
             var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
