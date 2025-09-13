@@ -13,8 +13,17 @@
                 x:Name="myAccountLink"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
+                FontSize="20"
                 VerticalOptions="Center"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="FontAwesome7FreeSolid"
+                        Glyph="{StaticResource IconCircleArrowLeft}"
+                        Size="20"
+                        Color="Grey" />
+                </Button.ImageSource>
+            </Button>
 
             <Image
                 Source="dotnet_bot.png"
@@ -79,8 +88,19 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
+                                <Image>
+                                    <Image.Source>
+                                        <FontImageSource
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            FontFamily="FontAwesome7FreeRegular"
+                                            Glyph="{StaticResource IconFolder}"
+                                            Color="DarkGrey"
+                                            Size="20"/>
+                                    </Image.Source>
+                                </Image>
                                 <Label Grid.Row="0"
-                                       Grid.Column="0"
+                                       Grid.Column="1"
                                        Text="{Binding name}"
                                        FontAttributes="Bold"
                                        FontSize="20"
