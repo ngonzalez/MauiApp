@@ -29,6 +29,7 @@ namespace MauiApp1
             builder.Services.AddTransient<IApiService, MauiApp1.Platforms.Windows.ApiService>();
             builder.Services.AddTransient<SignInPage>();
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<DisplayItemPage>();
             builder.Services.AddTransient<App>();
             //#endif
 

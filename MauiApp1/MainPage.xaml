@@ -72,7 +72,7 @@
                     x:Name="progressBar"/>
             </Grid>
 
-            <Grid>
+            <Grid MinimumHeightRequest="300">
                 <CollectionView ItemsSource="{Binding Folders}">
                     <CollectionView.EmptyView>
                         <Label Text="No data found." HorizontalOptions="Center" VerticalOptions="Center" />
@@ -111,8 +111,8 @@
                                 <Button
                                     Grid.Row="0"
                                     Grid.Column="2"
-                                    Text="view files"
-                                    x:Name="viewFilesButton"
+                                    Text="display files"
+                                    Clicked="displayFiles"
                                     BackgroundColor="Black"
                                     TextColor="FloralWhite"
                                     FontSize="20"

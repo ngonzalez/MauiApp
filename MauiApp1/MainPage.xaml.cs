@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 using Windows.Services.Maps;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Windows;
+using System.Data.Common;
 public static class MimeTypeMapper
 {
     private static readonly IDictionary<string, string> _mappings =
@@ -102,12 +104,16 @@ namespace MauiApp1
             labelFilesCount.Text = "no items found";
             getAllUploads();
         }
-
+        public async void displayFiles(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var folder = (Folder)button.BindingContext;
+            Window secondWindow = new Window(new DisplayItemPage(folder));
+            App.Current?.OpenWindow(secondWindow);
+        }
         public async void getAllUploads()
         {
             var response = await _apiService.GetAllUploads("");
-
-            await DisplayAlert("Login", response, "OK");
 
             var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
