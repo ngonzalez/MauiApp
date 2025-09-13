@@ -24,8 +24,39 @@ public static class MimeTypeMapper
     private static readonly IDictionary<string, string> _mappings =
         new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
         {
+            /* DOCUMENTS */
+            { ".pdf", "application/pdf" },
+            { ".md", "text/markdown" },
+            { "txt", "text/plain" },
+
+            /* JPEG */
             {".jpg", "image/jpeg"},
             {".jpeg", "image/jpeg"},
+
+            /* FLAC */
+            { ".flac", "audio/flac" },
+
+            /* MP3 */
+            { ".mp3", "audio/mpeg" },
+
+            /* AAC MP4 ALAC  **/
+            { ".aac", "audio/m4a" },
+            { ".m4a", "audio/x-m4a" },
+            // { "mp4", "audio/mp4" },
+
+            /* AIFF */
+            { ".aff", "audio/x-aiff" },
+            { ".aif", "audio/x-aiff" },
+            { ".aiff", "audio/x-aiff" },
+
+            /* WAV */
+            { ".wav", "audio/wav" },
+
+            /* MKV */
+            { ".mkv", "video/x-matroska" },
+
+            /* MP4 */
+            { ".mp4", "video/mp4" },
         };
     public static string GetMimeType(string extension)
     {
@@ -67,6 +98,7 @@ namespace MauiApp1
             InitializeComponent();
             BindingContext = this;
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
+            refreshFilesButton.Clicked += new EventHandler(refreshButtonClicked);
             labelFilesCount.Text = "no items found";
             getAllUploads();
         }
@@ -105,6 +137,90 @@ namespace MauiApp1
                         }
                     }
                 }
+                if (item.textFiles.Length > 0)
+                {
+                    foreach (TextFile textFile in item.textFiles)
+                    {
+                        if (textFile.folder != null && textFile.folder.name != "")
+                        {
+                            bool found = false;
+                            foreach (Folder folder in Folders)
+                            {
+                                if (folder.name == textFile.folder.name)
+                                {
+                                    found = true;
+                                }
+                            }
+                            if (!found)
+                            {
+                                Folders.Add(textFile.folder);
+                            }
+                        }
+                    }
+                }
+                if (item.pdfFiles.Length > 0)
+                {
+                    foreach (PdfFile pdfFile in item.pdfFiles)
+                    {
+                        if (pdfFile.folder != null && pdfFile.folder.name != "")
+                        {
+                            bool found = false;
+                            foreach (Folder folder in Folders)
+                            {
+                                if (folder.name == pdfFile.folder.name)
+                                {
+                                    found = true;
+                                }
+                            }
+                            if (!found)
+                            {
+                                Folders.Add(pdfFile.folder);
+                            }
+                        }
+                    }
+                }
+                if (item.audioFiles.Length > 0)
+                {
+                    foreach (AudioFile audioFile in item.audioFiles)
+                    {
+                        if (audioFile.folder != null && audioFile.folder.name != "")
+                        {
+                            bool found = false;
+                            foreach (Folder folder in Folders)
+                            {
+                                if (folder.name == audioFile.folder.name)
+                                {
+                                    found = true;
+                                }
+                            }
+                            if (!found)
+                            {
+                                Folders.Add(audioFile.folder);
+                            }
+                        }
+                    }
+                }
+                if (item.videoFiles.Length > 0)
+                {
+                    foreach (VideoFile videoFile in item.videoFiles)
+                    {
+                        if (videoFile.folder != null && videoFile.folder.name != "")
+                        {
+                            bool found = false;
+                            foreach (Folder folder in Folders)
+                            {
+                                if (folder.name == videoFile.folder.name)
+                                {
+                                    found = true;
+                                }
+                            }
+                            if (!found)
+                            {
+                                Folders.Add(videoFile.folder);
+                            }
+                        }
+                    }
+                }
             }
         }
         public int getUploadFilesCount()
@@ -114,6 +230,10 @@ namespace MauiApp1
         public void accountLinkClicked(object sender, EventArgs e)
         {
             Shell.Current.GoToAsync("account");
+        }
+        public void refreshButtonClicked(object sender, EventArgs e)
+        {
+            getAllUploads();
         }
         public static byte[] Compress(byte[] raw)
         {
@@ -140,7 +260,7 @@ namespace MauiApp1
 
                 byte[] compressedBody = Compress(body);
 
-                //var response = await _apiService.CreatePostAsync(compressedBody);
+                var response = await _apiService.CreatePostAsync(compressedBody);
 
                 double progress = ((double)filesCount / (double)totalFilesCount);
 

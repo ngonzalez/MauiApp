@@ -52,7 +52,7 @@
                 Clicked="OnPickFolderClicked"
                 HorizontalOptions="Center" />
 
-            <Grid Padding="10">
+            <Grid>
                 <Button
                     Text="Send Files"
                     FontAttributes="Bold"
@@ -62,17 +62,17 @@
                     HorizontalOptions="Center" />
             </Grid>
 
-            <Grid Padding="10">
+            <Grid>
                 <Label
                     x:Name="progressBarText"></Label>
             </Grid>
 
-            <Grid Padding="10">
+            <Grid>
                 <ProgressBar
                     x:Name="progressBar"/>
             </Grid>
 
-            <Grid Padding="10">
+            <Grid>
                 <CollectionView ItemsSource="{Binding Folders}">
                     <CollectionView.EmptyView>
                         <Label Text="No data found." HorizontalOptions="Center" VerticalOptions="Center" />
@@ -83,11 +83,14 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
+                                <HorizontalStackLayout>
                                 <Image>
                                     <Image.Source>
                                         <FontImageSource
@@ -95,8 +98,8 @@
                                             Grid.Column="0"
                                             FontFamily="FontAwesome7FreeRegular"
                                             Glyph="{StaticResource IconFolder}"
-                                            Color="DarkGrey"
-                                            Size="20"/>
+                                            Color="FloralWhite"
+                                            Size="20" />
                                     </Image.Source>
                                 </Image>
                                 <Label Grid.Row="0"
@@ -105,10 +108,49 @@
                                        FontAttributes="Bold"
                                        FontSize="20"
                                        Padding="10" />
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Text="view files"
+                                    x:Name="viewFilesButton"
+                                    BackgroundColor="Black"
+                                    TextColor="FloralWhite"
+                                    FontSize="20"
+                                    Padding="10"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center">
+                                    <Button.ImageSource>
+                                        <FontImageSource
+                                            FontFamily="FontAwesome7FreeSolid"
+                                            Glyph="{StaticResource IconFolderTree}"
+                                            Size="20"
+                                            Color="Grey" />
+                                    </Button.ImageSource>
+                                </Button>
+                                </HorizontalStackLayout>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+            </Grid>
+
+            <Grid>
+                <Button
+                    Text="Refresh"
+                    x:Name="refreshFilesButton"
+                    BackgroundColor="Black"
+                    TextColor="FloralWhite"
+                    FontSize="20"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="FontAwesome7FreeRegular"
+                            Glyph="{StaticResource IconSun}"
+                            Size="15"
+                            Color="Grey" />
+                    </Button.ImageSource>
+                </Button>
             </Grid>
 
         </VerticalStackLayout>

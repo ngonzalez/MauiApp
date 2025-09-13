@@ -10,7 +10,6 @@ public class ImageFile
     public string? dataUrl { get; set; }
     public string? mimeType { get; set; }
     public string? formatInfo { get; set; }
-    public string? fileSize { get; set; }
     public int? width { get; set; }
     public int? height { get; set; }
     public string? dimensions { get; set; }
