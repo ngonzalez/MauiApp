@@ -37,7 +37,6 @@ namespace MauiApp1.Platforms.Windows
         {
             ByteArrayContent content = new ByteArrayContent(body);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-            content.Headers.ContentEncoding.Add("gzip, deflate");
             content.Headers.ContentLength = body.Length;
             var httpResponse = await _httpClient.PostAsync("/upload", content);
             string response = await httpResponse.Content.ReadAsStringAsync();
