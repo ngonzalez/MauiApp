@@ -9,6 +9,7 @@ using Windows.Services.Maps;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MauiApp1;
+
 public partial class DisplayItemPage : ContentPage
 {
     private readonly IApiService _apiService;
