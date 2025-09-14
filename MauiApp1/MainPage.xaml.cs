@@ -3,8 +3,10 @@ using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Storage;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Common;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Net.Http;
@@ -16,11 +18,10 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using Windows.Services.Maps;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Windows;
-using System.Data.Common;
 public static class MimeTypeMapper
 {
     private static readonly IDictionary<string, string> _mappings =
@@ -106,10 +107,10 @@ namespace MauiApp1
         }
         public async void displayFiles(object sender, EventArgs e)
         {
-            var button = (Button)sender;
-            var folder = (Folder)button.BindingContext;
-            Window secondWindow = new Window(new DisplayItemPage(folder));
-            App.Current?.OpenWindow(secondWindow);
+            Button button = (Button)sender;
+            Folder folder = (Folder)button.BindingContext;
+            Window secondWindow = new Window(new DisplayItemPage(_apiService, _appShellViewModel, folder));
+            App.Current.OpenWindow(secondWindow);
         }
         public async void getAllUploads()
         {
