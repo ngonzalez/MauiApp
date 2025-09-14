@@ -31,13 +31,9 @@ public partial class DisplayItemPage : ContentPage
     public async void getUploads()
     {
         string folderId = Convert.ToString(_folder.id);
-
-        var str = JsonSerializer.SerializeToUtf8Bytes("," + folderId);
-
-        string encodedFolderId = Convert.ToBase64String(str);
-
+        var folderIdsUtf8 = JsonSerializer.SerializeToUtf8Bytes("," + folderId);
+        string encodedFolderId = Convert.ToBase64String(folderIdsUtf8);
         var response = await _apiService.GetAllUploads("?folderIds=" + encodedFolderId);
-
         var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
         while (ImageFiles.Count() > 0)
