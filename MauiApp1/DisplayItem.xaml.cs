@@ -16,7 +16,9 @@ public partial class DisplayItemPage : ContentPage
     private readonly AppShellViewModel _appShellViewModel;
 
     private Folder _folder;
+
     public ObservableCollection<ImageFile> ImageFiles { get; set; }
+
     public DisplayItemPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
         _apiService = apiService;
