@@ -115,7 +115,6 @@ namespace MauiApp1
         public async void getAllUploads()
         {
             var response = await _apiService.GetAllUploads("");
-
             var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
             while (Folders.Count() > 0) {
@@ -256,23 +255,16 @@ namespace MauiApp1
         public async void SendFiles()
         {
             int filesCount = 0;
-
             int totalFilesCount = UploadFiles.Count();
 
             foreach(UploadFile uploadFile in UploadFiles)
             {
                 filesCount++;
-
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
-
                 byte[] compressedBody = Compress(body);
-
                 var response = await _apiService.CreatePostAsync(compressedBody);
-
                 double progress = ((double)filesCount / (double)totalFilesCount);
-
                 progressBarText.Text = Convert.ToString((progress * 100)) + "%";
-
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
             }
         }
@@ -283,7 +275,6 @@ namespace MauiApp1
         private async void OnPickFolderClicked(object sender, EventArgs e)
         {
             int UploadFilesCount = 0;
-
             string folderPath = await _folderPicker.PickFolder();
 
             if (folderPath == "")
