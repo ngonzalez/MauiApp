@@ -7,12 +7,17 @@ using System.Text.Json.Serialization;
 using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MauiApp1;
+
 public class NewSessionResponse
 {
+
     public User user { get; set; }
+
     public string message { get; set; }
+
     public int sessionId { get; set; }
 }
+
 public partial class SignInPage : ContentPage
 {
     private readonly IAuthenticate _authenticate;
@@ -22,15 +27,16 @@ public partial class SignInPage : ContentPage
     private string Password;
 
     private readonly AppShellViewModel _appShellViewModel;
+
     public SignInPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
 	{
         _authenticate = authenticate;
         _appShellViewModel = appShellViewModel;
         InitializeComponent();
     }
+
     private async void OnSignInClicked(object sender, EventArgs e)
     {
-
         var values = new Dictionary<string, string> {
             { "emailAddress", EmailAddress },
             { "password", Password },
@@ -73,10 +79,12 @@ public partial class SignInPage : ContentPage
             }
         }
     }
+
     private async void OnEmailAddressCompleted(object sender, EventArgs e)
     {
         EmailAddress = ((Entry)sender).Text;
     }
+
     private async void OnPasswordCompleted(object sender, EventArgs e)
     {
         Password = ((Entry)sender).Text;

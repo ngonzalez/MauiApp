@@ -6,17 +6,21 @@ using System.Net.Mail;
 using System.Text.Json;
 using Microsoft.Toolkit.Uwp.Notifications;
 
-
 namespace MauiApp1;
+
 public class DeleteSessionResponse
 {
+
     public string message { get; set; }
+
 }
+
 public partial class AccountPage : ContentPage
 {
     private readonly IAuthenticate _authenticate;
 
     private readonly AppShellViewModel _appShellViewModel;
+
     public AccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
 	{
         _authenticate = authenticate;
@@ -50,6 +54,7 @@ public partial class AccountPage : ContentPage
 
         Shell.Current.GoToAsync("signin");
     }
+
     public void uploadsLinkClicked(object sender, EventArgs e)
     {
         if (_appShellViewModel.CurrentUser.id == null)
