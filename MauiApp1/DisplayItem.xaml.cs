@@ -31,6 +31,7 @@ public partial class DisplayItemPage : ContentPage
         folderName.Text = folder.name;
         getUploads();
     }
+
     public async void getUploads()
     {
         string folderId = Convert.ToString(_folder.id);
