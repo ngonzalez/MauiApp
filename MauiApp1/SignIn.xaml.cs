@@ -50,9 +50,13 @@ public partial class SignInPage : ContentPage
 
                 await Shell.Current.GoToAsync("account");
             }
-            else
+            else if (jsonResponse.user.errors.Length > 0)
             {
                 await DisplayAlert("Login", string.Concat(jsonResponse.user.errors), "OK");
+            }
+            else if (jsonResponse?.message != null)
+            {
+                await DisplayAlert("Login", string.Concat(jsonResponse.message), "OK");
             }
         }
         else if (jsonResponse?.message != null)
