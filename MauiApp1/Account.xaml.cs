@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Net.Http.Json;
 using System.Net.Mail;
 using System.Text.Json;
+using Microsoft.Toolkit.Uwp.Notifications;
+
 
 namespace MauiApp1;
 public class DeleteSessionResponse
@@ -33,9 +35,14 @@ public partial class AccountPage : ContentPage
     {
         var response = await _authenticate.deleteSession();
 
-        DeleteSessionResponse _jsonResponse = JsonSerializer.Deserialize<DeleteSessionResponse>(response);
+        DeleteSessionResponse jsonResponse = JsonSerializer.Deserialize<DeleteSessionResponse>(response);
 
-        // await DisplayAlert("Login", string.Concat(jsonResponse.message), "OK");
+        //await DisplayAlert("Login", string.Concat(_jsonResponse.message), "OK");
+        ToastNotificationManagerCompat.History.Clear();
+
+        new ToastContentBuilder()
+            .AddText(string.Concat(jsonResponse.message))
+            .Show();
 
         _authenticate.setCurrentUser(new User { });
 

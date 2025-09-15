@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MauiApp1;
 public class NewSessionResponse
@@ -29,6 +30,7 @@ public partial class SignInPage : ContentPage
     }
     private async void OnSignInClicked(object sender, EventArgs e)
     {
+
         var values = new Dictionary<string, string> {
             { "emailAddress", EmailAddress },
             { "password", Password },
@@ -46,22 +48,29 @@ public partial class SignInPage : ContentPage
         {
             if (jsonResponse?.user?.id != null)
             {
+                // await DisplayAlert("Login", string.Concat(jsonResponse.message), "OK");
+                new ToastContentBuilder()
+                    .AddText(string.Concat(jsonResponse.message))
+                    .Show();
+
                 await _authenticate.setCurrentUser(jsonResponse.user);
 
                 await Shell.Current.GoToAsync("account");
             }
             else if (jsonResponse.user.errors.Length > 0)
             {
-                await DisplayAlert("Login", string.Concat(jsonResponse.user.errors), "OK");
+                // await DisplayAlert("Login", string.Concat(jsonResponse.user.errors), "OK");
+                new ToastContentBuilder()
+                    .AddText(string.Concat(jsonResponse.user.errors))
+                    .Show();
             }
             else if (jsonResponse?.message != null)
             {
-                await DisplayAlert("Login", string.Concat(jsonResponse.message), "OK");
+                // await DisplayAlert("Login", string.Concat(jsonResponse.message), "OK");
+                new ToastContentBuilder()
+                    .AddText(string.Concat(jsonResponse.message))
+                    .Show();
             }
-        }
-        else if (jsonResponse?.message != null)
-        {
-            await DisplayAlert("Login", string.Concat(jsonResponse.message), "OK");
         }
     }
     private async void OnEmailAddressCompleted(object sender, EventArgs e)
