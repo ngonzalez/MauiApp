@@ -5,16 +5,19 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Windows.Media.Protection.PlayReady;
+using Windows.System;
 
 namespace MauiApp1.Platforms.Windows
 {
     public class Authenticate : IAuthenticate
     {
+
         public User _user;
 
         private readonly HttpClient _httpClient;
 
         private readonly AppShellViewModel _appShellViewModel;
+
         public Authenticate(AppShellViewModel appShellViewModel)
         {
             _appShellViewModel = appShellViewModel;
@@ -23,24 +26,29 @@ namespace MauiApp1.Platforms.Windows
                 BaseAddress = new Uri("http://192.168.1.11:3000")
             };
         }
+
         public async Task<User> getCurrentUser()
         {
             return _appShellViewModel.CurrentUser;
         }
+
         public async Task<bool> setCurrentUser(User user)
         {
             _appShellViewModel.CurrentUser = user;
             return true;
         }
+
         public async Task<int> getSessionID()
         {
             return _appShellViewModel.SessionID;
         }
+
         public async Task<bool> setSessionID(int sessionID)
         {
             _appShellViewModel.SessionID = sessionID;
             return true;
         }
+
         public async Task<String> newSession(Dictionary<string, string> values)
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -49,6 +57,7 @@ namespace MauiApp1.Platforms.Windows
             var json = await response.Content.ReadAsStringAsync();
             return json;
         }
+
         public async Task<String> deleteSession()
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

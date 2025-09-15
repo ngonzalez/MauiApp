@@ -8,14 +8,9 @@
     FlyoutIsPresented="True"
     FlyoutBehavior="Locked">
 
-    <FlyoutItem Title="SignIn">
+    <FlyoutItem Title="Account">
         <Tab>
-            <ShellContent ContentTemplate="{DataTemplate local:SignInPage}" />
-        </Tab>
-    </FlyoutItem>
-    <FlyoutItem Title="Home">
-        <Tab IsVisible="{Binding IsVisible}">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate local:AccountPage}" />
         </Tab>
     </FlyoutItem>
 

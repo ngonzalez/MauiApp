@@ -22,6 +22,7 @@ using System.Windows;
 using Windows.Services.Maps;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+
 public static class MimeTypeMapper
 {
     private static readonly IDictionary<string, string> _mappings =
@@ -83,6 +84,8 @@ namespace MauiApp1
         public ObservableCollection<UploadFolder> UploadFolders { get; set; }
         public ObservableCollection<UploadFile> UploadFiles { get; set; }
         public ObservableCollection<Folder> Folders { get; set; }
+
+        public ObservableCollection<Folder> SelectedFolders { get; set; }
         public int UploadFilesCount { get; set; }
 
         private readonly IFolderPicker _folderPicker;
@@ -95,14 +98,28 @@ namespace MauiApp1
             _folderPicker = folderPicker;
             _apiService = apiService;
             _appShellViewModel = appShellViewModel;
+
+            var sessionID = _appShellViewModel.SessionID;
+
+            if (sessionID == null || sessionID == 0)
+            {
+                Shell.Current.GoToAsync("signin");
+            }
+
             UploadFolders = new ObservableCollection<UploadFolder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
             Folders = new ObservableCollection<Folder> { };
+            SelectedFolders = new ObservableCollection<Folder> { };
+
             InitializeComponent();
+
             BindingContext = this;
+
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             refreshFilesButton.Clicked += new EventHandler(refreshButtonClicked);
+
             labelFilesCount.Text = "no items found";
+
             getAllUploads();
         }
         public async void displayFiles(object sender, EventArgs e)
@@ -114,6 +131,8 @@ namespace MauiApp1
         }
         public async void getAllUploads()
         {
+            ActivityIndicator.IsRunning = true;
+
             var response = await _apiService.GetAllUploads("");
             var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
@@ -228,10 +247,21 @@ namespace MauiApp1
                     }
                 }
             }
+
+            ActivityIndicator.IsRunning = false;
         }
         public int getUploadFilesCount()
         {
             return UploadFiles.Count();
+        }
+        public async void FolderSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Folder selectedFolder = e.CurrentSelection.FirstOrDefault() as Folder;
+
+            SelectedFolders.Add(selectedFolder);
+
+            var ids = SelectedFolders.Select(x => x.id);
+
         }
         public void accountLinkClicked(object sender, EventArgs e)
         {

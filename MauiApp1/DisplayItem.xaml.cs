@@ -20,17 +20,21 @@ public partial class DisplayItemPage : ContentPage
 
     public ObservableCollection<ImageFile> ImageFiles { get; set; }
 
+    public ObservableCollection<ImageFile> SelectedImageFiles { get; set; }
+
     public DisplayItemPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
         _apiService = apiService;
         _appShellViewModel = appShellViewModel;
         _folder = folder;
         ImageFiles = new ObservableCollection<ImageFile> { };
+        SelectedImageFiles = new ObservableCollection<ImageFile> { };
         InitializeComponent();
         BindingContext = this;
         folderName.Text = folder.name;
         getUploads();
     }
+
     public async void getUploads()
     {
         string folderId = Convert.ToString(_folder.id);
@@ -56,5 +60,20 @@ public partial class DisplayItemPage : ContentPage
         }
 
         imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " Images";
+    }
+
+    public async void OnScrollViewScrolled(object sender, ScrolledEventArgs e)
+    {
+        Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
+    }
+
+    public async void ImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ImageFile selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
+
+        SelectedImageFiles.Add(selectedImageFile);
+
+        var ids = SelectedImageFiles.Select(x => x.id);
+
     }
 }

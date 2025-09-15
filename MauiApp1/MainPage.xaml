@@ -72,66 +72,58 @@
                     x:Name="progressBar"/>
             </Grid>
 
-            <Grid MinimumHeightRequest="300">
-                <CollectionView ItemsSource="{Binding Folders}">
-                    <CollectionView.EmptyView>
-                        <Label Text="No data found." HorizontalOptions="Center" VerticalOptions="Center" />
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <HorizontalStackLayout>
-                                <Image>
-                                    <Image.Source>
-                                        <FontImageSource
+            <Grid MinimumHeightRequest="500">
+                <ActivityIndicator x:Name="ActivityIndicator" />
+                <ScrollView x:Name="scrollView"
+                    Grid.Row="1"
+                    VerticalOptions="Fill">
+                    <CollectionView ItemsSource="{Binding Folders}"
+                                SelectionMode="Single"
+                                SelectionChanged="FolderSelectionChanged"
+                                SelectedItems="{Binding SelectedImageFiles}">
+                        <CollectionView.EmptyView>
+                            <Label Text="No data found." HorizontalOptions="Center" VerticalOptions="Center" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <HorizontalStackLayout>
+                                        <Button
                                             Grid.Row="0"
-                                            Grid.Column="0"
-                                            FontFamily="FontAwesome7FreeRegular"
-                                            Glyph="{StaticResource IconFolder}"
-                                            Color="FloralWhite"
-                                            Size="20" />
-                                    </Image.Source>
-                                </Image>
-                                <Label Grid.Row="0"
-                                       Grid.Column="1"
-                                       Text="{Binding name}"
-                                       FontAttributes="Bold"
-                                       FontSize="20"
-                                       Padding="10" />
-                                <Button
-                                    Grid.Row="0"
-                                    Grid.Column="2"
-                                    Text="display files"
-                                    Clicked="displayFiles"
-                                    BackgroundColor="Black"
-                                    TextColor="FloralWhite"
-                                    FontSize="20"
-                                    Padding="10"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center">
-                                    <Button.ImageSource>
-                                        <FontImageSource
-                                            FontFamily="FontAwesome7FreeSolid"
-                                            Glyph="{StaticResource IconFolderTree}"
-                                            Size="20"
-                                            Color="Grey" />
-                                    </Button.ImageSource>
-                                </Button>
-                                </HorizontalStackLayout>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                            Grid.Column="1"
+                                            Text="{Binding name}"
+                                            Clicked="displayFiles"
+                                            TextColor="FloralWhite"
+                                            BackgroundColor="Transparent"
+                                            FontSize="20"
+                                            Padding="10">
+                                            <Button.ImageSource>
+                                                <FontImageSource
+                                                    FontFamily="FontAwesome7FreeSolid"
+                                                    Glyph="{StaticResource IconFolder}"
+                                                    Size="20"
+                                                    Color="LightGray" />
+                                            </Button.ImageSource>
+                                        </Button>
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Clicked="displayFiles"
+                                            BackgroundColor="Transparent"
+                                            MinimumWidthRequest="600">
+                                        </Button>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
             </Grid>
 
             <Grid>

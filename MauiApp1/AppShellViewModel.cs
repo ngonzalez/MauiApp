@@ -1,18 +1,13 @@
-﻿using System;
+﻿using MauiApp1;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-public class AppShellViewModel
+public partial class AppShellViewModel
 {
 
-    private bool _isVisible;
-    public bool IsVisible
-    {
-        get { return _isVisible; }
-        set { _isVisible = value; }
-    }
-
     private User _user;
+
     public User CurrentUser
     {
         get { return _user; }
@@ -20,6 +15,7 @@ public class AppShellViewModel
     }
 
     private int _sessionID;
+
     public int SessionID
     {
         get { return _sessionID; }
@@ -27,15 +23,15 @@ public class AppShellViewModel
     }
 
     private JsonSerializerOptions _jsonOptions;
+
     public JsonSerializerOptions JSONOptions
     {
         get { return _jsonOptions; }
         set { _jsonOptions = value; }
     }
-public AppShellViewModel()
+    
+    public AppShellViewModel()
     {
-        _isVisible = false;
-
         CurrentUser = new User();
 
         JSONOptions = new JsonSerializerOptions
