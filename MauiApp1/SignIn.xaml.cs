@@ -33,6 +33,7 @@ public partial class SignInPage : ContentPage
         _authenticate = authenticate;
         _appShellViewModel = appShellViewModel;
         InitializeComponent();
+        BindingContext = this;
     }
 
     private async void OnSignInClicked(object sender, EventArgs e)
@@ -46,33 +47,31 @@ public partial class SignInPage : ContentPage
 
         NewSessionResponse jsonResponse = JsonSerializer.Deserialize<NewSessionResponse>(response);
 
-        if (jsonResponse?.sessionId != null)
-        {
-            _authenticate.setSessionID(jsonResponse.sessionId);
-        }
+        ToastNotificationManagerCompat.History.Clear();
+
         if (jsonResponse?.user != null)
         {
             if (jsonResponse?.user?.id != null)
             {
-                // await DisplayAlert("Login", string.Concat(jsonResponse.message), "OK");
                 new ToastContentBuilder()
                     .AddText(string.Concat(jsonResponse.message))
                     .Show();
 
+                await _authenticate.setSessionID(jsonResponse.sessionId);
+
                 await _authenticate.setCurrentUser(jsonResponse.user);
 
                 await Shell.Current.GoToAsync("account");
+
             }
             else if (jsonResponse.user.errors.Length > 0)
             {
-                // await DisplayAlert("Login", string.Concat(jsonResponse.user.errors), "OK");
                 new ToastContentBuilder()
                     .AddText(string.Concat(jsonResponse.user.errors))
                     .Show();
             }
             else if (jsonResponse?.message != null)
             {
-                // await DisplayAlert("Login", string.Concat(jsonResponse.message), "OK");
                 new ToastContentBuilder()
                     .AddText(string.Concat(jsonResponse.message))
                     .Show();

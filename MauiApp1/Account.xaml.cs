@@ -25,14 +25,19 @@ public partial class AccountPage : ContentPage
 	{
         _authenticate = authenticate;
         _appShellViewModel = appShellViewModel;
-        InitializeComponent();
-        myAccountLabel.Text = "My Account (" + _appShellViewModel.CurrentUser.emailAddress + ")";
-        uploadsLink.Clicked += new EventHandler(uploadsLinkClicked);
-        signOutLink.Clicked += new EventHandler(signOutLinkClicked);
-        if (_appShellViewModel.SessionID == 0)
+
+        var sessionID = _appShellViewModel.SessionID;
+
+        if (sessionID == null || sessionID == 0)
         {
             Shell.Current.GoToAsync("signin");
         }
+
+        InitializeComponent();
+
+        myAccountLabel.Text = "My Account (" + _appShellViewModel.CurrentUser.emailAddress + ")";
+        uploadsLink.Clicked += new EventHandler(uploadsLinkClicked);
+        signOutLink.Clicked += new EventHandler(signOutLinkClicked);
     }
 
     public async void signOutLinkClicked(object sender, EventArgs e)

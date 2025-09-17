@@ -22,6 +22,7 @@ using System.Windows;
 using Windows.Services.Maps;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+
 public static class MimeTypeMapper
 {
     private static readonly IDictionary<string, string> _mappings =
@@ -95,14 +96,27 @@ namespace MauiApp1
             _folderPicker = folderPicker;
             _apiService = apiService;
             _appShellViewModel = appShellViewModel;
+
+            var sessionID = _appShellViewModel.SessionID;
+
+            if (sessionID == null || sessionID == 0)
+            {
+                Shell.Current.GoToAsync("signin");
+            }
+
             UploadFolders = new ObservableCollection<UploadFolder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
             Folders = new ObservableCollection<Folder> { };
+
             InitializeComponent();
+
             BindingContext = this;
+
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             refreshFilesButton.Clicked += new EventHandler(refreshButtonClicked);
+
             labelFilesCount.Text = "no items found";
+
             getAllUploads();
         }
         public async void displayFiles(object sender, EventArgs e)
