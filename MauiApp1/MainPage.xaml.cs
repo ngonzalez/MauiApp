@@ -84,6 +84,8 @@ namespace MauiApp1
         public ObservableCollection<UploadFolder> UploadFolders { get; set; }
         public ObservableCollection<UploadFile> UploadFiles { get; set; }
         public ObservableCollection<Folder> Folders { get; set; }
+
+        public ObservableCollection<Folder> SelectedFolders { get; set; }
         public int UploadFilesCount { get; set; }
 
         private readonly IFolderPicker _folderPicker;
@@ -107,6 +109,7 @@ namespace MauiApp1
             UploadFolders = new ObservableCollection<UploadFolder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
             Folders = new ObservableCollection<Folder> { };
+            SelectedFolders = new ObservableCollection<Folder> { };
 
             InitializeComponent();
 
@@ -128,6 +131,8 @@ namespace MauiApp1
         }
         public async void getAllUploads()
         {
+            ActivityIndicator.IsRunning = true;
+
             var response = await _apiService.GetAllUploads("");
             var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
@@ -242,10 +247,21 @@ namespace MauiApp1
                     }
                 }
             }
+
+            ActivityIndicator.IsRunning = false;
         }
         public int getUploadFilesCount()
         {
             return UploadFiles.Count();
+        }
+        public async void FolderSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Folder selectedFolder = e.CurrentSelection.FirstOrDefault() as Folder;
+
+            SelectedFolders.Add(selectedFolder);
+
+            var ids = SelectedFolders.Select(x => x.id);
+
         }
         public void accountLinkClicked(object sender, EventArgs e)
         {

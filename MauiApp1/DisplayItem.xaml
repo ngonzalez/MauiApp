@@ -20,39 +20,55 @@
                 HorizontalOptions="Center"
                 Padding="10" />
 
+            <Label
+                x:Name="selectedImagesList"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Padding="10" />
+
             <Grid MinimumHeightRequest="300">
-                <CollectionView ItemsSource="{Binding ImageFiles}">
-                    <CollectionView.EmptyView>
-                        <Label Text="No data found." HorizontalOptions="Center" VerticalOptions="Center" />
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <HorizontalStackLayout>
-                                    <Label Grid.Row="0"
+                <ScrollView x:Name="scrollView"
+                    Grid.Row="1"
+                    VerticalOptions="Fill">
+
+                    <CollectionView ItemsSource="{Binding ImageFiles}"
+                                SelectionMode="Single"
+                                SelectionChanged="ImageFilesSelectionChanged"
+                                SelectedItems="{Binding SelectedImageFiles}">
+                        <CollectionView.EmptyView>
+                            <Label Text="No data found."
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <HorizontalStackLayout>
+                                        <Label Grid.Row="0"
                                        Grid.Column="1"
                                        Text="{Binding fileName}"
                                        FontAttributes="Bold"
                                        FontSize="20"
                                        Padding="10" />
-                                    <Label Grid.Row="0"
+                                        <Label Grid.Row="0"
                                        Grid.Column="1"
                                        Text="{Binding fileUrl}"
                                        FontSize="20"
                                        Padding="10" />
-                                </HorizontalStackLayout>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
             </Grid>
 
         </VerticalStackLayout>
