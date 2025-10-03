@@ -30,6 +30,7 @@ namespace MauiApp1
             builder.Services.AddTransient<SignInPage>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<DisplayItemPage>();
+            builder.Services.AddTransient<DisplayImagePage>();
             builder.Services.AddTransient<App>();
             //#endif
 

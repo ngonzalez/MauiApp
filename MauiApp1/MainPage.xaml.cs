@@ -260,8 +260,7 @@ namespace MauiApp1
 
             SelectedFolders.Add(selectedFolder);
 
-            var ids = SelectedFolders.Select(x => x.id);
-
+            //await DisplayAlert("Folder", JsonSerializer.Serialize(selectedFolder), "OK");
         }
         public void accountLinkClicked(object sender, EventArgs e)
         {
