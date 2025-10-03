@@ -29,16 +29,18 @@
             <Grid MinimumHeightRequest="300">
                 <ScrollView x:Name="scrollView"
                     Grid.Row="1"
-                    VerticalOptions="Fill">
+                    VerticalOptions="Fill"
+                    Scrolled="OnScrollViewScrolled">
 
                     <CollectionView ItemsSource="{Binding ImageFiles}"
-                                SelectionMode="Single"
-                                SelectionChanged="ImageFilesSelectionChanged"
-                                SelectedItems="{Binding SelectedImageFiles}">
+                                    SelectionMode="Single"
+                                    SelectionChanged="ImageFilesSelectionChanged"
+                                    SelectedItems="{Binding SelectedImageFiles}">
+
                         <CollectionView.EmptyView>
                             <Label Text="No data found."
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -52,17 +54,30 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <HorizontalStackLayout>
-                                        <Label Grid.Row="0"
-                                       Grid.Column="1"
-                                       Text="{Binding fileName}"
-                                       FontAttributes="Bold"
-                                       FontSize="20"
-                                       Padding="10" />
-                                        <Label Grid.Row="0"
-                                       Grid.Column="1"
-                                       Text="{Binding fileUrl}"
-                                       FontSize="20"
-                                       Padding="10" />
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Text="{Binding fileName}"
+                                            Clicked="displayImage"
+                                            TextColor="FloralWhite"
+                                            BackgroundColor="Transparent"
+                                            FontSize="20"
+                                            Padding="10">
+                                            <Button.ImageSource>
+                                                <FontImageSource
+                                                    FontFamily="FontAwesome7FreeSolid"
+                                                    Glyph="{StaticResource IconImage}"
+                                                    Size="20"
+                                                    Color="LightGray" />
+                                            </Button.ImageSource>
+                                        </Button>
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Clicked="displayImage"
+                                            BackgroundColor="Transparent"
+                                            MinimumWidthRequest="600">
+                                        </Button>
                                     </HorizontalStackLayout>
                                 </Grid>
                             </DataTemplate>
@@ -70,7 +85,6 @@
                     </CollectionView>
                 </ScrollView>
             </Grid>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

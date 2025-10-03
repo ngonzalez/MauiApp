@@ -66,6 +66,13 @@ public partial class DisplayItemPage : ContentPage
     {
         Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
     }
+    public async void displayImage(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        ImageFile imageFile = (ImageFile)button.BindingContext;
+        Window secondWindow = new Window(new DisplayImagePage(_apiService, _appShellViewModel, imageFile));
+        App.Current.OpenWindow(secondWindow);
+    }
 
     public async void ImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -73,7 +80,7 @@ public partial class DisplayItemPage : ContentPage
 
         SelectedImageFiles.Add(selectedImageFile);
 
-        var ids = SelectedImageFiles.Select(x => x.id);
+        //await DisplayAlert("Login", JsonSerializer.Serialize(selectedImageFile), "OK");
 
     }
 }
