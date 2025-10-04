@@ -15,25 +15,75 @@
                 Padding="10" />
 
             <Label
-                x:Name="imageFilesCount"
-                FontSize="20"
-                HorizontalOptions="Center"
-                Padding="10" />
-
-            <Label
                 x:Name="selectedImagesList"
                 FontSize="20"
                 HorizontalOptions="Center"
                 Padding="10" />
 
+            <Grid>
+                <ScrollView x:Name="scrollViewSelectedImagesList" Grid.Row="0" VerticalOptions="Fill">
+                    <CollectionView ItemsSource="{Binding SelectedImageFiles}"
+                                    SelectionMode="Multiple"
+                                    SelectionChanged="SelectedImageFilesSelectionChanged">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <HorizontalStackLayout>
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Text="{Binding fileUrl}"
+                                            Clicked="removeImageFromSelection"
+                                            TextColor="FloralWhite"
+                                            BackgroundColor="Transparent"
+                                            FontSize="15"
+                                            Padding="10">
+                                            <Button.ImageSource>
+                                                <FontImageSource
+                                                    FontFamily="FontAwesome7FreeSolid"
+                                                    Glyph="{StaticResource IconImage}"
+                                                    Size="15"
+                                                    Color="LightGray" />
+                                            </Button.ImageSource>
+                                        </Button>
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Clicked="removeImageFromSelection"
+                                            BackgroundColor="Transparent"
+                                            MinimumWidthRequest="600">
+                                        </Button>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
+            </Grid>
+
+            <Label
+                x:Name="imageFilesCount"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Padding="10" />
+
             <Grid MinimumHeightRequest="300">
-                <ScrollView x:Name="scrollView"
+                <ScrollView x:Name="scrollViewImagesList"
                     Grid.Row="1"
                     VerticalOptions="Fill"
                     Scrolled="OnScrollViewScrolled">
 
                     <CollectionView ItemsSource="{Binding ImageFiles}"
-                                    SelectionMode="Single"
+                                    SelectionMode="Multiple"
                                     SelectionChanged="ImageFilesSelectionChanged"
                                     SelectedItems="{Binding SelectedImageFiles}">
 
@@ -58,23 +108,23 @@
                                             Grid.Row="0"
                                             Grid.Column="1"
                                             Text="{Binding fileName}"
-                                            Clicked="displayImage"
+                                            Clicked="addImageToSelection"
                                             TextColor="FloralWhite"
                                             BackgroundColor="Transparent"
-                                            FontSize="20"
+                                            FontSize="15"
                                             Padding="10">
                                             <Button.ImageSource>
                                                 <FontImageSource
                                                     FontFamily="FontAwesome7FreeSolid"
                                                     Glyph="{StaticResource IconImage}"
-                                                    Size="20"
+                                                    Size="15"
                                                     Color="LightGray" />
                                             </Button.ImageSource>
                                         </Button>
                                         <Button
                                             Grid.Row="0"
                                             Grid.Column="2"
-                                            Clicked="displayImage"
+                                            Clicked="addImageToSelection"
                                             BackgroundColor="Transparent"
                                             MinimumWidthRequest="600">
                                         </Button>
