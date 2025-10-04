@@ -21,7 +21,7 @@
                         FontFamily="FontAwesome7FreeSolid"
                         Glyph="{StaticResource IconCircleArrowLeft}"
                         Size="20"
-                        Color="Grey" />
+                        Color="FloralWhite" />
                 </Button.ImageSource>
             </Button>
 
@@ -72,7 +72,21 @@
                     x:Name="progressBar"/>
             </Grid>
 
-            <Grid MinimumHeightRequest="500">
+            <Grid>
+                <Rectangle
+                    BackgroundColor="Transparent"
+                    HeightRequest="50">
+                </Rectangle>
+                <Label
+                    x:Name="foldersCount"
+                    FontSize="20"
+                    BackgroundColor="Transparent"
+                    TextColor="FloralWhite"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"></Label>
+            </Grid>
+
+            <Grid MinimumHeightRequest="500" Padding="10">
                 <ActivityIndicator x:Name="ActivityIndicator" />
                 <ScrollView x:Name="scrollView"
                     Grid.Row="1"
@@ -107,8 +121,8 @@
                                                 <FontImageSource
                                                     FontFamily="FontAwesome7FreeSolid"
                                                     Glyph="{StaticResource IconFolder}"
-                                                    Size="20"
-                                                    Color="LightGray" />
+                                                    Size="30"
+                                                    Color="LightGrey" />
                                             </Button.ImageSource>
                                         </Button>
                                         <Button
@@ -116,7 +130,7 @@
                                             Grid.Column="2"
                                             Clicked="displayFiles"
                                             BackgroundColor="Transparent"
-                                            MinimumWidthRequest="600">
+                                            MinimumWidthRequest="1000">
                                         </Button>
                                     </HorizontalStackLayout>
                                 </Grid>
@@ -137,15 +151,14 @@
                     HorizontalOptions="Center">
                     <Button.ImageSource>
                         <FontImageSource
-                            FontFamily="FontAwesome7FreeRegular"
+                            FontFamily="FontAwesome7FreeSolid"
                             Glyph="{StaticResource IconSun}"
                             Size="15"
-                            Color="Grey" />
+                            Color="FloralWhite" />
                     </Button.ImageSource>
                 </Button>
             </Grid>
 
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

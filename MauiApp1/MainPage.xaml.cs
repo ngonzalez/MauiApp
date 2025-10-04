@@ -1,4 +1,5 @@
 ﻿using MauiApp1.Platforms.Windows;
+using Microsoft.Maui;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Storage;
@@ -249,6 +250,8 @@ namespace MauiApp1
             }
 
             ActivityIndicator.IsRunning = false;
+
+            foldersCount.Text = Convert.ToString(Folders.Count() + " folders");
         }
         public int getUploadFilesCount()
         {
@@ -259,8 +262,6 @@ namespace MauiApp1
             Folder selectedFolder = e.CurrentSelection.FirstOrDefault() as Folder;
 
             SelectedFolders.Add(selectedFolder);
-
-            //await DisplayAlert("Folder", JsonSerializer.Serialize(selectedFolder), "OK");
         }
         public void accountLinkClicked(object sender, EventArgs e)
         {
