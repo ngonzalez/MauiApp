@@ -5,8 +5,8 @@
 
     <ScrollView>
         <VerticalStackLayout
-        Padding="30,0"
-        Spacing="25">
+            Padding="30,0"
+            Spacing="25">
 
             <Label
                 x:Name="folderName"
@@ -21,10 +21,15 @@
                 Padding="10" />
 
             <Grid>
-                <ScrollView x:Name="scrollViewSelectedImagesList" Grid.Row="0" VerticalOptions="Fill">
-                    <CollectionView ItemsSource="{Binding SelectedImageFiles}"
-                                    SelectionMode="Multiple"
-                                    SelectionChanged="SelectedImageFilesSelectionChanged">
+                <ScrollView
+                    x:Name="scrollViewSelectedImagesList"
+                    Grid.Row="0"
+                    VerticalOptions="Fill">
+
+                    <CollectionView
+                        ItemsSource="{Binding SelectedImageFiles}"
+                        SelectionMode="Multiple"
+                        SelectionChanged="SelectedImageFilesSelectionChanged">
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -38,6 +43,12 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <HorizontalStackLayout>
+                                        <Image MaximumWidthRequest="500">
+                                            <Image.Source>
+                                                <UriImageSource
+                                                    Uri="{Binding fileUrl}" />
+                                            </Image.Source>
+                                        </Image>
                                         <Button
                                             Grid.Row="0"
                                             Grid.Column="1"
@@ -49,10 +60,10 @@
                                             Padding="10">
                                             <Button.ImageSource>
                                                 <FontImageSource
-                                                    FontFamily="FontAwesome7FreeSolid"
+                                                    FontFamily="FontAwesome7FreeRegular"
                                                     Glyph="{StaticResource IconImage}"
-                                                    Size="15"
-                                                    Color="LightGray" />
+                                                    Size="20"
+                                                    Color="FloralWhite" />
                                             </Button.ImageSource>
                                         </Button>
                                         <Button
@@ -77,20 +88,23 @@
                 Padding="10" />
 
             <Grid MinimumHeightRequest="300">
-                <ScrollView x:Name="scrollViewImagesList"
+                <ScrollView
+                    x:Name="scrollViewImagesList"
                     Grid.Row="1"
                     VerticalOptions="Fill"
                     Scrolled="OnScrollViewScrolled">
 
-                    <CollectionView ItemsSource="{Binding ImageFiles}"
-                                    SelectionMode="Multiple"
-                                    SelectionChanged="ImageFilesSelectionChanged"
-                                    SelectedItems="{Binding SelectedImageFiles}">
+                    <CollectionView
+                        ItemsSource="{Binding ImageFiles}"
+                        SelectionMode="Multiple"
+                        SelectionChanged="ImageFilesSelectionChanged"
+                        SelectedItems="{Binding SelectedImageFiles}">
 
                         <CollectionView.EmptyView>
-                            <Label Text="No data found."
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center" />
+                            <Label
+                                Text="No data found."
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -115,10 +129,10 @@
                                             Padding="10">
                                             <Button.ImageSource>
                                                 <FontImageSource
-                                                    FontFamily="FontAwesome7FreeSolid"
+                                                    FontFamily="FontAwesome7FreeRegular"
                                                     Glyph="{StaticResource IconImage}"
-                                                    Size="15"
-                                                    Color="LightGray" />
+                                                    Size="20"
+                                                    Color="FloralWhite" />
                                             </Button.ImageSource>
                                         </Button>
                                         <Button
@@ -126,7 +140,7 @@
                                             Grid.Column="2"
                                             Clicked="addImageToSelection"
                                             BackgroundColor="Transparent"
-                                            MinimumWidthRequest="600">
+                                            MinimumWidthRequest="1000">
                                         </Button>
                                     </HorizontalStackLayout>
                                 </Grid>
