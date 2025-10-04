@@ -66,19 +66,58 @@ public partial class DisplayItemPage : ContentPage
     {
         Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
     }
-    public async void displayImage(object sender, EventArgs e)
+
+    public async void removeImageFromSelection(object sender, EventArgs e)
     {
         Button button = (Button)sender;
         ImageFile imageFile = (ImageFile)button.BindingContext;
-        Window secondWindow = new Window(new DisplayImagePage(_apiService, _appShellViewModel, imageFile));
-        App.Current.OpenWindow(secondWindow);
+        bool found = false;
+        int i = 0;
+        foreach (ImageFile _imageFile in SelectedImageFiles)
+        {
+            if (_imageFile.id == imageFile.id)
+            {
+                found = true;
+                SelectedImageFiles.RemoveAt(i);
+                break;
+            }
+            i += 1;
+        }
+        selectedImagesList.Text = Convert.ToString(SelectedImageFiles.Count()) + " selected";
+        //await DisplayAlert("Login", JsonSerializer.Serialize(imageFile), "OK");
+    }
+    public async void addImageToSelection(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        ImageFile imageFile = (ImageFile)button.BindingContext;
+        bool found = false;
+        foreach(ImageFile _imageFile in SelectedImageFiles)
+        {
+            if (_imageFile.id == imageFile.id)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            SelectedImageFiles.Add(imageFile);
+        }
+        selectedImagesList.Text = Convert.ToString(SelectedImageFiles.Count()) + " selected";
+        //await DisplayAlert("Login", JsonSerializer.Serialize(imageFile), "OK");
+    }
+
+    public async void SelectedImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ImageFile selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
+
+        //await DisplayAlert("Login", JsonSerializer.Serialize(selectedImageFile), "OK");
+
     }
 
     public async void ImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         ImageFile selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
-
-        SelectedImageFiles.Add(selectedImageFile);
 
         //await DisplayAlert("Login", JsonSerializer.Serialize(selectedImageFile), "OK");
 
