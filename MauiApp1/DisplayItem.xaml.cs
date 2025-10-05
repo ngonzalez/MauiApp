@@ -64,7 +64,7 @@ public partial class DisplayItemPage : ContentPage
 
     public async void OnScrollViewScrolled(object sender, ScrolledEventArgs e)
     {
-        Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
+        // Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
     }
 
     public async void removeImageFromSelection(object sender, EventArgs e)
@@ -84,7 +84,6 @@ public partial class DisplayItemPage : ContentPage
             i += 1;
         }
         selectedImagesList.Text = Convert.ToString(SelectedImageFiles.Count()) + " selected";
-        //await DisplayAlert("Login", JsonSerializer.Serialize(imageFile), "OK");
     }
     public async void addImageToSelection(object sender, EventArgs e)
     {
@@ -104,22 +103,17 @@ public partial class DisplayItemPage : ContentPage
             SelectedImageFiles.Add(imageFile);
         }
         selectedImagesList.Text = Convert.ToString(SelectedImageFiles.Count()) + " selected";
-        //await DisplayAlert("Login", JsonSerializer.Serialize(imageFile), "OK");
     }
 
     public async void SelectedImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        ImageFile selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
-
-        //await DisplayAlert("Login", JsonSerializer.Serialize(selectedImageFile), "OK");
+        ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
 
     }
 
     public async void ImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        ImageFile selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
-
-        //await DisplayAlert("Login", JsonSerializer.Serialize(selectedImageFile), "OK");
+        ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
 
     }
 }

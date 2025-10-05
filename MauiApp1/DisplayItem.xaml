@@ -87,67 +87,91 @@
                 HorizontalOptions="Center"
                 Padding="10" />
 
-            <Grid MinimumHeightRequest="300">
-                <ScrollView
-                    x:Name="scrollViewImagesList"
-                    Grid.Row="1"
-                    VerticalOptions="Fill"
-                    Scrolled="OnScrollViewScrolled">
+            <Grid>
+                <Frame
+                    BorderColor="Black"
+                    CornerRadius="5"
+                    Shadow="#000000 4 4">
 
-                    <CollectionView
-                        ItemsSource="{Binding ImageFiles}"
-                        SelectionMode="Multiple"
-                        SelectionChanged="ImageFilesSelectionChanged"
-                        SelectedItems="{Binding SelectedImageFiles}">
+                    <ScrollView
+                        x:Name="scrollViewImagesList"
+                        MinimumHeightRequest="500"
+                        MaximumHeightRequest="500">
 
-                        <CollectionView.EmptyView>
-                            <Label
-                                Text="No data found."
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center" />
-                        </CollectionView.EmptyView>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <HorizontalStackLayout>
-                                        <Button
-                                            Grid.Row="0"
-                                            Grid.Column="1"
-                                            Text="{Binding fileName}"
-                                            Clicked="addImageToSelection"
-                                            TextColor="FloralWhite"
-                                            BackgroundColor="Transparent"
-                                            FontSize="15"
-                                            Padding="10">
-                                            <Button.ImageSource>
-                                                <FontImageSource
+                        <CollectionView
+                            ItemsSource="{Binding ImageFiles}"
+                            SelectionMode="Multiple"
+                            SelectionChanged="ImageFilesSelectionChanged"
+                            SelectedItems="{Binding SelectedImageFiles}">
+
+                            <CollectionView.EmptyView>
+                                <Label
+                                    Text="No data found."
+                                    FontSize="20"
+                                    BackgroundColor="Transparent"
+                                    TextColor="FloralWhite"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" />
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <HorizontalStackLayout>
+                                            <Button
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Text="{Binding fileName}"
+                                                Clicked="addImageToSelection"
+                                                TextColor="FloralWhite"
+                                                BackgroundColor="Transparent"
+                                                FontSize="15"
+                                                Padding="10">
+                                                <Button.ImageSource>
+                                                    <FontImageSource
                                                     FontFamily="FontAwesome7FreeRegular"
                                                     Glyph="{StaticResource IconImage}"
                                                     Size="20"
                                                     Color="FloralWhite" />
-                                            </Button.ImageSource>
-                                        </Button>
-                                        <Button
-                                            Grid.Row="0"
-                                            Grid.Column="2"
-                                            Clicked="addImageToSelection"
-                                            BackgroundColor="Transparent"
-                                            MinimumWidthRequest="1000">
-                                        </Button>
-                                    </HorizontalStackLayout>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </ScrollView>
+                                                </Button.ImageSource>
+                                            </Button>
+                                            <Button
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Text="{Binding mimeType}"
+                                                Clicked="addImageToSelection"
+                                                TextColor="LightGrey"
+                                                BackgroundColor="Transparent"
+                                                FontSize="15"
+                                                Padding="10">
+                                            </Button>
+                                            <Button
+                                                Grid.Row="0"
+                                                Grid.Column="3"
+                                                Clicked="addImageToSelection"
+                                                BackgroundColor="Transparent"
+                                                MinimumWidthRequest="1000">
+                                            </Button>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ScrollView>
+                </Frame>
+            </Grid>
+            <Grid>
+                <Rectangle
+                    BackgroundColor="Transparent"
+                    HeightRequest="100">
+                </Rectangle>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
