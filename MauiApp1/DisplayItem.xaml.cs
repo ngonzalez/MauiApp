@@ -6,6 +6,7 @@ using System.Net.Http.Json;
 using System.Net.Mail;
 using System.Text.Json;
 using Windows.Services.Maps;
+using Windows.System.UserProfile;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MauiApp1;
@@ -67,53 +68,108 @@ public partial class DisplayItemPage : ContentPage
         // Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
     }
 
+    public async void previousLinkClicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        ImageFile imageFile = (ImageFile)button.BindingContext;
+
+        while (SelectedImageFiles.Count() > 0)
+        {
+            SelectedImageFiles.RemoveAt(0);
+        }
+
+        try
+        {
+            ImageFile nextImageFile = ImageFiles[ImageFiles.IndexOf(imageFile) - 1];
+
+            foreach (ImageFile _imageFile in ImageFiles)
+            {
+                if (_imageFile.id == nextImageFile.id)
+                {
+                    SelectedImageFiles.Add(_imageFile);
+                    break;
+                }
+            }
+        } catch
+        {
+
+        }
+    }
+
+    public async void nextLinkClicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        ImageFile imageFile = (ImageFile)button.BindingContext;
+
+        while (SelectedImageFiles.Count() > 0)
+        {
+            SelectedImageFiles.RemoveAt(0);
+        }
+
+        try
+        {
+            ImageFile nextImageFile = ImageFiles[ImageFiles.IndexOf(imageFile) + 1];
+
+            foreach (ImageFile _imageFile in ImageFiles)
+            {
+                if (_imageFile.id == nextImageFile.id)
+                {
+                    SelectedImageFiles.Add(_imageFile);
+                    break;
+                }
+            }
+        }
+        catch
+        {
+
+        }
+    }
+
     public async void removeImageFromSelection(object sender, EventArgs e)
     {
         Button button = (Button)sender;
         ImageFile imageFile = (ImageFile)button.BindingContext;
-        bool found = false;
         int i = 0;
         foreach (ImageFile _imageFile in SelectedImageFiles)
         {
             if (_imageFile.id == imageFile.id)
             {
-                found = true;
                 SelectedImageFiles.RemoveAt(i);
                 break;
             }
             i += 1;
         }
-        selectedImagesList.Text = Convert.ToString(SelectedImageFiles.Count()) + " selected";
     }
+
     public async void addImageToSelection(object sender, EventArgs e)
     {
         Button button = (Button)sender;
         ImageFile imageFile = (ImageFile)button.BindingContext;
-        bool found = false;
-        foreach(ImageFile _imageFile in SelectedImageFiles)
+
+        while (SelectedImageFiles.Count() > 0)
+        {
+            SelectedImageFiles.RemoveAt(0);
+        }
+
+        foreach (ImageFile _imageFile in SelectedImageFiles)
         {
             if (_imageFile.id == imageFile.id)
             {
-                found = true;
+                SelectedImageFiles.Add(_imageFile);
                 break;
             }
         }
-        if (!found)
-        {
-            SelectedImageFiles.Add(imageFile);
-        }
-        selectedImagesList.Text = Convert.ToString(SelectedImageFiles.Count()) + " selected";
+
+        SelectedImageFiles.Add(imageFile);
     }
 
     public async void SelectedImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
-
     }
 
     public async void ImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
-
     }
 }

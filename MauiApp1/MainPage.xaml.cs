@@ -27,16 +27,16 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 public static class MimeTypeMapper
 {
     private static readonly IDictionary<string, string> _mappings =
-        new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+        new Dictionary<string, string>()
         {
             /* DOCUMENTS */
             { ".pdf", "application/pdf" },
             { ".md", "text/markdown" },
-            { "txt", "text/plain" },
+            { ".txt", "text/plain" },
 
             /* JPEG */
-            {".jpg", "image/jpeg"},
-            {".jpeg", "image/jpeg"},
+            { ".jpg", "image/jpeg" },
+            { ".jpeg", "image/jpeg" },
 
             /* FLAC */
             { ".flac", "audio/flac" },

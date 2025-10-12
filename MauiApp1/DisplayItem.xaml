@@ -5,174 +5,273 @@
 
     <ScrollView>
         <VerticalStackLayout
-            Padding="30,0"
+            Padding="30"
             Spacing="25">
 
-            <Label
-                x:Name="folderName"
-                FontSize="20"
-                HorizontalOptions="Center"
-                Padding="10" />
-
-            <Label
-                x:Name="selectedImagesList"
-                FontSize="20"
-                HorizontalOptions="Center"
-                Padding="10" />
-
             <Grid>
-                <ScrollView
-                    x:Name="scrollViewSelectedImagesList"
-                    Grid.Row="0"
-                    VerticalOptions="Fill">
+                <HorizontalStackLayout Padding="50">
+                    <VerticalStackLayout MinimumWidthRequest="400">
+                        <ScrollView
+                            x:Name="scrollViewSelectedImagesList"
+                            Grid.Row="0"
+                            VerticalOptions="Fill">
 
-                    <CollectionView
-                        ItemsSource="{Binding SelectedImageFiles}"
-                        SelectionMode="Multiple"
-                        SelectionChanged="SelectedImageFilesSelectionChanged">
+                            <CollectionView
+                                ItemsSource="{Binding SelectedImageFiles}"
+                                SelectionMode="Multiple"
+                                SelectionChanged="SelectedImageFilesSelectionChanged">
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <HorizontalStackLayout>
-                                        <Image MaximumWidthRequest="500">
-                                            <Image.Source>
-                                                <UriImageSource
-                                                    Uri="{Binding fileUrl}" />
-                                            </Image.Source>
-                                        </Image>
-                                        <Button
-                                            Grid.Row="0"
-                                            Grid.Column="1"
-                                            Text="{Binding fileUrl}"
-                                            Clicked="removeImageFromSelection"
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <HorizontalStackLayout>
+                                                <VerticalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Remove from selection"
+                                                            Clicked="removeImageFromSelection"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource Iconx}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Previous"
+                                                            Clicked="previousLinkClicked"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="250"
+                                                            MaximumWidthRequest="250">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconArrowLeft}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+
+                                                        <Button
+                                                            Text="Next"
+                                                            Clicked="nextLinkClicked"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="250"
+                                                            MaximumWidthRequest="250">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconArrowRight}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="{Binding fileName}"
+                                                            x:Name="fileNameButton"
+                                                            TextColor="FloralWhite"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconFile}"
+                                                                    Size="20"
+                                                                    Color="FloralWhite" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Image
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500"
+                                                            HorizontalOptions="Center"
+                                                            VerticalOptions="Center">
+                                                            <Image.Source>
+                                                                <UriImageSource
+                                                                    Uri="{Binding fileUrl}" />
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Frame
+                                                            BorderColor="Transparent"
+                                                            Opacity="0.8"
+                                                            BackgroundColor="Transparent">
+                                                            <ScrollView
+                                                                x:Name="scrollView"
+                                                                MinimumHeightRequest="300"
+                                                                MaximumHeightRequest="300"
+                                                                MinimumWidthRequest="500"
+                                                                MaximumWidthRequest="500"
+                                                                HorizontalOptions="Center"
+                                                                VerticalOptions="Center">
+                                                                <TableView Intent="Menu">
+                                                                    <TableRoot>
+                                                                        <TableSection>
+                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
+                                                                            <TextCell Text="Dimensions:" Detail="{Binding dimensions}" />
+                                                                            <TextCell Text="Megapixels:" Detail="{Binding megapixels}" />
+                                                                        </TableSection>
+                                                                    </TableRoot>
+                                                                </TableView>
+                                                            </ScrollView>
+                                                        </Frame>
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="500">
+                        <Frame
+                            BorderColor="Black"
+                            CornerRadius="5">
+
+                            <ScrollView
+                                x:Name="scrollViewImagesList"
+                                MinimumHeightRequest="700"
+                                MaximumHeightRequest="750">
+
+                                <CollectionView
+                                    ItemsSource="{Binding ImageFiles}"
+                                    SelectionMode="Multiple"
+                                    SelectionChanged="ImageFilesSelectionChanged"
+                                    SelectedItems="{Binding SelectedImageFiles}">
+
+                                    <CollectionView.EmptyView>
+                                        <Label
+                                            Text="No data found."
+                                            FontSize="20"
+                                            BackgroundColor="Transparent"
                                             TextColor="FloralWhite"
-                                            BackgroundColor="Transparent"
-                                            FontSize="15"
-                                            Padding="10">
-                                            <Button.ImageSource>
-                                                <FontImageSource
-                                                    FontFamily="FontAwesome7FreeRegular"
-                                                    Glyph="{StaticResource IconImage}"
-                                                    Size="20"
-                                                    Color="FloralWhite" />
-                                            </Button.ImageSource>
-                                        </Button>
-                                        <Button
-                                            Grid.Row="0"
-                                            Grid.Column="2"
-                                            Clicked="removeImageFromSelection"
-                                            BackgroundColor="Transparent"
-                                            MinimumWidthRequest="600">
-                                        </Button>
-                                    </HorizontalStackLayout>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </ScrollView>
-            </Grid>
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <HorizontalStackLayout>
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Text="{Binding fileName}"
+                                                        Clicked="addImageToSelection"
+                                                        TextColor="FloralWhite"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                        <Button.ImageSource>
+                                                            <FontImageSource
+                                                                FontFamily="FontAwesome7FreeRegular"
+                                                                Glyph="{StaticResource IconImage}"
+                                                                Size="20"
+                                                                Color="FloralWhite" />
+                                                        </Button.ImageSource>
+                                                    </Button>
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Text="{Binding mimeType}"
+                                                        Clicked="addImageToSelection"
+                                                        TextColor="LightGrey"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                    </Button>
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="3"
+                                                        Clicked="addImageToSelection"
+                                                        BackgroundColor="Transparent"
+                                                        MinimumWidthRequest="1000">
+                                                    </Button>
+                                                </HorizontalStackLayout>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </ScrollView>
+                        </Frame>
 
-            <Label
-                x:Name="imageFilesCount"
-                FontSize="20"
-                HorizontalOptions="Center"
-                Padding="10" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Grid>
 
             <Grid>
-                <Frame
-                    BorderColor="Black"
-                    CornerRadius="5"
-                    Shadow="#000000 4 4">
-
-                    <ScrollView
-                        x:Name="scrollViewImagesList"
-                        MinimumHeightRequest="500"
-                        MaximumHeightRequest="500">
-
-                        <CollectionView
-                            ItemsSource="{Binding ImageFiles}"
-                            SelectionMode="Multiple"
-                            SelectionChanged="ImageFilesSelectionChanged"
-                            SelectedItems="{Binding SelectedImageFiles}">
-
-                            <CollectionView.EmptyView>
-                                <Label
-                                    Text="No data found."
-                                    FontSize="20"
-                                    BackgroundColor="Transparent"
-                                    TextColor="FloralWhite"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center" />
-                            </CollectionView.EmptyView>
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Padding="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <HorizontalStackLayout>
-                                            <Button
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                Text="{Binding fileName}"
-                                                Clicked="addImageToSelection"
-                                                TextColor="FloralWhite"
-                                                BackgroundColor="Transparent"
-                                                FontSize="15"
-                                                Padding="10">
-                                                <Button.ImageSource>
-                                                    <FontImageSource
-                                                    FontFamily="FontAwesome7FreeRegular"
-                                                    Glyph="{StaticResource IconImage}"
-                                                    Size="20"
-                                                    Color="FloralWhite" />
-                                                </Button.ImageSource>
-                                            </Button>
-                                            <Button
-                                                Grid.Row="0"
-                                                Grid.Column="2"
-                                                Text="{Binding mimeType}"
-                                                Clicked="addImageToSelection"
-                                                TextColor="LightGrey"
-                                                BackgroundColor="Transparent"
-                                                FontSize="15"
-                                                Padding="10">
-                                            </Button>
-                                            <Button
-                                                Grid.Row="0"
-                                                Grid.Column="3"
-                                                Clicked="addImageToSelection"
-                                                BackgroundColor="Transparent"
-                                                MinimumWidthRequest="1000">
-                                            </Button>
-                                        </HorizontalStackLayout>
-                                    </Grid>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </ScrollView>
-                </Frame>
+                <HorizontalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="300">
+                        <Label
+                            x:Name="folderName"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="300">
+                        <Label
+                            x:Name="selectedImagesCount"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="300">
+                        <Label
+                            x:Name="imageFilesCount"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
             </Grid>
-            <Grid>
-                <Rectangle
-                    BackgroundColor="Transparent"
-                    HeightRequest="100">
-                </Rectangle>
-            </Grid>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
