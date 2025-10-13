@@ -11,6 +11,7 @@
             <Grid>
                 <HorizontalStackLayout>
                     <Image
+                        MaximumWidthRequest="1100"
                         HorizontalOptions="Center"
                         VerticalOptions="Center">
                         <Image.Source>

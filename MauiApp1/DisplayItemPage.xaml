@@ -35,25 +35,23 @@
                                             <HorizontalStackLayout>
                                                 <VerticalStackLayout>
                                                     <HorizontalStackLayout>
-                                                        <VerticalStackLayout>
-                                                            <Button
-                                                                Text="Open in new Window"
-                                                                Clicked="openNewWindow"
-                                                                TextColor="Grey"
-                                                                BackgroundColor="Transparent"
-                                                                FontSize="20"
-                                                                Padding="10"
-                                                                MinimumWidthRequest="500"
-                                                                MaximumWidthRequest="500">
-                                                                <Button.ImageSource>
-                                                                    <FontImageSource
-                                                                        FontFamily="FontAwesome7FreeSolid"
-                                                                        Glyph="{StaticResource IconClone}"
-                                                                        Size="20"
-                                                                        Color="Grey" />
-                                                                </Button.ImageSource>
-                                                            </Button>
-                                                        </VerticalStackLayout>
+                                                        <Button
+                                                            Text="Open in new Window"
+                                                            Clicked="openNewWindow"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconClone}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
@@ -125,34 +123,32 @@
                                                         </Image>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
-                                                        <VerticalStackLayout>
-                                                            <Frame
-                                                                BorderColor="Transparent"
-                                                                Opacity="0.8"
-                                                                BackgroundColor="Transparent">
-                                                                <ScrollView
-                                                                    x:Name="scrollView"
-                                                                    MinimumHeightRequest="300"
-                                                                    MaximumHeightRequest="300"
-                                                                    MinimumWidthRequest="500"
-                                                                    MaximumWidthRequest="500"
-                                                                    HorizontalOptions="Center"
-                                                                    VerticalOptions="Center">
-                                                                    <TableView Intent="Menu">
-                                                                        <TableRoot>
-                                                                            <TableSection>
-                                                                                <TextCell Text="Filename:" Detail="{Binding fileName}" />
-                                                                                <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
-                                                                                <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
-                                                                                <TextCell Text="File Size:" Detail="{Binding fileSize}" />
-                                                                                <TextCell Text="Dimensions:" Detail="{Binding dimensions}" />
-                                                                                <TextCell Text="Megapixels:" Detail="{Binding megapixels}" />
-                                                                            </TableSection>
-                                                                        </TableRoot>
-                                                                    </TableView>
-                                                                </ScrollView>
-                                                            </Frame>
-                                                        </VerticalStackLayout>
+                                                        <Frame
+                                                            BorderColor="Transparent"
+                                                            Opacity="0.8"
+                                                            BackgroundColor="Transparent">
+                                                            <ScrollView
+                                                                x:Name="scrollView"
+                                                                MinimumHeightRequest="300"
+                                                                MaximumHeightRequest="300"
+                                                                MinimumWidthRequest="500"
+                                                                MaximumWidthRequest="500"
+                                                                HorizontalOptions="Center"
+                                                                VerticalOptions="Center">
+                                                                <TableView Intent="Menu">
+                                                                    <TableRoot>
+                                                                        <TableSection Title="Parameters">
+                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
+                                                                            <TextCell Text="Dimensions:" Detail="{Binding dimensions}" />
+                                                                            <TextCell Text="Megapixels:" Detail="{Binding megapixels}" />
+                                                                        </TableSection>
+                                                                    </TableRoot>
+                                                                </TableView>
+                                                            </ScrollView>
+                                                        </Frame>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
@@ -205,6 +201,7 @@
                                             TextColor="FloralWhite"
                                             HorizontalOptions="Center"
                                             VerticalOptions="Center" />
+
                                     </CollectionView.EmptyView>
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
@@ -235,6 +232,7 @@
                                                                 Color="FloralWhite" />
                                                         </Button.ImageSource>
                                                     </Button>
+
                                                     <Button
                                                         Grid.Row="0"
                                                         Grid.Column="2"
@@ -245,6 +243,7 @@
                                                         FontSize="15"
                                                         Padding="10">
                                                     </Button>
+
                                                     <Button
                                                         Grid.Row="0"
                                                         Grid.Column="3"
@@ -258,14 +257,14 @@
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
                             </ScrollView>
-
                         </Frame>
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
             </Grid>
+
             <Grid>
                 <HorizontalStackLayout>
-                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="300">
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
                         <Label
                             x:Name="folderName"
                             FontSize="20"
@@ -274,16 +273,9 @@
                             BackgroundColor="Transparent"
                             Padding="10" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="300">
-                        <Label
-                            x:Name="selectedImagesCount"
-                            FontSize="20"
-                            HorizontalOptions="Center"
-                            TextColor="FloralWhite"
-                            BackgroundColor="Transparent"
-                            Padding="10" />
+                    <VerticalStackLayout MinimumWidthRequest="200" MaximumWidthRequest="200">
                     </VerticalStackLayout>
-                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="300">
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
                         <Label
                             x:Name="imageFilesCount"
                             FontSize="20"
@@ -294,6 +286,7 @@
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
             </Grid>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

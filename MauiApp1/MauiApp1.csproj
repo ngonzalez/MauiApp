@@ -57,4 +57,13 @@
 		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="DisplayImagePage.xaml.cs">
+	    <DependentUpon>DisplayImagePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="DisplayItemPage.xaml.cs">
+	    <DependentUpon>DisplayItemPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>
