@@ -2,6 +2,7 @@ using MauiApp1.Platforms.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Net.Http.Json;
 using System.Net.Mail;
 using System.Text.Json;
@@ -17,7 +18,6 @@ public partial class DisplayImagePage : ContentPage
     private readonly AppShellViewModel _appShellViewModel;
 
     private ImageFile _imageFile;
-
     public DisplayImagePage(IApiService apiService, AppShellViewModel appShellViewModel, ImageFile imageFile)
     {
         _apiService = apiService;
@@ -25,7 +25,7 @@ public partial class DisplayImagePage : ContentPage
         _imageFile = imageFile;
         InitializeComponent();
         BindingContext = this;
-        imageFileUrl.Text = imageFile.fileUrl;
+        mainImage.Uri = new System.Uri(imageFile.fileUrl);
     }
 
 }
