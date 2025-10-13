@@ -63,6 +63,14 @@ public partial class DisplayItemPage : ContentPage
         imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " Images";
     }
 
+    public async void openNewWindow(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        ImageFile imageFile = (ImageFile)button.BindingContext;
+        Window secondWindow = new Window(new DisplayImagePage(_apiService, _appShellViewModel, imageFile));
+        App.Current.OpenWindow(secondWindow);
+    }
+
     public async void OnScrollViewScrolled(object sender, ScrolledEventArgs e)
     {
         // Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");

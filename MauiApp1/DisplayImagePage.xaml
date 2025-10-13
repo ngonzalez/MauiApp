@@ -9,10 +9,17 @@
         Spacing="25">
 
             <Grid>
-                <Label
-                    x:Name="imageFileUrl"></Label>
+                <HorizontalStackLayout>
+                    <Image
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Image.Source>
+                            <UriImageSource
+                                x:Name="mainImage" />
+                        </Image.Source>
+                    </Image>
+                </HorizontalStackLayout>
             </Grid>
-
 
         </VerticalStackLayout>
     </ScrollView>
