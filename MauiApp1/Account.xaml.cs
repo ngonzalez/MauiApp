@@ -31,6 +31,7 @@ public partial class AccountPage : ContentPage
         if (sessionID == null || sessionID == 0)
         {
             Shell.Current.GoToAsync("signin");
+            return;
         }
 
         InitializeComponent();
