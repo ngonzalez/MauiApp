@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="MauiApp1.DisplayItemPage"
-             Unloaded="DisplayItemPageUnloaded">
+             x:Class="MauiApp1.DisplayPage"
+             Unloaded="DisplayPageUnloaded">
 
     <ScrollView>
         <VerticalStackLayout
@@ -128,15 +128,13 @@
                                                         <Frame
                                                             BorderColor="Transparent"
                                                             Opacity="0.8"
-                                                            BackgroundColor="Transparent">
+                                                            BackgroundColor="Black">
                                                             <ScrollView
                                                                 x:Name="scrollView"
-                                                                MinimumHeightRequest="300"
-                                                                MaximumHeightRequest="300"
-                                                                MinimumWidthRequest="500"
-                                                                MaximumWidthRequest="500"
-                                                                HorizontalOptions="Center"
-                                                                VerticalOptions="Center">
+                                                                MinimumHeightRequest="400"
+                                                                MaximumHeightRequest="400"
+                                                                MinimumWidthRequest="450"
+                                                                MaximumWidthRequest="450">
                                                                 <TableView Intent="Menu">
                                                                     <TableRoot>
                                                                         <TableSection Title="Parameters">
@@ -299,7 +297,7 @@
 
             <Grid x:Name="GridVideoFiles">
                 <HorizontalStackLayout Padding="50">
-                    <VerticalStackLayout MinimumWidthRequest="400" MaximumHeightRequest="600">
+                    <VerticalStackLayout MinimumWidthRequest="400" MaximumHeightRequest="800">
                         <ScrollView
                             x:Name="scrollViewSelectedVideoFilesList"
                             Grid.Row="0"
@@ -445,18 +443,24 @@
                                                             Padding="20">
                                                             <ScrollView
                                                                 x:Name="scrollView"
-                                                                MinimumHeightRequest="300"
-                                                                MaximumHeightRequest="300"
-                                                                MinimumWidthRequest="500"
-                                                                MaximumWidthRequest="500"
-                                                                HorizontalOptions="Center"
-                                                                VerticalOptions="Center">
+                                                                MinimumHeightRequest="400"
+                                                                MaximumHeightRequest="400"
+                                                                MinimumWidthRequest="450"
+                                                                MaximumWidthRequest="450">
                                                                 <TableView Intent="Menu">
                                                                     <TableRoot>
                                                                         <TableSection Title="Parameters">
                                                                             <TextCell Text="Filename:" Detail="{Binding fileName}" />
                                                                             <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
                                                                             <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
+                                                                            <TextCell Text="Title:" Detail="{Binding title}" />
+                                                                            <TextCell Text="Length:" Detail="{Binding length}" />
+                                                                            <TextCell Text="Bitrate:" Detail="{Binding bitrate}" />
+                                                                            <TextCell Text="Frame Rate:" Detail="{Binding frameRate}" />
+                                                                            <TextCell Text="Width:" Detail="{Binding width}" />
+                                                                            <TextCell Text="Height:" Detail="{Binding height}" />
+                                                                            <TextCell Text="Aspect Ratio:" Detail="{Binding aspectRatio}" />
                                                                         </TableSection>
                                                                     </TableRoot>
                                                                 </TableView>

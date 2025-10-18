@@ -19,7 +19,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MauiApp1;
 
-public partial class DisplayItemPage : ContentPage
+public partial class DisplayPage : ContentPage
 {
     private readonly IApiService _apiService;
 
@@ -35,27 +35,36 @@ public partial class DisplayItemPage : ContentPage
 
     public ObservableCollection<VideoFile> SelectedVideoFiles { get; set; }
 
-    public DisplayItemPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
+    public DisplayPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
         _apiService = apiService;
         _appShellViewModel = appShellViewModel;
         _folder = folder;
+
+        // ImageFile collection
         ImageFiles = new ObservableCollection<ImageFile> { };
         SelectedImageFiles = new ObservableCollection<ImageFile> { };
+
+        // VideoFile collection
         VideoFiles = new ObservableCollection<VideoFile> { };
         SelectedVideoFiles = new ObservableCollection<VideoFile> { };
 
         InitializeComponent();
         BindingContext = this;
+
+        // Set folder name
         folderName1.Text = folder.name;
         folderName2.Text = folder.name;
-        getUploads();
 
+        // Set default visibility for grids
         GridImageFiles.IsVisible = false;
         GridImageFilesDetails.IsVisible = false;
         GridVideoFiles.IsVisible = false;
         GridVideoFilesDetails.IsVisible = false;
         GridMediaPlayer.IsVisible = false;
+
+        // Get media files from backend
+        getUploads();
     }
 
     public async void getUploads()
@@ -113,7 +122,7 @@ public partial class DisplayItemPage : ContentPage
     {
         Button button = (Button)sender;
         ImageFile imageFile = (ImageFile)button.BindingContext;
-        Window secondWindow = new Window(new DisplayImagePage(_apiService, _appShellViewModel, imageFile));
+        Window secondWindow = new Window(new ShowImageFilePage(_apiService, _appShellViewModel, imageFile));
         App.Current.OpenWindow(secondWindow);
     }
 
@@ -225,8 +234,8 @@ public partial class DisplayItemPage : ContentPage
         GridMediaPlayer.IsVisible = false;
         mediaElement.Stop();
         mediaElement.Source = null;
-        //Window secondWindow = new Window(new DisplayVideoPage(_apiService, _appShellViewModel, videoFile));
-        //App.Current.OpenWindow(secondWindow);
+        Window secondWindow = new Window(new ShowVideoFilePage(_apiService, _appShellViewModel, videoFile));
+        App.Current.OpenWindow(secondWindow);
     }
 
     public async void previousLinkVideoFileClicked(object sender, EventArgs e)
@@ -343,10 +352,9 @@ public partial class DisplayItemPage : ContentPage
         mediaElement.Source = new Uri("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
         mediaElement.Play();
     }
-    public void DisplayItemPageUnloaded(object? sender, EventArgs e)
+    public void DisplayPageUnloaded(object? sender, EventArgs e)
     {
         // Stop and cleanup MediaElement when we navigate away
         mediaElement.Handler?.DisconnectHandler();
     }
-
 }

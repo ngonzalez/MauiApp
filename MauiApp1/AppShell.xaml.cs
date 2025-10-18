@@ -16,7 +16,9 @@ namespace MauiApp1
             Routing.RegisterRoute("signin", typeof(SignInPage));
             Routing.RegisterRoute("account", typeof(AccountPage));
             Routing.RegisterRoute("mainpage", typeof(MainPage));
-            Routing.RegisterRoute("displayitempage", typeof(DisplayItemPage));
+            Routing.RegisterRoute("displaypage", typeof(DisplayPage));
+            Routing.RegisterRoute("showimagefilepage", typeof(ShowImageFilePage));
+            Routing.RegisterRoute("showvideofilepage", typeof(ShowVideoFilePage));
 
             BindingContext = new AppShellViewModel();
         }

@@ -60,11 +60,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="DisplayImagePage.xaml.cs">
-	    <DependentUpon>DisplayImagePage.xaml</DependentUpon>
+	  <Compile Update="ShowImageFilePage.xaml.cs">
+	    <DependentUpon>ShowImageFilePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="DisplayItemPage.xaml.cs">
-	    <DependentUpon>DisplayItemPage.xaml</DependentUpon>
+	  <Compile Update="DisplayPage.xaml.cs">
+	    <DependentUpon>DisplayPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
