@@ -1,6 +1,7 @@
 ﻿using MauiApp1.Platforms.Windows;
 using MauiApp1.WinUI;
 using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
 
 namespace MauiApp1
 {
@@ -12,6 +13,7 @@ namespace MauiApp1
  
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkitMediaElement()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

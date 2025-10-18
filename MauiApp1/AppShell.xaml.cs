@@ -1,4 +1,5 @@
-﻿using MauiApp1.Platforms.Windows;
+﻿using CommunityToolkit.Maui.Views;
+using MauiApp1.Platforms.Windows;
 using System.Net.Mail;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
@@ -8,7 +9,6 @@ namespace MauiApp1
 {
     public partial class AppShell : Shell
     {
-
         public AppShell()
         {
             InitializeComponent();

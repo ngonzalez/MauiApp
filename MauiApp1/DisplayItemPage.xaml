@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp1.DisplayItemPage">
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="MauiApp1.DisplayItemPage"
+             Unloaded="DisplayItemPageUnloaded">
 
     <ScrollView>
         <VerticalStackLayout
             Padding="30"
             Spacing="25">
 
-            <Grid>
+            <Grid x:Name="GridImageFiles">
                 <HorizontalStackLayout Padding="50">
                     <VerticalStackLayout MinimumWidthRequest="400">
                         <ScrollView
-                            x:Name="scrollViewSelectedImagesList"
+                            x:Name="scrollViewSelectedImageFilesList"
                             Grid.Row="0"
                             VerticalOptions="Fill">
 
@@ -37,7 +39,7 @@
                                                     <HorizontalStackLayout>
                                                         <Button
                                                             Text="Open in new Window"
-                                                            Clicked="openNewWindow"
+                                                            Clicked="openNewWindowImageFile"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
                                                             FontSize="20"
@@ -56,7 +58,7 @@
                                                     <HorizontalStackLayout>
                                                         <Button
                                                             Text="Previous"
-                                                            Clicked="previousLinkClicked"
+                                                            Clicked="previousLinkImageFileClicked"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
                                                             FontSize="20"
@@ -74,7 +76,7 @@
 
                                                         <Button
                                                             Text="Next"
-                                                            Clicked="nextLinkClicked"
+                                                            Clicked="nextLinkImageFileClicked"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
                                                             FontSize="20"
@@ -153,7 +155,7 @@
                                                     <HorizontalStackLayout>
                                                         <Button
                                                             Text="Remove from selection"
-                                                            Clicked="removeImageFromSelection"
+                                                            Clicked="removeImageFileFromSelection"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
                                                             FontSize="20"
@@ -183,9 +185,7 @@
                             CornerRadius="5">
 
                             <ScrollView
-                                x:Name="scrollViewImagesList"
-                                MinimumHeightRequest="700"
-                                MaximumHeightRequest="750">
+                                x:Name="scrollViewImageFilesList">
 
                                 <CollectionView
                                     ItemsSource="{Binding ImageFiles}"
@@ -219,7 +219,7 @@
                                                         Grid.Row="0"
                                                         Grid.Column="1"
                                                         Text="{Binding fileName}"
-                                                        Clicked="addImageToSelection"
+                                                        Clicked="addImageFileToSelection"
                                                         TextColor="FloralWhite"
                                                         BackgroundColor="Transparent"
                                                         FontSize="15"
@@ -237,7 +237,7 @@
                                                         Grid.Row="0"
                                                         Grid.Column="2"
                                                         Text="{Binding mimeType}"
-                                                        Clicked="addImageToSelection"
+                                                        Clicked="addImageFileToSelection"
                                                         TextColor="LightGrey"
                                                         BackgroundColor="Transparent"
                                                         FontSize="15"
@@ -247,7 +247,7 @@
                                                     <Button
                                                         Grid.Row="0"
                                                         Grid.Column="3"
-                                                        Clicked="addImageToSelection"
+                                                        Clicked="addImageFileToSelection"
                                                         BackgroundColor="Transparent"
                                                         MinimumWidthRequest="1000">
                                                     </Button>
@@ -262,11 +262,11 @@
                 </HorizontalStackLayout>
             </Grid>
 
-            <Grid>
+            <Grid x:Name="GridImageFilesDetails">
                 <HorizontalStackLayout>
                     <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
                         <Label
-                            x:Name="folderName"
+                            x:Name="folderName1"
                             FontSize="20"
                             HorizontalOptions="Center"
                             TextColor="FloralWhite"
@@ -278,6 +278,291 @@
                     <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
                         <Label
                             x:Name="imageFilesCount"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid x:Name="GridMediaPlayer">
+                <toolkit:MediaElement
+                        x:Name="mediaElement"
+                        ShouldAutoPlay="False"
+                        ShouldShowPlaybackControls="True"
+                        MaximumHeightRequest="600"
+                        MaximumWidthRequest="900">
+                </toolkit:MediaElement>
+            </Grid>
+
+            <Grid x:Name="GridVideoFiles">
+                <HorizontalStackLayout Padding="50">
+                    <VerticalStackLayout MinimumWidthRequest="400" MaximumHeightRequest="600">
+                        <ScrollView
+                            x:Name="scrollViewSelectedVideoFilesList"
+                            Grid.Row="0"
+                            VerticalOptions="Fill">
+
+                            <CollectionView
+                                ItemsSource="{Binding SelectedVideoFiles}"
+                                SelectionMode="Multiple"
+                                SelectionChanged="SelectedVideoFilesSelectionChanged">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <HorizontalStackLayout>
+                                                <VerticalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Open in new Window"
+                                                            Clicked="openNewWindowVideoFile"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconClone}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Previous"
+                                                            Clicked="previousLinkVideoFileClicked"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="250"
+                                                            MaximumWidthRequest="250">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconArrowLeft}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+
+                                                        <Button
+                                                            Text="Next"
+                                                            Clicked="nextLinkVideoFileClicked"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="250"
+                                                            MaximumWidthRequest="250">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconArrowRight}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="{Binding fileName}"
+                                                            ToolTipProperties.Text="{Binding fileName}"
+                                                            x:Name="fileNameButton"
+                                                            TextColor="FloralWhite"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconFile}"
+                                                                    Size="20"
+                                                                    Color="FloralWhite" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Play"
+                                                            Clicked="playVideoFileClicked"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconPlay}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Remove from selection"
+                                                            Clicked="removeVideoFileFromSelection"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource Iconx}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Frame
+                                                            BorderColor="Transparent"
+                                                            Opacity="0.8"
+                                                            BackgroundColor="Black"
+                                                            Padding="20">
+                                                            <ScrollView
+                                                                x:Name="scrollView"
+                                                                MinimumHeightRequest="300"
+                                                                MaximumHeightRequest="300"
+                                                                MinimumWidthRequest="500"
+                                                                MaximumWidthRequest="500"
+                                                                HorizontalOptions="Center"
+                                                                VerticalOptions="Center">
+                                                                <TableView Intent="Menu">
+                                                                    <TableRoot>
+                                                                        <TableSection Title="Parameters">
+                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
+                                                                        </TableSection>
+                                                                    </TableRoot>
+                                                                </TableView>
+                                                            </ScrollView>
+                                                        </Frame>
+                                                    </HorizontalStackLayout>
+
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="500">
+                        <Frame
+                            BorderColor="Black"
+                            CornerRadius="5">
+
+                            <ScrollView
+                                x:Name="scrollViewVideoFilesList">
+
+                                <CollectionView
+                                    ItemsSource="{Binding VideoFiles}"
+                                    SelectionMode="Multiple"
+                                    SelectionChanged="VideoFilesSelectionChanged"
+                                    SelectedItems="{Binding SelectedVideoFiles}">
+
+                                    <CollectionView.EmptyView>
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <HorizontalStackLayout>
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Text="{Binding fileName}"
+                                                        Clicked="addVideoFileToSelection"
+                                                        TextColor="FloralWhite"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                        <Button.ImageSource>
+                                                            <FontImageSource
+                                                                FontFamily="FontAwesome7FreeRegular"
+                                                                Glyph="{StaticResource IconImage}"
+                                                                Size="20"
+                                                                Color="FloralWhite" />
+                                                        </Button.ImageSource>
+                                                    </Button>
+
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Text="{Binding mimeType}"
+                                                        Clicked="addVideoFileToSelection"
+                                                        TextColor="LightGrey"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                    </Button>
+
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="3"
+                                                        Clicked="addVideoFileToSelection"
+                                                        BackgroundColor="Transparent"
+                                                        MinimumWidthRequest="1000">
+                                                    </Button>
+                                                </HorizontalStackLayout>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </ScrollView>
+                        </Frame>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid x:Name="GridVideoFilesDetails">
+                <HorizontalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
+                        <Label
+                            x:Name="folderName2"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="200" MaximumWidthRequest="200">
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
+                        <Label
+                            x:Name="videoFilesCount"
                             FontSize="20"
                             HorizontalOptions="Center"
                             TextColor="FloralWhite"
