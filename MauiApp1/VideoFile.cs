@@ -16,6 +16,7 @@ public class VideoFile
     public float? length { get; set; }
     public int? bitrate { get; set; }
     public int? frameRate { get; set; }
+    public int? width { get; set; }
     public int? height { get; set; }
     public int? aspectRatio { get; set; }
 

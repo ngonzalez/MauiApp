@@ -1,6 +1,7 @@
 ﻿using MauiApp1.Platforms.Windows;
 using MauiApp1.WinUI;
 using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
 
 namespace MauiApp1
 {
@@ -12,6 +13,7 @@ namespace MauiApp1
  
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkitMediaElement()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -29,8 +31,9 @@ namespace MauiApp1
             builder.Services.AddTransient<IApiService, MauiApp1.Platforms.Windows.ApiService>();
             builder.Services.AddTransient<SignInPage>();
             builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<DisplayItemPage>();
-            builder.Services.AddTransient<DisplayImagePage>();
+            builder.Services.AddTransient<DisplayPage>();
+            builder.Services.AddTransient<ShowImageFilePage>();
+            builder.Services.AddTransient<ShowVideoFilePage>();
             builder.Services.AddTransient<App>();
             //#endif
 

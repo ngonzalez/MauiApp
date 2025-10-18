@@ -1,4 +1,5 @@
-﻿using MauiApp1.Platforms.Windows;
+﻿using CommunityToolkit.Maui.Views;
+using MauiApp1.Platforms.Windows;
 using System.Net.Mail;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
@@ -8,7 +9,6 @@ namespace MauiApp1
 {
     public partial class AppShell : Shell
     {
-
         public AppShell()
         {
             InitializeComponent();
@@ -16,7 +16,9 @@ namespace MauiApp1
             Routing.RegisterRoute("signin", typeof(SignInPage));
             Routing.RegisterRoute("account", typeof(AccountPage));
             Routing.RegisterRoute("mainpage", typeof(MainPage));
-            Routing.RegisterRoute("displayitempage", typeof(DisplayItemPage));
+            Routing.RegisterRoute("displaypage", typeof(DisplayPage));
+            Routing.RegisterRoute("showimagefilepage", typeof(ShowImageFilePage));
+            Routing.RegisterRoute("showvideofilepage", typeof(ShowVideoFilePage));
 
             BindingContext = new AppShellViewModel();
         }

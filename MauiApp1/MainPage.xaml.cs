@@ -127,7 +127,7 @@ namespace MauiApp1
         {
             Button button = (Button)sender;
             Folder folder = (Folder)button.BindingContext;
-            Window secondWindow = new Window(new DisplayItemPage(_apiService, _appShellViewModel, folder));
+            Window secondWindow = new Window(new DisplayPage(_apiService, _appShellViewModel, folder));
             App.Current.OpenWindow(secondWindow);
         }
         public async void getAllUploads()
