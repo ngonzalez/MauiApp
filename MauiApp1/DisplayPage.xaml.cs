@@ -19,6 +19,12 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MauiApp1;
 
+public class VideoStreamResponse
+{
+    public int id { get; set; }
+    public bool m3u8Exists { get; set; }
+
+}
 public partial class DisplayPage : ContentPage
 {
     private readonly IApiService _apiService;
@@ -35,6 +41,8 @@ public partial class DisplayPage : ContentPage
 
     public ObservableCollection<VideoFile> SelectedVideoFiles { get; set; }
 
+    public ObservableCollection<VideoStreamResponse> VideoStreams { get; set; }
+
     public DisplayPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
         _apiService = apiService;
@@ -48,6 +56,9 @@ public partial class DisplayPage : ContentPage
         // VideoFile collection
         VideoFiles = new ObservableCollection<VideoFile> { };
         SelectedVideoFiles = new ObservableCollection<VideoFile> { };
+
+        // VideoStreams collection
+        VideoStreams = new ObservableCollection<VideoStreamResponse> { };
 
         InitializeComponent();
         BindingContext = this;
@@ -348,8 +359,35 @@ public partial class DisplayPage : ContentPage
     {
         Button button = (Button)sender;
         VideoFile videoFile = (VideoFile)button.BindingContext;
+
+        try
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                string videoId = Convert.ToString(videoFile.id);
+
+                string response = await _apiService.getVideoStream(videoId);
+
+                VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
+
+                if (jsonResponse.m3u8Exists)
+                {
+                    VideoStreams.Add(jsonResponse);
+                    break;
+                } else
+                {
+                    System.Threading.Thread.Sleep(500);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            //
+        }
+
         GridMediaPlayer.IsVisible = true;
-        mediaElement.Source = new Uri("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
+        string id = Convert.ToString(videoFile.id);
+        mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
         mediaElement.Play();
     }
     public void DisplayPageUnloaded(object? sender, EventArgs e)

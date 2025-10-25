@@ -16,6 +16,8 @@ namespace MauiApp1.Platforms.Windows
     public class ApiService : IApiService
     {
         private readonly HttpClient _httpClient;
+
+        private readonly HttpClient _httpClientStreamingService;
         public ApiService()
         {
             _httpClient = new HttpClient()
@@ -27,13 +29,32 @@ namespace MauiApp1.Platforms.Windows
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json")
             );
+
+            _httpClientStreamingService = new HttpClient()
+            {
+                //BaseAddress = new Uri("http://192.168.1.11:3000")
+                BaseAddress = new Uri("https://link12.ddns.net:5050")
+            };
+
+            _httpClientStreamingService.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+            );
         }
+
+        public async Task<string> getVideoStream(string id)
+        {
+            var httpResponse = await _httpClientStreamingService.GetAsync("/video_files/" + id);
+            string response = await httpResponse.Content.ReadAsStringAsync();
+            return response;
+        }
+
         public async Task<string> GetAllUploads(string ids)
         {
             var httpResponse = await _httpClient.GetAsync("/upload" + ids);
             string response = await httpResponse.Content.ReadAsStringAsync();
             return response;
         }
+
         public async Task<string> CreatePostAsync(byte[] body)
         {
             ByteArrayContent content = new ByteArrayContent(body);
