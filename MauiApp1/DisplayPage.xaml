@@ -295,6 +295,17 @@
                 </toolkit:MediaElement>
             </Grid>
 
+            <Grid x:Name="GridMediaProcessing">
+                <Label
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    TextColor="FloralWhite"
+                    BackgroundColor="Transparent"
+                    Padding="10">
+                    Processing
+                </Label>
+            </Grid>
+
             <Grid x:Name="GridVideoFiles">
                 <HorizontalStackLayout Padding="50">
                     <VerticalStackLayout MinimumWidthRequest="400" MaximumHeightRequest="800">

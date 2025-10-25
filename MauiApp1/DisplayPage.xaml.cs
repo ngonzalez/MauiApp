@@ -19,6 +19,12 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MauiApp1;
 
+public class VideoStreamResponse
+{
+    public int id { get; set; }
+    public bool m3u8Exists { get; set; }
+
+}
 public partial class DisplayPage : ContentPage
 {
     private readonly IApiService _apiService;
@@ -35,6 +41,8 @@ public partial class DisplayPage : ContentPage
 
     public ObservableCollection<VideoFile> SelectedVideoFiles { get; set; }
 
+    public ObservableCollection<VideoStreamResponse> VideoStreams { get; set; }
+
     public DisplayPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
         _apiService = apiService;
@@ -49,6 +57,9 @@ public partial class DisplayPage : ContentPage
         VideoFiles = new ObservableCollection<VideoFile> { };
         SelectedVideoFiles = new ObservableCollection<VideoFile> { };
 
+        // VideoStreams collection
+        VideoStreams = new ObservableCollection<VideoStreamResponse> { };
+
         InitializeComponent();
         BindingContext = this;
 
@@ -62,6 +73,7 @@ public partial class DisplayPage : ContentPage
         GridVideoFiles.IsVisible = false;
         GridVideoFilesDetails.IsVisible = false;
         GridMediaPlayer.IsVisible = false;
+        GridMediaProcessing.IsVisible = false;
 
         // Get media files from backend
         getUploads();
@@ -296,9 +308,9 @@ public partial class DisplayPage : ContentPage
                 }
             }
         }
-        catch
+        catch (Exception ex)
         {
-
+            //
         }
     }
 
@@ -306,9 +318,12 @@ public partial class DisplayPage : ContentPage
     {
         Button button = (Button)sender;
         VideoFile videoFile = (VideoFile)button.BindingContext;
+
         GridMediaPlayer.IsVisible = false;
+
         mediaElement.Stop();
         mediaElement.Source = null;
+
         int i = 0;
         foreach (VideoFile _videoFile in SelectedVideoFiles)
         {
@@ -348,9 +363,59 @@ public partial class DisplayPage : ContentPage
     {
         Button button = (Button)sender;
         VideoFile videoFile = (VideoFile)button.BindingContext;
-        GridMediaPlayer.IsVisible = true;
-        mediaElement.Source = new Uri("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
-        mediaElement.Play();
+
+        try
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                string videoId = Convert.ToString(videoFile.id);
+
+                string response = await _apiService.getVideoStream(videoId);
+
+                VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
+
+                if (jsonResponse.m3u8Exists)
+                {
+                    VideoStreams.Add(jsonResponse);
+                    break;
+                }
+                else
+                {
+                    System.Threading.Thread.Sleep(500);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            //
+        }
+
+        bool found = false;
+        try
+        {
+            foreach (VideoStreamResponse videoStream in VideoStreams)
+            {
+                if (videoStream.id == videoFile.id)
+                {
+                    found = true;
+                    break;
+                }
+            }
+        } catch (Exception ex)
+        {
+            //
+        }
+
+        if (found)
+        {
+            GridMediaPlayer.IsVisible = true;
+            string id = Convert.ToString(videoFile.id);
+            mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
+            mediaElement.Play();
+        } else
+        {
+            GridMediaProcessing.IsVisible = false;
+        }
     }
     public void DisplayPageUnloaded(object? sender, EventArgs e)
     {
