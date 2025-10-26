@@ -73,6 +73,7 @@ public partial class DisplayPage : ContentPage
         GridVideoFiles.IsVisible = false;
         GridVideoFilesDetails.IsVisible = false;
         GridMediaPlayer.IsVisible = false;
+        GridMediaProcessing.IsVisible = false;
 
         // Get media files from backend
         getUploads();
@@ -307,9 +308,9 @@ public partial class DisplayPage : ContentPage
                 }
             }
         }
-        catch
+        catch (Exception ex)
         {
-
+            //
         }
     }
 
@@ -317,9 +318,12 @@ public partial class DisplayPage : ContentPage
     {
         Button button = (Button)sender;
         VideoFile videoFile = (VideoFile)button.BindingContext;
+
         GridMediaPlayer.IsVisible = false;
+
         mediaElement.Stop();
         mediaElement.Source = null;
+
         int i = 0;
         foreach (VideoFile _videoFile in SelectedVideoFiles)
         {
@@ -374,7 +378,8 @@ public partial class DisplayPage : ContentPage
                 {
                     VideoStreams.Add(jsonResponse);
                     break;
-                } else
+                }
+                else
                 {
                     System.Threading.Thread.Sleep(500);
                 }
@@ -385,10 +390,32 @@ public partial class DisplayPage : ContentPage
             //
         }
 
-        GridMediaPlayer.IsVisible = true;
-        string id = Convert.ToString(videoFile.id);
-        mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
-        mediaElement.Play();
+        bool found = false;
+        try
+        {
+            foreach (VideoStreamResponse videoStream in VideoStreams)
+            {
+                if (videoStream.id == videoFile.id)
+                {
+                    found = true;
+                    break;
+                }
+            }
+        } catch (Exception ex)
+        {
+            //
+        }
+
+        if (found)
+        {
+            GridMediaPlayer.IsVisible = true;
+            string id = Convert.ToString(videoFile.id);
+            mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
+            mediaElement.Play();
+        } else
+        {
+            GridMediaProcessing.IsVisible = false;
+        }
     }
     public void DisplayPageUnloaded(object? sender, EventArgs e)
     {

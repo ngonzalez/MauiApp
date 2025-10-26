@@ -9,9 +9,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Net.Security;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -22,6 +25,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Windows.Services.Maps;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public static class MimeTypeMapper
@@ -282,6 +286,7 @@ namespace MauiApp1
                 return memory.ToArray();
             }
         }
+
         public async void SendFiles()
         {
             int filesCount = 0;
@@ -337,10 +342,10 @@ namespace MauiApp1
                 string mimeType = MimeTypeMapper.GetMimeType(fileExt);
                 if (mimeType != "application/octet-stream")
                 {
-                    byte[] rawData = File.ReadAllBytes(filePath);
+                    byte[] rawData = System.IO.File.ReadAllBytes(filePath);
                     string encoded = Convert.ToBase64String(rawData);
-                    DateTime createdAt = File.GetCreationTime(filePath);
-                    DateTime updatedAt = File.GetLastAccessTime(filePath);
+                    DateTime createdAt = System.IO.File.GetCreationTime(filePath);
+                    DateTime updatedAt = System.IO.File.GetLastAccessTime(filePath);
 
                     UploadFilesCount++;
 
@@ -375,10 +380,10 @@ namespace MauiApp1
                     string folderFileMimeType = MimeTypeMapper.GetMimeType(folderFileFileExt);
                     if (folderFileMimeType != "application/octet-stream")
                     {
-                        byte[] folderFileRawData = File.ReadAllBytes(folderFilePath);
+                        byte[] folderFileRawData = System.IO.File.ReadAllBytes(folderFilePath);
                         string folderFileEncoded = Convert.ToBase64String(folderFileRawData);
-                        DateTime folderFileCreatedAt = File.GetCreationTime(folderFilePath);
-                        DateTime folderFileUpdatedAt = File.GetLastAccessTime(folderFilePath);
+                        DateTime folderFileCreatedAt = System.IO.File.GetCreationTime(folderFilePath);
+                        DateTime folderFileUpdatedAt = System.IO.File.GetLastAccessTime(folderFilePath);
 
                         UploadFilesCount++;
 
@@ -413,10 +418,10 @@ namespace MauiApp1
                         string subfolderFileMimeType = MimeTypeMapper.GetMimeType(subfolderFileFileExt);
                         if (subfolderFileMimeType != "application/octet-stream")
                         {
-                            byte[] subfolderFileRawData = File.ReadAllBytes(subfolderFilePath);
+                            byte[] subfolderFileRawData = System.IO.File.ReadAllBytes(subfolderFilePath);
                             string subfolderFileEncoded = Convert.ToBase64String(subfolderFileRawData);
-                            DateTime subfolderFileCreatedAt = File.GetCreationTime(subfolderFilePath);
-                            DateTime subfolderFileUpdatedAt = File.GetLastAccessTime(subfolderFilePath);
+                            DateTime subfolderFileCreatedAt = System.IO.File.GetCreationTime(subfolderFilePath);
+                            DateTime subfolderFileUpdatedAt = System.IO.File.GetLastAccessTime(subfolderFilePath);
 
                             UploadFilesCount++;
 
