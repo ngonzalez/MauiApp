@@ -4,17 +4,23 @@ using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Storage;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Net.Security;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -287,6 +293,32 @@ namespace MauiApp1
             }
         }
 
+        public async void SendData(UploadFile uploadFile)
+        {
+            using (FileStream fileStream = new FileStream(uploadFile.filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+
+                    while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        memoryStream.Write(buffer, 0, bytesRead);
+                    }
+
+                    byte[] byteArray = memoryStream.ToArray();
+
+                    uploadFile.itemData = Convert.ToBase64String(byteArray);
+
+                    byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
+                    byte[] compressedBody = Compress(body);
+
+                    var response = await _apiService.CreatePostAsync(compressedBody);
+                }
+            }
+        }
+
         public async void SendFiles()
         {
             int filesCount = 0;
@@ -294,22 +326,56 @@ namespace MauiApp1
 
             foreach(UploadFile uploadFile in UploadFiles)
             {
+                SendData(uploadFile);
+
+                // Progress bar
                 filesCount++;
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
-                byte[] compressedBody = Compress(body);
-                var response = await _apiService.CreatePostAsync(compressedBody);
                 double progress = ((double)filesCount / (double)totalFilesCount);
                 progressBarText.Text = Convert.ToString((progress * 100)) + "%";
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
             }
         }
+
         private async void OnSendDataClicked(object sender, EventArgs e)
         {
             SendFiles();
         }
+
+        public async void CreateUploadFile(string filePath, UploadFolder uploadFolder)
+        {
+            DateTime createdAt = System.IO.File.GetCreationTime(filePath);
+            DateTime updatedAt = System.IO.File.GetLastAccessTime(filePath);
+
+            string _fileName = Path.GetFileName(filePath);
+            string fileExt = Path.GetExtension(filePath);
+            string mimeType = MimeTypeMapper.GetMimeType(fileExt);
+
+            if (mimeType != "application/octet-stream")
+            {
+                UploadFiles.Add(
+                    new UploadFile
+                    {
+                        sessionId = _appShellViewModel.SessionID,
+                        uuid = Guid.NewGuid(),
+                        createdAt = createdAt,
+                        updatedAt = updatedAt,
+                        filePath = filePath,
+                        itemData = "",
+                        mimeType = mimeType,
+                        source = uploadFolder.Type,
+                    }
+                );
+
+                UploadFilesCount++;
+
+                labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " items selected";
+            }
+        }
+
         private async void OnPickFolderClicked(object sender, EventArgs e)
         {
             int UploadFilesCount = 0;
+
             string folderPath = await _folderPicker.PickFolder();
 
             if (folderPath == "")
@@ -337,32 +403,7 @@ namespace MauiApp1
 
             foreach (string filePath in files)
             {
-                string _fileName = Path.GetFileName(filePath);
-                string fileExt = Path.GetExtension(filePath);
-                string mimeType = MimeTypeMapper.GetMimeType(fileExt);
-                if (mimeType != "application/octet-stream")
-                {
-                    byte[] rawData = System.IO.File.ReadAllBytes(filePath);
-                    string encoded = Convert.ToBase64String(rawData);
-                    DateTime createdAt = System.IO.File.GetCreationTime(filePath);
-                    DateTime updatedAt = System.IO.File.GetLastAccessTime(filePath);
-
-                    UploadFilesCount++;
-
-                    UploadFiles.Add(
-                        new UploadFile
-                        {
-                            sessionId = _appShellViewModel.SessionID,
-                            uuid = Guid.NewGuid(),
-                            createdAt = createdAt,
-                            updatedAt = updatedAt,
-                            filePath = filePath,
-                            itemData = encoded,
-                            mimeType = mimeType,
-                            source = rootFolder.Type,
-                        }
-                    );
-                }
+                CreateUploadFile(filePath, rootFolder);
             }
 
             var folders = Directory.EnumerateDirectories(rootFolder.Path);
@@ -375,32 +416,7 @@ namespace MauiApp1
 
                 foreach (string folderFilePath in folderFiles)
                 {
-                    string _folderFileFileName = Path.GetFileName(folderFilePath);
-                    string folderFileFileExt = Path.GetExtension(folderFilePath);
-                    string folderFileMimeType = MimeTypeMapper.GetMimeType(folderFileFileExt);
-                    if (folderFileMimeType != "application/octet-stream")
-                    {
-                        byte[] folderFileRawData = System.IO.File.ReadAllBytes(folderFilePath);
-                        string folderFileEncoded = Convert.ToBase64String(folderFileRawData);
-                        DateTime folderFileCreatedAt = System.IO.File.GetCreationTime(folderFilePath);
-                        DateTime folderFileUpdatedAt = System.IO.File.GetLastAccessTime(folderFilePath);
-
-                        UploadFilesCount++;
-
-                        UploadFiles.Add(
-                            new UploadFile
-                            {
-                                sessionId = _appShellViewModel.SessionID,
-                                uuid = Guid.NewGuid(),
-                                createdAt = folderFileCreatedAt,
-                                updatedAt = folderFileUpdatedAt,
-                                filePath = folderFilePath,
-                                itemData = folderFileEncoded,
-                                mimeType = folderFileMimeType,
-                                source = folder.Type,
-                            }
-                        );
-                    }
+                    CreateUploadFile(folderFilePath, folder);
                 }
 
                 var folderFolders = Directory.EnumerateDirectories(folder.Path);
@@ -413,38 +429,10 @@ namespace MauiApp1
 
                     foreach (string subfolderFilePath in subfolderFiles)
                     {
-                        string _subfolderFileFileName = Path.GetFileName(subfolderFilePath);
-                        string subfolderFileFileExt = Path.GetExtension(subfolderFilePath);
-                        string subfolderFileMimeType = MimeTypeMapper.GetMimeType(subfolderFileFileExt);
-                        if (subfolderFileMimeType != "application/octet-stream")
-                        {
-                            byte[] subfolderFileRawData = System.IO.File.ReadAllBytes(subfolderFilePath);
-                            string subfolderFileEncoded = Convert.ToBase64String(subfolderFileRawData);
-                            DateTime subfolderFileCreatedAt = System.IO.File.GetCreationTime(subfolderFilePath);
-                            DateTime subfolderFileUpdatedAt = System.IO.File.GetLastAccessTime(subfolderFilePath);
-
-                            UploadFilesCount++;
-
-                            UploadFiles.Add(
-                                new UploadFile
-                                {
-                                    sessionId = _appShellViewModel.SessionID,
-                                    uuid = Guid.NewGuid(),
-                                    createdAt = subfolderFileCreatedAt,
-                                    updatedAt = subfolderFileUpdatedAt,
-                                    filePath = subfolderFilePath,
-                                    itemData = subfolderFileEncoded,
-                                    mimeType = subfolderFileMimeType,
-                                    source = subfolder.Type,
-                                }
-                            );
-                        }
+                        CreateUploadFile(subfolderFilePath, subfolder);
                     }
                 }
             }
-
-            labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " items selected";
-
         }
     }
 }
