@@ -29,6 +29,7 @@ using System.Threading;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Windows.Devices.Bluetooth;
 using Windows.Services.Maps;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
@@ -293,13 +294,13 @@ namespace MauiApp1
             }
         }
 
-        public async void SendData(UploadFile uploadFile)
+        public async void SendData(UploadFile uploadFile, string filePath, int i)
         {
-            using (FileStream fileStream = new FileStream(uploadFile.filePath, FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
-                    byte[] buffer = new byte[4096];
+                    byte[] buffer = new byte[25165824];
                     int bytesRead;
 
                     while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) > 0)
@@ -309,13 +310,39 @@ namespace MauiApp1
 
                     byte[] byteArray = memoryStream.ToArray();
 
-                    uploadFile.itemData = Convert.ToBase64String(byteArray);
+                    UploadFile newUploadFile = new UploadFile
+                    {
+                        sessionId = _appShellViewModel.SessionID,
+                        uuid = Guid.NewGuid(),
+                        uploadFileUuid = uploadFile.uuid,
+                        createdAt = uploadFile.createdAt,
+                        updatedAt = uploadFile.updatedAt,
+                        source = uploadFile.source,
+                        filePath = string.Concat(uploadFile.filePath + "." + Convert.ToString(i) + ".block"),
+                        itemData = Convert.ToBase64String(byteArray),
+                        mimeType = "application/octet-stream",
+                    };
 
-                    byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
+                    byte[] body = JsonSerializer.SerializeToUtf8Bytes(newUploadFile);
                     byte[] compressedBody = Compress(body);
 
                     var response = await _apiService.CreatePostAsync(compressedBody);
                 }
+            }
+        }
+
+        public string GetTemporaryDirectory()
+        {
+            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+
+            if (System.IO.Directory.Exists(tempDirectory))
+            {
+                return GetTemporaryDirectory();
+            }
+            else
+            {
+                Directory.CreateDirectory(tempDirectory);
+                return tempDirectory;
             }
         }
 
@@ -326,7 +353,20 @@ namespace MauiApp1
 
             foreach(UploadFile uploadFile in UploadFiles)
             {
-                SendData(uploadFile);
+                string tempDirectory = GetTemporaryDirectory();
+
+                SplitFile(uploadFile.filePath, 14680064, tempDirectory); // 14 Megabytes = 14680064 Bytes
+
+                int i = 0;
+
+                foreach(string filePath in System.IO.Directory.GetFiles(tempDirectory))
+                {
+                    SendData(uploadFile, filePath, i);
+
+                    i++;
+                }
+
+                Directory.Delete(tempDirectory);
 
                 // Progress bar
                 filesCount++;
@@ -339,6 +379,37 @@ namespace MauiApp1
         private async void OnSendDataClicked(object sender, EventArgs e)
         {
             SendFiles();
+        }
+
+        public async void SplitFile(string inputFile, int chunkSize, string path)
+        {
+            byte[] buffer = new byte[chunkSize];
+
+            using (Stream input = System.IO.File.OpenRead(inputFile))
+            {
+                int index = 0;
+                while (input.Position < input.Length)
+                {
+                    using (Stream output = System.IO.File.Create(path + "\\" + index))
+                    {
+                        int chunkBytesRead = 0;
+                        while (chunkBytesRead < chunkSize)
+                        {
+                            int bytesRead = input.Read(buffer,
+                                                       chunkBytesRead,
+                                                       chunkSize - chunkBytesRead);
+
+                            if (bytesRead == 0)
+                            {
+                                break;
+                            }
+                            chunkBytesRead += bytesRead;
+                        }
+                        output.Write(buffer, 0, chunkBytesRead);
+                    }
+                    index++;
+                }
+            }
         }
 
         public async void CreateUploadFile(string filePath, UploadFolder uploadFolder)
