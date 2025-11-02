@@ -356,10 +356,8 @@ namespace MauiApp1
                 byte[] byteArray = memoryStream.ToArray();
                 memoryStream.Close();
 
-                //await DisplayAlert("SendData: " + Convert.ToString(i), string.Concat(byteArray.Length), "OK");
                 string index = Convert.ToString(i);
                 string newFilePath = uploadFile.filePath + "." + index + ".block";
-                //await DisplayAlert("SendData: " + Convert.ToString(i), string.Concat(newFilePath), "OK");
 
                 UploadFile newUploadFile = new UploadFile
                 {
@@ -370,8 +368,8 @@ namespace MauiApp1
                     updatedAt = uploadFile.updatedAt,
                     source = uploadFile.source,
                     filePath = newFilePath,
-                    itemData = byteArray,
-                    mimeType = "application/octet-stream",
+                    itemData = System.Text.Encoding.UTF8.GetString(byteArray),
+                    mimeType = uploadFile.mimeType,
                 };
                 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(newUploadFile);
@@ -418,7 +416,8 @@ namespace MauiApp1
             string _fileName = Path.GetFileName(filePath);
             string fileExt = Path.GetExtension(filePath);
             string mimeType = MimeTypeMapper.GetMimeType(fileExt);
-            string str = "";
+            byte[] byteArray = new byte[4096];
+            string itemData = System.Text.Encoding.UTF8.GetString(byteArray);
 
             if (mimeType != "application/octet-stream")
             {
@@ -429,13 +428,13 @@ namespace MauiApp1
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     filePath = filePath,
-                    itemData = new byte[4096],
+                    itemData = itemData,
                     mimeType = mimeType,
                     source = uploadFolder.Type,
                 };
 
-                //byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
-                //string response = await _apiService.CreatePostAsync(Compress(body));
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
+                string _response = await _apiService.CreatePostAsync(Compress(body));
 
                 UploadFiles.Add(uploadFile);
 
