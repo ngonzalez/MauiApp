@@ -332,7 +332,13 @@ namespace MauiApp1
                     {
                         EncodeFileBatch(uploadFile, filePath, i);
 
-                        System.IO.File.Delete(filePath);
+                        try
+                        {
+                            System.IO.File.Delete(filePath);
+                        } catch
+                        {
+                            //
+                        }
 
                         i++;
                     }
