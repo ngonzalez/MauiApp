@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.Toolkit.Uwp.Notifications;
+using System.Text.Json;
 
 namespace MauiApp1;
 
@@ -29,7 +24,7 @@ public partial class SignInPage : ContentPage
     private readonly AppShellViewModel _appShellViewModel;
 
     public SignInPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
-	{
+    {
         _authenticate = authenticate;
         _appShellViewModel = appShellViewModel;
         InitializeComponent();

@@ -1,15 +1,4 @@
-﻿using Microsoft.Maui.Devices.Sensors;
-using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Windows.Foundation.Collections;
-using Windows.Media.Protection.PlayReady;
+﻿using System.Net.Http.Headers;
 
 namespace MauiApp1.Platforms.Windows
 {
@@ -22,8 +11,8 @@ namespace MauiApp1.Platforms.Windows
         {
             _httpClient = new HttpClient()
             {
-                //BaseAddress = new Uri("http://192.168.1.11:3000")
-                BaseAddress = new Uri("https://link12.ddns.net:4040")
+                BaseAddress = new Uri("http://192.168.1.11:3000")
+                //BaseAddress = new Uri("https://link12.ddns.net:4040")
             };
 
             _httpClient.DefaultRequestHeaders.Accept.Add(
@@ -32,8 +21,8 @@ namespace MauiApp1.Platforms.Windows
 
             _httpClientStreamingService = new HttpClient()
             {
-                //BaseAddress = new Uri("http://192.168.1.11:3000")
-                BaseAddress = new Uri("https://link12.ddns.net:5050")
+                BaseAddress = new Uri("http://192.168.1.11:3001")
+                //BaseAddress = new Uri("https://link12.ddns.net:5050")
             };
 
             _httpClientStreamingService.DefaultRequestHeaders.Accept.Add(

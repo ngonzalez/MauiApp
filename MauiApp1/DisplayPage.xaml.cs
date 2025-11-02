@@ -1,21 +1,5 @@
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Extensions;
-using CommunityToolkit.Maui.Views;
-using MauiApp1.Platforms.Windows;
-using Microsoft.Maui.Controls;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net.Http.Json;
-using System.Net.Mail;
 using System.Text.Json;
-using Windows.ApplicationModel.Store;
-using Windows.Media.Core;
-using Windows.Media.Playback;
-using Windows.Services.Maps;
-using Windows.System.UserProfile;
-using static Microsoft.Maui.ApplicationModel.Permissions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MauiApp1;
 
@@ -96,7 +80,7 @@ public partial class DisplayPage : ContentPage
         {
             if (upload.imageFiles.Length > 0)
             {
-                foreach(ImageFile imageFile in upload.imageFiles)
+                foreach (ImageFile imageFile in upload.imageFiles)
                 {
                     ImageFiles.Add(imageFile);
                 }
@@ -165,7 +149,8 @@ public partial class DisplayPage : ContentPage
                     break;
                 }
             }
-        } catch
+        }
+        catch
         {
 
         }
@@ -401,7 +386,8 @@ public partial class DisplayPage : ContentPage
                     break;
                 }
             }
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             //
         }
@@ -410,9 +396,11 @@ public partial class DisplayPage : ContentPage
         {
             GridMediaPlayer.IsVisible = true;
             string id = Convert.ToString(videoFile.id);
-            mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
+            mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/video-" + id + ".m3u8");
+            //mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
             mediaElement.Play();
-        } else
+        }
+        else
         {
             GridMediaProcessing.IsVisible = false;
         }

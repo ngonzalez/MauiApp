@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace MauiApp1
+﻿namespace MauiApp1
 {
     public partial class App : Application
     {

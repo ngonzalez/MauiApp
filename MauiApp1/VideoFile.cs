@@ -1,6 +1,4 @@
-﻿using System;
-
-public class VideoFile
+﻿public class VideoFile
 {
     public int id { get; set; }
     public Folder folder { get; set; }

@@ -1,5 +1,5 @@
 ﻿public class UploadFile
-{ 
+{
     public required Guid uuid { get; set; }
 
     public Guid uploadFileUuid { get; set; }

@@ -1,6 +1,4 @@
-﻿using System;
-
-public class User
+﻿public class User
 {
     public int? id { get; set; }
     public Guid? uuid { get; set; }

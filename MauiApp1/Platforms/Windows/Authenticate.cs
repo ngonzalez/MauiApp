@@ -1,11 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Windows.Media.Protection.PlayReady;
-using Windows.System;
+﻿using System.Net.Http.Headers;
 
 namespace MauiApp1.Platforms.Windows
 {
@@ -23,8 +16,8 @@ namespace MauiApp1.Platforms.Windows
             _appShellViewModel = appShellViewModel;
             _httpClient = new HttpClient()
             {
-                //BaseAddress = new Uri("http://192.168.1.11:3000")
-                BaseAddress = new Uri("https://link12.ddns.net:4040")
+                BaseAddress = new Uri("http://192.168.1.11:3000")
+                //BaseAddress = new Uri("https://link12.ddns.net:4040")
             };
         }
 

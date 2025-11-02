@@ -1,8 +1,4 @@
-﻿using Microsoft.Maui.Layouts;
-using System;
-using System.Collections.ObjectModel;
-using WinRT.Interop;
-using WindowsFolderPicker = Windows.Storage.Pickers.FolderPicker;
+﻿using WindowsFolderPicker = Windows.Storage.Pickers.FolderPicker;
 
 namespace MauiApp1.Platforms.Windows
 {

@@ -1,7 +1,5 @@
-﻿using MauiApp1.Platforms.Windows;
-using MauiApp1.WinUI;
+﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using CommunityToolkit.Maui;
 
 namespace MauiApp1
 {
@@ -10,7 +8,7 @@ namespace MauiApp1
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
- 
+
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkitMediaElement()

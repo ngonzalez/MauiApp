@@ -1,6 +1,4 @@
-﻿using MauiApp1;
-using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 public partial class AppShellViewModel
@@ -29,7 +27,7 @@ public partial class AppShellViewModel
         get { return _jsonOptions; }
         set { _jsonOptions = value; }
     }
-    
+
     public AppShellViewModel()
     {
         CurrentUser = new User();

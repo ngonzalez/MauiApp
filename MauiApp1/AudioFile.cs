@@ -1,6 +1,4 @@
-﻿using System;
-
-public class AudioFile
+﻿public class AudioFile
 {
     public int id { get; set; }
     public Folder folder { get; set; }
