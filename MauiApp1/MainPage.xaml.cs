@@ -2,6 +2,7 @@
 using Microsoft.Maui;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.Storage;
 using System;
 using System.Buffers.Text;
@@ -317,19 +318,29 @@ namespace MauiApp1
 
             foreach(UploadFile uploadFile in UploadFiles)
             {
-                //string tempDirectory = GetTemporaryDirectory();
-                string tempDirectory = @"c:\Users\ngonzalez\temp";
+                long length = new System.IO.FileInfo(uploadFile.filePath).Length;
 
-                // 100 Megabytes = 104857600 Bytes
-                SplitFile(uploadFile.filePath, 104857600, tempDirectory);
-
-                int i = 0;
-
-                foreach (string filePath in System.IO.Directory.GetFiles(tempDirectory))
+                if (length >= 104857600) // 100 Megabytes = 104857600 Bytes
                 {
-                    EncodeFile(uploadFile, filePath, i);
+                    // string tempDirectory = GetTemporaryDirectory();
+                    string tempDirectory = @"c:\Users\ngonzalez\temp";
 
-                    i++;
+                    SplitFile(uploadFile.filePath, 104857600, tempDirectory);
+
+                    int i = 0;
+
+                    foreach (string filePath in System.IO.Directory.GetFiles(tempDirectory))
+                    {
+                        EncodeFileBatch(uploadFile, filePath, i);
+
+                        //System.IO.File.Delete(filePath);
+
+                        i++;
+                    }
+                }
+                else
+                {
+                    EncodeFile(uploadFile);
                 }
 
                 // Progress bar
@@ -345,31 +356,44 @@ namespace MauiApp1
             SendFiles();
         }
 
-        public async void EncodeFile(UploadFile uploadFile, string filePath, int i)
+        public async void EncodeFile(UploadFile uploadFile)
+        {
+            using (FileStream inputFile = new FileStream(uploadFile.filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
+            using (CryptoStream base64Stream = new CryptoStream(inputFile, new ToBase64Transform(), CryptoStreamMode.Read))
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                base64Stream.CopyTo(memoryStream);
+                byte[] byteArray = memoryStream.ToArray();
+                memoryStream.Close();
+
+                uploadFile.itemData = System.Text.Encoding.UTF8.GetString(byteArray);
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
+                var _response = await _apiService.CreatePostAsync(Compress(body));
+            }
+        }
+ 
+        public async void EncodeFileBatch(UploadFile uploadFile, string filePath, int i)
         {
             using (FileStream inputFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
             using (CryptoStream base64Stream = new CryptoStream(inputFile, new ToBase64Transform(), CryptoStreamMode.Read))
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 base64Stream.CopyTo(memoryStream);
-
                 byte[] byteArray = memoryStream.ToArray();
                 memoryStream.Close();
-
-                string index = Convert.ToString(i);
-                string newFilePath = uploadFile.filePath + "." + index + ".block";
 
                 UploadFile newUploadFile = new UploadFile
                 {
                     sessionId = _appShellViewModel.SessionID,
                     uuid = Guid.NewGuid(),
                     uploadFileUuid = uploadFile.uuid,
+                    itemData = System.Text.Encoding.UTF8.GetString(byteArray),
+                    filePath = uploadFile.filePath + "." + Convert.ToString(i) + ".block",
+                    mimeType = "application/octet-stream",
                     createdAt = uploadFile.createdAt,
                     updatedAt = uploadFile.updatedAt,
                     source = uploadFile.source,
-                    filePath = newFilePath,
-                    itemData = System.Text.Encoding.UTF8.GetString(byteArray),
-                    mimeType = uploadFile.mimeType,
                 };
                 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(newUploadFile);
@@ -432,9 +456,6 @@ namespace MauiApp1
                     mimeType = mimeType,
                     source = uploadFolder.Type,
                 };
-
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
-                string _response = await _apiService.CreatePostAsync(Compress(body));
 
                 UploadFiles.Add(uploadFile);
 
