@@ -322,8 +322,7 @@ namespace MauiApp1
 
                 if (length >= 104857600) // 100 Megabytes = 104857600 Bytes
                 {
-                    // string tempDirectory = GetTemporaryDirectory();
-                    string tempDirectory = @"c:\Users\ngonzalez\temp";
+                    string tempDirectory = GetTemporaryDirectory();
 
                     SplitFile(uploadFile.filePath, 104857600, tempDirectory);
 
@@ -333,7 +332,7 @@ namespace MauiApp1
                     {
                         EncodeFileBatch(uploadFile, filePath, i);
 
-                        //System.IO.File.Delete(filePath);
+                        System.IO.File.Delete(filePath);
 
                         i++;
                     }
