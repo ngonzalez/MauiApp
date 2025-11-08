@@ -1,41 +1,7 @@
-﻿using MauiApp1.Platforms.Windows;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls.Platform;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Microsoft.Maui.LifecycleEvents;
-using Microsoft.Maui.Storage;
-using System;
-using System.Buffers.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Data.Common;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+﻿using System.Collections.ObjectModel;
 using System.IO.Compression;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Net.Security;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using Windows.Devices.Bluetooth;
-using Windows.Services.Maps;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Net.WebRequestMethods;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public static class MimeTypeMapper
 {
@@ -150,11 +116,13 @@ namespace MauiApp1
             var response = await _apiService.GetAllUploads("");
             var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
-            while (Folders.Count() > 0) {
+            while (Folders.Count() > 0)
+            {
                 Folders.RemoveAt(0);
             }
 
-            foreach (var item in uploadsResponse) {
+            foreach (var item in uploadsResponse)
+            {
                 if (item.imageFiles.Length > 0)
                 {
                     foreach (ImageFile imageFile in item.imageFiles)
@@ -284,7 +252,7 @@ namespace MauiApp1
         {
             getAllUploads();
         }
-        public static byte[] Compress(byte[] raw)
+        public static byte[] CompressGzip(byte[] raw)
         {
             using (MemoryStream memory = new MemoryStream())
             {
@@ -316,7 +284,7 @@ namespace MauiApp1
             int filesCount = 0;
             int totalFilesCount = UploadFiles.Count();
 
-            foreach(UploadFile uploadFile in UploadFiles)
+            foreach (UploadFile uploadFile in UploadFiles)
             {
                 long length = new System.IO.FileInfo(uploadFile.filePath).Length;
 
@@ -330,22 +298,25 @@ namespace MauiApp1
 
                     foreach (string filePath in System.IO.Directory.GetFiles(tempDirectory))
                     {
-                        EncodeFileBatch(uploadFile, filePath, i);
+                        SendFileBatch(uploadFile, filePath, i);
 
                         try
                         {
                             System.IO.File.Delete(filePath);
-                        } catch
+                        }
+                        catch
                         {
                             //
                         }
 
                         i++;
                     }
+
+                    SendUploadFile(uploadFile);
                 }
                 else
                 {
-                    EncodeFile(uploadFile);
+                    SendFile(uploadFile);
                 }
 
                 // Progress bar
@@ -361,7 +332,13 @@ namespace MauiApp1
             SendFiles();
         }
 
-        public async void EncodeFile(UploadFile uploadFile)
+        public async void SendUploadFile(UploadFile uploadFile)
+        {
+            byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
+            string response = await _apiService.CreatePostAsync(CompressGzip(body));
+        }
+
+        public async void SendFile(UploadFile uploadFile)
         {
             using (FileStream inputFile = new FileStream(uploadFile.filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
             using (CryptoStream base64Stream = new CryptoStream(inputFile, new ToBase64Transform(), CryptoStreamMode.Read))
@@ -373,12 +350,11 @@ namespace MauiApp1
 
                 uploadFile.itemData = System.Text.Encoding.UTF8.GetString(byteArray);
 
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
-                var _response = await _apiService.CreatePostAsync(Compress(body));
+                SendUploadFile(uploadFile);
             }
         }
- 
-        public async void EncodeFileBatch(UploadFile uploadFile, string filePath, int i)
+
+        public async void SendFileBatch(UploadFile uploadFile, string filePath, int i)
         {
             using (FileStream inputFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
             using (CryptoStream base64Stream = new CryptoStream(inputFile, new ToBase64Transform(), CryptoStreamMode.Read))
@@ -388,7 +364,7 @@ namespace MauiApp1
                 byte[] byteArray = memoryStream.ToArray();
                 memoryStream.Close();
 
-                UploadFile newUploadFile = new UploadFile
+                UploadFile splitUploadFile = new UploadFile
                 {
                     sessionId = _appShellViewModel.SessionID,
                     uuid = Guid.NewGuid(),
@@ -400,9 +376,8 @@ namespace MauiApp1
                     updatedAt = uploadFile.updatedAt,
                     source = uploadFile.source,
                 };
-                
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(newUploadFile);
-                var _response = await _apiService.CreatePostAsync(Compress(body));
+
+                SendUploadFile(splitUploadFile);
             }
         }
 
@@ -461,6 +436,8 @@ namespace MauiApp1
                     mimeType = mimeType,
                     source = uploadFolder.Type,
                 };
+
+                SendUploadFile(uploadFile);
 
                 UploadFiles.Add(uploadFile);
 

@@ -1,10 +1,5 @@
-using MauiApp1.Platforms.Windows;
-using System;
-using System.Collections.Generic;
-using System.Net.Http.Json;
-using System.Net.Mail;
-using System.Text.Json;
 using Microsoft.Toolkit.Uwp.Notifications;
+using System.Text.Json;
 
 namespace MauiApp1;
 
@@ -22,7 +17,7 @@ public partial class AccountPage : ContentPage
     private readonly AppShellViewModel _appShellViewModel;
 
     public AccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
-	{
+    {
         _authenticate = authenticate;
         _appShellViewModel = appShellViewModel;
 
@@ -66,7 +61,8 @@ public partial class AccountPage : ContentPage
         if (_appShellViewModel.CurrentUser.id == null)
         {
             Shell.Current.GoToAsync("signin");
-        } else
+        }
+        else
         {
             Shell.Current.GoToAsync("mainpage");
         }

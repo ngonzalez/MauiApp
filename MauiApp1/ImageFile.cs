@@ -1,6 +1,4 @@
-﻿using System;
-
-public class ImageFile
+﻿public class ImageFile
 {
     public int id { get; set; }
     public Folder folder { get; set; }
