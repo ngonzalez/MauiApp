@@ -437,8 +437,6 @@ namespace MauiApp1
                     source = uploadFolder.Type,
                 };
 
-                SendUploadFile(uploadFile);
-
                 UploadFiles.Add(uploadFile);
 
                 UploadFilesCount++;
