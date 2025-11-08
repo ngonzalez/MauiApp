@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text.Json;
@@ -264,6 +265,21 @@ namespace MauiApp1
             }
         }
 
+        public void CompressZip(string filePath, string zipPath)
+        {
+            using (FileStream inputFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
+            using (FileStream targetStream = new FileStream(zipPath, FileMode.Create))
+            using (ZipArchive archive = new ZipArchive(targetStream, ZipArchiveMode.Create))
+            {
+                ZipArchiveEntry entry = archive.CreateEntry(Path.GetFileName(filePath));
+
+                using (Stream entryStream = entry.Open())
+                {
+                    inputFile.CopyTo(entryStream);
+                }
+            }
+        }
+
         public string GetTemporaryDirectory()
         {
             string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
@@ -291,8 +307,21 @@ namespace MauiApp1
                 if (length >= 104857600) // 100 Megabytes = 104857600 Bytes
                 {
                     string tempDirectory = GetTemporaryDirectory();
+                    string fileName = Convert.ToString(uploadFile.uuid) + ".zip";
+                    string tempFile = Path.Combine(tempDirectory, fileName);
 
-                    SplitFile(uploadFile.filePath, 104857600, tempDirectory);
+                    CompressZip(uploadFile.filePath, tempFile);
+
+                    SplitFile(tempFile, 104857600, tempDirectory);
+
+                    try
+                    {
+                        System.IO.File.Delete(tempFile);
+                    }
+                    catch
+                    {
+                        //
+                    }
 
                     int i = 0;
 
