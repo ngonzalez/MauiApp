@@ -37,6 +37,13 @@ namespace MauiApp1.Platforms.Windows
             return response;
         }
 
+        public async Task<string> getAudioStream(string id)
+        {
+            var httpResponse = await _httpClientStreamingService.GetAsync("/audio_files/" + id);
+            string response = await httpResponse.Content.ReadAsStringAsync();
+            return response;
+        }
+
         public async Task<string> GetAllUploads(string ids)
         {
             var httpResponse = await _httpClient.GetAsync("/upload" + ids);

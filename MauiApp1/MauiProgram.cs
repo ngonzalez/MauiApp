@@ -32,6 +32,7 @@ namespace MauiApp1
             builder.Services.AddTransient<DisplayPage>();
             builder.Services.AddTransient<ShowImageFilePage>();
             builder.Services.AddTransient<ShowVideoFilePage>();
+            builder.Services.AddTransient<ShowAudioFilePage>();
             builder.Services.AddTransient<App>();
             //#endif
 

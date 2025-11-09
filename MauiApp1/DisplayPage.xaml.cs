@@ -9,6 +9,12 @@ public class VideoStreamResponse
     public bool m3u8Exists { get; set; }
 
 }
+public class AudioStreamResponse
+{
+    public int id { get; set; }
+    public bool m3u8Exists { get; set; }
+
+}
 public partial class DisplayPage : ContentPage
 {
     private readonly IApiService _apiService;
@@ -18,14 +24,15 @@ public partial class DisplayPage : ContentPage
     private Folder _folder;
 
     public ObservableCollection<ImageFile> ImageFiles { get; set; }
-
     public ObservableCollection<ImageFile> SelectedImageFiles { get; set; }
 
     public ObservableCollection<VideoFile> VideoFiles { get; set; }
-
     public ObservableCollection<VideoFile> SelectedVideoFiles { get; set; }
-
     public ObservableCollection<VideoStreamResponse> VideoStreams { get; set; }
+
+    public ObservableCollection<AudioFile> AudioFiles { get; set; }
+    public ObservableCollection<AudioFile> SelectedAudioFiles { get; set; }
+    public ObservableCollection<AudioStreamResponse> AudioStreams { get; set; }
 
     public DisplayPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
@@ -44,18 +51,28 @@ public partial class DisplayPage : ContentPage
         // VideoStreams collection
         VideoStreams = new ObservableCollection<VideoStreamResponse> { };
 
+        // AudioFile collection
+        AudioFiles = new ObservableCollection<AudioFile> { };
+        SelectedAudioFiles = new ObservableCollection<AudioFile> { };
+
+        // AudioStreams collection
+        AudioStreams = new ObservableCollection<AudioStreamResponse> { };
+
         InitializeComponent();
         BindingContext = this;
 
         // Set folder name
         folderName1.Text = folder.name;
         folderName2.Text = folder.name;
+        folderName3.Text = folder.name;
 
         // Set default visibility for grids
         GridImageFiles.IsVisible = false;
         GridImageFilesDetails.IsVisible = false;
         GridVideoFiles.IsVisible = false;
         GridVideoFilesDetails.IsVisible = false;
+        GridAudioFiles.IsVisible = false;
+        GridAudioFilesDetails.IsVisible = false;
         GridMediaPlayer.IsVisible = false;
         GridMediaProcessing.IsVisible = false;
 
@@ -71,6 +88,7 @@ public partial class DisplayPage : ContentPage
         var response = await _apiService.GetAllUploads("?folderIds=" + encodedFolderId);
         var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
+        // ImageFile
         while (ImageFiles.Count() > 0)
         {
             ImageFiles.RemoveAt(0);
@@ -92,6 +110,7 @@ public partial class DisplayPage : ContentPage
         GridImageFiles.IsVisible = ImageFiles.Count() > 0;
         GridImageFilesDetails.IsVisible = ImageFiles.Count() > 0;
 
+        // VideoFile
         while (VideoFiles.Count() > 0)
         {
             VideoFiles.RemoveAt(0);
@@ -112,6 +131,28 @@ public partial class DisplayPage : ContentPage
         videoFilesCount.Text = Convert.ToString(VideoFiles.Count()) + " " + videoFileLabel;
         GridVideoFiles.IsVisible = VideoFiles.Count() > 0;
         GridVideoFilesDetails.IsVisible = VideoFiles.Count() > 0;
+
+        // AudioFile
+        while (AudioFiles.Count() > 0)
+        {
+            AudioFiles.RemoveAt(0);
+        }
+
+        foreach (Upload upload in uploadsResponse)
+        {
+            if (upload.audioFiles.Length > 0)
+            {
+                foreach (AudioFile audioFile in upload.audioFiles)
+                {
+                    AudioFiles.Add(audioFile);
+                }
+            }
+        }
+
+        string audioFileLabel = AudioFiles.Count() > 1 ? "Audio Files" : "Audio File";
+        audioFilesCount.Text = Convert.ToString(AudioFiles.Count()) + " " + audioFileLabel;
+        GridAudioFiles.IsVisible = AudioFiles.Count() > 0;
+        GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
     }
 
     public async void openNewWindowImageFile(object sender, EventArgs e)
@@ -353,9 +394,9 @@ public partial class DisplayPage : ContentPage
         {
             for (int i = 0; i < 10; i++)
             {
-                string videoId = Convert.ToString(videoFile.id);
+                string videoFileId = Convert.ToString(videoFile.id);
 
-                string response = await _apiService.getVideoStream(videoId);
+                string response = await _apiService.getVideoStream(videoFileId);
 
                 VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
 
@@ -405,6 +446,189 @@ public partial class DisplayPage : ContentPage
             GridMediaProcessing.IsVisible = false;
         }
     }
+
+    public async void openNewWindowAudioFile(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        AudioFile audioFile = (AudioFile)button.BindingContext;
+        GridMediaPlayer.IsVisible = false;
+        mediaElement.Stop();
+        mediaElement.Source = null;
+        Window secondWindow = new Window(new ShowAudioFilePage(_apiService, _appShellViewModel, audioFile));
+        App.Current.OpenWindow(secondWindow);
+    }
+
+    public async void previousLinkAudioFileClicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        AudioFile audioFile = (AudioFile)button.BindingContext;
+        GridMediaPlayer.IsVisible = false;
+        mediaElement.Stop();
+        mediaElement.Source = null;
+
+        while (SelectedAudioFiles.Count() > 0)
+        {
+            SelectedAudioFiles.RemoveAt(0);
+        }
+
+        try
+        {
+            AudioFile nextAudioFile = AudioFiles[AudioFiles.IndexOf(audioFile) - 1];
+
+            foreach (AudioFile _audioFile in AudioFiles)
+            {
+                if (_audioFile.id == nextAudioFile.id)
+                {
+                    SelectedAudioFiles.Add(_audioFile);
+                    break;
+                }
+            }
+        }
+        catch
+        {
+
+        }
+    }
+
+    public async void nextLinkAudioFileClicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        AudioFile audioFile = (AudioFile)button.BindingContext;
+        GridMediaPlayer.IsVisible = false;
+        mediaElement.Stop();
+        mediaElement.Source = null;
+
+        while (SelectedAudioFiles.Count() > 0)
+        {
+            SelectedAudioFiles.RemoveAt(0);
+        }
+
+        try
+        {
+            AudioFile nextAudioFile = AudioFiles[AudioFiles.IndexOf(audioFile) + 1];
+
+            foreach (AudioFile _audioFile in AudioFiles)
+            {
+                if (_audioFile.id == nextAudioFile.id)
+                {
+                    SelectedAudioFiles.Add(_audioFile);
+                    break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            //
+        }
+    }
+
+    public async void removeAudioFileFromSelection(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        AudioFile audioFile = (AudioFile)button.BindingContext;
+
+        GridMediaPlayer.IsVisible = false;
+
+        mediaElement.Stop();
+        mediaElement.Source = null;
+
+        int i = 0;
+        foreach (AudioFile _audioFile in SelectedAudioFiles)
+        {
+            if (_audioFile.id == audioFile.id)
+            {
+                SelectedAudioFiles.RemoveAt(i);
+                break;
+            }
+            i += 1;
+        }
+    }
+
+    public async void addAudioFileToSelection(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        AudioFile audioFile = (AudioFile)button.BindingContext;
+
+        while (SelectedAudioFiles.Count() > 0)
+        {
+            SelectedAudioFiles.RemoveAt(0);
+        }
+
+        SelectedAudioFiles.Add(audioFile);
+    }
+
+    public async void SelectedAudioFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        AudioFile _selectedAudioFile = e.CurrentSelection.FirstOrDefault() as AudioFile;
+    }
+
+    public async void AudioFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        AudioFile _selectedAudioFile = e.CurrentSelection.FirstOrDefault() as AudioFile;
+    }
+
+    public async void playAudioFileClicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        AudioFile audioFile = (AudioFile)button.BindingContext;
+
+        try
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                string audioFileId = Convert.ToString(audioFile.id);
+
+                string response = await _apiService.getAudioStream(audioFileId);
+
+                AudioStreamResponse jsonResponse = JsonSerializer.Deserialize<AudioStreamResponse>(response);
+
+                if (jsonResponse.m3u8Exists)
+                {
+                    AudioStreams.Add(jsonResponse);
+                    break;
+                }
+                else
+                {
+                    System.Threading.Thread.Sleep(500);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            //
+        }
+
+        bool found = false;
+        try
+        {
+            foreach (AudioStreamResponse audioStream in AudioStreams)
+            {
+                if (audioStream.id == audioFile.id)
+                {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            //
+        }
+
+        if (found)
+        {
+            GridMediaPlayer.IsVisible = true;
+            string id = Convert.ToString(audioFile.id);
+            mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/audio-" + id + ".m3u8");
+            //mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/audio-" + id + ".m3u8");
+            mediaElement.Play();
+        }
+        else
+        {
+            GridMediaProcessing.IsVisible = false;
+        }
+    }
+
     public void DisplayPageUnloaded(object? sender, EventArgs e)
     {
         // Stop and cleanup MediaElement when we navigate away

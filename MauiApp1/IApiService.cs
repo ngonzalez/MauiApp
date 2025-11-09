@@ -2,6 +2,8 @@
 {
     public interface IApiService
     {
+        Task<string> getAudioStream(string id);
+
         Task<string> getVideoStream(string id);
 
         Task<string> GetAllUploads(string ids);

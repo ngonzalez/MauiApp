@@ -587,6 +587,285 @@
                 </HorizontalStackLayout>
             </Grid>
 
+            <Grid x:Name="GridAudioFiles">
+                <HorizontalStackLayout Padding="50">
+                    <VerticalStackLayout MinimumWidthRequest="400" MaximumHeightRequest="800">
+                        <ScrollView
+                            x:Name="scrollViewSelectedAudioFilesList"
+                            Grid.Row="0"
+                            VerticalOptions="Fill">
+
+                            <CollectionView
+                                ItemsSource="{Binding SelectedAudioFiles}"
+                                SelectionMode="Multiple"
+                                SelectionChanged="SelectedAudioFilesSelectionChanged">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <HorizontalStackLayout>
+                                                <VerticalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Open in new Window"
+                                                            Clicked="openNewWindowAudioFile"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconClone}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Previous"
+                                                            Clicked="previousLinkAudioFileClicked"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="250"
+                                                            MaximumWidthRequest="250">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconArrowLeft}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+
+                                                        <Button
+                                                            Text="Next"
+                                                            Clicked="nextLinkAudioFileClicked"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="250"
+                                                            MaximumWidthRequest="250">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconArrowRight}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="{Binding fileName}"
+                                                            ToolTipProperties.Text="{Binding fileName}"
+                                                            x:Name="fileNameButton"
+                                                            TextColor="FloralWhite"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconFile}"
+                                                                    Size="20"
+                                                                    Color="FloralWhite" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Play"
+                                                            Clicked="playAudioFileClicked"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconPlay}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Remove from selection"
+                                                            Clicked="removeAudioFileFromSelection"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource Iconx}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Frame
+                                                            BorderColor="Transparent"
+                                                            Opacity="0.8"
+                                                            BackgroundColor="Black"
+                                                            Padding="20">
+                                                            <ScrollView
+                                                                x:Name="scrollView"
+                                                                MinimumHeightRequest="400"
+                                                                MaximumHeightRequest="400"
+                                                                MinimumWidthRequest="450"
+                                                                MaximumWidthRequest="450">
+                                                                <TableView Intent="Menu">
+                                                                    <TableRoot>
+                                                                        <TableSection Title="Parameters">
+                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
+                                                                            <TextCell Text="Title:" Detail="{Binding title}" />
+                                                                            <TextCell Text="Length:" Detail="{Binding length}" />
+                                                                            <TextCell Text="Bitrate:" Detail="{Binding bitrate}" />
+                                                                            <TextCell Text="Sample Rate:" Detail="{Binding sampleRate}" />
+                                                                            <TextCell Text="Channels:" Detail="{Binding channels}" />
+                                                                        </TableSection>
+                                                                    </TableRoot>
+                                                                </TableView>
+                                                            </ScrollView>
+                                                        </Frame>
+                                                    </HorizontalStackLayout>
+
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="500">
+                        <Frame
+                            BorderColor="Black"
+                            CornerRadius="5">
+
+                            <ScrollView
+                                x:Name="scrollViewAudioFilesList">
+
+                                <CollectionView
+                                    ItemsSource="{Binding AudioFiles}"
+                                    SelectionMode="Multiple"
+                                    SelectionChanged="AudioFilesSelectionChanged"
+                                    SelectedItems="{Binding SelectedAudioFiles}">
+
+                                    <CollectionView.EmptyView>
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <HorizontalStackLayout>
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Text="{Binding fileName}"
+                                                        Clicked="addAudioFileToSelection"
+                                                        TextColor="FloralWhite"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                        <Button.ImageSource>
+                                                            <FontImageSource
+                                                                FontFamily="FontAwesome7FreeRegular"
+                                                                Glyph="{StaticResource IconImage}"
+                                                                Size="20"
+                                                                Color="FloralWhite" />
+                                                        </Button.ImageSource>
+                                                    </Button>
+
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Text="{Binding mimeType}"
+                                                        Clicked="addAudioFileToSelection"
+                                                        TextColor="LightGrey"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                    </Button>
+
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="3"
+                                                        Clicked="addAudioFileToSelection"
+                                                        BackgroundColor="Transparent"
+                                                        MinimumWidthRequest="1000">
+                                                    </Button>
+                                                </HorizontalStackLayout>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </ScrollView>
+                        </Frame>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid x:Name="GridAudioFilesDetails">
+                <HorizontalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
+                        <Label
+                            x:Name="folderName3"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="200" MaximumWidthRequest="200">
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
+                        <Label
+                            x:Name="audioFilesCount"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Grid>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
