@@ -306,7 +306,8 @@ namespace MauiApp1
 
                 if (length >= 104857600) // 100 Megabytes = 104857600 Bytes
                 {
-                    string tempDirectory = GetTemporaryDirectory();
+                    //string tempDirectory = GetTemporaryDirectory();
+                    string tempDirectory = @"C:\temp";
                     string fileName = Convert.ToString(uploadFile.uuid) + ".zip";
                     string tempFile = Path.Combine(tempDirectory, fileName);
 
