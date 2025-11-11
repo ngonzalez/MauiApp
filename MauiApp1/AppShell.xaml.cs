@@ -11,7 +11,6 @@
             Routing.RegisterRoute("mainpage", typeof(MainPage));
             Routing.RegisterRoute("displaypage", typeof(DisplayPage));
             Routing.RegisterRoute("showimagefilepage", typeof(ShowImageFilePage));
-            Routing.RegisterRoute("showvideofilepage", typeof(ShowVideoFilePage));
 
             BindingContext = new AppShellViewModel();
         }
