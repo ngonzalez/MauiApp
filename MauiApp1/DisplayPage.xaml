@@ -10,6 +10,27 @@
             Padding="30"
             Spacing="25">
 
+            <Grid x:Name="GridMediaPlayer">
+                <toolkit:MediaElement
+                        x:Name="mediaElement"
+                        ShouldAutoPlay="False"
+                        ShouldShowPlaybackControls="True"
+                        MaximumHeightRequest="600"
+                        MaximumWidthRequest="900">
+                </toolkit:MediaElement>
+            </Grid>
+
+            <Grid x:Name="GridMediaProcessing">
+                <Label
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    TextColor="FloralWhite"
+                    BackgroundColor="Transparent"
+                    Padding="10">
+                    Processing
+                </Label>
+            </Grid>
+
             <Grid x:Name="GridImageFiles">
                 <HorizontalStackLayout Padding="50">
                     <VerticalStackLayout MinimumWidthRequest="400">
@@ -113,6 +134,25 @@
                                                         </Button>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Remove from selection"
+                                                            Clicked="removeImageFileFromSelection"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource Iconx}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
                                                         <Image
                                                             MinimumWidthRequest="500"
                                                             MaximumWidthRequest="500"
@@ -149,25 +189,6 @@
                                                                 </TableView>
                                                             </ScrollView>
                                                         </Frame>
-                                                    </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Button
-                                                            Text="Remove from selection"
-                                                            Clicked="removeImageFileFromSelection"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource Iconx}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
-                                                        </Button>
                                                     </HorizontalStackLayout>
                                                </VerticalStackLayout>
                                             </HorizontalStackLayout>
@@ -285,27 +306,6 @@
                 </HorizontalStackLayout>
             </Grid>
 
-            <Grid x:Name="GridMediaPlayer">
-                <toolkit:MediaElement
-                        x:Name="mediaElement"
-                        ShouldAutoPlay="False"
-                        ShouldShowPlaybackControls="True"
-                        MaximumHeightRequest="600"
-                        MaximumWidthRequest="900">
-                </toolkit:MediaElement>
-            </Grid>
-
-            <Grid x:Name="GridMediaProcessing">
-                <Label
-                    FontSize="20"
-                    HorizontalOptions="Center"
-                    TextColor="FloralWhite"
-                    BackgroundColor="Transparent"
-                    Padding="10">
-                    Processing
-                </Label>
-            </Grid>
-
             <Grid x:Name="GridVideoFiles">
                 <HorizontalStackLayout Padding="50">
                     <VerticalStackLayout MinimumWidthRequest="400" MaximumHeightRequest="800">
@@ -332,25 +332,6 @@
                                             </Grid.ColumnDefinitions>
                                             <HorizontalStackLayout>
                                                 <VerticalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Button
-                                                            Text="Open in new Window"
-                                                            Clicked="openNewWindowVideoFile"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconClone}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
-                                                        </Button>
-                                                    </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
                                                             Text="Previous"
@@ -614,25 +595,6 @@
                                             </Grid.ColumnDefinitions>
                                             <HorizontalStackLayout>
                                                 <VerticalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Button
-                                                            Text="Open in new Window"
-                                                            Clicked="openNewWindowAudioFile"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconClone}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
-                                                        </Button>
-                                                    </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
                                                             Text="Previous"

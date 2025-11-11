@@ -64,7 +64,16 @@
                     BackgroundColor="Black"
                     TextColor="Grey"
                     VerticalOptions="Center"
-                    HorizontalOptions="Center" />
+                    HorizontalOptions="Center">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            x:Name="resetLinkImage"
+                            FontFamily="FontAwesome7FreeSolid"
+                            Glyph="{StaticResource IconXmark}"
+                            Size="15"
+                            Color="Grey" />
+                    </Button.ImageSource>
+                </Button>
             </Grid>
 
             <Grid>

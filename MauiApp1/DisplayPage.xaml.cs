@@ -265,17 +265,6 @@ public partial class DisplayPage : ContentPage
         ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
     }
 
-    public async void openNewWindowVideoFile(object sender, EventArgs e)
-    {
-        Button button = (Button)sender;
-        VideoFile videoFile = (VideoFile)button.BindingContext;
-        GridMediaPlayer.IsVisible = false;
-        mediaElement.Stop();
-        mediaElement.Source = null;
-        Window secondWindow = new Window(new ShowVideoFilePage(_apiService, _appShellViewModel, videoFile));
-        App.Current.OpenWindow(secondWindow);
-    }
-
     public async void previousLinkVideoFileClicked(object sender, EventArgs e)
     {
         Button button = (Button)sender;
@@ -445,17 +434,6 @@ public partial class DisplayPage : ContentPage
         {
             GridMediaProcessing.IsVisible = false;
         }
-    }
-
-    public async void openNewWindowAudioFile(object sender, EventArgs e)
-    {
-        Button button = (Button)sender;
-        AudioFile audioFile = (AudioFile)button.BindingContext;
-        GridMediaPlayer.IsVisible = false;
-        mediaElement.Stop();
-        mediaElement.Source = null;
-        Window secondWindow = new Window(new ShowAudioFilePage(_apiService, _appShellViewModel, audioFile));
-        App.Current.OpenWindow(secondWindow);
     }
 
     public async void previousLinkAudioFileClicked(object sender, EventArgs e)

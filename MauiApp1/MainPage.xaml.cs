@@ -283,10 +283,12 @@ namespace MauiApp1
             // Labels
             FolderLabel.Text = "";
             labelFilesCount.Text = "no items found";
+            resetLink.TextColor = Colors.Grey;
+            resetLinkImage.Color = Colors.Grey;
 
             // Progress bar
             progressBarText.Text = "";
-            progressBar.ProgressTo(value: 0, length: 900, easing: Easing.Linear);
+            progressBar.ProgressTo(value: 0, length: 100, easing: Easing.Linear);
         }
 
         public static byte[] CompressGzip(byte[] raw)
@@ -510,6 +512,7 @@ namespace MauiApp1
                 labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " items selected";
 
                 resetLink.TextColor = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
+                resetLinkImage.Color = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
             }
         }
 
