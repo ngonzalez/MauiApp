@@ -62,11 +62,15 @@ namespace MauiApp1
 {
     public partial class MainPage : ContentPage
     {
+
         public ObservableCollection<UploadFolder> UploadFolders { get; set; }
+
         public ObservableCollection<UploadFile> UploadFiles { get; set; }
+
         public ObservableCollection<Folder> Folders { get; set; }
 
         public ObservableCollection<Folder> SelectedFolders { get; set; }
+
         public int UploadFilesCount { get; set; }
 
         private readonly IFolderPicker _folderPicker;
@@ -74,6 +78,7 @@ namespace MauiApp1
         private readonly IApiService _apiService;
 
         private readonly AppShellViewModel _appShellViewModel;
+
         public MainPage(IFolderPicker folderPicker, IApiService apiService, AppShellViewModel appShellViewModel)
         {
             _folderPicker = folderPicker;
@@ -98,11 +103,13 @@ namespace MauiApp1
 
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             refreshFilesButton.Clicked += new EventHandler(refreshButtonClicked);
+            resetLink.Clicked += new EventHandler(resetLinkClicked);
 
             labelFilesCount.Text = "no items found";
 
             getAllUploads();
         }
+
         public async void displayFiles(object sender, EventArgs e)
         {
             Button button = (Button)sender;
@@ -110,6 +117,7 @@ namespace MauiApp1
             Window secondWindow = new Window(new DisplayPage(_apiService, _appShellViewModel, folder));
             App.Current.OpenWindow(secondWindow);
         }
+
         public async void getAllUploads()
         {
             ActivityIndicator.IsRunning = true;
@@ -235,24 +243,52 @@ namespace MauiApp1
 
             foldersCount.Text = Convert.ToString(Folders.Count() + " folders");
         }
+
         public int getUploadFilesCount()
         {
             return UploadFiles.Count();
         }
+
         public async void FolderSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Folder selectedFolder = e.CurrentSelection.FirstOrDefault() as Folder;
 
             SelectedFolders.Add(selectedFolder);
         }
+
         public void accountLinkClicked(object sender, EventArgs e)
         {
             Shell.Current.GoToAsync("account");
         }
+
         public void refreshButtonClicked(object sender, EventArgs e)
         {
             getAllUploads();
         }
+
+        public void resetLinkClicked(object sender, EventArgs e)
+        {
+            while (UploadFolders.Count() > 0)
+            {
+                UploadFolders.RemoveAt(0);
+            }
+
+            while (UploadFiles.Count() > 0)
+            {
+                UploadFiles.RemoveAt(0);
+            }
+
+            UploadFilesCount = UploadFiles.Count();
+
+            // Labels
+            FolderLabel.Text = "";
+            labelFilesCount.Text = "no items found";
+
+            // Progress bar
+            progressBarText.Text = "";
+            progressBar.ProgressTo(value: 0, length: 900, easing: Easing.Linear);
+        }
+
         public static byte[] CompressGzip(byte[] raw)
         {
             using (MemoryStream memory = new MemoryStream())
@@ -472,6 +508,8 @@ namespace MauiApp1
                 UploadFilesCount++;
 
                 labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " items selected";
+
+                resetLink.TextColor = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
             }
         }
 

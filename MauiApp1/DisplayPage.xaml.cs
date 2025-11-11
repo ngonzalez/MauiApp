@@ -437,8 +437,8 @@ public partial class DisplayPage : ContentPage
         {
             GridMediaPlayer.IsVisible = true;
             string id = Convert.ToString(videoFile.id);
-            mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/video-" + id + ".m3u8");
-            //mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
+            //mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/video-" + id + ".m3u8");
+            mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
             mediaElement.Play();
         }
         else
@@ -619,8 +619,8 @@ public partial class DisplayPage : ContentPage
         {
             GridMediaPlayer.IsVisible = true;
             string id = Convert.ToString(audioFile.id);
-            mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/audio-" + id + ".m3u8");
-            //mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/audio-" + id + ".m3u8");
+            //mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/audio-" + id + ".m3u8");
+            mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/audio-" + id + ".m3u8");
             mediaElement.Play();
         }
         else

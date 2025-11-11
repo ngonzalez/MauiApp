@@ -47,19 +47,30 @@
                 VerticalTextAlignment="Center"
                 HorizontalTextAlignment="Center" />
 
-            <Button 
-                Text="Pick Folder"
-                FontAttributes="Bold"
-                Grid.Row="1"
-                SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
-                Clicked="OnPickFolderClicked"
-                HorizontalOptions="Center" />
+            <Grid>
+                <Button 
+                    Text="Pick Folder"
+                    FontAttributes="Bold"
+                    SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
+                    Clicked="OnPickFolderClicked"
+                    HorizontalOptions="Center" />
+            </Grid>
+
+            <Grid>
+                <Button
+                    Text="Reset"
+                    SemanticProperties.Hint="Reset selection"
+                    x:Name="resetLink"
+                    BackgroundColor="Black"
+                    TextColor="Grey"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center" />
+            </Grid>
 
             <Grid>
                 <Button
                     Text="Send Files"
                     FontAttributes="Bold"
-                    Grid.Row="1"
                     SemanticProperties.Hint="POST data to our servers"
                     Clicked="OnSendDataClicked"
                     HorizontalOptions="Center" />
