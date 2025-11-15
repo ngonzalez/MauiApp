@@ -53,7 +53,42 @@
                     FontAttributes="Bold"
                     SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
                     Clicked="OnPickFolderClicked"
-                    HorizontalOptions="Center" />
+                    TextColor="Black"
+                    HorizontalOptions="Center">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="FontAwesome7FreeSolid"
+                            Glyph="{StaticResource IconFolder}"
+                            Size="20"                            
+                            Color="LightGrey" />
+                    </Button.ImageSource>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale"
+                                Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale"
+                                Value="0.9" />
+                                        <Setter Property="BorderColor"
+                                Value="Black" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Property="BorderColor"
+                                Value="Black" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
             </Grid>
 
             <Grid>
@@ -82,7 +117,42 @@
                     FontAttributes="Bold"
                     SemanticProperties.Hint="POST data to our servers"
                     Clicked="OnSendDataClicked"
-                    HorizontalOptions="Center" />
+                    TextColor="Black"
+                    HorizontalOptions="Center">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="FontAwesome7FreeSolid"
+                            Glyph="{StaticResource IconServer}"
+                            Size="20"
+                            Color="LightGrey" />
+                    </Button.ImageSource>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale"
+                                Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale"
+                                Value="0.9" />
+                                        <Setter Property="BorderColor"
+                                Value="Black" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Property="BorderColor"
+                                Value="Black" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
             </Grid>
 
             <Grid>

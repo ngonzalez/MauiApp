@@ -56,7 +56,7 @@ public partial class SignInPage : ContentPage
 
                 await _authenticate.setCurrentUser(jsonResponse.user);
 
-                await Shell.Current.GoToAsync("account");
+                await Shell.Current.GoToAsync("accountpage");
 
             }
             else if (jsonResponse.user.errors.Length > 0)
