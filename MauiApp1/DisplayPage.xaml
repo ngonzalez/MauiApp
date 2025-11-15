@@ -246,7 +246,7 @@
                                                         <Button.ImageSource>
                                                             <FontImageSource
                                                                 FontFamily="FontAwesome7FreeRegular"
-                                                                Glyph="{StaticResource IconImage}"
+                                                                Glyph="{StaticResource IconFileImage}"
                                                                 Size="20"
                                                                 Color="FloralWhite" />
                                                         </Button.ImageSource>
@@ -509,7 +509,7 @@
                                                         <Button.ImageSource>
                                                             <FontImageSource
                                                                 FontFamily="FontAwesome7FreeRegular"
-                                                                Glyph="{StaticResource IconImage}"
+                                                                Glyph="{StaticResource IconFileVideo}"
                                                                 Size="20"
                                                                 Color="FloralWhite" />
                                                         </Button.ImageSource>
@@ -770,7 +770,7 @@
                                                         <Button.ImageSource>
                                                             <FontImageSource
                                                                 FontFamily="FontAwesome7FreeRegular"
-                                                                Glyph="{StaticResource IconImage}"
+                                                                Glyph="{StaticResource IconFileAudio}"
                                                                 Size="20"
                                                                 Color="FloralWhite" />
                                                         </Button.ImageSource>
