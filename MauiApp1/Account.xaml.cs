@@ -1,4 +1,5 @@
 using Microsoft.Toolkit.Uwp.Notifications;
+using System.Drawing;
 using System.Text.Json;
 
 namespace MauiApp1;
@@ -34,6 +35,7 @@ public partial class AccountPage : ContentPage
         myAccountLabel.Text = "My Account (" + _appShellViewModel.CurrentUser.emailAddress + ")";
         uploadsLink.Clicked += new EventHandler(uploadsLinkClicked);
         signOutLink.Clicked += new EventHandler(signOutLinkClicked);
+        accountLink.Clicked += new EventHandler(accountLinkClicked);
     }
 
     public async void signOutLinkClicked(object sender, EventArgs e)
@@ -54,6 +56,18 @@ public partial class AccountPage : ContentPage
         _authenticate.setSessionID(0);
 
         Shell.Current.GoToAsync("signin");
+    }
+
+    public void accountLinkClicked(object sender, EventArgs e)
+    {
+        if (_appShellViewModel.CurrentUser.id == null)
+        {
+            Shell.Current.GoToAsync("signin");
+        }
+        else
+        {
+            Shell.Current.GoToAsync("mainaccountpage");
+        }
     }
 
     public void uploadsLinkClicked(object sender, EventArgs e)

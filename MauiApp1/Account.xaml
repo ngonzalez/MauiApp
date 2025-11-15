@@ -5,35 +5,116 @@
 
     <ScrollView>
         <VerticalStackLayout
-        Padding="30,0"
-        Spacing="25">
+            Padding="30,0"
+            Spacing="25">
+
             <Image
-            Source="dotnet_bot.png"
-            HeightRequest="185"
-            Aspect="AspectFit"
-            SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
 
             <Label
-            Text="My Account"
-            x:Name="myAccountLabel"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
+                Text="My Account"
+                x:Name="myAccountLabel"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
 
             <Button
-            Text="Uploads"
-            x:Name="uploadsLink"
-            BackgroundColor="Black"
-            TextColor="FloralWhite"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
+                Text="Upload Files"
+                x:Name="uploadsLink"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                BorderColor="#333"
+                BorderWidth="1"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+                <Button.ImageSource>
+                    <FontImageSource
+                            FontFamily="FontAwesome7FreeSolid"
+                            Glyph="{StaticResource IconUpload}"
+                            Size="15"
+                            Color="FloralWhite" />
+                </Button.ImageSource>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale"
+                                Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale"
+                                Value="0.9" />
+                                    <Setter Property="BorderColor"
+                                Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor"
+                                Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
 
             <Button
-            Text="Sign-Out"
-            x:Name="signOutLink"
-            BackgroundColor="Black"
-            TextColor="FloralWhite"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
+                Text="Edit My Account"
+                x:Name="accountLink"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                BorderColor="#333"
+                BorderWidth="1"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+                <Button.ImageSource>
+                    <FontImageSource
+                            FontFamily="FontAwesome7FreeSolid"
+                            Glyph="{StaticResource IconUserGear}"
+                            Size="15"
+                            Color="FloralWhite" />
+                </Button.ImageSource>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale"
+                                Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale"
+                                Value="0.9" />
+                                    <Setter Property="BorderColor"
+                                Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor"
+                                Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+
+            <Button
+                Text="Sign-Out"
+                x:Name="signOutLink"
+                BackgroundColor="Black"
+                TextColor="Grey"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
 
         </VerticalStackLayout>
     </ScrollView>

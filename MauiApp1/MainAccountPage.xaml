@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.MainAccountPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+
+            <Button
+                Text="Back to my account"
+                x:Name="myAccountLink"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                FontSize="20"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="FontAwesome7FreeSolid"
+                        Glyph="{StaticResource IconCircleArrowLeft}"
+                        Size="20"
+                        Color="FloralWhite" />
+                </Button.ImageSource>
+            </Button>
+
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

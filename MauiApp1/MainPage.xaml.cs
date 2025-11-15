@@ -258,7 +258,7 @@ namespace MauiApp1
 
         public void accountLinkClicked(object sender, EventArgs e)
         {
-            Shell.Current.GoToAsync("account");
+            Shell.Current.GoToAsync("accountpage");
         }
 
         public void refreshButtonClicked(object sender, EventArgs e)

@@ -7,7 +7,8 @@
             InitializeComponent();
 
             Routing.RegisterRoute("signin", typeof(SignInPage));
-            Routing.RegisterRoute("account", typeof(AccountPage));
+            Routing.RegisterRoute("accountpage", typeof(AccountPage));
+            Routing.RegisterRoute("mainaccountpage", typeof(MainAccountPage));
             Routing.RegisterRoute("mainpage", typeof(MainPage));
             Routing.RegisterRoute("displaypage", typeof(DisplayPage));
             Routing.RegisterRoute("showimagefilepage", typeof(ShowImageFilePage));
