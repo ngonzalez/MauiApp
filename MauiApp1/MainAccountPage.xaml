@@ -31,6 +31,268 @@
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a hovercraft number nine" />
 
+            <Label
+                FontSize="20"
+                FontAttributes="Bold">
+                Edit Account
+            </Label>
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                First name
+            </Label>
+
+            <Entry
+                Placeholder="First Name"
+                x:Name="editAccountFirstName"
+                TextChanged="OnFirstNameCompleted" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Last name
+            </Label>
+
+            <Entry
+                Placeholder="Last Name"
+                x:Name="editAccountLastName"
+                TextChanged="OnLastNameCompleted" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Email address
+            </Label>
+
+            <Entry
+                Placeholder="Email Address"
+                x:Name="editAccountEmailAddress"
+                TextColor="Grey"
+                Opacity="0.9"
+                IsReadOnly="True" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                UUID
+            </Label>
+
+            <Entry
+                Placeholder="UUID"
+                x:Name="editAccountUuid"
+                TextColor="Grey"
+                Opacity="0.9"
+                IsReadOnly="True" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Created At
+            </Label>
+
+            <Entry
+                Placeholder="Created At"
+                x:Name="editAccountCreatedAt"
+                TextColor="Grey"
+                Opacity="0.9"
+                IsReadOnly="True" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Updated At
+            </Label>
+
+            <Entry
+                Placeholder="Updated At"
+                x:Name="editAccountUpdatedAt"
+                TextColor="Grey"
+                Opacity="0.9"
+                IsReadOnly="True" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Deliver notifications on Sign-In
+            </Label>
+
+            <CheckBox
+                x:Name="editAccountDeliverNotificationsOnSignIn" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Deliver notifications on Account Update
+            </Label>
+
+            <CheckBox
+                x:Name="editAccountDeliverNotificationsOnAccountUpdate" />
+
+            <Button
+                Text="Update Account"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Update Account"
+                Clicked="OnUpdateAccountClicked"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                HorizontalOptions="Center">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+
+            <Label
+                x:Name="updateAccountMessage"
+                HorizontalTextAlignment="Center" />
+
+            <Label
+                x:Name="accountErrors"
+                HorizontalTextAlignment="Center" />
+
+            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
+
+            <Label
+                FontSize="20"
+                FontAttributes="Bold">
+                Change Password
+            </Label>
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                New Password
+            </Label>
+
+            <Entry
+                Placeholder="Password"
+                IsPassword="True"
+                x:Name="changePasswordPassword" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                New Password Confirmation
+            </Label>
+
+            <Entry
+                Placeholder="Password Confirmation"
+                IsPassword="True"
+                x:Name="changePasswordPasswordConfirmation"/>
+
+            <Button
+                Text="Update Password"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Update Password"
+                Clicked="OnUpdatePasswordClicked"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                HorizontalOptions="Center">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+
+            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
+
+            <Label
+                FontSize="20"
+                FontAttributes="Bold">
+                Change Email Address
+            </Label>
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Current Email Address
+            </Label>
+
+            <Entry
+                Placeholder="Current Email Address"
+                x:Name="changeEmailCurrentEmailAddress"
+                TextColor="Grey"
+                Opacity="0.9"
+                IsReadOnly="True" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                New Email Address
+            </Label>
+
+            <Entry
+                Placeholder="New Email Address"
+                x:Name="changeEmailNewEmailAddress"/>
+
+            <Button
+                Text="Update Email Address"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Update Email"
+                Clicked="OnUpdateEmailClicked"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                HorizontalOptions="Center">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+
+            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

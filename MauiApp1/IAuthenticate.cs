@@ -2,6 +2,7 @@
 {
     public interface IAuthenticate
     {
+
         Task<User> getCurrentUser();
 
         Task<bool> setCurrentUser(User user);
@@ -13,5 +14,8 @@
         Task<int> getSessionID();
 
         Task<String> deleteSession();
+
+        Task<String> updateAccount(Dictionary<string, string> values);
+
     }
 }
