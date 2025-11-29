@@ -19,6 +19,14 @@ namespace MauiApp1
         public string message { get; set; }
 
     }
+    public class UpdatePasswordResponse
+    {
+
+        public User user { get; set; }
+
+        public string message { get; set; }
+
+    }
 
     public partial class MainAccountPage : ContentPage
     {
@@ -29,6 +37,10 @@ namespace MauiApp1
         private string FirstName;
 
         private string LastName;
+
+        private string Password;
+
+        private string PasswordConfirmation;
 
         public MainAccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
         {
@@ -111,9 +123,54 @@ namespace MauiApp1
             }
         }
 
-        public void OnUpdatePasswordClicked(object sender, EventArgs e)
+        private async void OnPasswordCompleted(object sender, EventArgs e)
         {
+            Password = ((Entry)sender).Text;
+        }
 
+        private async void OnPasswordConfirmationCompleted(object sender, EventArgs e)
+        {
+            PasswordConfirmation = ((Entry)sender).Text;
+        }
+
+        public async void OnUpdatePasswordClicked(object sender, EventArgs e)
+        {
+            var values = new Dictionary<string, string> {
+                { "id", Convert.ToString(_appShellViewModel.CurrentUser.id!) },
+                { "password", Password },
+                { "passwordConfirmation", PasswordConfirmation }
+            };
+
+            (int statusCode, var response) = await _authenticate.updatePassword(values);
+            
+            UpdatePasswordResponse jsonResponse = JsonSerializer.Deserialize<UpdatePasswordResponse>(response);
+            
+            passwordErrors.Text = "";
+            if (jsonResponse.user.errors.Length > 0)
+            {
+                foreach (string error in jsonResponse.user.errors)
+                {
+                    passwordErrors.Text += error;
+                    passwordErrors.Text += "\n";
+                }
+            }
+            
+            ToastNotificationManagerCompat.History.Clear();
+            
+            if (jsonResponse?.message != null)
+            {
+                if (statusCode == 200)
+                {
+                    await _authenticate.setCurrentUser(jsonResponse.user);
+
+                    changePasswordPassword.Text = "";
+                    changePasswordPasswordConfirmation.Text = "";
+                }
+
+                new ToastContentBuilder()
+                    .AddText(string.Concat(jsonResponse.message))
+                    .Show();
+            }
         }
 
         public void OnUpdateEmailClicked(object sender, EventArgs e)

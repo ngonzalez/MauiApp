@@ -1,4 +1,6 @@
 ﻿using System.Net.Http.Headers;
+using Windows.Web.Http;
+using HttpClient = System.Net.Http.HttpClient;
 
 namespace MauiApp1.Platforms.Windows
 {
@@ -67,6 +69,16 @@ namespace MauiApp1.Platforms.Windows
             var response = await _httpClient.PutAsync("/account", content);
             var json = await response.Content.ReadAsStringAsync();
             return json;
+        }
+
+        public async Task<(int, String)> updatePassword(Dictionary<string, string> values)
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var content = new FormUrlEncodedContent(values);
+            var response = await _httpClient.PutAsync("/password", content);
+            var json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
         }
     }
 }

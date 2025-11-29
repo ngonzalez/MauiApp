@@ -17,5 +17,7 @@
 
         Task<String> updateAccount(Dictionary<string, string> values);
 
+        Task<(int, String)> updatePassword(Dictionary<string, string> values);
+
     }
 }
