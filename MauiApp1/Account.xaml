@@ -41,22 +41,17 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter Property="Scale"
-                                Value="1" />
+                                    <Setter Property="Scale" Value="1" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Pressed">
                                 <VisualState.Setters>
-                                    <Setter Property="Scale"
-                                Value="0.9" />
-                                    <Setter Property="BorderColor"
-                                Value="#333" />
+                                    <Setter Property="Scale" Value="0.9" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="PointerOver">
                                 <VisualState.Setters>
-                                    <Setter Property="BorderColor"
-                                Value="#333" />
+                                    <Setter Property="BorderColor" Value="Black" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -85,22 +80,17 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter Property="Scale"
-                                Value="1" />
+                                    <Setter Property="Scale" Value="1" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Pressed">
                                 <VisualState.Setters>
-                                    <Setter Property="Scale"
-                                Value="0.9" />
-                                    <Setter Property="BorderColor"
-                                Value="#333" />
+                                    <Setter Property="Scale" Value="0.9" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="PointerOver">
                                 <VisualState.Setters>
-                                    <Setter Property="BorderColor"
-                                Value="#333" />
+                                    <Setter Property="BorderColor" Value="Black" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>

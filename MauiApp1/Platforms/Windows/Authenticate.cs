@@ -59,5 +59,14 @@ namespace MauiApp1.Platforms.Windows
             var json = await response.Content.ReadAsStringAsync();
             return json;
         }
+
+        public async Task<String> updateAccount(Dictionary<string, string> values)
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var content = new FormUrlEncodedContent(values);
+            var response = await _httpClient.PutAsync("/account", content);
+            var json = await response.Content.ReadAsStringAsync();
+            return json;
+        }
     }
 }

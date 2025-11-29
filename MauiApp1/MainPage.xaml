@@ -60,7 +60,7 @@
                             FontFamily="FontAwesome7FreeSolid"
                             Glyph="{StaticResource IconFolder}"
                             Size="20"                            
-                            Color="LightGrey" />
+                            Color="LightCyan" />
                     </Button.ImageSource>
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroupList>
@@ -120,7 +120,7 @@
                             FontFamily="FontAwesome7FreeSolid"
                             Glyph="{StaticResource IconServer}"
                             Size="20"
-                            Color="LightGrey" />
+                            Color="LightCyan" />
                     </Button.ImageSource>
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroupList>
