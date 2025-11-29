@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MauiApp1
 {
@@ -95,15 +96,18 @@ namespace MauiApp1
                 {
                     accountErrors.Text += error;
                     accountErrors.Text += "\n";
-                }                
+                }
             }
 
-            updateAccountMessage.Text = "";
+            ToastNotificationManagerCompat.History.Clear();
+
             if (jsonResponse?.message != null)
             {
                 _authenticate.setCurrentUser(jsonResponse.user);
 
-                updateAccountMessage.Text = jsonResponse.message;
+                new ToastContentBuilder()
+                    .AddText(string.Concat(jsonResponse.message))
+                    .Show();
             }
         }
 

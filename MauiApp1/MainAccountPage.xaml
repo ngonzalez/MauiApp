@@ -161,10 +161,6 @@
             </Button>
 
             <Label
-                x:Name="updateAccountMessage"
-                HorizontalTextAlignment="Center" />
-
-            <Label
                 x:Name="accountErrors"
                 HorizontalTextAlignment="Center" />
 
