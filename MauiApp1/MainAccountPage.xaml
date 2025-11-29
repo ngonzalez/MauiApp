@@ -161,10 +161,6 @@
             </Button>
 
             <Label
-                x:Name="updateAccountMessage"
-                HorizontalTextAlignment="Center" />
-
-            <Label
                 x:Name="accountErrors"
                 HorizontalTextAlignment="Center" />
 
@@ -185,7 +181,8 @@
             <Entry
                 Placeholder="Password"
                 IsPassword="True"
-                x:Name="changePasswordPassword" />
+                x:Name="changePasswordPassword"
+                TextChanged="OnPasswordCompleted" />
 
             <Label
                 TextColor="#CCC"
@@ -196,7 +193,8 @@
             <Entry
                 Placeholder="Password Confirmation"
                 IsPassword="True"
-                x:Name="changePasswordPasswordConfirmation"/>
+                x:Name="changePasswordPasswordConfirmation"
+                TextChanged="OnPasswordConfirmationCompleted"/>
 
             <Button
                 Text="Update Password"
@@ -228,6 +226,10 @@
                     </VisualStateGroupList>
                 </VisualStateManager.VisualStateGroups>
             </Button>
+
+            <Label
+                x:Name="passwordErrors"
+                HorizontalTextAlignment="Center" />
 
             <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
 
