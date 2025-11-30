@@ -11,6 +11,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MauiApp1
 {
+
     public class UpdateAccountResponse
     {
 
@@ -19,7 +20,17 @@ namespace MauiApp1
         public string message { get; set; }
 
     }
+
     public class UpdatePasswordResponse
+    {
+
+        public User user { get; set; }
+
+        public string message { get; set; }
+
+    }
+
+    public class UpdateEmailAddressResponse
     {
 
         public User user { get; set; }
@@ -41,6 +52,8 @@ namespace MauiApp1
         private string Password;
 
         private string PasswordConfirmation;
+
+        private string EmailAddress;
 
         public MainAccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
         {
@@ -97,7 +110,7 @@ namespace MauiApp1
                 { "deliverNotificationsAccountUpdate", Convert.ToString(editAccountDeliverNotificationsOnAccountUpdate.IsChecked).ToLower() }
             };
 
-            var response = await _authenticate.updateAccount(values);
+            (int _statusCode, var response) = await _authenticate.updateAccount(values);
 
             UpdateAccountResponse jsonResponse = JsonSerializer.Deserialize<UpdateAccountResponse>(response);
 
@@ -173,9 +186,47 @@ namespace MauiApp1
             }
         }
 
-        public void OnUpdateEmailClicked(object sender, EventArgs e)
+        public void OnNewEmailAddressCompleted(object sender, EventArgs e)
         {
+            EmailAddress = ((Entry)sender).Text;
+        }
+        public async void OnUpdateEmailClicked(object sender, EventArgs e)
+        {
+            var values = new Dictionary<string, string> {
+                { "id", Convert.ToString(_appShellViewModel.CurrentUser.id!) },
+                { "emailAddress", EmailAddress }
+            };
 
+            (int statusCode, var response) = await _authenticate.updateEmailAddress(values);
+
+            UpdateEmailAddressResponse jsonResponse = JsonSerializer.Deserialize<UpdateEmailAddressResponse>(response);
+
+            emailAddressErrors.Text = "";
+            if (jsonResponse.user.errors.Length > 0)
+            {
+                foreach (string error in jsonResponse.user.errors)
+                {
+                    emailAddressErrors.Text += error;
+                    emailAddressErrors.Text += "\n";
+                }
+            }
+
+            ToastNotificationManagerCompat.History.Clear();
+
+            if (jsonResponse?.message != null)
+            {
+                if (statusCode == 200)
+                {
+                    await _authenticate.setCurrentUser(jsonResponse.user);
+
+                    changeEmailNewEmailAddress.Text = "";
+                    changeEmailNewEmailAddress.Text = "";
+                }
+
+                new ToastContentBuilder()
+                    .AddText(string.Concat(jsonResponse.message))
+                    .Show();
+            }
         }
     }
 }

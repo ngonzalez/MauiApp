@@ -194,7 +194,7 @@
                 Placeholder="Password Confirmation"
                 IsPassword="True"
                 x:Name="changePasswordPasswordConfirmation"
-                TextChanged="OnPasswordConfirmationCompleted"/>
+                TextChanged="OnPasswordConfirmationCompleted" />
 
             <Button
                 Text="Update Password"
@@ -260,7 +260,8 @@
 
             <Entry
                 Placeholder="New Email Address"
-                x:Name="changeEmailNewEmailAddress"/>
+                x:Name="changeEmailNewEmailAddress"
+                TextChanged="OnNewEmailAddressCompleted" />
 
             <Button
                 Text="Update Email Address"
@@ -292,6 +293,10 @@
                     </VisualStateGroupList>
                 </VisualStateManager.VisualStateGroups>
             </Button>
+
+            <Label
+                x:Name="emailAddressErrors"
+                HorizontalTextAlignment="Center" />
 
             <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
 

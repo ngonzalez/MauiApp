@@ -85,7 +85,7 @@ public partial class DisplayPage : ContentPage
         string folderId = Convert.ToString(_folder.id);
         var folderIdsUtf8 = JsonSerializer.SerializeToUtf8Bytes("," + folderId);
         string encodedFolderId = Convert.ToBase64String(folderIdsUtf8);
-        var response = await _apiService.GetAllUploads("?folderIds=" + encodedFolderId);
+        (int _statusCode, var response) = await _apiService.GetAllUploads("?folderIds=" + encodedFolderId);
         var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
         // ImageFile
@@ -385,7 +385,7 @@ public partial class DisplayPage : ContentPage
             {
                 string videoFileId = Convert.ToString(videoFile.id);
 
-                string response = await _apiService.getVideoStream(videoFileId);
+                (int _statusCode, var response) = await _apiService.getVideoStream(videoFileId);
 
                 VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
 
@@ -556,7 +556,7 @@ public partial class DisplayPage : ContentPage
             {
                 string audioFileId = Convert.ToString(audioFile.id);
 
-                string response = await _apiService.getAudioStream(audioFileId);
+                (int _statusCode, var response) = await _apiService.getAudioStream(audioFileId);
 
                 AudioStreamResponse jsonResponse = JsonSerializer.Deserialize<AudioStreamResponse>(response);
 

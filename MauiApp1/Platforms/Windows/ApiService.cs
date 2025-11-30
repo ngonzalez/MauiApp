@@ -30,35 +30,39 @@ namespace MauiApp1.Platforms.Windows
             );
         }
 
-        public async Task<string> getVideoStream(string id)
+        public async Task<(int, String)> getVideoStream(string id)
         {
-            var httpResponse = await _httpClientStreamingService.GetAsync("/video_files/" + id);
-            string response = await httpResponse.Content.ReadAsStringAsync();
-            return response;
+            var response = await _httpClientStreamingService.GetAsync("/video_files/" + id);
+            var json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
         }
 
-        public async Task<string> getAudioStream(string id)
+        public async Task<(int, String)> getAudioStream(string id)
         {
-            var httpResponse = await _httpClientStreamingService.GetAsync("/audio_files/" + id);
-            string response = await httpResponse.Content.ReadAsStringAsync();
-            return response;
+            var response = await _httpClientStreamingService.GetAsync("/audio_files/" + id);
+            var json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
         }
 
-        public async Task<string> GetAllUploads(string ids)
+        public async Task<(int, String)> GetAllUploads(string ids)
         {
-            var httpResponse = await _httpClient.GetAsync("/upload" + ids);
-            string response = await httpResponse.Content.ReadAsStringAsync();
-            return response;
+            var response = await _httpClient.GetAsync("/upload" + ids);
+            string json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
         }
 
-        public async Task<string> CreatePostAsync(byte[] body)
+        public async Task<(int, String)> CreatePostAsync(byte[] body)
         {
             ByteArrayContent content = new ByteArrayContent(body);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             content.Headers.ContentLength = body.Length;
-            var httpResponse = await _httpClient.PostAsync("/upload", content);
-            string response = await httpResponse.Content.ReadAsStringAsync();
-            return response;
+            var response = await _httpClient.PostAsync("/upload", content);
+            string json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
         }
     }
 }

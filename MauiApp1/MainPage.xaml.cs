@@ -122,7 +122,7 @@ namespace MauiApp1
         {
             ActivityIndicator.IsRunning = true;
 
-            var response = await _apiService.GetAllUploads("");
+            (int _statusCode, var response) = await _apiService.GetAllUploads("");
             var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
             while (Folders.Count() > 0)
@@ -404,7 +404,7 @@ namespace MauiApp1
         public async void SendUploadFile(UploadFile uploadFile)
         {
             byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
-            string response = await _apiService.CreatePostAsync(CompressGzip(body));
+            (int _statusCode, var response) = await _apiService.CreatePostAsync(CompressGzip(body));
         }
 
         public async void SendFile(UploadFile uploadFile)

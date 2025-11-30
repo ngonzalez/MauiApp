@@ -2,12 +2,12 @@
 {
     public interface IApiService
     {
-        Task<string> getAudioStream(string id);
+        Task<(int, String)> getAudioStream(string id);
 
-        Task<string> getVideoStream(string id);
+        Task<(int, String)> getVideoStream(string id);
 
-        Task<string> GetAllUploads(string ids);
+        Task<(int, String)> GetAllUploads(string ids);
 
-        Task<string> CreatePostAsync(byte[] body);
+        Task<(int, String)> CreatePostAsync(byte[] body);
     }
 }

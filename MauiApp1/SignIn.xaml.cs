@@ -51,7 +51,7 @@ public partial class SignInPage : ContentPage
             { "password", Password },
         };
 
-        var response = await _authenticate.newSession(values);
+        (int _statusCode, var response) = await _authenticate.newSession(values);
 
         NewSessionResponse jsonResponse = JsonSerializer.Deserialize<NewSessionResponse>(response);
 
