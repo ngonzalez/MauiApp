@@ -60,6 +60,12 @@
                 </VisualStateManager.VisualStateGroups>
             </Button>
 
+            <Label
+                x:Name="signInErrors"
+                HorizontalTextAlignment="Center" />
+
+            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

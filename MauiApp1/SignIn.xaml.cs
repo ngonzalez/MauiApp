@@ -57,9 +57,9 @@ public partial class SignInPage : ContentPage
 
         ToastNotificationManagerCompat.History.Clear();
 
-        if (jsonResponse?.user != null)
+        if (jsonResponse.user != null)
         {
-            if (jsonResponse?.user?.id != null)
+            if (jsonResponse.user.id != null)
             {
                 new ToastContentBuilder()
                     .AddText(string.Concat(jsonResponse.message))
@@ -78,13 +78,18 @@ public partial class SignInPage : ContentPage
                 await Shell.Current.GoToAsync("accountpage");
 
             }
-            else if (jsonResponse.user.errors.Length > 0)
+
+            signInErrors.Text = "";
+            if (jsonResponse.user.errors.Length > 0)
             {
-                new ToastContentBuilder()
-                    .AddText(string.Concat(jsonResponse.user.errors))
-                    .Show();
+                foreach (string error in jsonResponse.user.errors)
+                {
+                    signInErrors.Text += error;
+                    signInErrors.Text += "\n";
+                }
             }
-            else if (jsonResponse?.message != null)
+
+            if (jsonResponse.message != null)
             {
                 new ToastContentBuilder()
                     .AddText(string.Concat(jsonResponse.message))
