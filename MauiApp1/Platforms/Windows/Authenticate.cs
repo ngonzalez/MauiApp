@@ -45,30 +45,33 @@ namespace MauiApp1.Platforms.Windows
             return true;
         }
 
-        public async Task<String> newSession(Dictionary<string, string> values)
+        public async Task<(int, String)> newSession(Dictionary<string, string> values)
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var content = new FormUrlEncodedContent(values);
             var response = await _httpClient.PostAsync("/session", content);
             var json = await response.Content.ReadAsStringAsync();
-            return json;
+            int status = (int)response.StatusCode;
+            return (status, json);
         }
 
-        public async Task<String> deleteSession()
+        public async Task<(int, String)> deleteSession()
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var response = await _httpClient.DeleteAsync("/session");
             var json = await response.Content.ReadAsStringAsync();
-            return json;
+            int status = (int)response.StatusCode;
+            return (status, json);
         }
 
-        public async Task<String> updateAccount(Dictionary<string, string> values)
+        public async Task<(int, String)> updateAccount(Dictionary<string, string> values)
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var content = new FormUrlEncodedContent(values);
             var response = await _httpClient.PutAsync("/account", content);
             var json = await response.Content.ReadAsStringAsync();
-            return json;
+            int status = (int)response.StatusCode;
+            return (status, json);
         }
 
         public async Task<(int, String)> updatePassword(Dictionary<string, string> values)
@@ -76,6 +79,16 @@ namespace MauiApp1.Platforms.Windows
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var content = new FormUrlEncodedContent(values);
             var response = await _httpClient.PutAsync("/password", content);
+            var json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
+        public async Task<(int, String)> updateEmailAddress(Dictionary<string, string> values)
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var content = new FormUrlEncodedContent(values);
+            var response = await _httpClient.PutAsync("/email", content);
             var json = await response.Content.ReadAsStringAsync();
             int status = (int)response.StatusCode;
             return (status, json);

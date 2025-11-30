@@ -40,7 +40,7 @@ public partial class AccountPage : ContentPage
 
     public async void signOutLinkClicked(object sender, EventArgs e)
     {
-        var response = await _authenticate.deleteSession();
+        (int _statusCode, var response) = await _authenticate.deleteSession();
 
         DeleteSessionResponse jsonResponse = JsonSerializer.Deserialize<DeleteSessionResponse>(response);
 
