@@ -1,3 +1,5 @@
+using Microsoft.UI.Xaml.Data;
+using System;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 
@@ -155,6 +157,14 @@ public partial class DisplayPage : ContentPage
         GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
     }
 
+    public async void imageFilesSearchInputTextChanged(object sender, EventArgs e)
+    {
+        SearchBar searchBar = (SearchBar)sender;
+        imageFilesCollectionView.ItemsSource = ImageFiles.Where(imageFile =>
+            imageFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
+        );
+    }
+
     public async void openNewWindowImageFile(object sender, EventArgs e)
     {
         Button button = (Button)sender;
@@ -263,6 +273,14 @@ public partial class DisplayPage : ContentPage
     public async void ImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
+    }
+
+    public async void videoFilesSearchInputTextChanged(object sender, EventArgs e)
+    {
+        SearchBar searchBar = (SearchBar)sender;
+        videoFilesCollectionView.ItemsSource = VideoFiles.Where(videoFile =>
+            videoFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
+        );
     }
 
     public async void previousLinkVideoFileClicked(object sender, EventArgs e)
@@ -434,6 +452,14 @@ public partial class DisplayPage : ContentPage
         {
             GridMediaProcessing.IsVisible = false;
         }
+    }
+
+    public async void audioFilesSearchInputTextChanged(object sender, EventArgs e)
+    {
+        SearchBar searchBar = (SearchBar)sender;
+        audioFilesCollectionView.ItemsSource = AudioFiles.Where(audioFile =>
+            audioFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
+        );
     }
 
     public async void previousLinkAudioFileClicked(object sender, EventArgs e)
