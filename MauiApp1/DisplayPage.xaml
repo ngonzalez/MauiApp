@@ -89,7 +89,7 @@
                                                             <Button.ImageSource>
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconArrowLeft}"
+                                                                    Glyph="{StaticResource IconReply}"
                                                                     Size="20"
                                                                     Color="Grey" />
                                                             </Button.ImageSource>
@@ -107,7 +107,7 @@
                                                             <Button.ImageSource>
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconArrowRight}"
+                                                                    Glyph="{StaticResource IconShare}"
                                                                     Size="20"
                                                                     Color="Grey" />
                                                             </Button.ImageSource>
@@ -199,14 +199,23 @@
                         </ScrollView>
                     </VerticalStackLayout>
                     <VerticalStackLayout MinimumWidthRequest="500">
+                        <SearchBar
+                            x:Name="imageFilesSearchBar"
+                            Placeholder="Search..."
+                            BackgroundColor="Black"
+                            TextColor="FloralWhite"
+                            TextChanged="imageFilesSearchInputTextChanged" />
+
                         <Frame
                             BorderColor="Black"
                             CornerRadius="5">
 
                             <ScrollView
-                                x:Name="scrollViewImageFilesList">
+                                x:Name="scrollViewImageFilesList"
+                                MaximumHeightRequest="700">
 
                                 <CollectionView
+                                    x:Name="imageFilesCollectionView"
                                     ItemsSource="{Binding ImageFiles}"
                                     SelectionMode="Multiple"
                                     SelectionChanged="ImageFilesSelectionChanged"
@@ -470,20 +479,37 @@
                         </ScrollView>
                     </VerticalStackLayout>
                     <VerticalStackLayout MinimumWidthRequest="500">
+                        <SearchBar
+                            x:Name="videoFilesSearchBar"
+                            Placeholder="Search..."
+                            BackgroundColor="Black"
+                            TextColor="FloralWhite"
+                            TextChanged="videoFilesSearchInputTextChanged" />
+
                         <Frame
                             BorderColor="Black"
                             CornerRadius="5">
 
                             <ScrollView
-                                x:Name="scrollViewVideoFilesList">
+                                x:Name="scrollViewVideoFilesList"
+                                MaximumHeightRequest="700">
 
                                 <CollectionView
+                                    x:Name="videoFilesCollectionView"
                                     ItemsSource="{Binding VideoFiles}"
                                     SelectionMode="Multiple"
                                     SelectionChanged="VideoFilesSelectionChanged"
                                     SelectedItems="{Binding SelectedVideoFiles}">
 
                                     <CollectionView.EmptyView>
+                                        <Label
+                                            Text="No data found."
+                                            FontSize="20"
+                                            BackgroundColor="Transparent"
+                                            TextColor="FloralWhite"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+
                                     </CollectionView.EmptyView>
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
@@ -731,20 +757,37 @@
                         </ScrollView>
                     </VerticalStackLayout>
                     <VerticalStackLayout MinimumWidthRequest="500">
+                        <SearchBar
+                            x:Name="audioFilesSearchBar"
+                            Placeholder="Search..."
+                            BackgroundColor="Black"
+                            TextColor="FloralWhite"
+                            TextChanged="audioFilesSearchInputTextChanged" />
+
                         <Frame
                             BorderColor="Black"
                             CornerRadius="5">
 
                             <ScrollView
-                                x:Name="scrollViewAudioFilesList">
+                                x:Name="scrollViewAudioFilesList"
+                                MaximumHeightRequest="700">
 
                                 <CollectionView
+                                    x:Name="audioFilesCollectionView"
                                     ItemsSource="{Binding AudioFiles}"
                                     SelectionMode="Multiple"
                                     SelectionChanged="AudioFilesSelectionChanged"
                                     SelectedItems="{Binding SelectedAudioFiles}">
 
                                     <CollectionView.EmptyView>
+                                        <Label
+                                            Text="No data found."
+                                            FontSize="20"
+                                            BackgroundColor="Transparent"
+                                            TextColor="FloralWhite"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+
                                     </CollectionView.EmptyView>
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>

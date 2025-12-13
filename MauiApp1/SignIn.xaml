@@ -37,6 +37,13 @@
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
                 HorizontalOptions="Center">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="FontAwesome7FreeSolid"
+                        Glyph="{StaticResource IconUserGroup}"
+                        Size="15"
+                        Color="FloralWhite" />
+                </Button.ImageSource>
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -64,8 +71,79 @@
                 x:Name="signInErrors"
                 HorizontalTextAlignment="Center" />
 
-            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
+            <Button
+                Text="Register for a new Account"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Register"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                HorizontalOptions="Center">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="FontAwesome7FreeSolid"
+                        Glyph="{StaticResource IconClipboardList}"
+                        Size="15"
+                        Color="FloralWhite" />
+                </Button.ImageSource>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
 
+            <Button
+                Text="Reset your psasword"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Reset Password"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                HorizontalOptions="Center">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="FontAwesome7FreeSolid"
+                        Glyph="{StaticResource IconEnvelopeOpen}"
+                        Size="15"
+                        Color="FloralWhite" />
+                </Button.ImageSource>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
