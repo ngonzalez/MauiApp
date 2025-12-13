@@ -198,7 +198,7 @@
                             </CollectionView>
                         </ScrollView>
                     </VerticalStackLayout>
-                    <VerticalStackLayout MinimumWidthRequest="500">
+                    <VerticalStackLayout>
                         <SearchBar
                             x:Name="imageFilesSearchBar"
                             Placeholder="Search..."
@@ -208,7 +208,7 @@
 
                         <Frame
                             BorderColor="Black"
-                            CornerRadius="5">
+                            CornerRadius="10">
 
                             <ScrollView
                                 x:Name="scrollViewImageFilesList"
@@ -478,7 +478,7 @@
                             </CollectionView>
                         </ScrollView>
                     </VerticalStackLayout>
-                    <VerticalStackLayout MinimumWidthRequest="500">
+                    <VerticalStackLayout>
                         <SearchBar
                             x:Name="videoFilesSearchBar"
                             Placeholder="Search..."
@@ -488,7 +488,7 @@
 
                         <Frame
                             BorderColor="Black"
-                            CornerRadius="5">
+                            CornerRadius="10">
 
                             <ScrollView
                                 x:Name="scrollViewVideoFilesList"
@@ -756,7 +756,7 @@
                             </CollectionView>
                         </ScrollView>
                     </VerticalStackLayout>
-                    <VerticalStackLayout MinimumWidthRequest="500">
+                    <VerticalStackLayout>
                         <SearchBar
                             x:Name="audioFilesSearchBar"
                             Placeholder="Search..."
@@ -766,7 +766,7 @@
 
                         <Frame
                             BorderColor="Black"
-                            CornerRadius="5">
+                            CornerRadius="10">
 
                             <ScrollView
                                 x:Name="scrollViewAudioFilesList"

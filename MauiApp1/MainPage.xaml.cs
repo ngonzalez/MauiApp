@@ -266,6 +266,14 @@ namespace MauiApp1
             getAllUploads();
         }
 
+        public async void foldersSearchInputTextChanged(object sender, EventArgs e)
+        {
+            SearchBar searchBar = (SearchBar)sender;
+            foldersCollectionView.ItemsSource = Folders.Where(folder =>
+                folder.name.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
+            );
+        }
+
         public void resetLinkClicked(object sender, EventArgs e)
         {
             while (UploadFolders.Count() > 0)
