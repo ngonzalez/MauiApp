@@ -57,21 +57,17 @@ public partial class ResetPasswordPage : ContentPage
 
         ResetPasswordResponse jsonResponse = JsonSerializer.Deserialize<ResetPasswordResponse>(response);
 
-        ToastNotificationManagerCompat.History.Clear();
-
         if (_statusCode == 422)
         {
-            resetPasswordErrors.Text = "User not found";
-        } else
+            resetPasswordErrors.Text = "Email address not found";
+        } else if (_statusCode == 200)
         {
-            resetPasswordErrors.Text = "";
+            resetPasswordInput.Text = "";
         }
 
         if (jsonResponse.message != null)
         {
-            new ToastContentBuilder()
-                .AddText(string.Concat(jsonResponse.message))
-                .Show();
+            resetPasswordErrors.Text = jsonResponse.message;
         }
     }
 }
