@@ -11,6 +11,8 @@
 
         Task<int> getSessionID();
 
+        Task<(int, String)> registerAccount(Dictionary<string, string> values);
+
         Task<(int, String)> newSession(Dictionary<string, string> values);
 
         Task<(int, String)> deleteSession();

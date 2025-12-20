@@ -180,7 +180,9 @@
             </Grid>
 
             <Grid>
-                <VerticalStackLayout MinimumWidthRequest="500">
+                <VerticalStackLayout
+                    MinimumWidthRequest="500">
+
                     <SearchBar
                     x:Name="folderSearchBar"
                     Placeholder="Search..."

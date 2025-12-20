@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.RegisterPage"
+             Title="">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+
+            <Button
+                Text="Back to sign-in"
+                x:Name="signInLink"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                FontSize="20"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="FontAwesome7FreeSolid"
+                        Glyph="{StaticResource IconCircleArrowLeft}"
+                        Size="20"
+                        Color="FloralWhite" />
+                </Button.ImageSource>
+            </Button>
+
+            <Label
+                FontSize="20"
+                FontAttributes="Bold">
+                Register Account
+            </Label>
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                First name
+            </Label>
+
+            <Entry
+                Placeholder="First Name"
+                x:Name="registerAccountFirstName"
+                TextChanged="OnFirstNameCompleted" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Last name
+            </Label>
+
+            <Entry
+                Placeholder="Last Name"
+                x:Name="registerAccountLastName"
+                TextChanged="OnLastNameCompleted" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Email address
+            </Label>
+
+            <Entry
+                Placeholder="Email Address"
+                x:Name="registerAccountEmailAddress"
+                TextColor="Grey"
+                Opacity="0.9"
+                IsReadOnly="True" />
+
+            <Button
+                Text="Register"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Register"
+                Clicked="OnRegisterClicked"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                HorizontalOptions="Center">
+                <Button.ImageSource>
+                    <FontImageSource
+                        FontFamily="FontAwesome7FreeSolid"
+                        Glyph="{StaticResource IconUserGroup}"
+                        Size="15"
+                        Color="FloralWhite" />
+                </Button.ImageSource>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+
+            <Label
+                x:Name="registerErrors"
+                HorizontalTextAlignment="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
