@@ -110,9 +110,10 @@
             </Button>
 
             <Button
-                Text="Reset your psasword"
+                Text="Reset your password"
                 FontAttributes="Bold"
                 SemanticProperties.Hint="Reset Password"
+                Clicked="OnResetPasswordClicked"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
                 HorizontalOptions="Center">

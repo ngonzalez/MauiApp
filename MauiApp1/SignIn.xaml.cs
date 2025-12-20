@@ -44,6 +44,11 @@ public partial class SignInPage : ContentPage
         BindingContext = this;
     }
 
+    public async void OnResetPasswordClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("resetpasswordpage");
+    }
+
     private async void OnRegisterClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("registerpage");

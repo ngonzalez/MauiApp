@@ -82,7 +82,6 @@ public partial class RegisterPage : ContentPage
                 new ToastContentBuilder()
                     .AddText(string.Concat(jsonResponse.message))
                     .Show();
-
             }
 
             registerErrors.Text = "";
