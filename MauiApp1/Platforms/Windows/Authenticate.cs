@@ -94,6 +94,16 @@ namespace MauiApp1.Platforms.Windows
             return (status, json);
         }
 
+        public async Task<(int, String)> resetPassword(Dictionary<string, string> values)
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var content = new FormUrlEncodedContent(values);
+            var response = await _httpClient.PostAsync("/password", content);
+            var json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
         public async Task<(int, String)> updateEmailAddress(Dictionary<string, string> values)
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

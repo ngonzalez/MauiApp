@@ -21,6 +21,8 @@
 
         Task<(int, String)> updatePassword(Dictionary<string, string> values);
 
+        Task<(int, String)> resetPassword(Dictionary<string, string> values);
+
         Task<(int, String)> updateEmailAddress(Dictionary<string, string> values);
     }
 }
