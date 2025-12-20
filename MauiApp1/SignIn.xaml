@@ -75,6 +75,7 @@
                 Text="Register for a new Account"
                 FontAttributes="Bold"
                 SemanticProperties.Hint="Register"
+                Clicked="OnRegisterClicked"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
                 HorizontalOptions="Center">

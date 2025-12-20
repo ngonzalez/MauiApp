@@ -44,6 +44,11 @@ public partial class SignInPage : ContentPage
         BindingContext = this;
     }
 
+    private async void OnRegisterClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("registerpage");
+    }
+
     private async void OnSignInClicked(object sender, EventArgs e)
     {
         var values = new Dictionary<string, string> {

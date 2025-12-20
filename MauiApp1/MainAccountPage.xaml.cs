@@ -65,7 +65,7 @@ namespace MauiApp1
 
             if (sessionID == null || sessionID == 0)
             {
-                Shell.Current.GoToAsync("signin");
+                Shell.Current.GoToAsync("signinpage");
             }
 
             InitializeComponent();

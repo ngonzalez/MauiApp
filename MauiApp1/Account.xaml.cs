@@ -26,7 +26,7 @@ public partial class AccountPage : ContentPage
 
         if (sessionID == null || sessionID == 0)
         {
-            Shell.Current.GoToAsync("signin");
+            Shell.Current.GoToAsync("signinpage");
             return;
         }
 
@@ -55,14 +55,14 @@ public partial class AccountPage : ContentPage
 
         _authenticate.setSessionID(0);
 
-        Shell.Current.GoToAsync("signin");
+        Shell.Current.GoToAsync("signinpage");
     }
 
     public void accountLinkClicked(object sender, EventArgs e)
     {
         if (_appShellViewModel.CurrentUser.id == null)
         {
-            Shell.Current.GoToAsync("signin");
+            Shell.Current.GoToAsync("signinpage");
         }
         else
         {
@@ -74,7 +74,7 @@ public partial class AccountPage : ContentPage
     {
         if (_appShellViewModel.CurrentUser.id == null)
         {
-            Shell.Current.GoToAsync("signin");
+            Shell.Current.GoToAsync("signinpage");
         }
         else
         {
