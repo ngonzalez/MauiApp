@@ -1,4 +1,5 @@
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.UI.Xaml;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -13,8 +14,6 @@ public class ResetPasswordResponse
     public User user { get; set; }
 
     public string message { get; set; }
-
-    public string sessionId { get; set; }
 
 }
 
@@ -57,12 +56,10 @@ public partial class ResetPasswordPage : ContentPage
 
         ResetPasswordResponse jsonResponse = JsonSerializer.Deserialize<ResetPasswordResponse>(response);
 
-        if (_statusCode == 422)
+        switch(_statusCode)
         {
-            resetPasswordErrors.Text = "Email address not found";
-        } else if (_statusCode == 200)
-        {
-            resetPasswordInput.Text = "";
+            case 200: resetPasswordInput.Text = ""; break;
+            case 422: resetPasswordErrors.Text = "Email address not found"; break;
         }
 
         if (jsonResponse.message != null)

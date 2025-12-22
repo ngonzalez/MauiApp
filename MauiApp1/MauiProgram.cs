@@ -27,6 +27,7 @@ namespace MauiApp1
             builder.Services.AddTransient<IFolderPicker, MauiApp1.Platforms.Windows.FolderPicker>();
             builder.Services.AddTransient<IAuthenticate, MauiApp1.Platforms.Windows.Authenticate>();
             builder.Services.AddTransient<IApiService, MauiApp1.Platforms.Windows.ApiService>();
+            builder.Services.AddTransient<IAlertService, MauiApp1.Platforms.Windows.AlertService>();
             builder.Services.AddTransient<SignInPage>();
             builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<ResetPasswordPage>();

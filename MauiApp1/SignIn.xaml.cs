@@ -65,16 +65,10 @@ public partial class SignInPage : ContentPage
 
         NewSessionResponse jsonResponse = JsonSerializer.Deserialize<NewSessionResponse>(response);
 
-        ToastNotificationManagerCompat.History.Clear();
-
         if (jsonResponse.user != null)
         {
             if (jsonResponse.user.id != null)
             {
-                new ToastContentBuilder()
-                    .AddText(string.Concat(jsonResponse.message))
-                    .Show();
-
                 string sessionInfo = getSessionId(jsonResponse);
 
                 SessionInfo jsonSessionInfo = JsonSerializer.Deserialize<SessionInfo>(sessionInfo);
@@ -101,6 +95,8 @@ public partial class SignInPage : ContentPage
 
             if (jsonResponse.message != null)
             {
+                ToastNotificationManagerCompat.History.Clear();
+
                 new ToastContentBuilder()
                     .AddText(string.Concat(jsonResponse.message))
                     .Show();
