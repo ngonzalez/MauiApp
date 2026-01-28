@@ -29,6 +29,8 @@ public partial class RegisterPage : ContentPage
 
     private string EmailAddress;
 
+    private string Password;
+
     private readonly AppShellViewModel _appShellViewModel;
 
     public RegisterPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
@@ -39,6 +41,11 @@ public partial class RegisterPage : ContentPage
         BindingContext = this;
 
         signInLink.Clicked += new EventHandler(signInLinkClicked);
+    }
+
+    public void signInLinkClicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("signinpage");
     }
 
     private async void OnFirstNameCompleted(object sender, EventArgs e)
@@ -56,17 +63,20 @@ public partial class RegisterPage : ContentPage
         EmailAddress = ((Entry)sender).Text;
     }
 
-    public void signInLinkClicked(object sender, EventArgs e)
+    private async void OnPasswordCompleted(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync("signinpage");
+        Password = ((Entry)sender).Text;
     }
 
     private async void OnRegisterClicked(object sender, EventArgs e)
     {
+        Guid uuid = Guid.NewGuid();
         var values = new Dictionary<string, string> {
             { "firstName", FirstName },
             { "lastName", LastName },
             { "emailAddress", EmailAddress },
+            { "password", Password },
+            { "uuid", Convert.ToString(uuid) }
         };
 
         (int _statusCode, var response) = await _authenticate.registerAccount(values);

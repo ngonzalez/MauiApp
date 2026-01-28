@@ -39,7 +39,6 @@
 
             <Entry
                 Placeholder="First Name"
-                x:Name="registerAccountFirstName"
                 TextChanged="OnFirstNameCompleted" />
 
             <Label
@@ -50,7 +49,6 @@
 
             <Entry
                 Placeholder="Last Name"
-                x:Name="registerAccountLastName"
                 TextChanged="OnLastNameCompleted" />
 
             <Label
@@ -61,10 +59,18 @@
 
             <Entry
                 Placeholder="Email Address"
-                x:Name="registerAccountEmailAddress"
-                TextColor="Grey"
-                Opacity="0.9"
-                IsReadOnly="True" />
+                TextChanged="OnEmailAddressCompleted" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
+                Password
+            </Label>
+
+            <Entry
+                Placeholder="Password"
+                IsPassword="True"
+                TextChanged="OnPasswordCompleted" />
 
             <Button
                 Text="Register"

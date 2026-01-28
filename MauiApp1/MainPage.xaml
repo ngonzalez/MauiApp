@@ -183,38 +183,47 @@
                 <VerticalStackLayout
                     MinimumWidthRequest="500">
 
+                    <Label
+                        Text="Select All / None"
+                        FontSize="20"
+                        BackgroundColor="Transparent"
+                        TextColor="FloralWhite"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Padding="10" />
+
                     <SearchBar
-                    x:Name="folderSearchBar"
-                    Placeholder="Search..."
-                    BackgroundColor="Black"
-                    TextColor="FloralWhite"
-                    TextChanged="foldersSearchInputTextChanged" />
+                        x:Name="folderSearchBar"
+                        Placeholder="Search..."
+                        BackgroundColor="Black"
+                        TextColor="FloralWhite"
+                        TextChanged="foldersSearchInputTextChanged" />
 
                     <Frame
-                    BorderColor="Black"
-                    CornerRadius="5">
+                        BorderColor="Black"
+                        CornerRadius="5">
 
                         <ScrollView
-                        x:Name="scrollView"
-                        VerticalOptions="Fill"
-                        MinimumHeightRequest="500"
-                        MaximumHeightRequest="500">
+                            x:Name="scrollView"
+                            VerticalOptions="Fill"
+                            MinimumHeightRequest="500"
+                            MaximumHeightRequest="500">
 
                             <CollectionView
-                            x:Name="foldersCollectionView"
-                            ItemsSource="{Binding Folders}"
-                            SelectionMode="Single"
-                            SelectionChanged="FolderSelectionChanged"
-                            SelectedItems="{Binding SelectedFolders}">
+                                x:Name="foldersCollectionView"
+                                ItemsSource="{Binding Folders}"
+                                SelectionMode="Single"
+                                SelectionChanged="FolderSelectionChanged"
+                                SelectedItems="{Binding SelectedFolders}">
 
                                 <CollectionView.EmptyView>
                                     <Label
-                                    Text="No data found."
-                                    FontSize="20"
-                                    BackgroundColor="Transparent"
-                                    TextColor="FloralWhite"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center" />
+                                        Text="No data found."
+                                        FontSize="20"
+                                        BackgroundColor="Transparent"
+                                        TextColor="FloralWhite"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center" />
                                 </CollectionView.EmptyView>
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
@@ -226,29 +235,30 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <HorizontalStackLayout>
+                                                <CheckBox x:Name="cb1"></CheckBox>
                                                 <Button
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                Text="{Binding name}"
-                                                Clicked="displayFiles"
-                                                TextColor="FloralWhite"
-                                                BackgroundColor="Transparent"
-                                                FontSize="20"
-                                                Padding="10">
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Text="{Binding name}"
+                                                    Clicked="displayFiles"
+                                                    TextColor="FloralWhite"
+                                                    BackgroundColor="Transparent"
+                                                    FontSize="20"
+                                                    Padding="10">
                                                     <Button.ImageSource>
                                                         <FontImageSource
-                                                        FontFamily="FontAwesome7FreeSolid"
-                                                        Glyph="{StaticResource IconFolder}"
-                                                        Size="25"
-                                                        Color="LightGrey" />
+                                                            FontFamily="FontAwesome7FreeSolid"
+                                                            Glyph="{StaticResource IconFolder}"
+                                                            Size="25"
+                                                            Color="LightGrey" />
                                                     </Button.ImageSource>
                                                 </Button>
                                                 <Button
-                                                Grid.Row="0"
-                                                Grid.Column="2"
-                                                Clicked="displayFiles"
-                                                BackgroundColor="Transparent"
-                                                MinimumWidthRequest="1000">
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Clicked="displayFiles"
+                                                    BackgroundColor="Transparent"
+                                                    MinimumWidthRequest="1000">
                                                 </Button>
                                             </HorizontalStackLayout>
                                         </Grid>
@@ -258,6 +268,126 @@
                         </ScrollView>
                     </Frame>
                 </VerticalStackLayout>
+            </Grid>
+
+
+            <Grid>
+                <HorizontalStackLayout>
+                    <Button
+                        Text="Publish folders"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        SemanticProperties.Hint="Publish folders"
+                        BackgroundColor="Orange"
+                        TextColor="Black"
+                        Padding="10"
+                        Margin="10">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="FontAwesome7FreeSolid"
+                                Glyph="{StaticResource IconUserGroup}"
+                                Size="15"
+                                Color="FloralWhite" />
+                        </Button.ImageSource>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="0.9" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Black" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+                    <Button
+                        Text="Unpublish folders"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        SemanticProperties.Hint="Unpublish folders"
+                        BackgroundColor="Black"
+                        TextColor="LightGrey"
+                        Padding="10"
+                        Margin="10">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="FontAwesome7FreeSolid"
+                                Glyph="{StaticResource IconUserGroup}"
+                                Size="15"
+                                Color="FloralWhite" />
+                        </Button.ImageSource>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="0.9" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Black" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+                    <Button
+                        Text="Delete folders"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        SemanticProperties.Hint="Delete folders"
+                        BackgroundColor="Black"
+                        TextColor="LightGrey"
+                        Padding="10"
+                        Margin="10">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="FontAwesome7FreeSolid"
+                                Glyph="{StaticResource IconUserGroup}"
+                                Size="15"
+                                Color="FloralWhite" />
+                        </Button.ImageSource>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="0.9" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Black" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+                </HorizontalStackLayout>
             </Grid>
 
             <Grid>
