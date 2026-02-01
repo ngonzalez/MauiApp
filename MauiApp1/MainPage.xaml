@@ -270,6 +270,7 @@
                         Margin="10" />
 
                     <Button
+                        x:Name="selectAllFolders"
                         Text="Select folders"
                         FontSize="14"
                         FontAttributes="Bold"
@@ -335,7 +336,7 @@
                             <CollectionView
                                 x:Name="foldersCollectionView"
                                 ItemsSource="{Binding Folders}"
-                                SelectionMode="Single"
+                                SelectionMode="Multiple"
                                 SelectionChanged="FolderSelectionChanged"
                                 SelectedItems="{Binding SelectedFolders}">
 
@@ -358,7 +359,29 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <HorizontalStackLayout>
-                                                <CheckBox x:Name="cb1"></CheckBox>
+                                                <CheckBox
+                                                    ClassId="{Binding id}">
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroupList>
+                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                <VisualState x:Name="Normal">
+                                                                    <VisualState.Setters>
+                                                                        <Setter
+                                                                            Property="Color"
+                                                                            Value="White" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                                <VisualState x:Name="IsChecked">
+                                                                    <VisualState.Setters>
+                                                                        <Setter
+                                                                            Property="Color"
+                                                                            Value="LightCyan" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateGroupList>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </CheckBox>
                                                 <Button
                                                     Grid.Row="0"
                                                     Grid.Column="1"

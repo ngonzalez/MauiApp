@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Maui.Core.Primitives;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO.Compression;
 using System.Security.Cryptography;
@@ -104,6 +105,7 @@ namespace MauiApp1
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             refreshFilesButton.Clicked += new EventHandler(refreshButtonClicked);
             resetLink.Clicked += new EventHandler(resetLinkClicked);
+            selectAllFolders.Clicked += new EventHandler(selectAllFoldersButtonClicked);
 
             labelFilesCount.Text = "no items found";
             labelFilesCount.TextColor = Colors.Grey;
@@ -255,6 +257,21 @@ namespace MauiApp1
             Folder selectedFolder = e.CurrentSelection.FirstOrDefault() as Folder;
 
             SelectedFolders.Add(selectedFolder);
+        }
+
+        public void selectAllFoldersButtonClicked(object sender, EventArgs e)
+        {
+            Button selectAllFolders = (Button)sender;
+            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
+            foreach (VisualElement element in rootViewsAndTheirDescendants)
+            {
+                if (element is Microsoft.Maui.Controls.CheckBox)
+                {
+                    CheckBox checkbox = (CheckBox)element;
+                    checkbox.IsChecked = !checkbox.IsChecked;
+                    //DisplayAlert("Login", string.Concat(checkbox.IsChecked), "OK");
+                }
+            }
         }
 
         public void accountLinkClicked(object sender, EventArgs e)
