@@ -33,6 +33,7 @@
 
             <Label 
                 x:Name="FolderLabel"
+                FontSize="14"
                 FontAttributes="Bold"
                 BackgroundColor="Transparent"
                 TextColor="FloralWhite"
@@ -41,110 +42,189 @@
 
             <Label
                 x:Name="labelFilesCount"
-                FontSize="20"
+                FontSize="14"
+                FontAttributes="Bold"
                 BackgroundColor="Transparent"
                 TextColor="FloralWhite"
                 VerticalTextAlignment="Center"
                 HorizontalTextAlignment="Center" />
 
             <Grid>
-                <Button 
-                    Text="Pick Folder"
-                    FontAttributes="Bold"
-                    SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
-                    Clicked="OnPickFolderClicked"
-                    TextColor="Black"
-                    HorizontalOptions="Center">
-                    <Button.ImageSource>
-                        <FontImageSource
-                            FontFamily="FontAwesome7FreeSolid"
-                            Glyph="{StaticResource IconFolder}"
-                            Size="20"                            
-                            Color="LightCyan" />
-                    </Button.ImageSource>
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroupList>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="Scale" Value="1" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Property="Scale" Value="0.9" />
-                                        <Setter Property="BorderColor" Value="Black" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Property="BorderColor" Value="Black" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateGroupList>
-                    </VisualStateManager.VisualStateGroups>
-                </Button>
-            </Grid>
+                <HorizontalStackLayout
+                        MinimumWidthRequest="500"
+                        WidthRequest="500">
 
-            <Grid>
-                <Button
-                    Text="Reset"
-                    SemanticProperties.Hint="Reset selection"
-                    x:Name="resetLink"
-                    BackgroundColor="Black"
-                    TextColor="Grey"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center">
-                    <Button.ImageSource>
-                        <FontImageSource
-                            x:Name="resetLinkImage"
-                            FontFamily="FontAwesome7FreeSolid"
-                            Glyph="{StaticResource IconXmark}"
-                            Size="15"
-                            Color="Grey" />
-                    </Button.ImageSource>
-                </Button>
-            </Grid>
+                    <VerticalStackLayout
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Rectangle
+                            HeightRequest="50"
+                            WidthRequest="80" />
+                    </VerticalStackLayout>
 
-            <Grid>
-                <Button
-                    Text="Send Files"
-                    FontAttributes="Bold"
-                    SemanticProperties.Hint="POST data to our servers"
-                    Clicked="OnSendDataClicked"
-                    TextColor="Black"
-                    HorizontalOptions="Center">
-                    <Button.ImageSource>
-                        <FontImageSource
-                            FontFamily="FontAwesome7FreeSolid"
-                            Glyph="{StaticResource IconServer}"
-                            Size="20"
-                            Color="LightCyan" />
-                    </Button.ImageSource>
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroupList>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="Scale" Value="1" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Property="Scale" Value="0.9" />
-                                        <Setter Property="BorderColor" Value="Black" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Property="BorderColor" Value="Black" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateGroupList>
-                    </VisualStateManager.VisualStateGroups>
-                </Button>
+                    <VerticalStackLayout
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="FontAwesome7FreeSolid"
+                                    Glyph="{StaticResource Icon_1}"
+                                    Size="50"                            
+                                    Color="black" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            BackgroundColor="Transparent"
+                            TextColor="#999"
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Center"
+                            Padding="10"
+                            Text="Load folder"/>
+
+                        <Rectangle HeightRequest="10"></Rectangle>
+
+                        <Button
+                            Text="Pick Folder"
+                            FontAttributes="Bold"
+                            SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
+                            Clicked="OnPickFolderClicked"
+                            TextColor="Black"
+                            HorizontalOptions="Center"
+                            Padding="10"
+                            Margin="10">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="FontAwesome7FreeSolid"
+                                    Glyph="{StaticResource IconFolder}"
+                                    Size="20"                            
+                                    Color="SeaShell" />
+                            </Button.ImageSource>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="1" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="0.9" />
+                                                <Setter Property="BorderColor" Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderColor" Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </Button>
+                        <Button
+                            Text="Reset"
+                            SemanticProperties.Hint="Reset selection"
+                            x:Name="resetLink"
+                            BackgroundColor="Black"
+                            TextColor="Grey"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Padding="10"
+                            Margin="10">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    x:Name="resetLinkImage"
+                                    FontFamily="FontAwesome7FreeSolid"
+                                    Glyph="{StaticResource IconXmark}"
+                                    Size="15"
+                                    Color="Grey" />
+                            </Button.ImageSource>
+                        </Button>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Rectangle HeightRequest="50" WidthRequest="50"></Rectangle>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="FontAwesome7FreeSolid"
+                                    Glyph="{StaticResource Icon_2}"
+                                    Size="50"                            
+                                    Color="black" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            BackgroundColor="Transparent"
+                            TextColor="#999"
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Center"
+                            Padding="10"
+                            Text="Upload"/>
+
+                        <Rectangle HeightRequest="10"></Rectangle>
+
+                        <Button
+                            Text="Send Files"
+                            FontAttributes="Bold"
+                            SemanticProperties.Hint="POST data to our servers"
+                            Clicked="OnSendDataClicked"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Padding="10"
+                            Margin="10">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="FontAwesome7FreeSolid"
+                                    Glyph="{StaticResource IconServer}"
+                                    Size="20"
+                                    Color="SeaShell" />
+                            </Button.ImageSource>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="1" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="0.9" />
+                                                <Setter Property="BorderColor" Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderColor" Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </Button>
+                        <Rectangle HeightRequest="63"></Rectangle>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
             </Grid>
 
             <Grid>
@@ -165,32 +245,61 @@
             </Grid>
 
             <Grid>
-                <Label
-                    x:Name="foldersCount"
-                    FontSize="20"
-                    BackgroundColor="Transparent"
-                    TextColor="FloralWhite"
-                    VerticalTextAlignment="Center"
-                    HorizontalTextAlignment="Center"></Label>
-            </Grid>
-
-            <Grid>
                 <ActivityIndicator
                     x:Name="ActivityIndicator" />
             </Grid>
 
             <Grid>
+                <HorizontalStackLayout>
+                    <Label
+                        x:Name="foldersCount"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        BackgroundColor="Transparent"
+                        TextColor="Gray"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center" />
+                    <Button
+                        Text="Select folders"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        SemanticProperties.Hint="Select folders"
+                        BackgroundColor="Transparent"
+                        TextColor="Gray">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                FontFamily="FontAwesome7FreeSolid"
+                                Glyph="{StaticResource IconSquareCaretDown}"
+                                Size="14"
+                                Color="Gray" />
+                        </Button.ImageSource>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="0.9" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Black" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+                </HorizontalStackLayout>
+            </Grid>
+            <Grid>
                 <VerticalStackLayout
                     MinimumWidthRequest="500">
-
-                    <Label
-                        Text="Select All / None"
-                        FontSize="20"
-                        BackgroundColor="Transparent"
-                        TextColor="FloralWhite"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Center"
-                        Padding="10" />
 
                     <SearchBar
                         x:Name="folderSearchBar"
@@ -206,8 +315,8 @@
                         <ScrollView
                             x:Name="scrollView"
                             VerticalOptions="Fill"
-                            MinimumHeightRequest="500"
-                            MaximumHeightRequest="500">
+                            MinimumHeightRequest="450"
+                            MaximumHeightRequest="450">
 
                             <CollectionView
                                 x:Name="foldersCollectionView"
@@ -250,7 +359,7 @@
                                                             FontFamily="FontAwesome7FreeSolid"
                                                             Glyph="{StaticResource IconFolder}"
                                                             Size="25"
-                                                            Color="LightGrey" />
+                                                            Color="SeaShell" />
                                                     </Button.ImageSource>
                                                 </Button>
                                                 <Button
@@ -285,7 +394,7 @@
                         <Button.ImageSource>
                             <FontImageSource
                                 FontFamily="FontAwesome7FreeSolid"
-                                Glyph="{StaticResource IconUserGroup}"
+                                Glyph="{StaticResource IconPaperPlane}"
                                 Size="15"
                                 Color="FloralWhite" />
                         </Button.ImageSource>
@@ -323,7 +432,7 @@
                         <Button.ImageSource>
                             <FontImageSource
                                 FontFamily="FontAwesome7FreeSolid"
-                                Glyph="{StaticResource IconUserGroup}"
+                                Glyph="{StaticResource IconSquareXmark}"
                                 Size="15"
                                 Color="FloralWhite" />
                         </Button.ImageSource>
@@ -361,7 +470,7 @@
                         <Button.ImageSource>
                             <FontImageSource
                                 FontFamily="FontAwesome7FreeSolid"
-                                Glyph="{StaticResource IconUserGroup}"
+                                Glyph="{StaticResource IconXmark}"
                                 Size="15"
                                 Color="FloralWhite" />
                         </Button.ImageSource>

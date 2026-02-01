@@ -106,6 +106,7 @@ namespace MauiApp1
             resetLink.Clicked += new EventHandler(resetLinkClicked);
 
             labelFilesCount.Text = "no items found";
+            labelFilesCount.TextColor = Colors.Grey;
 
             getAllUploads();
         }
@@ -291,6 +292,7 @@ namespace MauiApp1
             // Labels
             FolderLabel.Text = "";
             labelFilesCount.Text = "no items found";
+            labelFilesCount.TextColor = Colors.Grey;
             resetLink.TextColor = Colors.Grey;
             resetLinkImage.Color = Colors.Grey;
 
@@ -518,7 +520,8 @@ namespace MauiApp1
 
                 UploadFilesCount++;
 
-                labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " items selected";
+                labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " " + (UploadFilesCount > 1 ? "Files" : "File") + " selected";
+                labelFilesCount.TextColor = Colors.White;
 
                 resetLink.TextColor = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
                 resetLinkImage.Color = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
