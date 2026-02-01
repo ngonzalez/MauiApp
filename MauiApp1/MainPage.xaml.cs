@@ -270,9 +270,11 @@ namespace MauiApp1
         public async void foldersSearchInputTextChanged(object sender, EventArgs e)
         {
             SearchBar searchBar = (SearchBar)sender;
-            foldersCollectionView.ItemsSource = Folders.Where(folder =>
+            var folders = Folders.Where(folder =>
                 folder.name.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
             );
+            foldersCollectionView.ItemsSource = folders;
+            foldersCount.Text = Convert.ToString(folders.Count() + " folders");
         }
 
         public void resetLinkClicked(object sender, EventArgs e)
@@ -521,7 +523,7 @@ namespace MauiApp1
                 UploadFilesCount++;
 
                 labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " " + (UploadFilesCount > 1 ? "Files" : "File") + " selected";
-                labelFilesCount.TextColor = Colors.White;
+                //labelFilesCount.TextColor = Colors.White;
 
                 resetLink.TextColor = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
                 resetLinkImage.Color = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;

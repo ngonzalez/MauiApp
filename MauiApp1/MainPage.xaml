@@ -31,24 +31,6 @@
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a hovercraft number nine" />
 
-            <Label 
-                x:Name="FolderLabel"
-                FontSize="14"
-                FontAttributes="Bold"
-                BackgroundColor="Transparent"
-                TextColor="FloralWhite"
-                VerticalTextAlignment="Center"
-                HorizontalTextAlignment="Center" />
-
-            <Label
-                x:Name="labelFilesCount"
-                FontSize="14"
-                FontAttributes="Bold"
-                BackgroundColor="Transparent"
-                TextColor="FloralWhite"
-                VerticalTextAlignment="Center"
-                HorizontalTextAlignment="Center" />
-
             <Grid>
                 <HorizontalStackLayout
                         MinimumWidthRequest="500"
@@ -64,17 +46,16 @@
                     </VerticalStackLayout>
 
                     <VerticalStackLayout
-                        BackgroundColor="Transparent"
                         HorizontalOptions="Center"
                         VerticalOptions="Center">
 
-                        <Image>
+                        <Image HeightRequest="50">
                             <Image.Source>
                                 <FontImageSource
                                     FontFamily="FontAwesome7FreeSolid"
                                     Glyph="{StaticResource Icon_1}"
                                     Size="50"                            
-                                    Color="black" />
+                                    Color="Black" />
                             </Image.Source>
                         </Image>
 
@@ -82,20 +63,19 @@
                             FontSize="20"
                             FontAttributes="Bold"
                             BackgroundColor="Transparent"
-                            TextColor="#999"
+                            TextColor="Grey"
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
                             Padding="10"
                             Text="Load folder"/>
-
-                        <Rectangle HeightRequest="10"></Rectangle>
 
                         <Button
                             Text="Pick Folder"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
                             Clicked="OnPickFolderClicked"
-                            TextColor="Black"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Black"
                             HorizontalOptions="Center"
                             Padding="10"
                             Margin="10">
@@ -149,24 +129,28 @@
                             </Button.ImageSource>
                         </Button>
                     </VerticalStackLayout>
-                    <VerticalStackLayout
-                        BackgroundColor="Transparent"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center">
-                        <Rectangle HeightRequest="50" WidthRequest="50"></Rectangle>
-                    </VerticalStackLayout>
+
                     <VerticalStackLayout
                         BackgroundColor="Transparent"
                         HorizontalOptions="Center"
                         VerticalOptions="Center">
 
-                        <Image>
+                        <Rectangle
+                            HeightRequest="50"
+                            WidthRequest="50" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+
+                        <Image HeightRequest="50">
                             <Image.Source>
                                 <FontImageSource
                                     FontFamily="FontAwesome7FreeSolid"
                                     Glyph="{StaticResource Icon_2}"
                                     Size="50"                            
-                                    Color="black" />
+                                    Color="Black" />
                             </Image.Source>
                         </Image>
 
@@ -174,20 +158,19 @@
                             FontSize="20"
                             FontAttributes="Bold"
                             BackgroundColor="Transparent"
-                            TextColor="#999"
+                            TextColor="Grey"
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
                             Padding="10"
                             Text="Upload"/>
-
-                        <Rectangle HeightRequest="10"></Rectangle>
 
                         <Button
                             Text="Send Files"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="POST data to our servers"
                             Clicked="OnSendDataClicked"
-                            TextColor="Black"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Black"
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
                             Padding="10"
@@ -222,11 +205,40 @@
                                 </VisualStateGroupList>
                             </VisualStateManager.VisualStateGroups>
                         </Button>
-                        <Rectangle HeightRequest="63"></Rectangle>
+
+                        <Rectangle
+                            HeightRequest="70" />
+
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
             </Grid>
 
+            <Grid>
+                <VerticalStackLayout>
+                    <Label 
+                        x:Name="FolderLabel"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        BackgroundColor="Transparent"
+                        TextColor="FloralWhite"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        Padding="10"
+                        Margin="10" />
+
+                    <Label
+                        x:Name="labelFilesCount"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        BackgroundColor="Transparent"
+                        TextColor="Grey"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        Padding="10"
+                        Margin="10" />
+                </VerticalStackLayout>
+            </Grid>
+            
             <Grid>
                 <Label
                     x:Name="progressBarText"></Label>
@@ -245,11 +257,6 @@
             </Grid>
 
             <Grid>
-                <ActivityIndicator
-                    x:Name="ActivityIndicator" />
-            </Grid>
-
-            <Grid>
                 <HorizontalStackLayout>
                     <Label
                         x:Name="foldersCount"
@@ -258,7 +265,10 @@
                         BackgroundColor="Transparent"
                         TextColor="Gray"
                         VerticalTextAlignment="Center"
-                        HorizontalTextAlignment="Center" />
+                        HorizontalTextAlignment="Center"
+                        Padding="10"
+                        Margin="10" />
+
                     <Button
                         Text="Select folders"
                         FontSize="14"
@@ -295,6 +305,10 @@
                             </VisualStateGroupList>
                         </VisualStateManager.VisualStateGroups>
                     </Button>
+
+                    <ActivityIndicator
+                        x:Name="ActivityIndicator" />
+
                 </HorizontalStackLayout>
             </Grid>
             <Grid>
