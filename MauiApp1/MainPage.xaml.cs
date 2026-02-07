@@ -320,7 +320,7 @@ namespace MauiApp1
             }
         }
 
-        public void updatePublishButton()
+        public async void updatePublishButton()
         {
             var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
             int foldersCount = 0;
@@ -338,34 +338,32 @@ namespace MauiApp1
             if (foldersCount > 0)
             {
                 string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
-                publishFoldersButton.Text = "Publish " + Convert.ToString(foldersCount) + " " + folderLabel;
+                selectedFoldersCountLabel.Text = Convert.ToString(foldersCount) + " " + folderLabel + " selected";
+
                 publishFoldersButton.BackgroundColor = Colors.Orange;
                 publishFoldersButton.TextColor = Colors.Black;
                 publishFoldersButtonImage.Color = Colors.White;
 
-                unpublishFoldersButton.Text = "Unpublish " + folderLabel;
                 unpublishFoldersButton.BackgroundColor = Colors.Black;
                 unpublishFoldersButton.TextColor = Colors.White;
                 unpublishFoldersButtonImage.Color = Colors.White;
 
-                deleteFoldersButton.Text = "Delete " + folderLabel;
                 deleteFoldersButton.BackgroundColor = Colors.Black;
                 deleteFoldersButton.TextColor = Colors.White;
                 deleteFoldersButtonImage.Color = Colors.White;
             }
             else
             {
-                publishFoldersButton.Text = "Publish Folders";
+                selectedFoldersCountLabel.Text = "No Folders selected";
+
                 publishFoldersButton.BackgroundColor = Colors.Black;
                 publishFoldersButton.TextColor = Colors.Gray;
                 publishFoldersButtonImage.Color = Colors.Gray;
 
-                unpublishFoldersButton.Text = "Unpublish Folders";
                 unpublishFoldersButton.BackgroundColor = Colors.Black;
                 unpublishFoldersButton.TextColor = Colors.Gray;
                 unpublishFoldersButtonImage.Color = Colors.Gray;
 
-                deleteFoldersButton.Text = "Delete Folders";
                 deleteFoldersButton.BackgroundColor = Colors.Black;
                 deleteFoldersButton.TextColor = Colors.Gray;
                 deleteFoldersButtonImage.Color = Colors.Gray;
@@ -388,6 +386,24 @@ namespace MauiApp1
         {
             await _alertService.DisplayAlertAsync(
                title: "Publish Folders",
+               message: "Please confirm",
+               accept: "OK",
+               cancel: "Cancel");
+        }
+
+        public async void unpublishFoldersButtonClicked(object sender, EventArgs e)
+        {
+            await _alertService.DisplayAlertAsync(
+               title: "Unpublish Folders",
+               message: "Please confirm",
+               accept: "OK",
+               cancel: "Cancel");
+        }
+
+        public async void deleteFoldersButtonClicked(object sender, EventArgs e)
+        {
+            await _alertService.DisplayAlertAsync(
+               title: "Delete Folders",
                message: "Please confirm",
                accept: "OK",
                cancel: "Cancel");

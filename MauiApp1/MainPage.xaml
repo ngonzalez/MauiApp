@@ -271,10 +271,10 @@
 
                     <Button
                         x:Name="selectAllFolders"
-                        Text="Select folders"
+                        Text="Select Folders"
                         FontSize="14"
                         FontAttributes="Bold"
-                        SemanticProperties.Hint="Select folders"
+                        SemanticProperties.Hint="Select Folders"
                         BackgroundColor="Transparent"
                         TextColor="Gray">
                         <Button.ImageSource>
@@ -330,8 +330,8 @@
                         <ScrollView
                             x:Name="scrollView"
                             VerticalOptions="Fill"
-                            MinimumHeightRequest="460"
-                            MaximumHeightRequest="460">
+                            MinimumHeightRequest="400"
+                            MaximumHeightRequest="400">
 
                             <CollectionView
                                 x:Name="foldersCollectionView"
@@ -408,15 +408,39 @@
                                                     Clicked="displayFiles"
                                                     TextColor="FloralWhite"
                                                     BackgroundColor="Black"
+                                                    BorderColor="#333"
+                                                    BorderWidth="1"
+                                                    CornerRadius="5"
                                                     FontSize="14"
-                                                    Padding="5">
+                                                    Padding="10">
                                                     <Button.ImageSource>
                                                         <FontImageSource
                                                             FontFamily="FontAwesome7FreeSolid"
-                                                            Glyph="{StaticResource IconWindowRestore}"
+                                                            Glyph="{StaticResource IconPlus}"
                                                             Size="14"
                                                             Color="SeaShell" />
                                                     </Button.ImageSource>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroupList>
+                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                <VisualState x:Name="Normal">
+                                                                    <VisualState.Setters>
+                                                                        <Setter Property="Scale" Value="1" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                                <VisualState x:Name="Pressed">
+                                                                    <VisualState.Setters>
+                                                                        <Setter Property="Scale" Value="0.9" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                                <VisualState x:Name="PointerOver">
+                                                                    <VisualState.Setters>
+                                                                        <Setter Property="BorderColor" Value="#222" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateGroupList>
+                                                    </VisualStateManager.VisualStateGroups>
                                                 </Button>
                                             </HorizontalStackLayout>
                                         </Grid>
@@ -429,129 +453,143 @@
             </Grid>
 
             <Grid>
-                <HorizontalStackLayout>
-                    <Button
-                        x:Name="publishFoldersButton"
-                        Text="Publish folders"
-                        Clicked="publishFoldersButtonClicked"
-                        FontSize="14"
-                        FontAttributes="Bold"
-                        SemanticProperties.Hint="Publish Folders"
-                        BackgroundColor="Black"
-                        TextColor="Gray"
-                        Padding="10"
-                        Margin="10">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                x:Name="publishFoldersButtonImage"
-                                FontFamily="FontAwesome7FreeSolid"
-                                Glyph="{StaticResource IconPaperPlane}"
-                                Size="15"
-                                Color="FloralWhite" />
-                        </Button.ImageSource>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="Scale" Value="1" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <VisualState.Setters>
-                                            <Setter Property="Scale" Value="0.9" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Property="BorderColor" Value="Black" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </VisualStateManager.VisualStateGroups>
-                    </Button>
-                    <Button
-                        x:Name="unpublishFoldersButton"
-                        Text="Unpublish Folders"
-                        FontSize="14"
-                        FontAttributes="Bold"
-                        SemanticProperties.Hint="Unpublish Folders"
-                        BackgroundColor="Black"
-                        TextColor="Gray"
-                        Padding="10"
-                        Margin="10">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                x:Name="unpublishFoldersButtonImage"
-                                FontFamily="FontAwesome7FreeSolid"
-                                Glyph="{StaticResource IconSquareXmark}"
-                                Size="15"
-                                Color="FloralWhite" />
-                        </Button.ImageSource>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="Scale" Value="1" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <VisualState.Setters>
-                                            <Setter Property="Scale" Value="0.9" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Property="BorderColor" Value="Black" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </VisualStateManager.VisualStateGroups>
-                    </Button>
-                    <Button
-                        x:Name="deleteFoldersButton"
-                        Text="Delete Folders"
-                        FontSize="14"
-                        FontAttributes="Bold"
-                        SemanticProperties.Hint="Delete folders"
-                        BackgroundColor="Black"
-                        TextColor="Gray"
-                        Padding="10"
-                        Margin="10">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                x:Name="deleteFoldersButtonImage"
-                                FontFamily="FontAwesome7FreeSolid"
-                                Glyph="{StaticResource IconXmark}"
-                                Size="15"
-                                Color="FloralWhite" />
-                        </Button.ImageSource>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="Scale" Value="1" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <VisualState.Setters>
-                                            <Setter Property="Scale" Value="0.9" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Property="BorderColor" Value="Black" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </VisualStateManager.VisualStateGroups>
-                    </Button>
-                </HorizontalStackLayout>
+                <VerticalStackLayout>
+                    <Label
+                           x:Name="selectedFoldersCountLabel"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           BackgroundColor="Transparent"
+                           TextColor="Gray"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Start"
+                           Padding="10"
+                           Margin="10" />
+                    <HorizontalStackLayout>
+                        <Button
+                            x:Name="publishFoldersButton"
+                            Text="Publish Folders"
+                            Clicked="publishFoldersButtonClicked"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            SemanticProperties.Hint="Publish Folders"
+                            BackgroundColor="Black"
+                            TextColor="Gray"
+                            Padding="10"
+                            Margin="10">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    x:Name="publishFoldersButtonImage"
+                                    FontFamily="FontAwesome7FreeSolid"
+                                    Glyph="{StaticResource IconPaperPlane}"
+                                    Size="15"
+                                    Color="FloralWhite" />
+                            </Button.ImageSource>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="1" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="0.9" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderColor" Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </Button>
+                        <Button
+                            x:Name="unpublishFoldersButton"
+                            Text="Unpublish Folders"
+                            Clicked="unpublishFoldersButtonClicked"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            SemanticProperties.Hint="Unpublish Folders"
+                            BackgroundColor="Black"
+                            TextColor="Gray"
+                            Padding="10"
+                            Margin="10">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    x:Name="unpublishFoldersButtonImage"
+                                    FontFamily="FontAwesome7FreeSolid"
+                                    Glyph="{StaticResource IconSquareXmark}"
+                                    Size="15"
+                                    Color="FloralWhite" />
+                            </Button.ImageSource>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="1" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="0.9" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderColor" Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </Button>
+                        <Button
+                            x:Name="deleteFoldersButton"
+                            Text="Delete Folders"
+                            Clicked="deleteFoldersButtonClicked"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            SemanticProperties.Hint="Delete folders"
+                            BackgroundColor="Black"
+                            TextColor="Gray"
+                            Padding="10"
+                            Margin="10">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    x:Name="deleteFoldersButtonImage"
+                                    FontFamily="FontAwesome7FreeSolid"
+                                    Glyph="{StaticResource IconXmark}"
+                                    Size="15"
+                                    Color="FloralWhite" />
+                            </Button.ImageSource>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="1" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="0.9" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderColor" Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </Button>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
             </Grid>
 
             <Grid>
