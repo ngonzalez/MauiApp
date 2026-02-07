@@ -259,7 +259,7 @@
             <Grid>
                 <HorizontalStackLayout>
                     <Label
-                        x:Name="foldersCount"
+                        x:Name="foldersCountLabel"
                         FontSize="14"
                         FontAttributes="Bold"
                         BackgroundColor="Transparent"
@@ -330,8 +330,8 @@
                         <ScrollView
                             x:Name="scrollView"
                             VerticalOptions="Fill"
-                            MinimumHeightRequest="450"
-                            MaximumHeightRequest="450">
+                            MinimumHeightRequest="460"
+                            MaximumHeightRequest="460">
 
                             <CollectionView
                                 x:Name="foldersCollectionView"
@@ -360,6 +360,7 @@
                                             </Grid.ColumnDefinitions>
                                             <HorizontalStackLayout>
                                                 <CheckBox
+                                                    CheckedChanged="folderCheckedChanged"
                                                     ClassId="{Binding id}">
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroupList>
@@ -386,7 +387,8 @@
                                                     Grid.Row="0"
                                                     Grid.Column="1"
                                                     Text="{Binding name}"
-                                                    Clicked="displayFiles"
+                                                    Clicked="toggleCheckBox"
+                                                    ClassId="{Binding id}"
                                                     TextColor="FloralWhite"
                                                     BackgroundColor="Transparent"
                                                     FontSize="20"
@@ -402,9 +404,19 @@
                                                 <Button
                                                     Grid.Row="0"
                                                     Grid.Column="2"
+                                                    Text="View Files"
                                                     Clicked="displayFiles"
-                                                    BackgroundColor="Transparent"
-                                                    MinimumWidthRequest="1000">
+                                                    TextColor="FloralWhite"
+                                                    BackgroundColor="Black"
+                                                    FontSize="14"
+                                                    Padding="5">
+                                                    <Button.ImageSource>
+                                                        <FontImageSource
+                                                            FontFamily="FontAwesome7FreeSolid"
+                                                            Glyph="{StaticResource IconWindowRestore}"
+                                                            Size="14"
+                                                            Color="SeaShell" />
+                                                    </Button.ImageSource>
                                                 </Button>
                                             </HorizontalStackLayout>
                                         </Grid>
@@ -416,20 +428,22 @@
                 </VerticalStackLayout>
             </Grid>
 
-
             <Grid>
                 <HorizontalStackLayout>
                     <Button
+                        x:Name="publishFoldersButton"
                         Text="Publish folders"
+                        Clicked="publishFoldersButtonClicked"
                         FontSize="14"
                         FontAttributes="Bold"
-                        SemanticProperties.Hint="Publish folders"
-                        BackgroundColor="Orange"
-                        TextColor="Black"
+                        SemanticProperties.Hint="Publish Folders"
+                        BackgroundColor="Black"
+                        TextColor="Gray"
                         Padding="10"
                         Margin="10">
                         <Button.ImageSource>
                             <FontImageSource
+                                x:Name="publishFoldersButtonImage"
                                 FontFamily="FontAwesome7FreeSolid"
                                 Glyph="{StaticResource IconPaperPlane}"
                                 Size="15"
@@ -458,16 +472,18 @@
                         </VisualStateManager.VisualStateGroups>
                     </Button>
                     <Button
-                        Text="Unpublish folders"
+                        x:Name="unpublishFoldersButton"
+                        Text="Unpublish Folders"
                         FontSize="14"
                         FontAttributes="Bold"
-                        SemanticProperties.Hint="Unpublish folders"
+                        SemanticProperties.Hint="Unpublish Folders"
                         BackgroundColor="Black"
-                        TextColor="LightGrey"
+                        TextColor="Gray"
                         Padding="10"
                         Margin="10">
                         <Button.ImageSource>
                             <FontImageSource
+                                x:Name="unpublishFoldersButtonImage"
                                 FontFamily="FontAwesome7FreeSolid"
                                 Glyph="{StaticResource IconSquareXmark}"
                                 Size="15"
@@ -496,16 +512,18 @@
                         </VisualStateManager.VisualStateGroups>
                     </Button>
                     <Button
-                        Text="Delete folders"
+                        x:Name="deleteFoldersButton"
+                        Text="Delete Folders"
                         FontSize="14"
                         FontAttributes="Bold"
                         SemanticProperties.Hint="Delete folders"
                         BackgroundColor="Black"
-                        TextColor="LightGrey"
+                        TextColor="Gray"
                         Padding="10"
                         Margin="10">
                         <Button.ImageSource>
                             <FontImageSource
+                                x:Name="deleteFoldersButtonImage"
                                 FontFamily="FontAwesome7FreeSolid"
                                 Glyph="{StaticResource IconXmark}"
                                 Size="15"

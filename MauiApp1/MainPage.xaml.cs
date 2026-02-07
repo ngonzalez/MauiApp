@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Core.Primitives;
+using MauiApp1.Platforms.Windows;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO.Compression;
@@ -80,11 +81,14 @@ namespace MauiApp1
 
         private readonly AppShellViewModel _appShellViewModel;
 
-        public MainPage(IFolderPicker folderPicker, IApiService apiService, AppShellViewModel appShellViewModel)
+        private readonly IAlertService _alertService;
+
+        public MainPage(IFolderPicker folderPicker, IApiService apiService, IAlertService alertService, AppShellViewModel appShellViewModel)
         {
             _folderPicker = folderPicker;
             _apiService = apiService;
             _appShellViewModel = appShellViewModel;
+            _alertService = alertService;
 
             var sessionID = _appShellViewModel.SessionID;
 
@@ -244,7 +248,7 @@ namespace MauiApp1
 
             ActivityIndicator.IsRunning = false;
 
-            foldersCount.Text = Convert.ToString(Folders.Count() + " folders");
+            foldersCountLabel.Text = Convert.ToString(Folders.Count() + " folders");
         }
 
         public int getUploadFilesCount()
@@ -262,15 +266,109 @@ namespace MauiApp1
         public void selectAllFoldersButtonClicked(object sender, EventArgs e)
         {
             Button selectAllFolders = (Button)sender;
+
+            toggleCheckBoxes();
+
+            updatePublishButton();
+        }
+
+        public void folderCheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox selectFolder = (CheckBox)sender;
+
+            updatePublishButton();
+        }
+
+        public void toggleCheckBox(object sender, EventArgs e)
+        {
+            Button nameButton = (Button)sender;
+
             var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
+
             foreach (VisualElement element in rootViewsAndTheirDescendants)
             {
                 if (element is Microsoft.Maui.Controls.CheckBox)
                 {
                     CheckBox checkbox = (CheckBox)element;
-                    checkbox.IsChecked = !checkbox.IsChecked;
-                    //DisplayAlert("Login", string.Concat(checkbox.IsChecked), "OK");
+                    if (checkbox.ClassId == nameButton.ClassId)
+                    {
+                        checkbox.IsChecked = !checkbox.IsChecked;
+                    }
                 }
+            }
+        }
+
+        public void toggleCheckBoxes()
+        {
+            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
+            bool allChecked = true;
+            foreach (VisualElement element in rootViewsAndTheirDescendants)
+            {
+                if (element is Microsoft.Maui.Controls.CheckBox)
+                {
+                    CheckBox checkbox = (CheckBox)element;
+                    allChecked = checkbox.IsChecked;
+                }
+            }
+            foreach (VisualElement element in rootViewsAndTheirDescendants)
+            {
+                if (element is Microsoft.Maui.Controls.CheckBox)
+                {
+                    CheckBox checkbox = (CheckBox)element;
+                    checkbox.IsChecked = !allChecked;
+                }
+            }
+        }
+
+        public void updatePublishButton()
+        {
+            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
+            int foldersCount = 0;
+            foreach (VisualElement element in rootViewsAndTheirDescendants)
+            {
+                if (element is Microsoft.Maui.Controls.CheckBox)
+                {
+                    CheckBox checkbox = (CheckBox)element;
+                    if (checkbox.IsChecked)
+                    {
+                        foldersCount++;
+                    }
+                }
+            }
+            if (foldersCount > 0)
+            {
+                string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
+                publishFoldersButton.Text = "Publish " + Convert.ToString(foldersCount) + " " + folderLabel;
+                publishFoldersButton.BackgroundColor = Colors.Orange;
+                publishFoldersButton.TextColor = Colors.Black;
+                publishFoldersButtonImage.Color = Colors.White;
+
+                unpublishFoldersButton.Text = "Unpublish " + folderLabel;
+                unpublishFoldersButton.BackgroundColor = Colors.Black;
+                unpublishFoldersButton.TextColor = Colors.White;
+                unpublishFoldersButtonImage.Color = Colors.White;
+
+                deleteFoldersButton.Text = "Delete " + folderLabel;
+                deleteFoldersButton.BackgroundColor = Colors.Black;
+                deleteFoldersButton.TextColor = Colors.White;
+                deleteFoldersButtonImage.Color = Colors.White;
+            }
+            else
+            {
+                publishFoldersButton.Text = "Publish Folders";
+                publishFoldersButton.BackgroundColor = Colors.Black;
+                publishFoldersButton.TextColor = Colors.Gray;
+                publishFoldersButtonImage.Color = Colors.Gray;
+
+                unpublishFoldersButton.Text = "Unpublish Folders";
+                unpublishFoldersButton.BackgroundColor = Colors.Black;
+                unpublishFoldersButton.TextColor = Colors.Gray;
+                unpublishFoldersButtonImage.Color = Colors.Gray;
+
+                deleteFoldersButton.Text = "Delete Folders";
+                deleteFoldersButton.BackgroundColor = Colors.Black;
+                deleteFoldersButton.TextColor = Colors.Gray;
+                deleteFoldersButtonImage.Color = Colors.Gray;
             }
         }
 
@@ -282,16 +380,34 @@ namespace MauiApp1
         public void refreshButtonClicked(object sender, EventArgs e)
         {
             getAllUploads();
+
+            updatePublishButton();
+        }
+
+        public async void publishFoldersButtonClicked(object sender, EventArgs e)
+        {
+            await _alertService.DisplayAlertAsync(
+               title: "Publish Folders",
+               message: "Please confirm",
+               accept: "OK",
+               cancel: "Cancel");
         }
 
         public async void foldersSearchInputTextChanged(object sender, EventArgs e)
         {
             SearchBar searchBar = (SearchBar)sender;
+
             var folders = Folders.Where(folder =>
                 folder.name.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
             );
+
             foldersCollectionView.ItemsSource = folders;
-            foldersCount.Text = Convert.ToString(folders.Count() + " folders");
+
+            int foldersCount = folders.Count();
+            string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
+            foldersCountLabel.Text = Convert.ToString(folders.Count() + " " + folderLabel);
+
+            updatePublishButton();
         }
 
         public void resetLinkClicked(object sender, EventArgs e)
@@ -310,7 +426,7 @@ namespace MauiApp1
 
             // Labels
             FolderLabel.Text = "";
-            labelFilesCount.Text = "no items found";
+            labelFilesCount.Text = "No items found";
             labelFilesCount.TextColor = Colors.Grey;
             resetLink.TextColor = Colors.Grey;
             resetLinkImage.Color = Colors.Grey;
