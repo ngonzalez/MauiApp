@@ -3,6 +3,7 @@ using MauiApp1.Platforms.Windows;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO.Compression;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text.Json;
 
@@ -29,7 +30,6 @@ public static class MimeTypeMapper
             /* AAC MP4 ALAC  **/
             { ".aac", "audio/m4a" },
             { ".m4a", "audio/x-m4a" },
-            // { "mp4", "audio/mp4" },
 
             /* AIFF */
             { ".aff", "audio/x-aiff" },
@@ -79,9 +79,9 @@ namespace MauiApp1
 
         private readonly IApiService _apiService;
 
-        private readonly AppShellViewModel _appShellViewModel;
-
         private readonly IAlertService _alertService;
+
+        private readonly AppShellViewModel _appShellViewModel;
 
         public MainPage(IFolderPicker folderPicker, IApiService apiService, IAlertService alertService, AppShellViewModel appShellViewModel)
         {
@@ -382,13 +382,51 @@ namespace MauiApp1
             updatePublishButton();
         }
 
+        public List<string> getSelectedFolderIds()
+        {
+            List<string> ids = new List<string>();
+            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
+            foreach (VisualElement element in rootViewsAndTheirDescendants)
+            {
+                if (element is Microsoft.Maui.Controls.CheckBox)
+                {
+                    CheckBox checkbox = (CheckBox)element;
+                    if (checkbox.IsChecked)
+                    {
+                        ids.Add(checkbox.ClassId);
+                    }
+                }
+            }
+            return ids;
+        }
         public async void publishFoldersButtonClicked(object sender, EventArgs e)
         {
-            await _alertService.DisplayAlertAsync(
+            List<string> ids = getSelectedFolderIds();
+            List<string> FolderNames = new List<string>();
+            foreach (Folder folder in Folders)
+            {
+                if (ids.Contains(Convert.ToString(folder.id)))
+                {
+                    FolderNames.Add(folder.name);
+                }
+            }
+
+            bool confirm = await _alertService.DisplayAlertAsync(
                title: "Publish Folders",
-               message: "Please confirm",
+               message: String.Join(", ", FolderNames),
                accept: "OK",
                cancel: "Cancel");
+
+            if (confirm)
+            {
+                var folderIds = new CollectionIds
+                {
+                    id = ids.ToArray()
+                };
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+                (int _statusCode, var response) = await _apiService.PublishFolders(body);
+            }
         }
 
         public async void unpublishFoldersButtonClicked(object sender, EventArgs e)

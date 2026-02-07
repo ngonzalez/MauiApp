@@ -9,5 +9,8 @@
         Task<(int, String)> GetAllUploads(string ids);
 
         Task<(int, String)> CreatePostAsync(byte[] body);
+
+        Task<(int, String)> PublishFolders(byte[] body);
+
     }
 }
