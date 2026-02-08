@@ -431,20 +431,62 @@ namespace MauiApp1
 
         public async void unpublishFoldersButtonClicked(object sender, EventArgs e)
         {
-            await _alertService.DisplayAlertAsync(
+            List<string> ids = getSelectedFolderIds();
+            List<string> FolderNames = new List<string>();
+            foreach (Folder folder in Folders)
+            {
+                if (ids.Contains(Convert.ToString(folder.id)))
+                {
+                    FolderNames.Add(folder.name);
+                }
+            }
+
+            bool confirm = await _alertService.DisplayAlertAsync(
                title: "Unpublish Folders",
-               message: "Please confirm",
+               message: String.Join(", ", FolderNames),
                accept: "OK",
                cancel: "Cancel");
+
+            if (confirm)
+            {
+                var folderIds = new CollectionIds
+                {
+                    id = ids.ToArray()
+                };
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+                (int _statusCode, var response) = await _apiService.UnpublishFolders(body);
+            }
         }
 
         public async void deleteFoldersButtonClicked(object sender, EventArgs e)
         {
-            await _alertService.DisplayAlertAsync(
+            List<string> ids = getSelectedFolderIds();
+            List<string> FolderNames = new List<string>();
+            foreach (Folder folder in Folders)
+            {
+                if (ids.Contains(Convert.ToString(folder.id)))
+                {
+                    FolderNames.Add(folder.name);
+                }
+            }
+
+            bool confirm = await _alertService.DisplayAlertAsync(
                title: "Delete Folders",
-               message: "Please confirm",
+               message: String.Join(", ", FolderNames),
                accept: "OK",
                cancel: "Cancel");
+
+            if (confirm)
+            {
+                var folderIds = new CollectionIds
+                {
+                    id = ids.ToArray()
+                };
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+                (int _statusCode, var response) = await _apiService.DeleteFolders(body);
+            }
         }
 
         public async void foldersSearchInputTextChanged(object sender, EventArgs e)

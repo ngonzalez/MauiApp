@@ -12,5 +12,8 @@
 
         Task<(int, String)> PublishFolders(byte[] body);
 
+        Task<(int, String)> UnpublishFolders(byte[] body);
+
+        Task<(int, String)> DeleteFolders(byte[] body);
     }
 }

@@ -30,6 +30,25 @@ namespace MauiApp1.Platforms.Windows
             );
         }
 
+        public async Task<(int, String)> GetAllUploads(string ids)
+        {
+            var response = await _httpClient.GetAsync("/upload" + ids);
+            string json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
+        public async Task<(int, String)> CreatePostAsync(byte[] body)
+        {
+            ByteArrayContent content = new ByteArrayContent(body);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            content.Headers.ContentLength = body.Length;
+            var response = await _httpClient.PostAsync("/upload", content);
+            string json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
         public async Task<(int, String)> getVideoStream(string id)
         {
             var response = await _httpClientStreamingService.GetAsync("/video_files/" + id);
@@ -46,14 +65,6 @@ namespace MauiApp1.Platforms.Windows
             return (status, json);
         }
 
-        public async Task<(int, String)> GetAllUploads(string ids)
-        {
-            var response = await _httpClient.GetAsync("/upload" + ids);
-            string json = await response.Content.ReadAsStringAsync();
-            int status = (int)response.StatusCode;
-            return (status, json);
-        }
-
         public async Task<(int, String)> PublishFolders(byte[] body)
         {
             ByteArrayContent content = new ByteArrayContent(body);
@@ -65,12 +76,23 @@ namespace MauiApp1.Platforms.Windows
             return (status, json);
         }
 
-        public async Task<(int, String)> CreatePostAsync(byte[] body)
+        public async Task<(int, String)> UnpublishFolders(byte[] body)
         {
             ByteArrayContent content = new ByteArrayContent(body);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             content.Headers.ContentLength = body.Length;
-            var response = await _httpClient.PostAsync("/upload", content);
+            var response = await _httpClient.PostAsync("/folders/unpublish", content);
+            string json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
+        public async Task<(int, String)> DeleteFolders(byte[] body)
+        {
+            ByteArrayContent content = new ByteArrayContent(body);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            content.Headers.ContentLength = body.Length;
+            var response = await _httpClient.PostAsync("/folders/delete", content);
             string json = await response.Content.ReadAsStringAsync();
             int status = (int)response.StatusCode;
             return (status, json);
