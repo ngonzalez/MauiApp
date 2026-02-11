@@ -178,6 +178,11 @@ public partial class DisplayPage : ContentPage
         Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
     }
 
+    public async void addImageFileToSelectedItems(ImageFile imageFile)
+    {
+        SelectedImageFiles.Add(imageFile);
+    }
+
     public async void previousLinkImageFileClicked(object sender, EventArgs e)
     {
         Button button = (Button)sender;
@@ -196,7 +201,7 @@ public partial class DisplayPage : ContentPage
             {
                 if (_imageFile.id == nextImageFile.id)
                 {
-                    SelectedImageFiles.Add(_imageFile);
+                    addImageFileToSelectedItems(_imageFile);
                     break;
                 }
             }
@@ -225,7 +230,7 @@ public partial class DisplayPage : ContentPage
             {
                 if (_imageFile.id == nextImageFile.id)
                 {
-                    SelectedImageFiles.Add(_imageFile);
+                    addImageFileToSelectedItems(_imageFile);
                     break;
                 }
             }
@@ -262,7 +267,7 @@ public partial class DisplayPage : ContentPage
             SelectedImageFiles.RemoveAt(0);
         }
 
-        SelectedImageFiles.Add(imageFile);
+        addImageFileToSelectedItems(imageFile);
     }
 
     public async void SelectedImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -281,6 +286,12 @@ public partial class DisplayPage : ContentPage
         videoFilesCollectionView.ItemsSource = VideoFiles.Where(videoFile =>
             videoFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
         );
+    }
+
+    public async void addVideoFileToSelectedItems(VideoFile videoFile)
+    {
+        SelectedVideoFiles.Add(videoFile);
+        GridMediaProcessing.IsVisible = videoFile.aasmState == "created";
     }
 
     public async void previousLinkVideoFileClicked(object sender, EventArgs e)
@@ -304,7 +315,7 @@ public partial class DisplayPage : ContentPage
             {
                 if (_videoFile.id == nextVideoFile.id)
                 {
-                    SelectedVideoFiles.Add(_videoFile);
+                    addVideoFileToSelectedItems(_videoFile);
                     break;
                 }
             }
@@ -336,7 +347,7 @@ public partial class DisplayPage : ContentPage
             {
                 if (_videoFile.id == nextVideoFile.id)
                 {
-                    SelectedVideoFiles.Add(_videoFile);
+                    addVideoFileToSelectedItems(_videoFile);
                     break;
                 }
             }
@@ -379,7 +390,8 @@ public partial class DisplayPage : ContentPage
             SelectedVideoFiles.RemoveAt(0);
         }
 
-        SelectedVideoFiles.Add(videoFile);
+        addVideoFileToSelectedItems(videoFile);
+
     }
 
     public async void SelectedVideoFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -443,14 +455,11 @@ public partial class DisplayPage : ContentPage
         if (found)
         {
             GridMediaPlayer.IsVisible = true;
+            GridMediaProcessing.IsVisible = false;
             string id = Convert.ToString(videoFile.id);
             //mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/video-" + id + ".m3u8");
             mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
             mediaElement.Play();
-        }
-        else
-        {
-            GridMediaProcessing.IsVisible = false;
         }
     }
 
@@ -460,6 +469,12 @@ public partial class DisplayPage : ContentPage
         audioFilesCollectionView.ItemsSource = AudioFiles.Where(audioFile =>
             audioFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
         );
+    }
+
+    public async void addAudioFileToSelectedItems(AudioFile audioFile)
+    {
+        SelectedAudioFiles.Add(audioFile);
+        GridMediaProcessing.IsVisible = audioFile.aasmState == "created";
     }
 
     public async void previousLinkAudioFileClicked(object sender, EventArgs e)
@@ -483,7 +498,7 @@ public partial class DisplayPage : ContentPage
             {
                 if (_audioFile.id == nextAudioFile.id)
                 {
-                    SelectedAudioFiles.Add(_audioFile);
+                    addAudioFileToSelectedItems(_audioFile);
                     break;
                 }
             }
@@ -515,7 +530,7 @@ public partial class DisplayPage : ContentPage
             {
                 if (_audioFile.id == nextAudioFile.id)
                 {
-                    SelectedAudioFiles.Add(_audioFile);
+                    addAudioFileToSelectedItems(_audioFile);
                     break;
                 }
             }
@@ -558,7 +573,7 @@ public partial class DisplayPage : ContentPage
             SelectedAudioFiles.RemoveAt(0);
         }
 
-        SelectedAudioFiles.Add(audioFile);
+        addAudioFileToSelectedItems(audioFile);
     }
 
     public async void SelectedAudioFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -622,14 +637,11 @@ public partial class DisplayPage : ContentPage
         if (found)
         {
             GridMediaPlayer.IsVisible = true;
+            GridMediaProcessing.IsVisible = false;
             string id = Convert.ToString(audioFile.id);
             //mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/audio-" + id + ".m3u8");
             mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/audio-" + id + ".m3u8");
             mediaElement.Play();
-        }
-        else
-        {
-            GridMediaProcessing.IsVisible = false;
         }
     }
 

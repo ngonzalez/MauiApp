@@ -14,9 +14,7 @@
                 <toolkit:MediaElement
                         x:Name="mediaElement"
                         ShouldAutoPlay="False"
-                        ShouldShowPlaybackControls="True"
-                        MaximumHeightRequest="600"
-                        MaximumWidthRequest="900">
+                        ShouldShowPlaybackControls="True">
                 </toolkit:MediaElement>
             </Grid>
 
@@ -59,25 +57,6 @@
                                                 <VerticalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Open in new Window"
-                                                            Clicked="openNewWindowImageFile"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconClone}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
-                                                        </Button>
-                                                    </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Button
                                                             Text="Previous"
                                                             Clicked="previousLinkImageFileClicked"
                                                             TextColor="Grey"
@@ -89,7 +68,7 @@
                                                             <Button.ImageSource>
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconReply}"
+                                                                    Glyph="{StaticResource IconArrowLeft}"
                                                                     Size="20"
                                                                     Color="Grey" />
                                                             </Button.ImageSource>
@@ -107,7 +86,7 @@
                                                             <Button.ImageSource>
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconShare}"
+                                                                    Glyph="{StaticResource IconArrowRight}"
                                                                     Size="20"
                                                                     Color="Grey" />
                                                             </Button.ImageSource>
@@ -134,6 +113,24 @@
                                                         </Button>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Open in new Window"
+                                                            Clicked="openNewWindowImageFile"
+                                                            TextColor="Grey"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconClone}"
+                                                                    Size="20"
+                                                                    Color="Grey" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>                                                    <HorizontalStackLayout>
                                                         <Button
                                                             Text="Remove from selection"
                                                             Clicked="removeImageFileFromSelection"
@@ -401,7 +398,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Play"
+                                                            Text="Load Video File"
                                                             Clicked="playVideoFileClicked"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
@@ -412,7 +409,7 @@
                                                             <Button.ImageSource>
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconPlay}"
+                                                                    Glyph="{StaticResource IconBarsProgress}"
                                                                     Size="20"
                                                                     Color="Grey" />
                                                             </Button.ImageSource>
@@ -681,7 +678,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Play"
+                                                            Text="Load Audio File"
                                                             Clicked="playAudioFileClicked"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
@@ -692,7 +689,7 @@
                                                             <Button.ImageSource>
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconPlay}"
+                                                                    Glyph="{StaticResource IconBarsProgress}"
                                                                     Size="20"
                                                                     Color="Grey" />
                                                             </Button.ImageSource>
