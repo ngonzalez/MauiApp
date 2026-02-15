@@ -210,7 +210,7 @@
                                                             </VisualStateManager.VisualStateGroups>
                                                         </Button>
                                                     </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
+                                                    <HorizontalStackLayout Padding="10">
                                                         <Image
                                                             MinimumWidthRequest="500"
                                                             MaximumWidthRequest="500"
@@ -1124,6 +1124,624 @@
                     <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
                         <Label
                             x:Name="audioFilesCount"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid x:Name="GridPdfFiles">
+                <HorizontalStackLayout Padding="50">
+                    <VerticalStackLayout MinimumWidthRequest="400" MaximumHeightRequest="800">
+                        <ScrollView
+                            x:Name="scrollViewSelectedPdfFilesList"
+                            Grid.Row="0"
+                            VerticalOptions="Fill">
+
+                            <CollectionView
+                                ItemsSource="{Binding SelectedPdfFiles}"
+                                SelectionMode="Multiple"
+                                SelectionChanged="SelectedPdfFilesSelectionChanged">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <HorizontalStackLayout>
+                                                <VerticalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="⭠ Previous"
+                                                            Clicked="previousLinkPdfFileClicked"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="100"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Start">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+
+                                                        <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
+
+                                                        <Button
+                                                            Text="Next ⭢"
+                                                            Clicked="nextLinkPdfFileClicked"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="80"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="End">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="{Binding fileName}"
+                                                            ToolTipProperties.Text="{Binding fileName}"
+                                                            x:Name="fileNameButton"
+                                                            TextColor="FloralWhite"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconFile}"
+                                                                    Size="20"
+                                                                    Color="FloralWhite" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Frame
+                                                            BorderColor="Transparent"
+                                                            Opacity="0.8"
+                                                            BackgroundColor="Black"
+                                                            Padding="20">
+                                                            <ScrollView
+                                                                x:Name="scrollView"
+                                                                MinimumHeightRequest="400"
+                                                                MaximumHeightRequest="400"
+                                                                MinimumWidthRequest="450"
+                                                                MaximumWidthRequest="450">
+                                                                <TableView Intent="Menu">
+                                                                    <TableRoot>
+                                                                        <TableSection Title="Parameters">
+                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
+                                                                        </TableSection>
+                                                                    </TableRoot>
+                                                                </TableView>
+                                                            </ScrollView>
+                                                        </Frame>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Remove from selection"
+                                                            Clicked="removePdfFileFromSelection"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            Margin="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="470"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <SearchBar
+                            x:Name="pdfFilesSearchBar"
+                            Placeholder="Search..."
+                            BackgroundColor="Black"
+                            TextColor="FloralWhite"
+                            TextChanged="pdfFilesSearchInputTextChanged" />
+
+                        <Frame
+                            BorderColor="Black"
+                            CornerRadius="10">
+
+                            <ScrollView
+                                x:Name="scrollViewPdfFilesList"
+                                MaximumHeightRequest="700">
+
+                                <CollectionView
+                                    x:Name="pdfFilesCollectionView"
+                                    ItemsSource="{Binding PdfFiles}"
+                                    SelectionMode="Multiple"
+                                    SelectionChanged="PdfFilesSelectionChanged"
+                                    SelectedItems="{Binding SelectedPdfFiles}">
+
+                                    <CollectionView.EmptyView>
+                                        <Label
+                                            Text="No data found."
+                                            FontSize="20"
+                                            BackgroundColor="Transparent"
+                                            TextColor="FloralWhite"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <HorizontalStackLayout>
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Text="{Binding fileName}"
+                                                        Clicked="addPdfFileToSelection"
+                                                        TextColor="FloralWhite"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                        <Button.ImageSource>
+                                                            <FontImageSource
+                                                                FontFamily="FontAwesome7FreeRegular"
+                                                                Glyph="{StaticResource IconFilePdf}"
+                                                                Size="20"
+                                                                Color="FloralWhite" />
+                                                        </Button.ImageSource>
+                                                    </Button>
+
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Text="{Binding mimeType}"
+                                                        Clicked="addPdfFileToSelection"
+                                                        TextColor="LightGrey"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                    </Button>
+
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="3"
+                                                        Clicked="addPdfFileToSelection"
+                                                        BackgroundColor="Transparent"
+                                                        MinimumWidthRequest="1000">
+                                                    </Button>
+                                                </HorizontalStackLayout>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </ScrollView>
+                        </Frame>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid x:Name="GridPdfFilesDetails">
+                <HorizontalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
+                        <Label
+                            x:Name="folderName4"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="200" MaximumWidthRequest="200">
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
+                        <Label
+                            x:Name="pdfFilesCount"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid x:Name="GridTextFiles">
+                <HorizontalStackLayout Padding="50">
+                    <VerticalStackLayout MinimumWidthRequest="400" MaximumHeightRequest="800">
+                        <ScrollView
+                            x:Name="scrollViewSelectedTextFilesList"
+                            Grid.Row="0"
+                            VerticalOptions="Fill">
+
+                            <CollectionView
+                                ItemsSource="{Binding SelectedTextFiles}"
+                                SelectionMode="Multiple"
+                                SelectionChanged="SelectedTextFilesSelectionChanged">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <HorizontalStackLayout>
+                                                <VerticalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="⭠ Previous"
+                                                            Clicked="previousLinkTextFileClicked"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="100"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Start">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+
+                                                        <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
+
+                                                        <Button
+                                                            Text="Next ⭢"
+                                                            Clicked="nextLinkTextFileClicked"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="80"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="End">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="{Binding fileName}"
+                                                            ToolTipProperties.Text="{Binding fileName}"
+                                                            x:Name="fileNameButton"
+                                                            TextColor="FloralWhite"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="20"
+                                                            Padding="10"
+                                                            MinimumWidthRequest="500"
+                                                            MaximumWidthRequest="500">
+                                                            <Button.ImageSource>
+                                                                <FontImageSource
+                                                                    FontFamily="FontAwesome7FreeSolid"
+                                                                    Glyph="{StaticResource IconFile}"
+                                                                    Size="20"
+                                                                    Color="FloralWhite" />
+                                                            </Button.ImageSource>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Frame
+                                                            BorderColor="Transparent"
+                                                            Opacity="0.8"
+                                                            BackgroundColor="Black"
+                                                            Padding="20">
+                                                            <ScrollView
+                                                                x:Name="scrollView"
+                                                                MinimumHeightRequest="400"
+                                                                MaximumHeightRequest="400"
+                                                                MinimumWidthRequest="450"
+                                                                MaximumWidthRequest="450">
+                                                                <TableView Intent="Menu">
+                                                                    <TableRoot>
+                                                                        <TableSection Title="Parameters">
+                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
+                                                                        </TableSection>
+                                                                    </TableRoot>
+                                                                </TableView>
+                                                            </ScrollView>
+                                                        </Frame>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Remove from selection"
+                                                            Clicked="removeTextFileFromSelection"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            Margin="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="470"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <SearchBar
+                            x:Name="textFilesSearchBar"
+                            Placeholder="Search..."
+                            BackgroundColor="Black"
+                            TextColor="FloralWhite"
+                            TextChanged="textFilesSearchInputTextChanged" />
+
+                        <Frame
+                            BorderColor="Black"
+                            CornerRadius="10">
+
+                            <ScrollView
+                                x:Name="scrollViewTextFilesList"
+                                MaximumHeightRequest="700">
+
+                                <CollectionView
+                                    x:Name="textFilesCollectionView"
+                                    ItemsSource="{Binding TextFiles}"
+                                    SelectionMode="Multiple"
+                                    SelectionChanged="PdfFilesSelectionChanged"
+                                    SelectedItems="{Binding SelectedTextFiles}">
+
+                                    <CollectionView.EmptyView>
+                                        <Label
+                                            Text="No data found."
+                                            FontSize="20"
+                                            BackgroundColor="Transparent"
+                                            TextColor="FloralWhite"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <HorizontalStackLayout>
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Text="{Binding fileName}"
+                                                        Clicked="addTextFileToSelection"
+                                                        TextColor="FloralWhite"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                        <Button.ImageSource>
+                                                            <FontImageSource
+                                                                FontFamily="FontAwesome7FreeRegular"
+                                                                Glyph="{StaticResource IconFileText}"
+                                                                Size="20"
+                                                                Color="FloralWhite" />
+                                                        </Button.ImageSource>
+                                                    </Button>
+
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Text="{Binding mimeType}"
+                                                        Clicked="addTextFileToSelection"
+                                                        TextColor="LightGrey"
+                                                        BackgroundColor="Transparent"
+                                                        FontSize="15"
+                                                        Padding="10">
+                                                    </Button>
+
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="3"
+                                                        Clicked="addTextFileToSelection"
+                                                        BackgroundColor="Transparent"
+                                                        MinimumWidthRequest="1000">
+                                                    </Button>
+                                                </HorizontalStackLayout>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </ScrollView>
+                        </Frame>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid x:Name="GridTextFilesDetails">
+                <HorizontalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
+                        <Label
+                            x:Name="folderName5"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            TextColor="FloralWhite"
+                            BackgroundColor="Transparent"
+                            Padding="10" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="200" MaximumWidthRequest="200">
+                    </VerticalStackLayout>
+                    <VerticalStackLayout MinimumWidthRequest="300" MaximumWidthRequest="400">
+                        <Label
+                            x:Name="textFilesCount"
                             FontSize="20"
                             HorizontalOptions="Center"
                             TextColor="FloralWhite"

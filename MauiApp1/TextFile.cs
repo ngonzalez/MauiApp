@@ -7,5 +7,6 @@
     public string? dataUrl { get; set; }
     public string? mimeType { get; set; }
     public string? formatInfo { get; set; }
+    public string? fileSize { get; set; }
 
 }

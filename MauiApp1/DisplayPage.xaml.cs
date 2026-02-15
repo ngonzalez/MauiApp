@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.Json;
 using Windows.System;
 
@@ -37,6 +38,12 @@ public partial class DisplayPage : ContentPage
     public ObservableCollection<AudioFile> SelectedAudioFiles { get; set; }
     public ObservableCollection<AudioStreamResponse> AudioStreams { get; set; }
 
+    public ObservableCollection<PdfFile> PdfFiles { get; set; }
+    public ObservableCollection<PdfFile> SelectedPdfFiles { get; set; }
+
+    public ObservableCollection<TextFile> TextFiles { get; set; }
+    public ObservableCollection<TextFile> SelectedTextFiles { get; set; }
+
     public DisplayPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
         _apiService = apiService;
@@ -61,6 +68,14 @@ public partial class DisplayPage : ContentPage
         // AudioStreams collection
         AudioStreams = new ObservableCollection<AudioStreamResponse> { };
 
+        // PdfFile collection
+        PdfFiles = new ObservableCollection<PdfFile> { };
+        SelectedPdfFiles = new ObservableCollection<PdfFile> { };
+
+        // AudioFile collection
+        TextFiles = new ObservableCollection<TextFile> { };
+        SelectedTextFiles = new ObservableCollection<TextFile> { };
+
         InitializeComponent();
         BindingContext = this;
 
@@ -68,6 +83,8 @@ public partial class DisplayPage : ContentPage
         folderName1.Text = folder.name;
         folderName2.Text = folder.name;
         folderName3.Text = folder.name;
+        folderName4.Text = folder.name;
+        folderName5.Text = folder.name;
 
         // Set default visibility for grids
         GridImageFiles.IsVisible = false;
@@ -78,6 +95,10 @@ public partial class DisplayPage : ContentPage
         GridAudioFilesDetails.IsVisible = false;
         GridMediaPlayer.IsVisible = false;
         GridMediaProcessing.IsVisible = false;
+        GridPdfFiles.IsVisible = false;
+        GridPdfFilesDetails.IsVisible = false;
+        GridTextFiles.IsVisible = false;
+        GridTextFilesDetails.IsVisible = false;
 
         // Get media files from backend
         getUploads();
@@ -156,6 +177,50 @@ public partial class DisplayPage : ContentPage
         audioFilesCount.Text = Convert.ToString(AudioFiles.Count()) + " " + audioFileLabel;
         GridAudioFiles.IsVisible = AudioFiles.Count() > 0;
         GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
+
+        // PdfFile
+        while (PdfFiles.Count() > 0)
+        {
+            PdfFiles.RemoveAt(0);
+        }
+
+        foreach (Upload upload in uploadsResponse)
+        {
+            if (upload.pdfFiles.Length > 0)
+            {
+                foreach (PdfFile pdfFile in upload.pdfFiles)
+                {
+                    PdfFiles.Add(pdfFile);
+                }
+            }
+        }
+
+        string pdfFileLabel = PdfFiles.Count() > 1 ? "Pdf Files" : "Pdf File";
+        pdfFilesCount.Text = Convert.ToString(PdfFiles.Count()) + " " + pdfFileLabel;
+        GridPdfFiles.IsVisible = PdfFiles.Count() > 0;
+        GridPdfFilesDetails.IsVisible = PdfFiles.Count() > 0;
+
+        // TextFile
+        while (TextFiles.Count() > 0)
+        {
+            TextFiles.RemoveAt(0);
+        }
+
+        foreach (Upload upload in uploadsResponse)
+        {
+            if (upload.textFiles.Length > 0)
+            {
+                foreach (TextFile textFile in upload.textFiles)
+                {
+                    TextFiles.Add(textFile);
+                }
+            }
+        }
+
+        string textFileLabel = TextFiles.Count() > 1 ? "Text Files" : "Text File";
+        textFilesCount.Text = Convert.ToString(TextFiles.Count()) + " " + textFileLabel;
+        GridTextFiles.IsVisible = TextFiles.Count() > 0;
+        GridTextFilesDetails.IsVisible = TextFiles.Count() > 0;
     }
 
     public async void imageFilesSearchInputTextChanged(object sender, EventArgs e)
@@ -644,6 +709,226 @@ public partial class DisplayPage : ContentPage
             mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/audio-" + id + ".m3u8");
             mediaElement.Play();
         }
+    }
+
+    public async void pdfFilesSearchInputTextChanged(object sender, EventArgs e)
+    {
+        SearchBar searchBar = (SearchBar)sender;
+        pdfFilesCollectionView.ItemsSource = PdfFiles.Where(pdfFile =>
+            pdfFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
+        );
+    }
+
+    public async void addPdfFileToSelectedItems(PdfFile pdfFile)
+    {
+        SelectedPdfFiles.Add(pdfFile);
+    }
+
+    public async void previousLinkPdfFileClicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        PdfFile pdfFile = (PdfFile)button.BindingContext;
+
+        while (SelectedPdfFiles.Count() > 0)
+        {
+            SelectedPdfFiles.RemoveAt(0);
+        }
+
+        try
+        {
+            PdfFile nextPdfFile = PdfFiles[PdfFiles.IndexOf(pdfFile) - 1];
+
+            foreach (PdfFile _pdfFile in PdfFiles)
+            {
+                if (_pdfFile.id == nextPdfFile.id)
+                {
+                    addPdfFileToSelectedItems(_pdfFile);
+                    break;
+                }
+            }
+        }
+        catch
+        {
+
+        }
+    }
+
+    public async void nextLinkPdfFileClicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        PdfFile pdfFile = (PdfFile)button.BindingContext;
+
+        while (SelectedPdfFiles.Count() > 0)
+        {
+            SelectedPdfFiles.RemoveAt(0);
+        }
+
+        try
+        {
+            PdfFile nextPdfFile = PdfFiles[PdfFiles.IndexOf(pdfFile) + 1];
+
+            foreach (PdfFile _pdfFile in PdfFiles)
+            {
+                if (_pdfFile.id == nextPdfFile.id)
+                {
+                    addPdfFileToSelectedItems(_pdfFile);
+                    break;
+                }
+            }
+        }
+        catch
+        {
+
+        }
+    }
+
+    public async void removePdfFileFromSelection(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        PdfFile pdfFile = (PdfFile)button.BindingContext;
+        int i = 0;
+        foreach (PdfFile _pdfFile in SelectedPdfFiles)
+        {
+            if (_pdfFile.id == pdfFile.id)
+            {
+                SelectedPdfFiles.RemoveAt(i);
+                break;
+            }
+            i += 1;
+        }
+    }
+
+    public async void addPdfFileToSelection(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        PdfFile pdfFile = (PdfFile)button.BindingContext;
+
+        while (SelectedPdfFiles.Count() > 0)
+        {
+            SelectedPdfFiles.RemoveAt(0);
+        }
+
+        addPdfFileToSelectedItems(pdfFile);
+    }
+
+    public async void SelectedPdfFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        PdfFile _selectedPdfFile = e.CurrentSelection.FirstOrDefault() as PdfFile;
+    }
+
+    public async void PdfFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        PdfFile _selectedPdfFile = e.CurrentSelection.FirstOrDefault() as PdfFile;
+    }
+
+    public async void textFilesSearchInputTextChanged(object sender, EventArgs e)
+    {
+        SearchBar searchBar = (SearchBar)sender;
+        textFilesCollectionView.ItemsSource = TextFiles.Where(textFile =>
+            textFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
+        );
+    }
+
+    public async void addTextFileToSelectedItems(TextFile textFile)
+    {
+        SelectedTextFiles.Add(textFile);
+    }
+
+    public async void previousLinkTextFileClicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        TextFile textFile = (TextFile)button.BindingContext;
+
+        while (SelectedTextFiles.Count() > 0)
+        {
+            SelectedTextFiles.RemoveAt(0);
+        }
+
+        try
+        {
+            TextFile nextTextFile = TextFiles[TextFiles.IndexOf(textFile) - 1];
+
+            foreach (TextFile _textFile in TextFiles)
+            {
+                if (_textFile.id == nextTextFile.id)
+                {
+                    addTextFileToSelectedItems(_textFile);
+                    break;
+                }
+            }
+        }
+        catch
+        {
+
+        }
+    }
+
+    public async void nextLinkTextFileClicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        TextFile textFile = (TextFile)button.BindingContext;
+
+        while (SelectedTextFiles.Count() > 0)
+        {
+            SelectedTextFiles.RemoveAt(0);
+        }
+
+        try
+        {
+            TextFile nextTextFile = TextFiles[TextFiles.IndexOf(textFile) + 1];
+
+            foreach (TextFile _textFile in TextFiles)
+            {
+                if (_textFile.id == nextTextFile.id)
+                {
+                    addTextFileToSelectedItems(_textFile);
+                    break;
+                }
+            }
+        }
+        catch
+        {
+
+        }
+    }
+
+    public async void removeTextFileFromSelection(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        TextFile textFile = (TextFile)button.BindingContext;
+        int i = 0;
+        foreach (TextFile _textFile in SelectedTextFiles)
+        {
+            if (_textFile.id == textFile.id)
+            {
+                SelectedTextFiles.RemoveAt(i);
+                break;
+            }
+            i += 1;
+        }
+    }
+
+    public async void addTextFileToSelection(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        TextFile textFile = (TextFile)button.BindingContext;
+
+        while (SelectedTextFiles.Count() > 0)
+        {
+            SelectedTextFiles.RemoveAt(0);
+        }
+
+        addTextFileToSelectedItems(textFile);
+    }
+
+    public async void SelectedTextFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        TextFile _selectedTextFile = e.CurrentSelection.FirstOrDefault() as TextFile;
+    }
+
+    public async void TextFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        TextFile _selectedTextFile = e.CurrentSelection.FirstOrDefault() as TextFile;
     }
 
     public void DisplayPageUnloaded(object? sender, EventArgs e)
