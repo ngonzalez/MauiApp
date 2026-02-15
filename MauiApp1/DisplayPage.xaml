@@ -19,19 +19,34 @@
             </Grid>
 
             <Grid x:Name="GridMediaProcessing">
-                <Label
-                    FontSize="20"
+                <HorizontalStackLayout
                     HorizontalOptions="Center"
-                    TextColor="FloralWhite"
-                    BackgroundColor="Transparent"
-                    Padding="10">
-                    Processing
-                </Label>
+                    VerticalOptions="Center">
+                    <Label
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        TextColor="FloralWhite"
+                        BackgroundColor="Transparent"
+                        Padding="10">
+                        Processing
+                    </Label>
+                    <Image
+                        MinimumWidthRequest="30"
+                        MaximumWidthRequest="30">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="FontAwesome7FreeSolid"
+                                Glyph="{StaticResource IconGears}"
+                                Size="30"
+                                Color="Grey" />
+                        </Image.Source>
+                    </Image>
+                </HorizontalStackLayout>
             </Grid>
 
             <Grid x:Name="GridImageFiles">
                 <HorizontalStackLayout Padding="50">
-                    <VerticalStackLayout MinimumWidthRequest="400">
+                    <VerticalStackLayout MinimumWidthRequest="450">
                         <ScrollView
                             x:Name="scrollViewSelectedImageFilesList"
                             Grid.Row="0"
@@ -57,43 +72,6 @@
                                                 <VerticalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Previous"
-                                                            Clicked="previousLinkImageFileClicked"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="250"
-                                                            MaximumWidthRequest="250">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconArrowLeft}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
-                                                        </Button>
-
-                                                        <Button
-                                                            Text="Next"
-                                                            Clicked="nextLinkImageFileClicked"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="250"
-                                                            MaximumWidthRequest="250">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconArrowRight}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
-                                                        </Button>
-                                                    </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Button
                                                             Text="{Binding fileName}"
                                                             ToolTipProperties.Text="{Binding fileName}"
                                                             x:Name="fileNameButton"
@@ -114,39 +92,122 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Open in new Window"
+                                                            Text="⭠ Previous"
+                                                            Clicked="previousLinkImageFileClicked"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="100"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Start">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>   
+                                                        </Button>
+
+                                                        <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
+
+                                                        <Button
+                                                            Text="Open in new window"
                                                             Clicked="openNewWindowImageFile"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
-                                                            FontSize="20"
+                                                            FontSize="15"
                                                             Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="250"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center">
                                                             <Button.ImageSource>
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
                                                                     Glyph="{StaticResource IconClone}"
-                                                                    Size="20"
+                                                                    Size="12"
                                                                     Color="Grey" />
                                                             </Button.ImageSource>
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
                                                         </Button>
-                                                    </HorizontalStackLayout>                                                    <HorizontalStackLayout>
+
+                                                        <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
+
                                                         <Button
-                                                            Text="Remove from selection"
-                                                            Clicked="removeImageFileFromSelection"
-                                                            TextColor="Grey"
+                                                            Text="Next ⭢"
+                                                            Clicked="nextLinkImageFileClicked"
+                                                            TextColor="Gray"
                                                             BackgroundColor="Transparent"
-                                                            FontSize="20"
+                                                            FontSize="15"
                                                             Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource Iconx}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="80"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="End">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
                                                         </Button>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
@@ -160,6 +221,44 @@
                                                                     Uri="{Binding fileUrl}" />
                                                             </Image.Source>
                                                         </Image>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Remove from selection"
+                                                            Clicked="removeImageFileFromSelection"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            Margin="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="470"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Frame
@@ -340,42 +439,125 @@
                                                 <VerticalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Previous"
+                                                            Text="⭠ Previous"
                                                             Clicked="previousLinkVideoFileClicked"
-                                                            TextColor="Grey"
+                                                            TextColor="Gray"
                                                             BackgroundColor="Transparent"
-                                                            FontSize="20"
+                                                            FontSize="15"
                                                             Padding="10"
-                                                            MinimumWidthRequest="250"
-                                                            MaximumWidthRequest="250">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconArrowLeft}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="100"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Start">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
                                                         </Button>
 
+                                                        <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
+
                                                         <Button
-                                                            Text="Next"
-                                                            Clicked="nextLinkVideoFileClicked"
+                                                            Text="Load Video File"
+                                                            Clicked="playVideoFileClicked"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
-                                                            FontSize="20"
+                                                            FontSize="15"
                                                             Padding="10"
-                                                            MinimumWidthRequest="250"
-                                                            MaximumWidthRequest="250">
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="250"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center">
                                                             <Button.ImageSource>
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconArrowRight}"
-                                                                    Size="20"
+                                                                    Glyph="{StaticResource IconClone}"
+                                                                    Size="12"
                                                                     Color="Grey" />
                                                             </Button.ImageSource>
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+
+                                                        <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
+
+                                                        <Button
+                                                            Text="Next ⭢"
+                                                            Clicked="nextLinkVideoFileClicked"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="80"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="End">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
                                                         </Button>
                                                     </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
+                                                    <HorizontalStackLayout Margin="10">
                                                         <Button
                                                             Text="{Binding fileName}"
                                                             ToolTipProperties.Text="{Binding fileName}"
@@ -393,44 +575,6 @@
                                                                     Glyph="{StaticResource IconFile}"
                                                                     Size="20"
                                                                     Color="FloralWhite" />
-                                                            </Button.ImageSource>
-                                                        </Button>
-                                                    </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Button
-                                                            Text="Load Video File"
-                                                            Clicked="playVideoFileClicked"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconBarsProgress}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
-                                                        </Button>
-                                                    </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Button
-                                                            Text="Remove from selection"
-                                                            Clicked="removeVideoFileFromSelection"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource Iconx}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
                                                             </Button.ImageSource>
                                                         </Button>
                                                     </HorizontalStackLayout>
@@ -466,7 +610,44 @@
                                                             </ScrollView>
                                                         </Frame>
                                                     </HorizontalStackLayout>
-
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Remove from selection"
+                                                            Clicked="removeVideoFileFromSelection"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            Margin="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="470"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
                                                 </VerticalStackLayout>
                                             </HorizontalStackLayout>
                                         </Grid>
@@ -620,39 +801,122 @@
                                                 <VerticalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Previous"
+                                                            Text="⭠ Previous"
                                                             Clicked="previousLinkAudioFileClicked"
-                                                            TextColor="Grey"
+                                                            TextColor="Gray"
                                                             BackgroundColor="Transparent"
-                                                            FontSize="20"
+                                                            FontSize="15"
                                                             Padding="10"
-                                                            MinimumWidthRequest="250"
-                                                            MaximumWidthRequest="250">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconArrowLeft}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="100"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Start">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
                                                         </Button>
 
+                                                        <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
+
                                                         <Button
-                                                            Text="Next"
-                                                            Clicked="nextLinkAudioFileClicked"
+                                                            Text="Load Audio File"
+                                                            Clicked="playAudioFileClicked"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
-                                                            FontSize="20"
+                                                            FontSize="15"
                                                             Padding="10"
-                                                            MinimumWidthRequest="250"
-                                                            MaximumWidthRequest="250">
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="250"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center">
                                                             <Button.ImageSource>
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconArrowRight}"
-                                                                    Size="20"
+                                                                    Glyph="{StaticResource IconClone}"
+                                                                    Size="12"
                                                                     Color="Grey" />
                                                             </Button.ImageSource>
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+
+                                                        <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
+
+                                                        <Button
+                                                            Text="Next ⭢"
+                                                            Clicked="nextLinkAudioFileClicked"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="80"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="End">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
                                                         </Button>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
@@ -673,44 +937,6 @@
                                                                     Glyph="{StaticResource IconFile}"
                                                                     Size="20"
                                                                     Color="FloralWhite" />
-                                                            </Button.ImageSource>
-                                                        </Button>
-                                                    </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Button
-                                                            Text="Load Audio File"
-                                                            Clicked="playAudioFileClicked"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconBarsProgress}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
-                                                            </Button.ImageSource>
-                                                        </Button>
-                                                    </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Button
-                                                            Text="Remove from selection"
-                                                            Clicked="removeAudioFileFromSelection"
-                                                            TextColor="Grey"
-                                                            BackgroundColor="Transparent"
-                                                            FontSize="20"
-                                                            Padding="10"
-                                                            MinimumWidthRequest="500"
-                                                            MaximumWidthRequest="500">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource Iconx}"
-                                                                    Size="20"
-                                                                    Color="Grey" />
                                                             </Button.ImageSource>
                                                         </Button>
                                                     </HorizontalStackLayout>
@@ -744,7 +970,44 @@
                                                             </ScrollView>
                                                         </Frame>
                                                     </HorizontalStackLayout>
-
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Text="Remove from selection"
+                                                            Clicked="removeAudioFileFromSelection"
+                                                            TextColor="Gray"
+                                                            BackgroundColor="Transparent"
+                                                            FontSize="15"
+                                                            Padding="10"
+                                                            Margin="10"
+                                                            BorderColor="#444"
+                                                            BorderWidth="1"
+                                                            WidthRequest="470"
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroupList>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="1" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="Scale" Value="0.9" />
+                                                                                <Setter Property="BorderColor" Value="Black" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <VisualState.Setters>
+                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                            </VisualState.Setters>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateGroupList>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                        </Button>
+                                                    </HorizontalStackLayout>
                                                 </VerticalStackLayout>
                                             </HorizontalStackLayout>
                                         </Grid>

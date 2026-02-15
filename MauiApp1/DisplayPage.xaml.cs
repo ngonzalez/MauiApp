@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.ObjectModel;
 using System.Text.Json;
+using Windows.System;
 
 namespace MauiApp1;
 
@@ -36,11 +37,29 @@ public partial class DisplayPage : ContentPage
     public ObservableCollection<AudioFile> SelectedAudioFiles { get; set; }
     public ObservableCollection<AudioStreamResponse> AudioStreams { get; set; }
 
+    private bool _previousButtonIsVisible;
+    private bool _nextButtonIsVisible;
+
+    public bool previousButtonIsVisible
+    {
+        get { return _previousButtonIsVisible; }
+        set { _previousButtonIsVisible = value; }
+    }
+
+    public bool nextButtonIsVisible
+    {
+        get { return _nextButtonIsVisible; }
+        set { _nextButtonIsVisible = value; }
+    }
+
     public DisplayPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
         _apiService = apiService;
         _appShellViewModel = appShellViewModel;
         _folder = folder;
+
+        previousButtonIsVisible = false;
+        nextButtonIsVisible = false;
 
         // ImageFile collection
         ImageFiles = new ObservableCollection<ImageFile> { };

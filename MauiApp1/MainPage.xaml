@@ -71,6 +71,7 @@
 
                         <Button
                             Text="Pick Folder"
+                            FontSize="20"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
                             Clicked="OnPickFolderClicked"
@@ -111,6 +112,7 @@
                         </Button>
                         <Button
                             Text="Reset"
+                            FontSize="20"
                             SemanticProperties.Hint="Reset selection"
                             x:Name="resetLink"
                             BackgroundColor="Black"
@@ -124,7 +126,7 @@
                                     x:Name="resetLinkImage"
                                     FontFamily="FontAwesome7FreeSolid"
                                     Glyph="{StaticResource IconXmark}"
-                                    Size="15"
+                                    Size="20"
                                     Color="Grey" />
                             </Button.ImageSource>
                         </Button>
@@ -166,6 +168,7 @@
 
                         <Button
                             Text="Send Files"
+                            FontSize="20"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="POST data to our servers"
                             Clicked="OnSendDataClicked"
@@ -468,8 +471,8 @@
                         <Button
                             x:Name="publishFoldersButton"
                             Text="Publish Folders"
+                            FontSize="20"
                             Clicked="publishFoldersButtonClicked"
-                            FontSize="14"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="Publish Folders"
                             BackgroundColor="Black"
@@ -481,7 +484,7 @@
                                     x:Name="publishFoldersButtonImage"
                                     FontFamily="FontAwesome7FreeSolid"
                                     Glyph="{StaticResource IconPaperPlane}"
-                                    Size="15"
+                                    Size="20"
                                     Color="FloralWhite" />
                             </Button.ImageSource>
                             <VisualStateManager.VisualStateGroups>
@@ -509,8 +512,8 @@
                         <Button
                             x:Name="unpublishFoldersButton"
                             Text="Unpublish Folders"
+                            FontSize="20"
                             Clicked="unpublishFoldersButtonClicked"
-                            FontSize="14"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="Unpublish Folders"
                             BackgroundColor="Black"
@@ -522,7 +525,7 @@
                                     x:Name="unpublishFoldersButtonImage"
                                     FontFamily="FontAwesome7FreeSolid"
                                     Glyph="{StaticResource IconSquareXmark}"
-                                    Size="15"
+                                    Size="20"
                                     Color="FloralWhite" />
                             </Button.ImageSource>
                             <VisualStateManager.VisualStateGroups>
@@ -550,8 +553,8 @@
                         <Button
                             x:Name="deleteFoldersButton"
                             Text="Delete Folders"
+                            FontSize="20"
                             Clicked="deleteFoldersButtonClicked"
-                            FontSize="14"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="Delete folders"
                             BackgroundColor="Black"
@@ -563,7 +566,7 @@
                                     x:Name="deleteFoldersButtonImage"
                                     FontFamily="FontAwesome7FreeSolid"
                                     Glyph="{StaticResource IconXmark}"
-                                    Size="15"
+                                    Size="20"
                                     Color="FloralWhite" />
                             </Button.ImageSource>
                             <VisualStateManager.VisualStateGroups>
