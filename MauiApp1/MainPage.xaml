@@ -458,15 +458,15 @@
             <Grid>
                 <VerticalStackLayout>
                     <Label
-                           x:Name="selectedFoldersCountLabel"
-                           FontSize="14"
-                           FontAttributes="Bold"
-                           BackgroundColor="Transparent"
-                           TextColor="Gray"
-                           VerticalTextAlignment="Center"
-                           HorizontalTextAlignment="Start"
-                           Padding="10"
-                           Margin="10" />
+                        x:Name="selectedFoldersCountLabel"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        BackgroundColor="Transparent"
+                        TextColor="Gray"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Start"
+                        Padding="10"
+                        Margin="10" />
                     <HorizontalStackLayout>
                         <Button
                             x:Name="publishFoldersButton"

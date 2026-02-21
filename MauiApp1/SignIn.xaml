@@ -150,7 +150,9 @@
                     </VisualStateGroupList>
                 </VisualStateManager.VisualStateGroups>
             </Button>
+
             <Rectangle HeightRequest="300" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

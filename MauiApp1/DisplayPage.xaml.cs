@@ -72,7 +72,7 @@ public partial class DisplayPage : ContentPage
         PdfFiles = new ObservableCollection<PdfFile> { };
         SelectedPdfFiles = new ObservableCollection<PdfFile> { };
 
-        // AudioFile collection
+        // TextFile collection
         TextFiles = new ObservableCollection<TextFile> { };
         SelectedTextFiles = new ObservableCollection<TextFile> { };
 
@@ -485,14 +485,17 @@ public partial class DisplayPage : ContentPage
 
                 VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
 
-                if (jsonResponse.m3u8Exists)
+                if (jsonResponse != null)
                 {
-                    VideoStreams.Add(jsonResponse);
-                    break;
-                }
-                else
-                {
-                    System.Threading.Thread.Sleep(500);
+                    if (jsonResponse.m3u8Exists)
+                    {
+                        VideoStreams.Add(jsonResponse);
+                        break;
+                    }
+                    else
+                    {
+                        System.Threading.Thread.Sleep(500);
+                    }
                 }
             }
         }
@@ -667,14 +670,17 @@ public partial class DisplayPage : ContentPage
 
                 AudioStreamResponse jsonResponse = JsonSerializer.Deserialize<AudioStreamResponse>(response);
 
-                if (jsonResponse.m3u8Exists)
+                if (jsonResponse != null)
                 {
-                    AudioStreams.Add(jsonResponse);
-                    break;
-                }
-                else
-                {
-                    System.Threading.Thread.Sleep(500);
+                    if (jsonResponse.m3u8Exists)
+                    {
+                        AudioStreams.Add(jsonResponse);
+                        break;
+                    }
+                    else
+                    {
+                        System.Threading.Thread.Sleep(500);
+                    }
                 }
             }
         }
@@ -935,5 +941,10 @@ public partial class DisplayPage : ContentPage
     {
         // Stop and cleanup MediaElement when we navigate away
         mediaElement.Handler?.DisconnectHandler();
+    }
+
+    public void DisplayPageLoaded(object? sender, EventArgs e)
+    {
+        //
     }
 }

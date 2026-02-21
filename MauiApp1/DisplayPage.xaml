@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MauiApp1.DisplayPage"
+             Loaded="DisplayPageLoaded"
              Unloaded="DisplayPageUnloaded">
 
     <ScrollView>
@@ -223,6 +224,32 @@
                                                         </Image>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
+                                                        <Frame
+                                                            BorderColor="Transparent"
+                                                            Opacity="0.8"
+                                                            BackgroundColor="Black">
+                                                            <ScrollView
+                                                                x:Name="scrollView"
+                                                                MinimumHeightRequest="400"
+                                                                MaximumHeightRequest="400"
+                                                                MinimumWidthRequest="450"
+                                                                MaximumWidthRequest="450">
+                                                                <TableView Intent="Menu">
+                                                                    <TableRoot>
+                                                                        <TableSection Title="Parameters">
+                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
+                                                                            <TextCell Text="Dimensions:" Detail="{Binding dimensions}" />
+                                                                            <TextCell Text="Megapixels:" Detail="{Binding megapixels}" />
+                                                                        </TableSection>
+                                                                    </TableRoot>
+                                                                </TableView>
+                                                            </ScrollView>
+                                                        </Frame>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout>
                                                         <Button
                                                             Text="Remove from selection"
                                                             Clicked="removeImageFileFromSelection"
@@ -260,33 +287,7 @@
                                                             </VisualStateManager.VisualStateGroups>
                                                         </Button>
                                                     </HorizontalStackLayout>
-                                                    <HorizontalStackLayout>
-                                                        <Frame
-                                                            BorderColor="Transparent"
-                                                            Opacity="0.8"
-                                                            BackgroundColor="Black">
-                                                            <ScrollView
-                                                                x:Name="scrollView"
-                                                                MinimumHeightRequest="400"
-                                                                MaximumHeightRequest="400"
-                                                                MinimumWidthRequest="450"
-                                                                MaximumWidthRequest="450">
-                                                                <TableView Intent="Menu">
-                                                                    <TableRoot>
-                                                                        <TableSection Title="Parameters">
-                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
-                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
-                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
-                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
-                                                                            <TextCell Text="Dimensions:" Detail="{Binding dimensions}" />
-                                                                            <TextCell Text="Megapixels:" Detail="{Binding megapixels}" />
-                                                                        </TableSection>
-                                                                    </TableRoot>
-                                                                </TableView>
-                                                            </ScrollView>
-                                                        </Frame>
-                                                    </HorizontalStackLayout>
-                                               </VerticalStackLayout>
+                                                </VerticalStackLayout>
                                             </HorizontalStackLayout>
                                         </Grid>
                                     </DataTemplate>

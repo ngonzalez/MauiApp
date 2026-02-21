@@ -248,7 +248,7 @@ namespace MauiApp1
 
             ActivityIndicator.IsRunning = false;
 
-            foldersCountLabel.Text = Convert.ToString(Folders.Count() + " folders");
+            foldersCountLabel.Text = Convert.ToString(Folders.Count() + " Folders");
         }
 
         public int getUploadFilesCount()
@@ -294,6 +294,19 @@ namespace MauiApp1
                     {
                         checkbox.IsChecked = !checkbox.IsChecked;
                     }
+                }
+            }
+        }
+
+        public void uncheckCheckBoxes()
+        {
+            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
+            foreach (VisualElement element in rootViewsAndTheirDescendants)
+            {
+                if (element is Microsoft.Maui.Controls.CheckBox)
+                {
+                    CheckBox checkbox = (CheckBox)element;
+                    checkbox.IsChecked = false;
                 }
             }
         }
@@ -413,7 +426,7 @@ namespace MauiApp1
 
             bool confirm = await _alertService.DisplayAlertAsync(
                title: "Publish Folders",
-               message: String.Join(", ", FolderNames),
+               message: String.Join("\n", FolderNames),
                accept: "OK",
                cancel: "Cancel");
 
@@ -426,6 +439,12 @@ namespace MauiApp1
 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                 (int _statusCode, var response) = await _apiService.PublishFolders(body);
+
+                getAllUploads();
+
+                uncheckCheckBoxes();
+
+                updatePublishButton();
             }
         }
 
@@ -443,7 +462,7 @@ namespace MauiApp1
 
             bool confirm = await _alertService.DisplayAlertAsync(
                title: "Unpublish Folders",
-               message: String.Join(", ", FolderNames),
+               message: String.Join("\n", FolderNames),
                accept: "OK",
                cancel: "Cancel");
 
@@ -456,6 +475,12 @@ namespace MauiApp1
 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                 (int _statusCode, var response) = await _apiService.UnpublishFolders(body);
+
+                getAllUploads();
+
+                uncheckCheckBoxes();
+
+                updatePublishButton();
             }
         }
 
@@ -473,7 +498,7 @@ namespace MauiApp1
 
             bool confirm = await _alertService.DisplayAlertAsync(
                title: "Delete Folders",
-               message: String.Join(", ", FolderNames),
+               message: String.Join("\n", FolderNames),
                accept: "OK",
                cancel: "Cancel");
 
@@ -486,6 +511,12 @@ namespace MauiApp1
 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                 (int _statusCode, var response) = await _apiService.DeleteFolders(body);
+
+                getAllUploads();
+
+                uncheckCheckBoxes();
+
+                updatePublishButton();
             }
         }
 
@@ -632,7 +663,7 @@ namespace MauiApp1
                 // Progress bar
                 filesCount++;
                 double progress = ((double)filesCount / (double)totalFilesCount);
-                progressBarText.Text = Convert.ToString((progress * 100)) + "%";
+                progressBarText.Text = Convert.ToString(Convert.ToInt32(progress * 100)) + "%";
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
             }
         }
