@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Maui.Core.Primitives;
 using MauiApp1.Platforms.Windows;
+using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO.Compression;
 using System.Net.Mail;
 using System.Security.Cryptography;
@@ -137,18 +139,20 @@ namespace MauiApp1
                 Folders.RemoveAt(0);
             }
 
+            Folders = new ObservableCollection<Folder> { };
+
             foreach (var item in uploadsResponse)
             {
                 if (item.imageFiles.Length > 0)
                 {
                     foreach (ImageFile imageFile in item.imageFiles)
                     {
-                        if (imageFile.folder != null && imageFile.folder.name != "")
+                        if (imageFile.folder != null)
                         {
                             bool found = false;
                             foreach (Folder folder in Folders)
                             {
-                                if (folder.name == imageFile.folder.name)
+                                if (folder.id == imageFile.folder.id)
                                 {
                                     found = true;
                                 }
@@ -164,12 +168,12 @@ namespace MauiApp1
                 {
                     foreach (TextFile textFile in item.textFiles)
                     {
-                        if (textFile.folder != null && textFile.folder.name != "")
+                        if (textFile.folder != null)
                         {
                             bool found = false;
                             foreach (Folder folder in Folders)
                             {
-                                if (folder.name == textFile.folder.name)
+                                if (folder.id == textFile.folder.id)
                                 {
                                     found = true;
                                 }
@@ -185,12 +189,12 @@ namespace MauiApp1
                 {
                     foreach (PdfFile pdfFile in item.pdfFiles)
                     {
-                        if (pdfFile.folder != null && pdfFile.folder.name != "")
+                        if (pdfFile.folder != null)
                         {
                             bool found = false;
                             foreach (Folder folder in Folders)
                             {
-                                if (folder.name == pdfFile.folder.name)
+                                if (folder.id == pdfFile.folder.id)
                                 {
                                     found = true;
                                 }
@@ -247,6 +251,8 @@ namespace MauiApp1
             }
 
             ActivityIndicator.IsRunning = false;
+
+            foldersCollectionView.ItemsSource = Folders;
 
             foldersCountLabel.Text = Convert.ToString(Folders.Count() + " Folders");
         }
@@ -440,6 +446,8 @@ namespace MauiApp1
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                 (int _statusCode, var response) = await _apiService.PublishFolders(body);
 
+                folderSearchBar.Text = "";
+
                 getAllUploads();
 
                 uncheckCheckBoxes();
@@ -476,6 +484,8 @@ namespace MauiApp1
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                 (int _statusCode, var response) = await _apiService.UnpublishFolders(body);
 
+                folderSearchBar.Text = "";
+
                 getAllUploads();
 
                 uncheckCheckBoxes();
@@ -511,6 +521,8 @@ namespace MauiApp1
 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                 (int _statusCode, var response) = await _apiService.DeleteFolders(body);
+
+                folderSearchBar.Text = "";
 
                 getAllUploads();
 
