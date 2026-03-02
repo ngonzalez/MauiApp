@@ -445,12 +445,12 @@
                                                         </VisualStateGroupList>
                                                     </VisualStateManager.VisualStateGroups>
                                                 </Button>
-                                                <Button
+                                                <Label
                                                     Grid.Row="0"
                                                     Grid.Column="3"
                                                     Text="{Binding state}"
-                                                    TextColor="FloralWhite"
-                                                    Margin="5"
+                                                    Margin="10"
+                                                    Padding="10"
                                                     BackgroundColor="Transparent"
                                                     FontSize="14"
                                                     VerticalOptions="Center"
