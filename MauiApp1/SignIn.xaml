@@ -30,21 +30,23 @@
                 TextChanged="OnPasswordCompleted" />
 
             <Button
-                Text="Sign-in"
+                Text="Sign-In"
                 FontSize="20"
                 FontAttributes="Bold"
-                SemanticProperties.Hint="Sign-in"
-                BorderColor="Black"
+                SemanticProperties.Hint="Sign-In"
                 Clicked="OnSignInClicked"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
+                BorderColor="Black"
+                BorderWidth="1"
+                VerticalOptions="Center"
                 HorizontalOptions="Center">
                 <Button.ImageSource>
                     <FontImageSource
-                        FontFamily="FontAwesome7FreeSolid"
-                        Glyph="{StaticResource IconUserGroup}"
-                        Size="20"
-                        Color="SeaShell" />
+                            FontFamily="FontAwesome7FreeSolid"
+                            Glyph="{StaticResource IconUserGroup}"
+                            Size="20"
+                            Color="SeaShell" />
                 </Button.ImageSource>
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
@@ -61,7 +63,7 @@
                             </VisualState>
                             <VisualState x:Name="PointerOver">
                                 <VisualState.Setters>
-                                    <Setter Property="BorderColor" Value="Black" />
+                                    <Setter Property="BorderColor" Value="#555" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -76,10 +78,11 @@
             <Button
                 Text="Register for a new user account"
                 FontSize="20"
-                FontAttributes="Bold"
                 SemanticProperties.Hint="Register"
                 Clicked="OnRegisterClicked"
                 BackgroundColor="Transparent"
+                BorderColor="#222"
+                BorderWidth="1"
                 TextColor="FloralWhite"
                 HorizontalOptions="Center">
                 <Button.ImageSource>
@@ -104,7 +107,7 @@
                             </VisualState>
                             <VisualState x:Name="PointerOver">
                                 <VisualState.Setters>
-                                    <Setter Property="BorderColor" Value="Black" />
+                                    <Setter Property="BorderColor" Value="#555" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -115,10 +118,11 @@
             <Button
                 Text="Reset your password"
                 FontSize="20"
-                FontAttributes="Bold"
                 SemanticProperties.Hint="Reset Password"
                 Clicked="OnResetPasswordClicked"
                 BackgroundColor="Transparent"
+                BorderColor="#222"
+                BorderWidth="1"
                 TextColor="FloralWhite"
                 HorizontalOptions="Center">
                 <Button.ImageSource>
@@ -143,7 +147,7 @@
                             </VisualState>
                             <VisualState x:Name="PointerOver">
                                 <VisualState.Setters>
-                                    <Setter Property="BorderColor" Value="Black" />
+                                    <Setter Property="BorderColor" Value="#555" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>

@@ -34,6 +34,7 @@ public partial class AccountPage : ContentPage
 
         myAccountLabel.Text = "My Account (" + _appShellViewModel.CurrentUser.emailAddress + ")";
         uploadsLink.Clicked += new EventHandler(uploadsLinkClicked);
+        listFoldersList.Clicked += new EventHandler(listFoldersListClicked);
         signOutLink.Clicked += new EventHandler(signOutLinkClicked);
         accountLink.Clicked += new EventHandler(accountLinkClicked);
     }
@@ -58,18 +59,6 @@ public partial class AccountPage : ContentPage
         Shell.Current.GoToAsync("signinpage");
     }
 
-    public void accountLinkClicked(object sender, EventArgs e)
-    {
-        if (_appShellViewModel.CurrentUser.id == null)
-        {
-            Shell.Current.GoToAsync("signinpage");
-        }
-        else
-        {
-            Shell.Current.GoToAsync("mainaccountpage");
-        }
-    }
-
     public void uploadsLinkClicked(object sender, EventArgs e)
     {
         if (_appShellViewModel.CurrentUser.id == null)
@@ -79,6 +68,31 @@ public partial class AccountPage : ContentPage
         else
         {
             Shell.Current.GoToAsync("mainpage");
+        }
+    }
+
+    public async void listFoldersListClicked(object sender, EventArgs e)
+    {
+        if (_appShellViewModel.CurrentUser.id == null)
+        {
+            Shell.Current.GoToAsync("signinpage");
+        }
+        else
+        {
+            Shell.Current.GoToAsync("folderlistpage");
+        }
+
+    }
+
+    public void accountLinkClicked(object sender, EventArgs e)
+    {
+        if (_appShellViewModel.CurrentUser.id == null)
+        {
+            Shell.Current.GoToAsync("signinpage");
+        }
+        else
+        {
+            Shell.Current.GoToAsync("editaccountpage");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Core.Primitives;
 using MauiApp1.Platforms.Windows;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Globalization;
@@ -62,6 +63,7 @@ public static class MimeTypeMapper
     }
 }
 
+
 namespace MauiApp1
 {
     public partial class MainPage : ContentPage
@@ -70,10 +72,6 @@ namespace MauiApp1
         public ObservableCollection<UploadFolder> UploadFolders { get; set; }
 
         public ObservableCollection<UploadFile> UploadFiles { get; set; }
-
-        public ObservableCollection<Folder> Folders { get; set; }
-
-        public ObservableCollection<Folder> SelectedFolders { get; set; }
 
         public int UploadFilesCount { get; set; }
 
@@ -101,160 +99,16 @@ namespace MauiApp1
 
             UploadFolders = new ObservableCollection<UploadFolder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
-            Folders = new ObservableCollection<Folder> { };
-            SelectedFolders = new ObservableCollection<Folder> { };
 
             InitializeComponent();
 
             BindingContext = this;
 
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
-            refreshFilesButton.Clicked += new EventHandler(refreshButtonClicked);
             resetLink.Clicked += new EventHandler(resetLinkClicked);
-            selectAllFolders.Clicked += new EventHandler(selectAllFoldersButtonClicked);
 
-            labelFilesCount.Text = "no items found";
+            labelFilesCount.Text = "No items found";
             labelFilesCount.TextColor = Colors.Grey;
-
-            getAllUploads();
-        }
-
-        public async void displayFiles(object sender, EventArgs e)
-        {
-            Button button = (Button)sender;
-            Folder folder = (Folder)button.BindingContext;
-            Window secondWindow = new Window(new DisplayPage(_apiService, _appShellViewModel, folder));
-            App.Current.OpenWindow(secondWindow);
-        }
-
-        public async void getAllUploads()
-        {
-            ActivityIndicator.IsRunning = true;
-
-            (int _statusCode, var response) = await _apiService.GetAllUploads("");
-            var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
-
-            while (Folders.Count() > 0)
-            {
-                Folders.RemoveAt(0);
-            }
-
-            Folders = new ObservableCollection<Folder> { };
-
-            foreach (var item in uploadsResponse)
-            {
-                if (item.imageFiles.Length > 0)
-                {
-                    foreach (ImageFile imageFile in item.imageFiles)
-                    {
-                        if (imageFile.folder != null)
-                        {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
-                            {
-                                if (folder.id == imageFile.folder.id)
-                                {
-                                    found = true;
-                                }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(imageFile.folder);
-                            }
-                        }
-                    }
-                }
-                if (item.textFiles.Length > 0)
-                {
-                    foreach (TextFile textFile in item.textFiles)
-                    {
-                        if (textFile.folder != null)
-                        {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
-                            {
-                                if (folder.id == textFile.folder.id)
-                                {
-                                    found = true;
-                                }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(textFile.folder);
-                            }
-                        }
-                    }
-                }
-                if (item.pdfFiles.Length > 0)
-                {
-                    foreach (PdfFile pdfFile in item.pdfFiles)
-                    {
-                        if (pdfFile.folder != null)
-                        {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
-                            {
-                                if (folder.id == pdfFile.folder.id)
-                                {
-                                    found = true;
-                                }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(pdfFile.folder);
-                            }
-                        }
-                    }
-                }
-                if (item.audioFiles.Length > 0)
-                {
-                    foreach (AudioFile audioFile in item.audioFiles)
-                    {
-                        if (audioFile.folder != null && audioFile.folder.name != "")
-                        {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
-                            {
-                                if (folder.name == audioFile.folder.name)
-                                {
-                                    found = true;
-                                }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(audioFile.folder);
-                            }
-                        }
-                    }
-                }
-                if (item.videoFiles.Length > 0)
-                {
-                    foreach (VideoFile videoFile in item.videoFiles)
-                    {
-                        if (videoFile.folder != null && videoFile.folder.name != "")
-                        {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
-                            {
-                                if (folder.name == videoFile.folder.name)
-                                {
-                                    found = true;
-                                }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(videoFile.folder);
-                            }
-                        }
-                    }
-                }
-            }
-
-            ActivityIndicator.IsRunning = false;
-
-            foldersCollectionView.ItemsSource = Folders;
-
-            foldersCountLabel.Text = Convert.ToString(Folders.Count() + " Folders");
         }
 
         public int getUploadFilesCount()
@@ -262,291 +116,9 @@ namespace MauiApp1
             return UploadFiles.Count();
         }
 
-        public async void FolderSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Folder selectedFolder = e.CurrentSelection.FirstOrDefault() as Folder;
-
-            SelectedFolders.Add(selectedFolder);
-        }
-
-        public void selectAllFoldersButtonClicked(object sender, EventArgs e)
-        {
-            Button selectAllFolders = (Button)sender;
-
-            toggleCheckBoxes();
-
-            updatePublishButton();
-        }
-
-        public void folderCheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox selectFolder = (CheckBox)sender;
-
-            updatePublishButton();
-        }
-
-        public void toggleCheckBox(object sender, EventArgs e)
-        {
-            Button nameButton = (Button)sender;
-
-            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
-
-            foreach (VisualElement element in rootViewsAndTheirDescendants)
-            {
-                if (element is Microsoft.Maui.Controls.CheckBox)
-                {
-                    CheckBox checkbox = (CheckBox)element;
-                    if (checkbox.ClassId == nameButton.ClassId)
-                    {
-                        checkbox.IsChecked = !checkbox.IsChecked;
-                    }
-                }
-            }
-        }
-
-        public void uncheckCheckBoxes()
-        {
-            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
-            foreach (VisualElement element in rootViewsAndTheirDescendants)
-            {
-                if (element is Microsoft.Maui.Controls.CheckBox)
-                {
-                    CheckBox checkbox = (CheckBox)element;
-                    checkbox.IsChecked = false;
-                }
-            }
-        }
-
-        public void toggleCheckBoxes()
-        {
-            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
-            bool allChecked = true;
-            foreach (VisualElement element in rootViewsAndTheirDescendants)
-            {
-                if (element is Microsoft.Maui.Controls.CheckBox)
-                {
-                    CheckBox checkbox = (CheckBox)element;
-                    allChecked = checkbox.IsChecked;
-                }
-            }
-            foreach (VisualElement element in rootViewsAndTheirDescendants)
-            {
-                if (element is Microsoft.Maui.Controls.CheckBox)
-                {
-                    CheckBox checkbox = (CheckBox)element;
-                    checkbox.IsChecked = !allChecked;
-                }
-            }
-        }
-
-        public async void updatePublishButton()
-        {
-            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
-            int foldersCount = 0;
-            foreach (VisualElement element in rootViewsAndTheirDescendants)
-            {
-                if (element is Microsoft.Maui.Controls.CheckBox)
-                {
-                    CheckBox checkbox = (CheckBox)element;
-                    if (checkbox.IsChecked)
-                    {
-                        foldersCount++;
-                    }
-                }
-            }
-            if (foldersCount > 0)
-            {
-                string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
-                selectedFoldersCountLabel.Text = Convert.ToString(foldersCount) + " " + folderLabel + " selected";
-
-                publishFoldersButton.BackgroundColor = Colors.Orange;
-                publishFoldersButton.TextColor = Colors.Black;
-                publishFoldersButtonImage.Color = Colors.White;
-
-                unpublishFoldersButton.BackgroundColor = Colors.Black;
-                unpublishFoldersButton.TextColor = Colors.White;
-                unpublishFoldersButtonImage.Color = Colors.White;
-
-                deleteFoldersButton.BackgroundColor = Colors.Black;
-                deleteFoldersButton.TextColor = Colors.White;
-                deleteFoldersButtonImage.Color = Colors.White;
-            }
-            else
-            {
-                selectedFoldersCountLabel.Text = "No Folders selected";
-
-                publishFoldersButton.BackgroundColor = Colors.Black;
-                publishFoldersButton.TextColor = Colors.Gray;
-                publishFoldersButtonImage.Color = Colors.Gray;
-
-                unpublishFoldersButton.BackgroundColor = Colors.Black;
-                unpublishFoldersButton.TextColor = Colors.Gray;
-                unpublishFoldersButtonImage.Color = Colors.Gray;
-
-                deleteFoldersButton.BackgroundColor = Colors.Black;
-                deleteFoldersButton.TextColor = Colors.Gray;
-                deleteFoldersButtonImage.Color = Colors.Gray;
-            }
-        }
-
         public void accountLinkClicked(object sender, EventArgs e)
         {
             Shell.Current.GoToAsync("accountpage");
-        }
-
-        public void refreshButtonClicked(object sender, EventArgs e)
-        {
-            getAllUploads();
-
-            updatePublishButton();
-        }
-
-        public List<string> getSelectedFolderIds()
-        {
-            List<string> ids = new List<string>();
-            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
-            foreach (VisualElement element in rootViewsAndTheirDescendants)
-            {
-                if (element is Microsoft.Maui.Controls.CheckBox)
-                {
-                    CheckBox checkbox = (CheckBox)element;
-                    if (checkbox.IsChecked)
-                    {
-                        ids.Add(checkbox.ClassId);
-                    }
-                }
-            }
-            return ids;
-        }
-        public async void publishFoldersButtonClicked(object sender, EventArgs e)
-        {
-            List<string> ids = getSelectedFolderIds();
-            List<string> FolderNames = new List<string>();
-            foreach (Folder folder in Folders)
-            {
-                if (ids.Contains(Convert.ToString(folder.id)))
-                {
-                    FolderNames.Add(folder.name);
-                }
-            }
-
-            bool confirm = await _alertService.DisplayAlertAsync(
-               title: "Publish Folders",
-               message: String.Join("\n", FolderNames),
-               accept: "OK",
-               cancel: "Cancel");
-
-            if (confirm)
-            {
-                var folderIds = new CollectionIds
-                {
-                    id = ids.ToArray()
-                };
-
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
-                (int _statusCode, var response) = await _apiService.PublishFolders(body);
-
-                folderSearchBar.Text = "";
-
-                getAllUploads();
-
-                uncheckCheckBoxes();
-
-                updatePublishButton();
-            }
-        }
-
-        public async void unpublishFoldersButtonClicked(object sender, EventArgs e)
-        {
-            List<string> ids = getSelectedFolderIds();
-            List<string> FolderNames = new List<string>();
-            foreach (Folder folder in Folders)
-            {
-                if (ids.Contains(Convert.ToString(folder.id)))
-                {
-                    FolderNames.Add(folder.name);
-                }
-            }
-
-            bool confirm = await _alertService.DisplayAlertAsync(
-               title: "Unpublish Folders",
-               message: String.Join("\n", FolderNames),
-               accept: "OK",
-               cancel: "Cancel");
-
-            if (confirm)
-            {
-                var folderIds = new CollectionIds
-                {
-                    id = ids.ToArray()
-                };
-
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
-                (int _statusCode, var response) = await _apiService.UnpublishFolders(body);
-
-                folderSearchBar.Text = "";
-
-                getAllUploads();
-
-                uncheckCheckBoxes();
-
-                updatePublishButton();
-            }
-        }
-
-        public async void deleteFoldersButtonClicked(object sender, EventArgs e)
-        {
-            List<string> ids = getSelectedFolderIds();
-            List<string> FolderNames = new List<string>();
-            foreach (Folder folder in Folders)
-            {
-                if (ids.Contains(Convert.ToString(folder.id)))
-                {
-                    FolderNames.Add(folder.name);
-                }
-            }
-
-            bool confirm = await _alertService.DisplayAlertAsync(
-               title: "Delete Folders",
-               message: String.Join("\n", FolderNames),
-               accept: "OK",
-               cancel: "Cancel");
-
-            if (confirm)
-            {
-                var folderIds = new CollectionIds
-                {
-                    id = ids.ToArray()
-                };
-
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
-                (int _statusCode, var response) = await _apiService.DeleteFolders(body);
-
-                folderSearchBar.Text = "";
-
-                getAllUploads();
-
-                uncheckCheckBoxes();
-
-                updatePublishButton();
-            }
-        }
-
-        public async void foldersSearchInputTextChanged(object sender, EventArgs e)
-        {
-            SearchBar searchBar = (SearchBar)sender;
-
-            var folders = Folders.Where(folder =>
-                folder.name.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
-            );
-
-            foldersCollectionView.ItemsSource = folders;
-
-            int foldersCount = folders.Count();
-            string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
-            foldersCountLabel.Text = Convert.ToString(folders.Count() + " " + folderLabel);
-
-            updatePublishButton();
         }
 
         public void resetLinkClicked(object sender, EventArgs e)
