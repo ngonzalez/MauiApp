@@ -39,7 +39,7 @@ namespace MauiApp1
 
     }
 
-    public partial class MainAccountPage : ContentPage
+    public partial class EditAccountPage : ContentPage
     {
         private readonly IAuthenticate _authenticate;
 
@@ -55,7 +55,7 @@ namespace MauiApp1
 
         private string EmailAddress;
 
-        public MainAccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
+        public EditAccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
         {
             _authenticate = authenticate;
 
