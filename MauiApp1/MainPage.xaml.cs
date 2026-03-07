@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Core.Primitives;
 using MauiApp1.Platforms.Windows;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Globalization;
@@ -62,10 +63,18 @@ public static class MimeTypeMapper
     }
 }
 
+public class PickerOption // Class to hold location data
+{
+    public string ID { get; set; }
+    public string Name { get; set; }
+}
+
+
 namespace MauiApp1
 {
     public partial class MainPage : ContentPage
     {
+        public List<PickerOption> PickerOptions { get; set; }
 
         public ObservableCollection<UploadFolder> UploadFolders { get; set; }
 
@@ -112,11 +121,86 @@ namespace MauiApp1
             refreshFilesButton.Clicked += new EventHandler(refreshButtonClicked);
             resetLink.Clicked += new EventHandler(resetLinkClicked);
             selectAllFolders.Clicked += new EventHandler(selectAllFoldersButtonClicked);
+            EventPicker.SelectedIndexChanged += new EventHandler(OnSelectedIndexChanged);
 
-            labelFilesCount.Text = "no items found";
+            labelFilesCount.Text = "No items found";
             labelFilesCount.TextColor = Colors.Grey;
 
+            PopulatePicker();
+
             getAllUploads();
+        }
+
+        private void RefreshFolders(IEnumerable<Folder> folders)
+        {
+            foldersCollectionView.ItemsSource = folders;
+
+            int foldersCount = folders.Count();
+            string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
+            foldersCountLabel.Text = Convert.ToString(folders.Count() + " " + folderLabel);
+        }
+
+        private void OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker picker = (Picker)sender;
+            int selectedIndex = picker.SelectedIndex;
+
+            PickerOption selectedOption = null;
+            foreach (var pickerOption in PickerOptions)
+            {
+                if (Convert.ToInt32(pickerOption.ID) == selectedIndex)
+                {
+                    selectedOption = pickerOption;
+                    break;
+                }
+            }
+
+            if (selectedOption != null)
+            {
+                if (selectedOption.Name == "All")
+                {
+                    var folders = Folders;
+
+                    RefreshFolders(folders);
+
+                    updatePublishButton();
+                }
+                else if (selectedOption.Name == "Published")
+                {
+                    var folders = Folders.Where(folder =>
+                        folder.state == "published"
+                    );
+
+                    RefreshFolders(folders);
+
+                    updatePublishButton();
+                }
+                else if (selectedOption.Name == "Archived")
+                {
+                    var folders = Folders.Where(folder =>
+                        folder.state == "archived"
+                    );
+
+                    RefreshFolders(folders);
+
+                    updatePublishButton();
+                }
+            }
+        }
+
+        private void PopulatePicker()
+        {
+            PickerOptions = new List<PickerOption>
+            {
+                new PickerOption { ID = "0", Name = "All" },
+                new PickerOption { ID = "1", Name = "Published" },
+                new PickerOption { ID = "2", Name = "Archived" }
+            };
+
+            foreach (var pickerOption in PickerOptions)
+            {
+                EventPicker.Items.Add(pickerOption.Name);
+            }
         }
 
         public async void displayFiles(object sender, EventArgs e)
@@ -210,12 +294,12 @@ namespace MauiApp1
                 {
                     foreach (AudioFile audioFile in item.audioFiles)
                     {
-                        if (audioFile.folder != null && audioFile.folder.name != "")
+                        if (audioFile.folder != null)
                         {
                             bool found = false;
                             foreach (Folder folder in Folders)
                             {
-                                if (folder.name == audioFile.folder.name)
+                                if (folder.id == audioFile.folder.id)
                                 {
                                     found = true;
                                 }
@@ -231,12 +315,12 @@ namespace MauiApp1
                 {
                     foreach (VideoFile videoFile in item.videoFiles)
                     {
-                        if (videoFile.folder != null && videoFile.folder.name != "")
+                        if (videoFile.folder != null)
                         {
                             bool found = false;
                             foreach (Folder folder in Folders)
                             {
-                                if (folder.name == videoFile.folder.name)
+                                if (folder.id == videoFile.folder.id)
                                 {
                                     found = true;
                                 }
@@ -307,6 +391,7 @@ namespace MauiApp1
         public void uncheckCheckBoxes()
         {
             var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
+
             foreach (VisualElement element in rootViewsAndTheirDescendants)
             {
                 if (element is Microsoft.Maui.Controls.CheckBox)
@@ -320,6 +405,7 @@ namespace MauiApp1
         public void toggleCheckBoxes()
         {
             var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
+
             bool allChecked = true;
             foreach (VisualElement element in rootViewsAndTheirDescendants)
             {
@@ -342,6 +428,7 @@ namespace MauiApp1
         public async void updatePublishButton()
         {
             var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
+
             int foldersCount = 0;
             foreach (VisualElement element in rootViewsAndTheirDescendants)
             {
@@ -448,6 +535,8 @@ namespace MauiApp1
 
                 folderSearchBar.Text = "";
 
+                EventPicker.SelectedIndex = 0;
+
                 getAllUploads();
 
                 uncheckCheckBoxes();
@@ -485,6 +574,8 @@ namespace MauiApp1
                 (int _statusCode, var response) = await _apiService.UnpublishFolders(body);
 
                 folderSearchBar.Text = "";
+
+                EventPicker.SelectedIndex = 0;
 
                 getAllUploads();
 
@@ -524,6 +615,8 @@ namespace MauiApp1
 
                 folderSearchBar.Text = "";
 
+                EventPicker.SelectedIndex = 0;
+
                 getAllUploads();
 
                 uncheckCheckBoxes();
@@ -540,11 +633,11 @@ namespace MauiApp1
                 folder.name.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
             );
 
-            foldersCollectionView.ItemsSource = folders;
+            EventPicker.SelectedIndex = 0;
 
-            int foldersCount = folders.Count();
-            string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
-            foldersCountLabel.Text = Convert.ToString(folders.Count() + " " + folderLabel);
+            RefreshFolders(folders);
+
+            uncheckCheckBoxes();
 
             updatePublishButton();
         }

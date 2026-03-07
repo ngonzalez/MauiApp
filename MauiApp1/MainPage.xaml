@@ -310,6 +310,14 @@
                         </VisualStateManager.VisualStateGroups>
                     </Button>
 
+                    <Picker x:Name="EventPicker"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            SemanticProperties.Hint="Select Folders"
+                            BackgroundColor="Transparent"
+                            TextColor="Gray"
+                            Margin="10" />
+
                     <ActivityIndicator
                         x:Name="ActivityIndicator" />
 
@@ -333,8 +341,8 @@
                         <ScrollView
                             x:Name="scrollView"
                             VerticalOptions="Fill"
-                            MinimumHeightRequest="400"
-                            MaximumHeightRequest="400">
+                            MinimumHeightRequest="450"
+                            MaximumHeightRequest="450">
 
                             <CollectionView
                                 x:Name="foldersCollectionView"
