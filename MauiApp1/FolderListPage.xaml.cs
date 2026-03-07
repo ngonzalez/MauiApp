@@ -10,12 +10,16 @@ using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text.Json;
 
-public class PickerOption // Class to hold location data
+public class PickerOption
 {
     public string ID { get; set; }
     public string Name { get; set; }
 }
 
+public class CollectionIds
+{
+    public string[] id { get; set; }
+}
 
 namespace MauiApp1
 {
