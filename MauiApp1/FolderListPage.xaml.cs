@@ -419,6 +419,10 @@ namespace MauiApp1
 
         public void refreshButtonClicked(object sender, EventArgs e)
         {
+            folderSearchBar.Text = "";
+
+            EventPicker.SelectedIndex = 0;
+
             getAllUploads();
 
             updatePublishButton();
