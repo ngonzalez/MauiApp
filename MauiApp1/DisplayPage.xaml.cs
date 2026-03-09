@@ -239,6 +239,13 @@ public partial class DisplayPage : ContentPage
         App.Current.OpenWindow(secondWindow);
     }
 
+    public async void openNewWindowPdfFile(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        PdfFile pdfFile = (PdfFile)button.BindingContext;
+        Microsoft.Maui.ApplicationModel.Launcher.OpenAsync("https://learn.microsoft.com/dotnet/maui");
+    }
+
     public async void OnScrollViewScrolled(object sender, ScrolledEventArgs e)
     {
         Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
