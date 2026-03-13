@@ -243,7 +243,17 @@ public partial class DisplayPage : ContentPage
     {
         Button button = (Button)sender;
         PdfFile pdfFile = (PdfFile)button.BindingContext;
-        Microsoft.Maui.ApplicationModel.Launcher.OpenAsync("https://learn.microsoft.com/dotnet/maui");
+        string url = "https://link12.ddns.net/";
+        url += pdfFile.folder.dataUrl;
+        url += "/pdfWebView/";
+        url += pdfFile.dataUrl;
+        try
+        {
+            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        } catch (Exception _ex)
+        {
+            //
+        }
     }
 
     public async void OnScrollViewScrolled(object sender, ScrolledEventArgs e)
