@@ -1782,7 +1782,7 @@
                                                         <Button.ImageSource>
                                                             <FontImageSource
                                                                 FontFamily="FontAwesome7FreeRegular"
-                                                                Glyph="{StaticResource IconFileText}"
+                                                                Glyph="{StaticResource IconFileLines}"
                                                                 Size="20"
                                                                 Color="FloralWhite" />
                                                         </Button.ImageSource>
