@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Core.Primitives;
 using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.ObjectModel;
@@ -113,6 +114,8 @@ public partial class DisplayPage : ContentPage
         var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
         // ImageFile
+        ImageFiles = new ObservableCollection<ImageFile> { };
+
         while (ImageFiles.Count() > 0)
         {
             ImageFiles.RemoveAt(0);
@@ -129,12 +132,15 @@ public partial class DisplayPage : ContentPage
             }
         }
 
+        imageFilesCollectionView.ItemsSource = ImageFiles;
         string imageFileLabel = ImageFiles.Count() > 1 ? "Image Files" : "Image File";
         imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " " + imageFileLabel;
         GridImageFiles.IsVisible = ImageFiles.Count() > 0;
         GridImageFilesDetails.IsVisible = ImageFiles.Count() > 0;
 
         // VideoFile
+        VideoFiles = new ObservableCollection<VideoFile> { };
+
         while (VideoFiles.Count() > 0)
         {
             VideoFiles.RemoveAt(0);
@@ -151,12 +157,15 @@ public partial class DisplayPage : ContentPage
             }
         }
 
+        videoFilesCollectionView.ItemsSource = VideoFiles;
         string videoFileLabel = VideoFiles.Count() > 1 ? "Video Files" : "Video File";
         videoFilesCount.Text = Convert.ToString(VideoFiles.Count()) + " " + videoFileLabel;
         GridVideoFiles.IsVisible = VideoFiles.Count() > 0;
         GridVideoFilesDetails.IsVisible = VideoFiles.Count() > 0;
 
         // AudioFile
+        AudioFiles = new ObservableCollection<AudioFile> { };
+
         while (AudioFiles.Count() > 0)
         {
             AudioFiles.RemoveAt(0);
@@ -173,12 +182,15 @@ public partial class DisplayPage : ContentPage
             }
         }
 
+        audioFilesCollectionView.ItemsSource = AudioFiles;
         string audioFileLabel = AudioFiles.Count() > 1 ? "Audio Files" : "Audio File";
         audioFilesCount.Text = Convert.ToString(AudioFiles.Count()) + " " + audioFileLabel;
         GridAudioFiles.IsVisible = AudioFiles.Count() > 0;
         GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
 
         // PdfFile
+        PdfFiles = new ObservableCollection<PdfFile> { };
+
         while (PdfFiles.Count() > 0)
         {
             PdfFiles.RemoveAt(0);
@@ -195,12 +207,15 @@ public partial class DisplayPage : ContentPage
             }
         }
 
+        pdfFilesCollectionView.ItemsSource = PdfFiles;
         string pdfFileLabel = PdfFiles.Count() > 1 ? "Pdf Files" : "Pdf File";
         pdfFilesCount.Text = Convert.ToString(PdfFiles.Count()) + " " + pdfFileLabel;
         GridPdfFiles.IsVisible = PdfFiles.Count() > 0;
         GridPdfFilesDetails.IsVisible = PdfFiles.Count() > 0;
 
         // TextFile
+        TextFiles = new ObservableCollection<TextFile> { };
+
         while (TextFiles.Count() > 0)
         {
             TextFiles.RemoveAt(0);
@@ -217,18 +232,11 @@ public partial class DisplayPage : ContentPage
             }
         }
 
+        textFilesCollectionView.ItemsSource = TextFiles;
         string textFileLabel = TextFiles.Count() > 1 ? "Text Files" : "Text File";
         textFilesCount.Text = Convert.ToString(TextFiles.Count()) + " " + textFileLabel;
         GridTextFiles.IsVisible = TextFiles.Count() > 0;
         GridTextFilesDetails.IsVisible = TextFiles.Count() > 0;
-    }
-
-    public async void imageFilesSearchInputTextChanged(object sender, EventArgs e)
-    {
-        SearchBar searchBar = (SearchBar)sender;
-        imageFilesCollectionView.ItemsSource = ImageFiles.Where(imageFile =>
-            imageFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
-        );
     }
 
     public async void openNewWindowImageFile(object sender, EventArgs e)
@@ -250,7 +258,26 @@ public partial class DisplayPage : ContentPage
         try
         {
             Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
-        } catch (Exception _ex)
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+    }
+
+    public async void openNewWindowTextFile(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        TextFile textFile = (TextFile)button.BindingContext;
+        string url = "https://link12.ddns.net/";
+        url += textFile.folder.dataUrl;
+        url += "/textWebView/";
+        url += textFile.dataUrl;
+        try
+        {
+            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        }
+        catch (Exception _ex)
         {
             //
         }
@@ -259,6 +286,14 @@ public partial class DisplayPage : ContentPage
     public async void OnScrollViewScrolled(object sender, ScrolledEventArgs e)
     {
         Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
+    }
+
+    public async void imageFilesSearchInputTextChanged(object sender, EventArgs e)
+    {
+        SearchBar searchBar = (SearchBar)sender;
+        imageFilesCollectionView.ItemsSource = ImageFiles.Where(imageFile =>
+            imageFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
+        );
     }
 
     public async void addImageFileToSelectedItems(ImageFile imageFile)
