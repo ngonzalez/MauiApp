@@ -87,6 +87,28 @@ namespace MauiApp1.Platforms.Windows
             return (status, json);
         }
 
+        public async Task<(int, String)> ArchiveFolders(byte[] body)
+        {
+            ByteArrayContent content = new ByteArrayContent(body);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            content.Headers.ContentLength = body.Length;
+            var response = await _httpClient.PostAsync("/folders/archive", content);
+            string json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
+        public async Task<(int, String)> UnarchiveFolders(byte[] body)
+        {
+            ByteArrayContent content = new ByteArrayContent(body);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            content.Headers.ContentLength = body.Length;
+            var response = await _httpClient.PostAsync("/folders/unarchive", content);
+            string json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
         public async Task<(int, String)> DeleteFolders(byte[] body)
         {
             ByteArrayContent content = new ByteArrayContent(body);
