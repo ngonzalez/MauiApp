@@ -25,7 +25,9 @@ namespace MauiApp1
 {
     public partial class FolderListPage : ContentPage
     {
-        public List<PickerOption> PickerOptions { get; set; }
+        public List<PickerOption> FolderStatePickerOptions { get; set; }
+
+        public List<PickerOption> FolderActionPickerOptions { get; set; }
 
         public ObservableCollection<Folder> Folders { get; set; }
 
@@ -65,9 +67,12 @@ namespace MauiApp1
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             refreshFilesButton.Clicked += new EventHandler(refreshButtonClicked);
             selectAllFolders.Clicked += new EventHandler(selectAllFoldersButtonClicked);
-            EventPicker.SelectedIndexChanged += new EventHandler(OnSelectedIndexChanged);
+            FolderStatePicker.SelectedIndexChanged += new EventHandler(FolderStatePickerOnSelectedIndexChanged);
+            FolderActionPicker.SelectedIndexChanged += new EventHandler(FolderActionPickerOnSelectedIndexChanged);
 
-            PopulatePicker();
+            PopulateFolderStatePicker();
+
+            PopulateFolderActionPicker();
 
             getAllUploads();
         }
@@ -81,13 +86,13 @@ namespace MauiApp1
             foldersCountLabel.Text = Convert.ToString(folders.Count() + " " + folderLabel);
         }
 
-        private void OnSelectedIndexChanged(object sender, EventArgs e)
+        private void FolderStatePickerOnSelectedIndexChanged(object sender, EventArgs e)
         {
             Picker picker = (Picker)sender;
             int selectedIndex = picker.SelectedIndex;
 
             PickerOption selectedOption = null;
-            foreach (var pickerOption in PickerOptions)
+            foreach (var pickerOption in FolderStatePickerOptions)
             {
                 if (Convert.ToInt32(pickerOption.ID) == selectedIndex)
                 {
@@ -105,6 +110,8 @@ namespace MauiApp1
                     RefreshFolders(folders);
 
                     updatePublishButton();
+
+                    FolderStatePicker.TextColor = Colors.Gray;
                 }
                 else if (selectedOption.Name == "Published")
                 {
@@ -115,6 +122,8 @@ namespace MauiApp1
                     RefreshFolders(folders);
 
                     updatePublishButton();
+
+                    FolderStatePicker.TextColor = Colors.FloralWhite;
                 }
                 else if (selectedOption.Name == "Archived")
                 {
@@ -125,22 +134,48 @@ namespace MauiApp1
                     RefreshFolders(folders);
 
                     updatePublishButton();
+
+                    FolderStatePicker.TextColor = Colors.FloralWhite;
                 }
             }
         }
 
-        private void PopulatePicker()
+        private void FolderActionPickerOnSelectedIndexChanged(object sender, EventArgs e)
         {
-            PickerOptions = new List<PickerOption>
+            Picker picker = (Picker)sender;
+            int selectedIndex = picker.SelectedIndex;
+        }
+
+        private void PopulateFolderStatePicker()
+        {
+            FolderStatePickerOptions = new List<PickerOption>
             {
                 new PickerOption { ID = "0", Name = "All" },
                 new PickerOption { ID = "1", Name = "Published" },
                 new PickerOption { ID = "2", Name = "Archived" }
             };
 
-            foreach (var pickerOption in PickerOptions)
+            foreach (var pickerOption in FolderStatePickerOptions)
             {
-                EventPicker.Items.Add(pickerOption.Name);
+                FolderStatePicker.Items.Add(pickerOption.Name);
+            }
+        }
+
+        private void PopulateFolderActionPicker()
+        {
+            FolderActionPickerOptions = new List<PickerOption>
+            {
+                new PickerOption { ID = "0", Name = "" },
+                new PickerOption { ID = "1", Name = "Publish Folders" },
+                new PickerOption { ID = "2", Name = "Unpublish Folders" },
+                new PickerOption { ID = "3", Name = "Archive Folders" },
+                new PickerOption { ID = "4", Name = "Unarchive Folders" },
+                new PickerOption { ID = "5", Name = "Delete Folders" },
+            };
+
+            foreach (var pickerOption in FolderActionPickerOptions)
+            {
+                FolderActionPicker.Items.Add(pickerOption.Name);
             }
         }
 
@@ -381,34 +416,18 @@ namespace MauiApp1
             {
                 string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
                 selectedFoldersCountLabel.Text = Convert.ToString(foldersCount) + " " + folderLabel + " selected";
-
-                publishFoldersButton.BackgroundColor = Colors.Orange;
-                publishFoldersButton.TextColor = Colors.Black;
-                publishFoldersButtonImage.Color = Colors.White;
-
-                unpublishFoldersButton.BackgroundColor = Colors.Black;
-                unpublishFoldersButton.TextColor = Colors.White;
-                unpublishFoldersButtonImage.Color = Colors.White;
-
-                deleteFoldersButton.BackgroundColor = Colors.Black;
-                deleteFoldersButton.TextColor = Colors.White;
-                deleteFoldersButtonImage.Color = Colors.White;
+                updateFoldersButton.BackgroundColor = Colors.Orange;
+                updateFoldersButton.TextColor = Colors.Black;
+                updateFoldersButtonImage.Color = Colors.White;
+                FolderActionPicker.TextColor = Colors.FloralWhite;
             }
             else
             {
                 selectedFoldersCountLabel.Text = "No Folders selected";
-
-                publishFoldersButton.BackgroundColor = Colors.Black;
-                publishFoldersButton.TextColor = Colors.Gray;
-                publishFoldersButtonImage.Color = Colors.Gray;
-
-                unpublishFoldersButton.BackgroundColor = Colors.Black;
-                unpublishFoldersButton.TextColor = Colors.Gray;
-                unpublishFoldersButtonImage.Color = Colors.Gray;
-
-                deleteFoldersButton.BackgroundColor = Colors.Black;
-                deleteFoldersButton.TextColor = Colors.Gray;
-                deleteFoldersButtonImage.Color = Colors.Gray;
+                updateFoldersButton.BackgroundColor = Colors.Black;
+                updateFoldersButton.TextColor = Colors.Gray;
+                updateFoldersButtonImage.Color = Colors.Gray;
+                FolderActionPicker.TextColor = Colors.Gray;
             }
         }
 
@@ -421,7 +440,7 @@ namespace MauiApp1
         {
             folderSearchBar.Text = "";
 
-            EventPicker.SelectedIndex = 0;
+            FolderStatePicker.SelectedIndex = 0;
 
             getAllUploads();
 
@@ -446,7 +465,7 @@ namespace MauiApp1
             return ids;
         }
 
-        public async void publishFoldersButtonClicked(object sender, EventArgs e)
+        public async void updateFoldersButtonClicked(object sender, EventArgs e)
         {
             List<string> ids = getSelectedFolderIds();
             List<string> FolderNames = new List<string>();
@@ -459,7 +478,7 @@ namespace MauiApp1
             }
 
             bool confirm = await _alertService.DisplayAlertAsync(
-               title: "Publish Folders",
+               title: "Update Folders",
                message: String.Join("\n", FolderNames),
                accept: "OK",
                cancel: "Cancel");
@@ -471,98 +490,56 @@ namespace MauiApp1
                     id = ids.ToArray()
                 };
 
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
-                (int _statusCode, var response) = await _apiService.PublishFolders(body);
-
-                folderSearchBar.Text = "";
-
-                EventPicker.SelectedIndex = 0;
-
-                getAllUploads();
-
-                uncheckCheckBoxes();
-
-                updatePublishButton();
-            }
-        }
-
-        public async void unpublishFoldersButtonClicked(object sender, EventArgs e)
-        {
-            List<string> ids = getSelectedFolderIds();
-            List<string> FolderNames = new List<string>();
-            foreach (Folder folder in Folders)
-            {
-                if (ids.Contains(Convert.ToString(folder.id)))
+                PickerOption selectedOption = null;
+                foreach (var pickerOption in FolderActionPickerOptions)
                 {
-                    FolderNames.Add(folder.name);
+                    if (Convert.ToInt32(pickerOption.ID) == FolderActionPicker.SelectedIndex)
+                    {
+                        selectedOption = pickerOption;
+                        break;
+                    }
                 }
-            }
 
-            bool confirm = await _alertService.DisplayAlertAsync(
-               title: "Unpublish Folders",
-               message: String.Join("\n", FolderNames),
-               accept: "OK",
-               cancel: "Cancel");
-
-            if (confirm)
-            {
-                var folderIds = new CollectionIds
+                if (selectedOption != null)
                 {
-                    id = ids.ToArray()
-                };
+                    if (selectedOption.Name == "Publish Folders")
+                    {
+                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+                        (int _statusCode, var response) = await _apiService.PublishFolders(body);
+                    }
+                    else if (selectedOption.Name == "Unpublish Folders")
+                    {
+                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+                        (int _statusCode, var response) = await _apiService.UnpublishFolders(body);
+                    }
+                    else if (selectedOption.Name == "Archive Folders")
+                    {
+                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+                        (int _statusCode, var response) = await _apiService.ArchiveFolders(body);
+                    }
+                    else if (selectedOption.Name == "Unarchive Folders")
+                    {
+                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+                        (int _statusCode, var response) = await _apiService.UnarchiveFolders(body);
+                    }
+                    else if (selectedOption.Name == "Delete Folders")
+                    {
+                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+                        (int _statusCode, var response) = await _apiService.DeleteFolders(body);
+                    }
 
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
-                (int _statusCode, var response) = await _apiService.UnpublishFolders(body);
+                    folderSearchBar.Text = "";
 
-                folderSearchBar.Text = "";
+                    FolderStatePicker.SelectedIndex = 0;
 
-                EventPicker.SelectedIndex = 0;
+                    FolderActionPicker.SelectedIndex = 0;
 
-                getAllUploads();
+                    getAllUploads();
 
-                uncheckCheckBoxes();
+                    uncheckCheckBoxes();
 
-                updatePublishButton();
-            }
-        }
-
-        public async void deleteFoldersButtonClicked(object sender, EventArgs e)
-        {
-            List<string> ids = getSelectedFolderIds();
-            List<string> FolderNames = new List<string>();
-            foreach (Folder folder in Folders)
-            {
-                if (ids.Contains(Convert.ToString(folder.id)))
-                {
-                    FolderNames.Add(folder.name);
+                    updatePublishButton();
                 }
-            }
-
-            bool confirm = await _alertService.DisplayAlertAsync(
-               title: "Delete Folders",
-               message: String.Join("\n", FolderNames),
-               accept: "OK",
-               cancel: "Cancel");
-
-            if (confirm)
-            {
-                var folderIds = new CollectionIds
-                {
-                    id = ids.ToArray()
-                };
-
-                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
-                (int _statusCode, var response) = await _apiService.DeleteFolders(body);
-
-                folderSearchBar.Text = "";
-
-                EventPicker.SelectedIndex = 0;
-
-                getAllUploads();
-
-                uncheckCheckBoxes();
-
-                updatePublishButton();
             }
         }
 
@@ -574,7 +551,7 @@ namespace MauiApp1
                 folder.name.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
             );
 
-            EventPicker.SelectedIndex = 0;
+            FolderStatePicker.SelectedIndex = 0;
 
             RefreshFolders(folders);
 
