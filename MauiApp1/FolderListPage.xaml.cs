@@ -313,11 +313,9 @@ namespace MauiApp1
 
             ActivityIndicator.IsRunning = false;
 
-            var folders = Folders.Where(folder =>
+            foldersCollectionView.ItemsSource = Folders.Where(folder =>
                 folder.state == "created" || folder.state == "published"
             );
-
-            foldersCollectionView.ItemsSource = folders;
 
             foldersCountLabel.Text = Convert.ToString(Folders.Count() + " Folders");
         }
@@ -571,7 +569,8 @@ namespace MauiApp1
             SearchBar searchBar = (SearchBar)sender;
 
             var folders = Folders.Where(folder =>
-                folder.name.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
+                folder.name.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase) &&
+                (folder.state == "created" || folder.state == "published")
             );
 
             FolderStatePicker.SelectedIndex = 0;
