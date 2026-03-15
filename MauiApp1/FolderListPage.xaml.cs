@@ -142,8 +142,7 @@ namespace MauiApp1
 
         private void FolderActionPickerOnSelectedIndexChanged(object sender, EventArgs e)
         {
-            Picker picker = (Picker)sender;
-            int selectedIndex = picker.SelectedIndex;
+            updatePublishButton();
         }
 
         private void PopulateFolderStatePicker()
@@ -412,10 +411,29 @@ namespace MauiApp1
                     }
                 }
             }
+
             if (foldersCount > 0)
             {
                 string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
                 selectedFoldersCountLabel.Text = Convert.ToString(foldersCount) + " " + folderLabel + " selected";
+            }
+            else
+            {
+                selectedFoldersCountLabel.Text = "No Folders selected";
+            }
+
+            PickerOption selectedOption = null;
+            foreach (var pickerOption in FolderActionPickerOptions)
+            {
+                if (Convert.ToInt32(pickerOption.ID) == FolderActionPicker.SelectedIndex)
+                {
+                    selectedOption = pickerOption;
+                    break;
+                }
+            }
+
+            if (foldersCount > 0 && (selectedOption != null && selectedOption.Name != ""))
+            {
                 updateFoldersButton.BackgroundColor = Colors.Orange;
                 updateFoldersButton.TextColor = Colors.Black;
                 updateFoldersButtonImage.Color = Colors.White;
@@ -423,7 +441,6 @@ namespace MauiApp1
             }
             else
             {
-                selectedFoldersCountLabel.Text = "No Folders selected";
                 updateFoldersButton.BackgroundColor = Colors.Black;
                 updateFoldersButton.TextColor = Colors.Gray;
                 updateFoldersButtonImage.Color = Colors.Gray;
