@@ -106,16 +106,10 @@
 
                         <ScrollView
                             x:Name="scrollView"
-                            VerticalOptions="Fill"
-                            MinimumHeightRequest="400"
-                            MaximumHeightRequest="400">
+                            VerticalOptions="Fill">
 
                             <CollectionView
-                                x:Name="foldersCollectionView"
-                                ItemsSource="{Binding Folders}"
-                                SelectionMode="Multiple"
-                                SelectionChanged="FolderSelectionChanged"
-                                SelectedItems="{Binding SelectedFolders}">
+                                x:Name="foldersCollectionView">
 
                                 <CollectionView.EmptyView>
                                     <Label
@@ -323,7 +317,6 @@
                     </Frame>
                 </VerticalStackLayout>
             </Grid>
-
             <Grid>
                 <VerticalStackLayout>
                     <Label
@@ -391,7 +384,6 @@
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Grid>
-
             <Grid>
                 <Button
                     Text="Refresh"

@@ -105,7 +105,9 @@ namespace MauiApp1
             {
                 if (selectedOption.Name == "All")
                 {
-                    var folders = Folders;
+                    var folders = Folders.Where(folder =>
+                        folder.state == "created" || folder.state == "published"
+                    );
 
                     RefreshFolders(folders);
 
@@ -311,7 +313,11 @@ namespace MauiApp1
 
             ActivityIndicator.IsRunning = false;
 
-            foldersCollectionView.ItemsSource = Folders;
+            var folders = Folders.Where(folder =>
+                folder.state == "created" || folder.state == "published"
+            );
+
+            foldersCollectionView.ItemsSource = folders;
 
             foldersCountLabel.Text = Convert.ToString(Folders.Count() + " Folders");
         }
