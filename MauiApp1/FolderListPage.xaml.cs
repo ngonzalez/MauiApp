@@ -80,7 +80,6 @@ namespace MauiApp1
         private void RefreshFolders(IEnumerable<Folder> folders)
         {
             foldersCollectionView.ItemsSource = folders;
-
             int foldersCount = folders.Count();
             string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
             foldersCountLabel.Text = Convert.ToString(folders.Count() + " " + folderLabel);
@@ -103,7 +102,7 @@ namespace MauiApp1
 
             if (selectedOption != null)
             {
-                if (selectedOption.Name == "All")
+                if (selectedOption.Name == "")
                 {
                     var folders = Folders.Where(folder =>
                         folder.state == "created" || folder.state == "published"
@@ -151,7 +150,7 @@ namespace MauiApp1
         {
             FolderStatePickerOptions = new List<PickerOption>
             {
-                new PickerOption { ID = "0", Name = "All" },
+                new PickerOption { ID = "0", Name = "" },
                 new PickerOption { ID = "1", Name = "Published" },
                 new PickerOption { ID = "2", Name = "Archived" }
             };
@@ -579,5 +578,55 @@ namespace MauiApp1
 
             updatePublishButton();
         }
+
+        private string getFolderURL(Folder folder)
+        {
+            string url = "https://link12.ddns.net/" + folder.dataUrl;
+            return url;
+        }
+
+        public void SetTimeout(Action action, int ms)
+        {
+            Task.Delay(ms).ContinueWith((task) =>
+            {
+                action();
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private async void OpenWebURL_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                Button button = (Button)sender;
+                Folder folder = (Folder)button.BindingContext;
+                string url = getFolderURL(folder);
+                await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            }
+            catch (Exception _ex)
+            {
+                //
+            }
+        }
+
+        private async void SetClipboardButton_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                Button button = (Button)sender;
+                Folder folder = (Folder)button.BindingContext;
+                string url = getFolderURL(folder);
+                await Clipboard.Default.SetTextAsync(url);
+            }
+            catch (Exception _ex)
+            {
+                //
+            }
+
+            actionLabel.Text = "URL copied to clipboard";
+            SetTimeout(() =>
+                {
+                    actionLabel.Text = "";
+                }, 2000);
+            }
+        }
     }
-}

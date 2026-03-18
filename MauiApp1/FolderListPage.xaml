@@ -229,6 +229,7 @@
                                                 <Button
                                                     Grid.Row="0"
                                                     Grid.Column="4"
+                                                    Clicked="SetClipboardButton_Clicked"
                                                     ToolTipProperties.Text="Copy URL"
                                                     BackgroundColor="Transparent"
                                                     BorderColor="Black"
@@ -270,6 +271,7 @@
                                                     Grid.Row="0"
                                                     Grid.Column="5"
                                                     Text="Open Web URL"
+                                                    Clicked="OpenWebURL_Clicked"
                                                     TextColor="FloralWhite"
                                                     FontSize="14"
                                                     BackgroundColor="Transparent"
@@ -419,9 +421,20 @@
                             </VisualStateManager.VisualStateGroups>
                         </Button>
                     </HorizontalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label
+                          x:Name="actionLabel"
+                          FontSize="14"
+                          FontAttributes="Bold"
+                          BackgroundColor="Transparent"
+                          TextColor="Gray"
+                          VerticalTextAlignment="Center"
+                          HorizontalTextAlignment="Start"
+                          Padding="10"
+                          Margin="10" />
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Grid>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
