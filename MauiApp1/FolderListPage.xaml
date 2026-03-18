@@ -355,7 +355,7 @@
                                 <FontImageSource
                                     x:Name="updateFoldersButtonImage"
                                     FontFamily="FontAwesome7FreeSolid"
-                                    Glyph="{StaticResource IconShareNodes}"
+                                    Glyph="{StaticResource IconChevronRight}"
                                     Size="20"
                                     Color="Gray" />
                             </Button.ImageSource>
@@ -381,26 +381,45 @@
                                 </VisualStateGroupList>
                             </VisualStateManager.VisualStateGroups>
                         </Button>
+                        <Button
+                            Text="Refresh"
+                            x:Name="refreshFilesButton"
+                            BackgroundColor="Black"
+                            TextColor="FloralWhite"
+                            FontSize="20"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="FontAwesome7FreeSolid"
+                                    Glyph="{StaticResource IconRotate}"
+                                    Size="15"
+                                    Color="FloralWhite" />
+                            </Button.ImageSource>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="1" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="0.9" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderColor" Value="#444" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </Button>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
-            </Grid>
-            <Grid>
-                <Button
-                    Text="Refresh"
-                    x:Name="refreshFilesButton"
-                    BackgroundColor="Black"
-                    TextColor="FloralWhite"
-                    FontSize="20"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center">
-                    <Button.ImageSource>
-                        <FontImageSource
-                            FontFamily="FontAwesome7FreeSolid"
-                            Glyph="{StaticResource IconSun}"
-                            Size="15"
-                            Color="FloralWhite" />
-                    </Button.ImageSource>
-                </Button>
             </Grid>
 
         </VerticalStackLayout>

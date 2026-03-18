@@ -498,54 +498,52 @@ namespace MauiApp1
                 }
             }
 
-            bool confirm = await _alertService.DisplayAlertAsync(
-               title: "Update Folders",
-               message: String.Join("\n", FolderNames),
-               accept: "OK",
-               cancel: "Cancel");
-
-            if (confirm)
+            PickerOption selectedOption = null;
+            foreach (var pickerOption in FolderActionPickerOptions)
             {
-                var folderIds = new CollectionIds
+                if (Convert.ToInt32(pickerOption.ID) == FolderActionPicker.SelectedIndex)
                 {
-                    id = ids.ToArray()
-                };
-
-                PickerOption selectedOption = null;
-                foreach (var pickerOption in FolderActionPickerOptions)
-                {
-                    if (Convert.ToInt32(pickerOption.ID) == FolderActionPicker.SelectedIndex)
-                    {
-                        selectedOption = pickerOption;
-                        break;
-                    }
+                    selectedOption = pickerOption;
+                    break;
                 }
+            }
 
-                if (selectedOption != null)
+            if (selectedOption != null)
+            {
+                bool confirm = await _alertService.DisplayAlertAsync(
+                    title: selectedOption.Name,
+                    message: String.Join("\n", FolderNames),
+                    accept: "OK",
+                    cancel: "Cancel"
+                );
+
+                if (confirm)
                 {
+                    var folderIds = new CollectionIds
+                    {
+                        id = ids.ToArray()
+                    };
+
+                    byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+
                     if (selectedOption.Name == "Publish Folders")
                     {
-                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                         (int _statusCode, var response) = await _apiService.PublishFolders(body);
                     }
                     else if (selectedOption.Name == "Unpublish Folders")
                     {
-                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                         (int _statusCode, var response) = await _apiService.UnpublishFolders(body);
                     }
                     else if (selectedOption.Name == "Archive Folders")
                     {
-                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                         (int _statusCode, var response) = await _apiService.ArchiveFolders(body);
                     }
                     else if (selectedOption.Name == "Unarchive Folders")
                     {
-                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                         (int _statusCode, var response) = await _apiService.UnarchiveFolders(body);
                     }
                     else if (selectedOption.Name == "Delete Folders")
                     {
-                        byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
                         (int _statusCode, var response) = await _apiService.DeleteFolders(body);
                     }
 
