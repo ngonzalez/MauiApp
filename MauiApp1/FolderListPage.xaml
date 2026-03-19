@@ -87,6 +87,17 @@
                     <ActivityIndicator
                         x:Name="ActivityIndicator" />
 
+                    <Label
+                          x:Name="actionLabel"
+                          FontSize="14"
+                          FontAttributes="Bold"
+                          BackgroundColor="Transparent"
+                          TextColor="Gray"
+                          VerticalTextAlignment="Center"
+                          HorizontalTextAlignment="Start"
+                          Padding="10"
+                          Margin="10" />
+
                 </HorizontalStackLayout>
             </Grid>
             <Grid>
@@ -420,18 +431,6 @@
                                 </VisualStateGroupList>
                             </VisualStateManager.VisualStateGroups>
                         </Button>
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout>
-                        <Label
-                          x:Name="actionLabel"
-                          FontSize="14"
-                          FontAttributes="Bold"
-                          BackgroundColor="Transparent"
-                          TextColor="Gray"
-                          VerticalTextAlignment="Center"
-                          HorizontalTextAlignment="Start"
-                          Padding="10"
-                          Margin="10" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Grid>

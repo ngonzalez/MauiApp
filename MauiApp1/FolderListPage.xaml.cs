@@ -572,6 +572,8 @@ namespace MauiApp1
 
             FolderStatePicker.SelectedIndex = 0;
 
+            FolderActionPicker.SelectedIndex = 0;
+
             RefreshFolders(folders);
 
             uncheckCheckBoxes();
