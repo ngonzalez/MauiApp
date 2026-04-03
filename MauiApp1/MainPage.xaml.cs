@@ -217,11 +217,14 @@ namespace MauiApp1
                         //
                     }
 
+                    var splitFiles = System.IO.Directory.GetFiles(tempDirectory);
+                    int splitFilesCount = splitFiles.Count();
+
                     int i = 0;
 
-                    foreach (string filePath in System.IO.Directory.GetFiles(tempDirectory))
+                    foreach (string filePath in splitFiles)
                     {
-                        SendFileBatch(uploadFile, filePath, i);
+                        SendFileBatch(uploadFile, splitFilesCount, filePath, i);
 
                         try
                         {
@@ -279,7 +282,7 @@ namespace MauiApp1
             }
         }
 
-        public async void SendFileBatch(UploadFile uploadFile, string filePath, int i)
+        public async void SendFileBatch(UploadFile uploadFile, int filesCount, string filePath, int i)
         {
             using (FileStream inputFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
             using (CryptoStream base64Stream = new CryptoStream(inputFile, new ToBase64Transform(), CryptoStreamMode.Read))
@@ -295,7 +298,7 @@ namespace MauiApp1
                     uuid = Guid.NewGuid(),
                     uploadFileUuid = uploadFile.uuid,
                     itemData = System.Text.Encoding.UTF8.GetString(byteArray),
-                    filePath = uploadFile.filePath + "." + Convert.ToString(i) + ".block",
+                    filePath = uploadFile.filePath + "." + (Convert.ToString(i + 1)) + "-" + filesCount + ".block",
                     mimeType = "application/octet-stream",
                     createdAt = uploadFile.createdAt,
                     updatedAt = uploadFile.updatedAt,
