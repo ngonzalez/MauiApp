@@ -31,7 +31,7 @@
 
             <Button
                 Text="Sign-In"
-                FontSize="20"
+                FontSize="14"
                 FontAttributes="Bold"
                 SemanticProperties.Hint="Sign-In"
                 Clicked="OnSignInClicked"
@@ -45,7 +45,7 @@
                     <FontImageSource
                             FontFamily="FontAwesome7FreeSolid"
                             Glyph="{StaticResource IconUserGroup}"
-                            Size="20"
+                            Size="14"
                             Color="SeaShell" />
                 </Button.ImageSource>
                 <VisualStateManager.VisualStateGroups>
@@ -77,7 +77,7 @@
 
             <Button
                 Text="Register for a new user account"
-                FontSize="20"
+                FontSize="14"
                 SemanticProperties.Hint="Register"
                 Clicked="OnRegisterClicked"
                 BackgroundColor="Transparent"
@@ -89,7 +89,7 @@
                     <FontImageSource
                         FontFamily="FontAwesome7FreeSolid"
                         Glyph="{StaticResource IconClipboardList}"
-                        Size="20"
+                        Size="14"
                         Color="SeaShell" />
                 </Button.ImageSource>
                 <VisualStateManager.VisualStateGroups>
@@ -117,7 +117,7 @@
 
             <Button
                 Text="Reset your password"
-                FontSize="20"
+                FontSize="14"
                 SemanticProperties.Hint="Reset Password"
                 Clicked="OnResetPasswordClicked"
                 BackgroundColor="Transparent"
@@ -129,7 +129,7 @@
                     <FontImageSource
                         FontFamily="FontAwesome7FreeSolid"
                         Glyph="{StaticResource IconEnvelopeOpen}"
-                        Size="20"
+                        Size="14"
                         Color="SeaShell" />
                 </Button.ImageSource>
                 <VisualStateManager.VisualStateGroups>

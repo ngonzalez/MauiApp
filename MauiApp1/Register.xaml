@@ -74,7 +74,7 @@
 
             <Button
                 Text="Register"
-                FontSize="20"
+                FontSize="14"
                 FontAttributes="Bold"
                 SemanticProperties.Hint="Register"
                 Clicked="OnRegisterClicked"
@@ -85,7 +85,7 @@
                     <FontImageSource
                         FontFamily="FontAwesome7FreeSolid"
                         Glyph="{StaticResource IconUserGroup}"
-                        Size="20"
+                        Size="14"
                         Color="SeaShell" />
                 </Button.ImageSource>
                 <VisualStateManager.VisualStateGroups>

@@ -11,7 +11,6 @@ namespace MauiApp1.Platforms.Windows
         {
             _httpClient = new HttpClient()
             {
-                //BaseAddress = new Uri("http://192.168.1.11:3000")
                 BaseAddress = new Uri("https://link12.ddns.net:4040")
             };
 
@@ -21,7 +20,6 @@ namespace MauiApp1.Platforms.Windows
 
             _httpClientStreamingService = new HttpClient()
             {
-                //BaseAddress = new Uri("http://192.168.1.11:3001")
                 BaseAddress = new Uri("https://link12.ddns.net:5050")
             };
 
@@ -30,7 +28,7 @@ namespace MauiApp1.Platforms.Windows
             );
         }
 
-        public async Task<(int, String)> GetAllUploads(string ids)
+        public async Task<(int, String)> getUploads(string ids)
         {
             var response = await _httpClient.GetAsync("/upload" + ids);
             string json = await response.Content.ReadAsStringAsync();
@@ -115,6 +113,17 @@ namespace MauiApp1.Platforms.Windows
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             content.Headers.ContentLength = body.Length;
             var response = await _httpClient.PostAsync("/folders/delete", content);
+            string json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
+        public async Task<(int, String)> DeleteAttachments(byte[] body)
+        {
+            ByteArrayContent content = new ByteArrayContent(body);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            content.Headers.ContentLength = body.Length;
+            var response = await _httpClient.PostAsync("/attachments/delete", content);
             string json = await response.Content.ReadAsStringAsync();
             int status = (int)response.StatusCode;
             return (status, json);

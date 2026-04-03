@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Core.Primitives;
+using MauiApp1.Platforms.Windows;
 using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.ObjectModel;
@@ -7,6 +8,19 @@ using System.Text.Json;
 using Windows.System;
 
 namespace MauiApp1;
+
+public class PickerOption
+{
+    public string ID { get; set; }
+    public string Name { get; set; }
+}
+
+public class CollectionIds
+{
+    public string[] id { get; set; }
+
+    public string[] type { get; set; }
+}
 
 public class VideoStreamResponse
 {
@@ -22,11 +36,19 @@ public class AudioStreamResponse
 }
 public partial class DisplayPage : ContentPage
 {
+    private readonly IAlertService _alertService;
+
     private readonly IApiService _apiService;
 
     private readonly AppShellViewModel _appShellViewModel;
 
     private Folder _folder;
+
+    public List<PickerOption> ImageFileActionPickerOptions { get; set; }
+    public List<PickerOption> VideoFileActionPickerOptions { get; set; }
+    public List<PickerOption> AudioFileActionPickerOptions { get; set; }
+    public List<PickerOption> PdfFileActionPickerOptions { get; set; }
+    public List<PickerOption> TextFileActionPickerOptions { get; set; }
 
     public ObservableCollection<ImageFile> ImageFiles { get; set; }
     public ObservableCollection<ImageFile> SelectedImageFiles { get; set; }
@@ -45,8 +67,9 @@ public partial class DisplayPage : ContentPage
     public ObservableCollection<TextFile> TextFiles { get; set; }
     public ObservableCollection<TextFile> SelectedTextFiles { get; set; }
 
-    public DisplayPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
+    public DisplayPage(IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
+        _alertService = alertService;
         _apiService = apiService;
         _appShellViewModel = appShellViewModel;
         _folder = folder;
@@ -101,6 +124,41 @@ public partial class DisplayPage : ContentPage
         GridTextFiles.IsVisible = false;
         GridTextFilesDetails.IsVisible = false;
 
+        // Image File Actions
+        selectAllImageFiles.Clicked += new EventHandler(selectAllImageFilesButtonClicked);
+        ImageFileActionPicker.SelectedIndexChanged += new EventHandler(ImageFileActionPickerOnSelectedIndexChanged);
+        selectedImageFilesCountLabel.Text = "No Image Files selected";
+        refreshImageFilesButton.Clicked += new EventHandler(refreshImageFilesButtonClicked);
+        PopulateImageFilesActionPicker();
+
+        // Video File Actions
+        selectAllVideoFiles.Clicked += new EventHandler(selectAllVideoFilesButtonClicked);
+        VideoFileActionPicker.SelectedIndexChanged += new EventHandler(VideoFileActionPickerOnSelectedIndexChanged);
+        selectedVideoFilesCountLabel.Text = "No Video Files selected";
+        refreshVideoFilesButton.Clicked += new EventHandler(refreshVideoFilesButtonClicked);
+        PopulateVideoFilesActionPicker();
+
+        // Audio File Actions
+        selectAllAudioFiles.Clicked += new EventHandler(selectAllAudioFilesButtonClicked);
+        AudioFileActionPicker.SelectedIndexChanged += new EventHandler(AudioFileActionPickerOnSelectedIndexChanged);
+        selectedAudioFilesCountLabel.Text = "No Audio Files selected";
+        refreshAudioFilesButton.Clicked += new EventHandler(refreshAudioFilesButtonClicked);
+        PopulateAudioFilesActionPicker();
+
+        // Pdf File Actions
+        selectAllPdfFiles.Clicked += new EventHandler(selectAllPdfFilesButtonClicked);
+        PdfFileActionPicker.SelectedIndexChanged += new EventHandler(PdfFileActionPickerOnSelectedIndexChanged);
+        selectedPdfFilesCountLabel.Text = "No Pdf Files selected";
+        refreshPdfFilesButton.Clicked += new EventHandler(refreshPdfFilesButtonClicked);
+        PopulatePdfFilesActionPicker();
+
+        // Text File Actions
+        selectAllTextFiles.Clicked += new EventHandler(selectAllTextFilesButtonClicked);
+        TextFileActionPicker.SelectedIndexChanged += new EventHandler(TextFileActionPickerOnSelectedIndexChanged);
+        selectedTextFilesCountLabel.Text = "No Text Files selected";
+        refreshTextFilesButton.Clicked += new EventHandler(refreshTextFilesButtonClicked);
+        PopulateTextFilesActionPicker();
+
         // Get media files from backend
         getUploads();
     }
@@ -110,7 +168,7 @@ public partial class DisplayPage : ContentPage
         string folderId = Convert.ToString(_folder.id);
         var folderIdsUtf8 = JsonSerializer.SerializeToUtf8Bytes("," + folderId);
         string encodedFolderId = Convert.ToBase64String(folderIdsUtf8);
-        (int _statusCode, var response) = await _apiService.GetAllUploads("?folderIds=" + encodedFolderId);
+        (int _statusCode, var response) = await _apiService.getUploads("?folderIds=" + encodedFolderId);
         var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
         // ImageFile
@@ -137,6 +195,7 @@ public partial class DisplayPage : ContentPage
         imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " " + imageFileLabel;
         GridImageFiles.IsVisible = ImageFiles.Count() > 0;
         GridImageFilesDetails.IsVisible = ImageFiles.Count() > 0;
+        imageFilesCountLabel.Text = Convert.ToString(ImageFiles.Count() + " " + imageFileLabel);
 
         // VideoFile
         VideoFiles = new ObservableCollection<VideoFile> { };
@@ -162,6 +221,7 @@ public partial class DisplayPage : ContentPage
         videoFilesCount.Text = Convert.ToString(VideoFiles.Count()) + " " + videoFileLabel;
         GridVideoFiles.IsVisible = VideoFiles.Count() > 0;
         GridVideoFilesDetails.IsVisible = VideoFiles.Count() > 0;
+        videoFilesCountLabel.Text = Convert.ToString(VideoFiles.Count() + " " + videoFileLabel);
 
         // AudioFile
         AudioFiles = new ObservableCollection<AudioFile> { };
@@ -187,6 +247,7 @@ public partial class DisplayPage : ContentPage
         audioFilesCount.Text = Convert.ToString(AudioFiles.Count()) + " " + audioFileLabel;
         GridAudioFiles.IsVisible = AudioFiles.Count() > 0;
         GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
+        audioFilesCountLabel.Text = Convert.ToString(AudioFiles.Count() + " " + audioFileLabel);
 
         // PdfFile
         PdfFiles = new ObservableCollection<PdfFile> { };
@@ -212,6 +273,7 @@ public partial class DisplayPage : ContentPage
         pdfFilesCount.Text = Convert.ToString(PdfFiles.Count()) + " " + pdfFileLabel;
         GridPdfFiles.IsVisible = PdfFiles.Count() > 0;
         GridPdfFilesDetails.IsVisible = PdfFiles.Count() > 0;
+        pdfFilesCountLabel.Text = Convert.ToString(PdfFiles.Count() + " " + pdfFileLabel);
 
         // TextFile
         TextFiles = new ObservableCollection<TextFile> { };
@@ -237,6 +299,7 @@ public partial class DisplayPage : ContentPage
         textFilesCount.Text = Convert.ToString(TextFiles.Count()) + " " + textFileLabel;
         GridTextFiles.IsVisible = TextFiles.Count() > 0;
         GridTextFilesDetails.IsVisible = TextFiles.Count() > 0;
+        textFilesCountLabel.Text = Convert.ToString(TextFiles.Count() + " " + textFileLabel);
     }
 
     public async void openNewWindowImageFile(object sender, EventArgs e)
@@ -251,13 +314,9 @@ public partial class DisplayPage : ContentPage
     {
         Button button = (Button)sender;
         PdfFile pdfFile = (PdfFile)button.BindingContext;
-        string url = "https://link12.ddns.net/";
-        url += pdfFile.folder.dataUrl;
-        url += "/pdfWebView/";
-        url += pdfFile.dataUrl;
         try
         {
-            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(pdfFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -269,13 +328,9 @@ public partial class DisplayPage : ContentPage
     {
         Button button = (Button)sender;
         TextFile textFile = (TextFile)button.BindingContext;
-        string url = "https://link12.ddns.net/";
-        url += textFile.folder.dataUrl;
-        url += "/textWebView/";
-        url += textFile.dataUrl;
         try
         {
-            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(textFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -288,12 +343,231 @@ public partial class DisplayPage : ContentPage
         Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
     }
 
+    public List<string> getSelectedImageFileIds()
+    {
+        List<string> ids = new List<string>();
+        var rootViewsAndTheirDescendants = imageFilesCollectionView.GetVisualTreeDescendants();
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    ids.Add(checkbox.ClassId);
+                }
+            }
+        }
+        return ids;
+    }
+
+    public async void updateImageFilesButtonClicked(object sender, EventArgs e)
+    {
+        List<string> ids = getSelectedImageFileIds();
+        List<string> ImageFileNames = new List<string>();
+        foreach (ImageFile imageFile in ImageFiles)
+        {
+            if (ids.Contains(Convert.ToString(imageFile.id)))
+            {
+                ImageFileNames.Add(imageFile.fileName);
+            }
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in ImageFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == ImageFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (selectedOption != null)
+        {
+            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", ImageFileNames));
+
+            if (action == "Delete")
+            {
+                var imageFileIds = new CollectionIds
+                {
+                    id = ids.ToArray(),
+                    type = ["ImageFile"]
+                };
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(imageFileIds);
+
+                if (selectedOption.Name == "Delete Image Files")
+
+                {
+                    (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
+                }
+
+                imageFilesSearchBar.Text = "";
+
+                ImageFileActionPicker.SelectedIndex = 0;
+
+                getUploads();
+
+                uncheckImageFileCheckBoxes();
+
+                updateImageFilesActionButton();
+
+                while (SelectedImageFiles.Count() > 0)
+                {
+                    SelectedImageFiles.RemoveAt(0);
+                }
+            }
+        }
+    }
+
+    public void refreshImageFilesButtonClicked(object sender, EventArgs e)
+    {
+        imageFilesSearchBar.Text = "";
+
+        getUploads();
+
+        updateImageFilesActionButton();
+    }
+
+
+    private void ImageFileActionPickerOnSelectedIndexChanged(object sender, EventArgs e)
+    {
+        updateImageFilesActionButton();
+    }
+
+    public void selectAllImageFilesButtonClicked(object sender, EventArgs e)
+    {
+        Button selectAllFolders = (Button)sender;
+
+        toggleImageFilesCheckBoxes();
+
+        updateImageFilesActionButton();
+    }
+    private void PopulateImageFilesActionPicker()
+    {
+        ImageFileActionPickerOptions = new List<PickerOption>
+            {
+                new PickerOption { ID = "0", Name = "" },
+                new PickerOption { ID = "1", Name = "Delete Image Files" },
+            };
+
+        foreach (var pickerOption in ImageFileActionPickerOptions)
+        {
+            ImageFileActionPicker.Items.Add(pickerOption.Name);
+        }
+    }
+
+    public void uncheckImageFileCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = imageFilesCollectionView.GetVisualTreeDescendants();
+
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = false;
+            }
+        }
+    }
+
+    public void toggleImageFilesCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = imageFilesCollectionView.GetVisualTreeDescendants();
+
+        bool allChecked = true;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                allChecked = checkbox.IsChecked;
+            }
+        }
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = !allChecked;
+            }
+        }
+    }
+
+    public void imageFileCheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox selectFolder = (CheckBox)sender;
+
+        updateImageFilesActionButton();
+    }
+
+    public async void updateImageFilesActionButton()
+    {
+        var rootViewsAndTheirDescendants = imageFilesCollectionView.GetVisualTreeDescendants();
+
+        int imageFilesCount = 0;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    imageFilesCount++;
+                }
+            }
+        }
+
+        if (imageFilesCount > 0)
+        {
+            string imageFilesLabel = imageFilesCount == 1 ? "Image File" : "Image Files";
+            selectedImageFilesCountLabel.Text = Convert.ToString(imageFilesCount) + " " + imageFilesLabel + " selected";
+        }
+        else
+        {
+            selectedImageFilesCountLabel.Text = "No Image Files selected";
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in ImageFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == ImageFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (imageFilesCount > 0 && (selectedOption != null && selectedOption.Name != ""))
+        {
+            updateImageFilesButton.BackgroundColor = Colors.Orange;
+            updateImageFilesButton.TextColor = Colors.Black;
+            updateImageFilesButtonImage.Color = Colors.White;
+            ImageFileActionPicker.TextColor = Colors.FloralWhite;
+        }
+        else
+        {
+            updateImageFilesButton.BackgroundColor = Colors.Black;
+            updateImageFilesButton.TextColor = Colors.Gray;
+            updateImageFilesButtonImage.Color = Colors.Gray;
+            ImageFileActionPicker.TextColor = Colors.Gray;
+        }
+    }
+
     public async void imageFilesSearchInputTextChanged(object sender, EventArgs e)
     {
         SearchBar searchBar = (SearchBar)sender;
         imageFilesCollectionView.ItemsSource = ImageFiles.Where(imageFile =>
             imageFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
         );
+
+        ImageFileActionPicker.SelectedIndex = 0;
+
+        uncheckImageFileCheckBoxes();
+
+        updateImageFilesActionButton();
+
     }
 
     public async void addImageFileToSelectedItems(ImageFile imageFile)
@@ -398,12 +672,275 @@ public partial class DisplayPage : ContentPage
         ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
     }
 
+    public string getImageFileURL(ImageFile imageFile)
+    {
+        string url = "https://link12.ddns.net/" +
+            imageFile.folder.dataUrl +
+            "/image/" + imageFile.dataUrl;
+        return url;
+    }
+
+    private async void ImageFileOpenWebURL_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            ImageFile imageFile = (ImageFile)button.BindingContext;
+            string url = getImageFileURL(imageFile);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+    }
+
+    private async void ImageFileSetClipboardButton_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            ImageFile imageFile = (ImageFile)button.BindingContext;
+            string url = getImageFileURL(imageFile);
+            await Clipboard.Default.SetTextAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+
+        ImageFileActionLabel.Text = "Image File URL copied to clipboard";
+
+        SetTimeout(() =>
+        {
+            ImageFileActionLabel.Text = "";
+        }, 2000);
+    }
+
+    public List<string> getSelectedVideoFileIds()
+    {
+        List<string> ids = new List<string>();
+        var rootViewsAndTheirDescendants = videoFilesCollectionView.GetVisualTreeDescendants();
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    ids.Add(checkbox.ClassId);
+                }
+            }
+        }
+        return ids;
+    }
+
+    public async void updateVideoFilesButtonClicked(object sender, EventArgs e)
+    {
+        List<string> ids = getSelectedVideoFileIds();
+        List<string> VideoFileNames = new List<string>();
+        foreach (VideoFile videoFile in VideoFiles)
+        {
+            if (ids.Contains(Convert.ToString(videoFile.id)))
+            {
+                VideoFileNames.Add(videoFile.fileName);
+            }
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in VideoFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == VideoFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (selectedOption != null)
+        {
+            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", VideoFileNames));
+
+            if (action == "Delete")
+            {
+                var videoFileIds = new CollectionIds
+                {
+                    id = ids.ToArray(),
+                    type = ["VideoFile"]
+                };
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(videoFileIds);
+
+                if (selectedOption.Name == "Delete Video Files")
+
+                {
+                    (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
+                }
+
+                videoFilesSearchBar.Text = "";
+
+                VideoFileActionPicker.SelectedIndex = 0;
+
+                getUploads();
+
+                uncheckVideoFileCheckBoxes();
+
+                updateVideoFilesActionButton();
+
+                while (SelectedVideoFiles.Count() > 0)
+                {
+                    SelectedVideoFiles.RemoveAt(0);
+                }
+            }
+        }
+    }
+
+    public void refreshVideoFilesButtonClicked(object sender, EventArgs e)
+    {
+        videoFilesSearchBar.Text = "";
+
+        getUploads();
+
+        updateVideoFilesActionButton();
+    }
+
+
+    private void VideoFileActionPickerOnSelectedIndexChanged(object sender, EventArgs e)
+    {
+        updateVideoFilesActionButton();
+    }
+
+    public void selectAllVideoFilesButtonClicked(object sender, EventArgs e)
+    {
+        Button selectAllFolders = (Button)sender;
+
+        toggleVideoFilesCheckBoxes();
+
+        updateVideoFilesActionButton();
+    }
+    private void PopulateVideoFilesActionPicker()
+    {
+        VideoFileActionPickerOptions = new List<PickerOption>
+            {
+                new PickerOption { ID = "0", Name = "" },
+                new PickerOption { ID = "1", Name = "Delete Video Files" },
+            };
+
+        foreach (var pickerOption in VideoFileActionPickerOptions)
+        {
+            VideoFileActionPicker.Items.Add(pickerOption.Name);
+        }
+    }
+
+    public void uncheckVideoFileCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = videoFilesCollectionView.GetVisualTreeDescendants();
+
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = false;
+            }
+        }
+    }
+
+    public void toggleVideoFilesCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = videoFilesCollectionView.GetVisualTreeDescendants();
+
+        bool allChecked = true;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                allChecked = checkbox.IsChecked;
+            }
+        }
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = !allChecked;
+            }
+        }
+    }
+
+    public void videoFileCheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox selectFolder = (CheckBox)sender;
+
+        updateVideoFilesActionButton();
+    }
+
+    public async void updateVideoFilesActionButton()
+    {
+        var rootViewsAndTheirDescendants = videoFilesCollectionView.GetVisualTreeDescendants();
+
+        int videoFilesCount = 0;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    videoFilesCount++;
+                }
+            }
+        }
+
+        if (videoFilesCount > 0)
+        {
+            string videoFilesLabel = videoFilesCount == 1 ? "Video File" : "Video Files";
+            selectedVideoFilesCountLabel.Text = Convert.ToString(videoFilesCount) + " " + videoFilesLabel + " selected";
+        }
+        else
+        {
+            selectedVideoFilesCountLabel.Text = "No Video Files selected";
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in VideoFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == VideoFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (videoFilesCount > 0 && (selectedOption != null && selectedOption.Name != ""))
+        {
+            updateVideoFilesButton.BackgroundColor = Colors.Orange;
+            updateVideoFilesButton.TextColor = Colors.Black;
+            updateVideoFilesButtonImage.Color = Colors.White;
+            VideoFileActionPicker.TextColor = Colors.FloralWhite;
+        }
+        else
+        {
+            updateVideoFilesButton.BackgroundColor = Colors.Black;
+            updateVideoFilesButton.TextColor = Colors.Gray;
+            updateVideoFilesButtonImage.Color = Colors.Gray;
+            VideoFileActionPicker.TextColor = Colors.Gray;
+        }
+    }
+
     public async void videoFilesSearchInputTextChanged(object sender, EventArgs e)
     {
         SearchBar searchBar = (SearchBar)sender;
         videoFilesCollectionView.ItemsSource = VideoFiles.Where(videoFile =>
             videoFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
         );
+
+        VideoFileActionPicker.SelectedIndex = 0;
+
+        uncheckVideoFileCheckBoxes();
+
+        updateVideoFilesActionButton();
     }
 
     public async void addVideoFileToSelectedItems(VideoFile videoFile)
@@ -584,12 +1121,288 @@ public partial class DisplayPage : ContentPage
         }
     }
 
+    public void SetTimeout(Action action, int ms)
+    {
+        Task.Delay(ms).ContinueWith((task) =>
+        {
+            action();
+        }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+
+    public string getVideoFileURL(VideoFile videoFile)
+    {
+        string url = "https://link12.ddns.net/" +
+            videoFile.folder.dataUrl +
+            "/video/" + videoFile.dataUrl;
+        return url;
+    }
+
+    private async void VideoFileOpenWebURL_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            VideoFile videoFile = (VideoFile)button.BindingContext;
+            string url = getVideoFileURL(videoFile);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+    }
+
+    private async void VideoFileSetClipboardButton_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            VideoFile videoFile = (VideoFile)button.BindingContext;
+            string url = getVideoFileURL(videoFile);
+            await Clipboard.Default.SetTextAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+
+        VideoFileActionLabel.Text = "Video File URL copied to clipboard";
+
+        SetTimeout(() =>
+        {
+            VideoFileActionLabel.Text = "";
+        }, 2000);
+    }
+
+
+
+
+
+    public List<string> getSelectedAudioFileIds()
+    {
+        List<string> ids = new List<string>();
+        var rootViewsAndTheirDescendants = audioFilesCollectionView.GetVisualTreeDescendants();
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    ids.Add(checkbox.ClassId);
+                }
+            }
+        }
+        return ids;
+    }
+
+    public async void updateAudioFilesButtonClicked(object sender, EventArgs e)
+    {
+        List<string> ids = getSelectedImageFileIds();
+        List<string> AudioFileNames = new List<string>();
+        foreach (AudioFile audioFile in AudioFiles)
+        {
+            if (ids.Contains(Convert.ToString(audioFile.id)))
+            {
+                AudioFileNames.Add(audioFile.fileName);
+            }
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in AudioFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == AudioFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (selectedOption != null)
+        {
+            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", AudioFileNames));
+
+            if (action == "Delete")
+            {
+
+                var audioFileIds = new CollectionIds
+                {
+                    id = ids.ToArray(),
+                    type = ["AudioFile"]
+                };
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(audioFileIds);
+
+                if (selectedOption.Name == "Delete Audio Files")
+
+                {
+                    (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
+                }
+
+                audioFilesSearchBar.Text = "";
+
+                AudioFileActionPicker.SelectedIndex = 0;
+
+                getUploads();
+
+                uncheckAudioFileCheckBoxes();
+
+                updateAudioFilesActionButton();
+
+                while (SelectedAudioFiles.Count() > 0)
+                {
+                    SelectedAudioFiles.RemoveAt(0);
+                }
+            }
+        }
+    }
+
+    public void refreshAudioFilesButtonClicked(object sender, EventArgs e)
+    {
+        audioFilesSearchBar.Text = "";
+
+        getUploads();
+
+        updateAudioFilesActionButton();
+    }
+
+
+    private void AudioFileActionPickerOnSelectedIndexChanged(object sender, EventArgs e)
+    {
+        updateAudioFilesActionButton();
+    }
+
+    public void selectAllAudioFilesButtonClicked(object sender, EventArgs e)
+    {
+        Button selectAllFolders = (Button)sender;
+
+        toggleAudioFilesCheckBoxes();
+
+        updateAudioFilesActionButton();
+    }
+    private void PopulateAudioFilesActionPicker()
+    {
+        AudioFileActionPickerOptions = new List<PickerOption>
+            {
+                new PickerOption { ID = "0", Name = "" },
+                new PickerOption { ID = "1", Name = "Delete Audio Files" },
+            };
+
+        foreach (var pickerOption in AudioFileActionPickerOptions)
+        {
+            AudioFileActionPicker.Items.Add(pickerOption.Name);
+        }
+    }
+
+    public void uncheckAudioFileCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = imageFilesCollectionView.GetVisualTreeDescendants();
+
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = false;
+            }
+        }
+    }
+
+    public void toggleAudioFilesCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = audioFilesCollectionView.GetVisualTreeDescendants();
+
+        bool allChecked = true;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                allChecked = checkbox.IsChecked;
+            }
+        }
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = !allChecked;
+            }
+        }
+    }
+
+    public void audioFileCheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox selectFolder = (CheckBox)sender;
+
+        updateAudioFilesActionButton();
+    }
+
+    public async void updateAudioFilesActionButton()
+    {
+        var rootViewsAndTheirDescendants = audioFilesCollectionView.GetVisualTreeDescendants();
+
+        int audioFilesCount = 0;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    audioFilesCount++;
+                }
+            }
+        }
+
+        if (audioFilesCount > 0)
+        {
+            string audioFilesLabel = audioFilesCount == 1 ? "Audio File" : "Audio Files";
+            selectedAudioFilesCountLabel.Text = Convert.ToString(audioFilesCount) + " " + audioFilesLabel + " selected";
+        }
+        else
+        {
+            selectedImageFilesCountLabel.Text = "No Image Files selected";
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in AudioFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == AudioFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (audioFilesCount > 0 && (selectedOption != null && selectedOption.Name != ""))
+        {
+            updateAudioFilesButton.BackgroundColor = Colors.Orange;
+            updateAudioFilesButton.TextColor = Colors.Black;
+            updateAudioFilesButtonImage.Color = Colors.White;
+            AudioFileActionPicker.TextColor = Colors.FloralWhite;
+        }
+        else
+        {
+            updateAudioFilesButton.BackgroundColor = Colors.Black;
+            updateAudioFilesButton.TextColor = Colors.Gray;
+            updateAudioFilesButtonImage.Color = Colors.Gray;
+            AudioFileActionPicker.TextColor = Colors.Gray;
+        }
+    }
+
     public async void audioFilesSearchInputTextChanged(object sender, EventArgs e)
     {
         SearchBar searchBar = (SearchBar)sender;
         audioFilesCollectionView.ItemsSource = AudioFiles.Where(audioFile =>
             audioFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
         );
+
+        AudioFileActionPicker.SelectedIndex = 0;
+
+        uncheckAudioFileCheckBoxes();
+
+        updateAudioFilesActionButton();
     }
 
     public async void addAudioFileToSelectedItems(AudioFile audioFile)
@@ -769,12 +1582,275 @@ public partial class DisplayPage : ContentPage
         }
     }
 
+    public string getAudioFileURL(AudioFile audioFile)
+    {
+        string url = "https://link12.ddns.net/" +
+            audioFile.folder.dataUrl +
+            "/audio/" + audioFile.dataUrl;
+        return url;
+    }
+
+    private async void AudioFileOpenWebURL_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            AudioFile audioFile = (AudioFile)button.BindingContext;
+            string url = getAudioFileURL(audioFile);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+    }
+
+    private async void AudioFileSetClipboardButton_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            AudioFile audioFile = (AudioFile)button.BindingContext;
+            string url = getAudioFileURL(audioFile);
+            await Clipboard.Default.SetTextAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+
+        AudioFileActionLabel.Text = "Audio File URL copied to clipboard";
+
+        SetTimeout(() =>
+        {
+            AudioFileActionLabel.Text = "";
+        }, 2000);
+    }
+
+    public List<string> getSelectedPdfFileIds()
+    {
+        List<string> ids = new List<string>();
+        var rootViewsAndTheirDescendants = pdfFilesCollectionView.GetVisualTreeDescendants();
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    ids.Add(checkbox.ClassId);
+                }
+            }
+        }
+        return ids;
+    }
+
+    public async void updatePdfFilesButtonClicked(object sender, EventArgs e)
+    {
+        List<string> ids = getSelectedPdfFileIds();
+        List<string> PdfFileNames = new List<string>();
+        foreach (PdfFile pdfFile in PdfFiles)
+        {
+            if (ids.Contains(Convert.ToString(pdfFile.id)))
+            {
+                PdfFileNames.Add(pdfFile.fileName);
+            }
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in PdfFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == PdfFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (selectedOption != null)
+        {
+            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", PdfFileNames));
+
+            if (action == "Delete")
+            {
+                var pdfFileIds = new CollectionIds
+                {
+                    id = ids.ToArray(),
+                    type = ["PdfFile"]
+                };
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(pdfFileIds);
+
+                if (selectedOption.Name == "Delete Pdf Files")
+
+                {
+                    (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
+                }
+
+                pdfFilesSearchBar.Text = "";
+
+                PdfFileActionPicker.SelectedIndex = 0;
+
+                getUploads();
+
+                uncheckPdfFileCheckBoxes();
+
+                updatePdfFilesActionButton();
+
+                while (SelectedPdfFiles.Count() > 0)
+                {
+                    SelectedPdfFiles.RemoveAt(0);
+                }
+            }
+        }
+    }
+
+    public void refreshPdfFilesButtonClicked(object sender, EventArgs e)
+    {
+        pdfFilesSearchBar.Text = "";
+
+        getUploads();
+
+        updatePdfFilesActionButton();
+    }
+
+
+    private void PdfFileActionPickerOnSelectedIndexChanged(object sender, EventArgs e)
+    {
+        updatePdfFilesActionButton();
+    }
+
+    public void selectAllPdfFilesButtonClicked(object sender, EventArgs e)
+    {
+        Button selectAllFolders = (Button)sender;
+
+        togglePdfFilesCheckBoxes();
+
+        updatePdfFilesActionButton();
+    }
+    private void PopulatePdfFilesActionPicker()
+    {
+        PdfFileActionPickerOptions = new List<PickerOption>
+            {
+                new PickerOption { ID = "0", Name = "" },
+                new PickerOption { ID = "1", Name = "Delete Pdf Files" },
+            };
+
+        foreach (var pickerOption in PdfFileActionPickerOptions)
+        {
+            PdfFileActionPicker.Items.Add(pickerOption.Name);
+        }
+    }
+
+    public void uncheckPdfFileCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = pdfFilesCollectionView.GetVisualTreeDescendants();
+
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = false;
+            }
+        }
+    }
+
+    public void togglePdfFilesCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = pdfFilesCollectionView.GetVisualTreeDescendants();
+
+        bool allChecked = true;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                allChecked = checkbox.IsChecked;
+            }
+        }
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = !allChecked;
+            }
+        }
+    }
+
+    public void pdfFileCheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox selectFolder = (CheckBox)sender;
+
+        updatePdfFilesActionButton();
+    }
+
+    public async void updatePdfFilesActionButton()
+    {
+        var rootViewsAndTheirDescendants = pdfFilesCollectionView.GetVisualTreeDescendants();
+
+        int pdfFilesCount = 0;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    pdfFilesCount++;
+                }
+            }
+        }
+
+        if (pdfFilesCount > 0)
+        {
+            string pdfFilesLabel = pdfFilesCount == 1 ? "Pdf File" : "Pdf Files";
+            selectedPdfFilesCountLabel.Text = Convert.ToString(pdfFilesCount) + " " + pdfFilesLabel + " selected";
+        }
+        else
+        {
+            selectedPdfFilesCountLabel.Text = "No Pdf Files selected";
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in PdfFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == PdfFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (pdfFilesCount > 0 && (selectedOption != null && selectedOption.Name != ""))
+        {
+            updatePdfFilesButton.BackgroundColor = Colors.Orange;
+            updatePdfFilesButton.TextColor = Colors.Black;
+            updatePdfFilesButtonImage.Color = Colors.White;
+            PdfFileActionPicker.TextColor = Colors.FloralWhite;
+        }
+        else
+        {
+            updatePdfFilesButton.BackgroundColor = Colors.Black;
+            updatePdfFilesButton.TextColor = Colors.Gray;
+            updatePdfFilesButtonImage.Color = Colors.Gray;
+            PdfFileActionPicker.TextColor = Colors.Gray;
+        }
+    }
+
     public async void pdfFilesSearchInputTextChanged(object sender, EventArgs e)
     {
         SearchBar searchBar = (SearchBar)sender;
         pdfFilesCollectionView.ItemsSource = PdfFiles.Where(pdfFile =>
             pdfFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
         );
+
+        PdfFileActionPicker.SelectedIndex = 0;
+
+        uncheckPdfFileCheckBoxes();
+
+        updatePdfFilesActionButton();
     }
 
     public async void addPdfFileToSelectedItems(PdfFile pdfFile)
@@ -879,12 +1955,275 @@ public partial class DisplayPage : ContentPage
         PdfFile _selectedPdfFile = e.CurrentSelection.FirstOrDefault() as PdfFile;
     }
 
+    public string getPdfFileURL(PdfFile pdfFile)
+    {
+        string url = "https://link12.ddns.net/" +
+            pdfFile.folder.dataUrl +
+            "/pdf/" + pdfFile.dataUrl;
+        return url;
+    }
+
+    private async void PdfFileOpenWebURL_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            PdfFile pdfFile = (PdfFile)button.BindingContext;
+            string url = getPdfFileURL(pdfFile);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+    }
+
+    private async void PdfFileSetClipboardButton_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            PdfFile pdfFile = (PdfFile)button.BindingContext;
+            string url = getPdfFileURL(pdfFile);
+            await Clipboard.Default.SetTextAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+
+        PdfFileActionLabel.Text = "Pdf File URL copied to clipboard";
+
+        SetTimeout(() =>
+        {
+            PdfFileActionLabel.Text = "";
+        }, 2000);
+    }
+
+    public List<string> getSelectedTextFileIds()
+    {
+        List<string> ids = new List<string>();
+        var rootViewsAndTheirDescendants = textFilesCollectionView.GetVisualTreeDescendants();
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    ids.Add(checkbox.ClassId);
+                }
+            }
+        }
+        return ids;
+    }
+
+    public async void updateTextFilesButtonClicked(object sender, EventArgs e)
+    {
+        List<string> ids = getSelectedTextFileIds();
+        List<string> TextFileNames = new List<string>();
+        foreach (TextFile textFile in TextFiles)
+        {
+            if (ids.Contains(Convert.ToString(textFile.id)))
+            {
+                TextFileNames.Add(textFile.fileName);
+            }
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in TextFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == TextFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (selectedOption != null)
+        {
+            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", TextFileNames));
+
+            if (action == "Delete")
+            {
+                var textFileIds = new CollectionIds
+                {
+                    id = ids.ToArray(),
+                    type = ["TextFile"]
+                };
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(textFileIds);
+
+                if (selectedOption.Name == "Delete Text Files")
+
+                {
+                    (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
+                }
+
+                textFilesSearchBar.Text = "";
+
+                TextFileActionPicker.SelectedIndex = 0;
+
+                getUploads();
+
+                uncheckTextFileCheckBoxes();
+
+                updateTextFilesActionButton();
+
+                while (SelectedTextFiles.Count() > 0)
+                {
+                    SelectedTextFiles.RemoveAt(0);
+                }
+            }
+        }
+    }
+
+    public void refreshTextFilesButtonClicked(object sender, EventArgs e)
+    {
+        textFilesSearchBar.Text = "";
+
+        getUploads();
+
+        updateTextFilesActionButton();
+    }
+
+
+    private void TextFileActionPickerOnSelectedIndexChanged(object sender, EventArgs e)
+    {
+        updateTextFilesActionButton();
+    }
+
+    public void selectAllTextFilesButtonClicked(object sender, EventArgs e)
+    {
+        Button selectAllFolders = (Button)sender;
+
+        toggleTextFilesCheckBoxes();
+
+        updateTextFilesActionButton();
+    }
+    private void PopulateTextFilesActionPicker()
+    {
+        TextFileActionPickerOptions = new List<PickerOption>
+            {
+                new PickerOption { ID = "0", Name = "" },
+                new PickerOption { ID = "1", Name = "Delete Text Files" },
+            };
+
+        foreach (var pickerOption in TextFileActionPickerOptions)
+        {
+            TextFileActionPicker.Items.Add(pickerOption.Name);
+        }
+    }
+
+    public void uncheckTextFileCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = textFilesCollectionView.GetVisualTreeDescendants();
+
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = false;
+            }
+        }
+    }
+
+    public void toggleTextFilesCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = textFilesCollectionView.GetVisualTreeDescendants();
+
+        bool allChecked = true;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                allChecked = checkbox.IsChecked;
+            }
+        }
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = !allChecked;
+            }
+        }
+    }
+
+    public void textFileCheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox selectFolder = (CheckBox)sender;
+
+        updateTextFilesActionButton();
+    }
+
+    public async void updateTextFilesActionButton()
+    {
+        var rootViewsAndTheirDescendants = textFilesCollectionView.GetVisualTreeDescendants();
+
+        int textFilesCount = 0;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    textFilesCount++;
+                }
+            }
+        }
+
+        if (textFilesCount > 0)
+        {
+            string textFilesLabel = textFilesCount == 1 ? "Text File" : "Text Files";
+            selectedTextFilesCountLabel.Text = Convert.ToString(textFilesCount) + " " + textFilesLabel + " selected";
+        }
+        else
+        {
+            selectedTextFilesCountLabel.Text = "No Text Files selected";
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in TextFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == TextFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (textFilesCount > 0 && (selectedOption != null && selectedOption.Name != ""))
+        {
+            updateTextFilesButton.BackgroundColor = Colors.Orange;
+            updateTextFilesButton.TextColor = Colors.Black;
+            updateTextFilesButtonImage.Color = Colors.White;
+            TextFileActionPicker.TextColor = Colors.FloralWhite;
+        }
+        else
+        {
+            updateTextFilesButton.BackgroundColor = Colors.Black;
+            updateTextFilesButton.TextColor = Colors.Gray;
+            updateTextFilesButtonImage.Color = Colors.Gray;
+            TextFileActionPicker.TextColor = Colors.Gray;
+        }
+    }
+
     public async void textFilesSearchInputTextChanged(object sender, EventArgs e)
     {
         SearchBar searchBar = (SearchBar)sender;
         textFilesCollectionView.ItemsSource = TextFiles.Where(textFile =>
             textFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
         );
+
+        TextFileActionPicker.SelectedIndex = 0;
+
+        uncheckTextFileCheckBoxes();
+
+        updateTextFilesActionButton();
     }
 
     public async void addTextFileToSelectedItems(TextFile textFile)
@@ -987,6 +2326,51 @@ public partial class DisplayPage : ContentPage
     public async void TextFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         TextFile _selectedTextFile = e.CurrentSelection.FirstOrDefault() as TextFile;
+    }
+
+    public string getTextFileURL(TextFile textFile)
+    {
+        string url = "https://link12.ddns.net/" +
+            textFile.folder.dataUrl +
+            "/text/" + textFile.dataUrl;
+        return url;
+    }
+
+    private async void TextFileOpenWebURL_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            TextFile textFile = (TextFile)button.BindingContext;
+            string url = getTextFileURL(textFile);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+    }
+
+    private async void TextFileSetClipboardButton_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            TextFile textFile = (TextFile)button.BindingContext;
+            string url = getTextFileURL(textFile);
+            await Clipboard.Default.SetTextAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+
+        TextFileActionLabel.Text = "Text File URL copied to clipboard";
+
+        SetTimeout(() =>
+        {
+            TextFileActionLabel.Text = "";
+        }, 2000);
     }
 
     public void DisplayPageUnloaded(object? sender, EventArgs e)

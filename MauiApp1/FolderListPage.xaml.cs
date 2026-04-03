@@ -37,13 +37,13 @@ namespace MauiApp1
 
         private readonly IFolderPicker _folderPicker;
 
-        private readonly IApiService _apiService;
-
         private readonly IAlertService _alertService;
+
+        private readonly IApiService _apiService;
 
         private readonly AppShellViewModel _appShellViewModel;
 
-        public FolderListPage(IFolderPicker folderPicker, IApiService apiService, IAlertService alertService, AppShellViewModel appShellViewModel)
+        public FolderListPage(IFolderPicker folderPicker, IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel)
         {
             _folderPicker = folderPicker;
             _apiService = apiService;
@@ -70,11 +70,13 @@ namespace MauiApp1
             FolderStatePicker.SelectedIndexChanged += new EventHandler(FolderStatePickerOnSelectedIndexChanged);
             FolderActionPicker.SelectedIndexChanged += new EventHandler(FolderActionPickerOnSelectedIndexChanged);
 
+            selectedFoldersCountLabel.Text = "No Folders selected";
+
             PopulateFolderStatePicker();
 
             PopulateFolderActionPicker();
 
-            getAllUploads();
+            getUploads();
         }
 
         private void RefreshFolders(IEnumerable<Folder> folders)
@@ -110,7 +112,7 @@ namespace MauiApp1
 
                     RefreshFolders(folders);
 
-                    updatePublishButton();
+                    updateFoldersActionButton();
 
                     FolderStatePicker.TextColor = Colors.Gray;
                 }
@@ -122,7 +124,7 @@ namespace MauiApp1
 
                     RefreshFolders(folders);
 
-                    updatePublishButton();
+                    updateFoldersActionButton();
 
                     FolderStatePicker.TextColor = Colors.FloralWhite;
                 }
@@ -134,7 +136,7 @@ namespace MauiApp1
 
                     RefreshFolders(folders);
 
-                    updatePublishButton();
+                    updateFoldersActionButton();
 
                     FolderStatePicker.TextColor = Colors.FloralWhite;
                 }
@@ -143,7 +145,7 @@ namespace MauiApp1
 
         private void FolderActionPickerOnSelectedIndexChanged(object sender, EventArgs e)
         {
-            updatePublishButton();
+            updateFoldersActionButton();
         }
 
         private void PopulateFolderStatePicker()
@@ -183,15 +185,15 @@ namespace MauiApp1
         {
             Button button = (Button)sender;
             Folder folder = (Folder)button.BindingContext;
-            Window secondWindow = new Window(new DisplayPage(_apiService, _appShellViewModel, folder));
+            Window secondWindow = new Window(new DisplayPage(_alertService, _apiService, _appShellViewModel, folder));
             App.Current.OpenWindow(secondWindow);
         }
 
-        public async void getAllUploads()
+        public async void getUploads()
         {
             ActivityIndicator.IsRunning = true;
 
-            (int _statusCode, var response) = await _apiService.GetAllUploads("");
+            (int _statusCode, var response) = await _apiService.getUploads("");
             var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
             while (Folders.Count() > 0)
@@ -332,33 +334,14 @@ namespace MauiApp1
 
             toggleCheckBoxes();
 
-            updatePublishButton();
+            updateFoldersActionButton();
         }
 
         public void folderCheckedChanged(object sender, EventArgs e)
         {
             CheckBox selectFolder = (CheckBox)sender;
 
-            updatePublishButton();
-        }
-
-        public void toggleCheckBox(object sender, EventArgs e)
-        {
-            Button nameButton = (Button)sender;
-
-            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
-
-            foreach (VisualElement element in rootViewsAndTheirDescendants)
-            {
-                if (element is Microsoft.Maui.Controls.CheckBox)
-                {
-                    CheckBox checkbox = (CheckBox)element;
-                    if (checkbox.ClassId == nameButton.ClassId)
-                    {
-                        checkbox.IsChecked = !checkbox.IsChecked;
-                    }
-                }
-            }
+            updateFoldersActionButton();
         }
 
         public void uncheckCheckBoxes()
@@ -398,7 +381,7 @@ namespace MauiApp1
             }
         }
 
-        public async void updatePublishButton()
+        public async void updateFoldersActionButton()
         {
             var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
 
@@ -462,9 +445,9 @@ namespace MauiApp1
 
             FolderStatePicker.SelectedIndex = 0;
 
-            getAllUploads();
+            getUploads();
 
-            updatePublishButton();
+            updateFoldersActionButton();
         }
 
         public List<string> getSelectedFolderIds()
@@ -509,14 +492,9 @@ namespace MauiApp1
 
             if (selectedOption != null)
             {
-                bool confirm = await _alertService.DisplayAlertAsync(
-                    title: selectedOption.Name,
-                    message: String.Join("\n", FolderNames),
-                    accept: "OK",
-                    cancel: "Cancel"
-                );
+                string action = await DisplayActionSheet(selectedOption.Name, "Cancel", selectedOption.Name, String.Join("\n", FolderNames));
 
-                if (confirm)
+                if (action == selectedOption.Name)
                 {
                     var folderIds = new CollectionIds
                     {
@@ -552,11 +530,11 @@ namespace MauiApp1
 
                     FolderActionPicker.SelectedIndex = 0;
 
-                    getAllUploads();
+                    getUploads();
 
                     uncheckCheckBoxes();
 
-                    updatePublishButton();
+                    updateFoldersActionButton();
                 }
             }
         }
@@ -578,7 +556,7 @@ namespace MauiApp1
 
             uncheckCheckBoxes();
 
-            updatePublishButton();
+            updateFoldersActionButton();
         }
 
         private string getFolderURL(Folder folder)
@@ -624,7 +602,7 @@ namespace MauiApp1
                 //
             }
 
-            actionLabel.Text = "URL copied to clipboard";
+            actionLabel.Text = "Folder URL copied to clipboard";
             SetTimeout(() =>
                 {
                     actionLabel.Text = "";
