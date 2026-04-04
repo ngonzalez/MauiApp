@@ -22,7 +22,6 @@ public class CollectionIds
     public string[] type { get; set; }
 }
 
-
 public class VideoStreamResponse
 {
     public int id { get; set; }
@@ -44,6 +43,7 @@ public partial class DisplayPage : ContentPage
     private readonly AppShellViewModel _appShellViewModel;
 
     private Folder _folder;
+
     public List<PickerOption> ImageFileActionPickerOptions { get; set; }
     public List<PickerOption> VideoFileActionPickerOptions { get; set; }
     public List<PickerOption> AudioFileActionPickerOptions { get; set; }
@@ -379,7 +379,6 @@ public partial class DisplayPage : ContentPage
 
             if (action == "Delete")
             {
-
                 var imageFileIds = new CollectionIds
                 {
                     id = ids.ToArray(),
@@ -403,6 +402,11 @@ public partial class DisplayPage : ContentPage
                 uncheckImageFileCheckBoxes();
 
                 updateImageFilesActionButton();
+
+                while (SelectedImageFiles.Count() > 0)
+                {
+                    SelectedImageFiles.RemoveAt(0);
+                }
             }
         }
     }
@@ -772,6 +776,11 @@ public partial class DisplayPage : ContentPage
                 uncheckVideoFileCheckBoxes();
 
                 updateVideoFilesActionButton();
+
+                while (SelectedVideoFiles.Count() > 0)
+                {
+                    SelectedVideoFiles.RemoveAt(0);
+                }
             }
         }
     }
@@ -1229,6 +1238,11 @@ public partial class DisplayPage : ContentPage
                 uncheckAudioFileCheckBoxes();
 
                 updateAudioFilesActionButton();
+
+                while (SelectedAudioFiles.Count() > 0)
+                {
+                    SelectedAudioFiles.RemoveAt(0);
+                }
             }
         }
     }
