@@ -152,7 +152,7 @@ public partial class DisplayPage : ContentPage
         string folderId = Convert.ToString(_folder.id);
         var folderIdsUtf8 = JsonSerializer.SerializeToUtf8Bytes("," + folderId);
         string encodedFolderId = Convert.ToBase64String(folderIdsUtf8);
-        (int _statusCode, var response) = await _apiService.GetAllUploads("?folderIds=" + encodedFolderId);
+        (int _statusCode, var response) = await _apiService.getUploads("?folderIds=" + encodedFolderId);
         var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
         // ImageFile
