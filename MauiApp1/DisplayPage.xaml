@@ -536,13 +536,6 @@
                                                         FontSize="12"
                                                         Padding="10">
                                                     </Button>
-                                                    <Button
-                                                        Grid.Row="0"
-                                                        Grid.Column="3"
-                                                        Clicked="addImageFileToSelection"
-                                                        BackgroundColor="Transparent"
-                                                        MinimumWidthRequest="1000">
-                                                    </Button>
                                                 </HorizontalStackLayout>
                                             </Grid>
                                         </DataTemplate>
@@ -1163,7 +1156,7 @@
                                                         Clicked="addVideoFileToSelection"
                                                         TextColor="LightGrey"
                                                         BackgroundColor="Transparent"
-                                                        FontSize="15"
+                                                        FontSize="12"
                                                         Padding="10">
                                                     </Button>
                                                     <Label
