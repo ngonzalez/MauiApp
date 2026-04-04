@@ -71,7 +71,7 @@
 
                         <Button
                             Text="Pick Folder"
-                            FontSize="20"
+                            FontSize="15"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
                             Clicked="OnPickFolderClicked"
@@ -114,7 +114,7 @@
                         </Button>
                         <Button
                             Text="Reset"
-                            FontSize="20"
+                            FontSize="15"
                             SemanticProperties.Hint="Reset selection"
                             x:Name="resetLink"
                             BackgroundColor="Black"
@@ -170,7 +170,7 @@
 
                         <Button
                             Text="Send Files"
-                            FontSize="20"
+                            FontSize="15"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="POST data to our servers"
                             Clicked="OnSendDataClicked"

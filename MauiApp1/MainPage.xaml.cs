@@ -370,7 +370,7 @@ namespace MauiApp1
                 UploadFilesCount++;
 
                 labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " " + (UploadFilesCount > 1 ? "Files" : "File") + " selected";
-                //labelFilesCount.TextColor = Colors.White;
+                labelFilesCount.TextColor = Colors.White;
 
                 resetLink.TextColor = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
                 resetLinkImage.Color = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;

@@ -607,7 +607,7 @@ namespace MauiApp1
                 //
             }
 
-            actionLabel.Text = "URL copied to clipboard";
+            actionLabel.Text = "Folder URL copied to clipboard";
             SetTimeout(() =>
                 {
                     actionLabel.Text = "";

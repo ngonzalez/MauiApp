@@ -734,7 +734,7 @@
                                                                         </VisualState>
                                                                         <VisualState x:Name="PointerOver">
                                                                             <VisualState.Setters>
-                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                                <Setter Property="BackgroundColor" Value="#222" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                     </VisualStateGroup>
@@ -779,7 +779,7 @@
                                                                         </VisualState>
                                                                         <VisualState x:Name="PointerOver">
                                                                             <VisualState.Setters>
-                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                                <Setter Property="BackgroundColor" Value="#222" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                     </VisualStateGroup>
@@ -817,7 +817,7 @@
                                                                         </VisualState>
                                                                         <VisualState x:Name="PointerOver">
                                                                             <VisualState.Setters>
-                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                                <Setter Property="BackgroundColor" Value="#222" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                     </VisualStateGroup>
@@ -994,7 +994,7 @@
                                                                         </VisualState>
                                                                         <VisualState x:Name="PointerOver">
                                                                             <VisualState.Setters>
-                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                                <Setter Property="BackgroundColor" Value="#222" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                     </VisualStateGroup>
@@ -1369,7 +1369,7 @@
                                                                         </VisualState>
                                                                         <VisualState x:Name="PointerOver">
                                                                             <VisualState.Setters>
-                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                                <Setter Property="BackgroundColor" Value="#222" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                     </VisualStateGroup>
@@ -1414,7 +1414,7 @@
                                                                         </VisualState>
                                                                         <VisualState x:Name="PointerOver">
                                                                             <VisualState.Setters>
-                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                                <Setter Property="BackgroundColor" Value="#222" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                     </VisualStateGroup>
@@ -1452,7 +1452,7 @@
                                                                         </VisualState>
                                                                         <VisualState x:Name="PointerOver">
                                                                             <VisualState.Setters>
-                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                                <Setter Property="BackgroundColor" Value="#222" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                     </VisualStateGroup>
@@ -1626,7 +1626,7 @@
                                                                         </VisualState>
                                                                         <VisualState x:Name="PointerOver">
                                                                             <VisualState.Setters>
-                                                                                <Setter Property="BorderColor" Value="#222" />
+                                                                                <Setter Property="BackgroundColor" Value="#222" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                     </VisualStateGroup>
@@ -1795,7 +1795,7 @@
                                                         Clicked="addAudioFileToSelection"
                                                         TextColor="LightGrey"
                                                         BackgroundColor="Transparent"
-                                                        FontSize="15"
+                                                        FontSize="12"
                                                         Padding="10">
                                                     </Button>
                                                     <Label

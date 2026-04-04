@@ -1275,7 +1275,7 @@ public partial class DisplayPage : ContentPage
         AudioFileActionPickerOptions = new List<PickerOption>
             {
                 new PickerOption { ID = "0", Name = "" },
-                new PickerOption { ID = "1", Name = "Delete Image Files" },
+                new PickerOption { ID = "1", Name = "Delete Audio Files" },
             };
 
         foreach (var pickerOption in AudioFileActionPickerOptions)
