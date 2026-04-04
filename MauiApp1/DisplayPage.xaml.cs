@@ -595,7 +595,6 @@ public partial class DisplayPage : ContentPage
         }
     }
 
-
     public void SetTimeout(Action action, int ms)
     {
         Task.Delay(ms).ContinueWith((task) =>
@@ -849,6 +848,71 @@ public partial class DisplayPage : ContentPage
             //mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/audio-" + id + ".m3u8");
             mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/audio-" + id + ".m3u8");
             mediaElement.Play();
+        }
+    }
+
+
+    public string getAudioFileURL(AudioFile audioFile)
+    {
+        string url = "https://link12.ddns.net/" +
+            audioFile.folder.dataUrl +
+            "/audio/" + audioFile.dataUrl;
+        return url;
+    }
+
+    private async void AudioFileOpenWebURL_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            AudioFile audioFile = (AudioFile)button.BindingContext;
+            string url = getAudioFileURL(audioFile);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+    }
+
+    private async void AudioFileSetClipboardButton_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            AudioFile audioFile = (AudioFile)button.BindingContext;
+            string url = getAudioFileURL(audioFile);
+            await Clipboard.Default.SetTextAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+
+        AudioFileActionLabel.Text = "Audio File URL copied to clipboard";
+
+        SetTimeout(() =>
+        {
+            AudioFileActionLabel.Text = "";
+        }, 2000);
+    }
+
+    public async void AudioFileDeleteButton_Clicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        AudioFile audioFile = (AudioFile)button.BindingContext;
+
+        string action = await DisplayActionSheet("Delete Audio File?", "Cancel", "Delete", string.Concat(audioFile.fileName));
+        if (action == "Delete")
+        {
+            var audioFileIds = new CollectionTypeIds
+            {
+                id = Convert.ToString(audioFile.id),
+                type = "AudioFile"
+            };
+
+            byte[] body = JsonSerializer.SerializeToUtf8Bytes(audioFileIds);
+            (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
         }
     }
 
