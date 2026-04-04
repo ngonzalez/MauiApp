@@ -492,14 +492,9 @@ namespace MauiApp1
 
             if (selectedOption != null)
             {
-                bool confirm = await _alertService.DisplayAlertAsync(
-                    title: selectedOption.Name,
-                    message: String.Join("\n", FolderNames),
-                    accept: "OK",
-                    cancel: "Cancel"
-                );
+                string action = await DisplayActionSheet(selectedOption.Name, "Cancel", selectedOption.Name, String.Join("\n", FolderNames));
 
-                if (confirm)
+                if (action == selectedOption.Name)
                 {
                     var folderIds = new CollectionIds
                     {
