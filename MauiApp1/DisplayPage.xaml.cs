@@ -9,6 +9,19 @@ using Windows.System;
 
 namespace MauiApp1;
 
+public class PickerOption
+{
+    public string ID { get; set; }
+    public string Name { get; set; }
+}
+
+public class CollectionIds
+{
+    public string[] id { get; set; }
+
+    public string[] type { get; set; }
+}
+
 public class CollectionTypeIds
 {
     public string id { get; set; }
@@ -37,6 +50,7 @@ public partial class DisplayPage : ContentPage
     private readonly AppShellViewModel _appShellViewModel;
 
     private Folder _folder;
+    public List<PickerOption> ImageFileActionPickerOptions { get; set; }
 
     public ObservableCollection<ImageFile> ImageFiles { get; set; }
     public ObservableCollection<ImageFile> SelectedImageFiles { get; set; }
@@ -112,6 +126,13 @@ public partial class DisplayPage : ContentPage
         GridTextFiles.IsVisible = false;
         GridTextFilesDetails.IsVisible = false;
 
+        // Image File Actions
+        selectAllImageFiles.Clicked += new EventHandler(selectAllImageFilesButtonClicked);
+        ImageFileActionPicker.SelectedIndexChanged += new EventHandler(ImageFileActionPickerOnSelectedIndexChanged);
+        selectedImageFilesCountLabel.Text = "No Image Files selected";
+        refreshImageFilesButton.Clicked += new EventHandler(refreshImageFilesButtonClicked);
+        PopulateImageFilesActionPicker();
+
         // Get media files from backend
         getUploads();
     }
@@ -148,6 +169,7 @@ public partial class DisplayPage : ContentPage
         imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " " + imageFileLabel;
         GridImageFiles.IsVisible = ImageFiles.Count() > 0;
         GridImageFilesDetails.IsVisible = ImageFiles.Count() > 0;
+        imageFilesCountLabel.Text = Convert.ToString(ImageFiles.Count() + " " + imageFileLabel);
 
         // VideoFile
         VideoFiles = new ObservableCollection<VideoFile> { };
@@ -299,12 +321,226 @@ public partial class DisplayPage : ContentPage
         Console.WriteLine($"ScrollX: {e.ScrollX}, ScrollY: {e.ScrollY}");
     }
 
+    public List<string> getSelectedImageFileIds()
+    {
+        List<string> ids = new List<string>();
+        var rootViewsAndTheirDescendants = imageFilesCollectionView.GetVisualTreeDescendants();
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    ids.Add(checkbox.ClassId);
+                }
+            }
+        }
+        return ids;
+    }
+
+    public async void updateImageFilesButtonClicked(object sender, EventArgs e)
+    {
+        List<string> ids = getSelectedImageFileIds();
+        List<string> ImageFileNames = new List<string>();
+        foreach (ImageFile imageFile in ImageFiles)
+        {
+            if (ids.Contains(Convert.ToString(imageFile.id)))
+            {
+                ImageFileNames.Add(imageFile.fileName);
+            }
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in ImageFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == ImageFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (selectedOption != null)
+        {
+            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", ImageFileNames));
+
+            if (action == "Delete")
+            {
+                var folderIds = new CollectionIds
+                {
+                    id = ids.ToArray(),
+                    type = ["ImageFile"]
+                };
+
+                byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
+
+                if (selectedOption.Name == "Delete Image Files")
+
+                {
+                    (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
+                }
+
+                imageFilesSearchBar.Text = "";
+
+                ImageFileActionPicker.SelectedIndex = 0;
+
+                getUploads();
+
+                uncheckImageFileCheckBoxes();
+
+                updateImageFilesActionButton();
+            }
+        }
+    }
+
+    public void refreshImageFilesButtonClicked(object sender, EventArgs e)
+    {
+        imageFilesSearchBar.Text = "";
+
+        getUploads();
+
+        updateImageFilesActionButton();
+    }
+
+
+    private void ImageFileActionPickerOnSelectedIndexChanged(object sender, EventArgs e)
+    {
+        updateImageFilesActionButton();
+    }
+
+    public void selectAllImageFilesButtonClicked(object sender, EventArgs e)
+    {
+        Button selectAllFolders = (Button)sender;
+
+        toggleImageFilesCheckBoxes();
+
+        updateImageFilesActionButton();
+    }
+    private void PopulateImageFilesActionPicker()
+    {
+        ImageFileActionPickerOptions = new List<PickerOption>
+            {
+                new PickerOption { ID = "0", Name = "" },
+                new PickerOption { ID = "1", Name = "Delete Image Files" },
+            };
+
+        foreach (var pickerOption in ImageFileActionPickerOptions)
+        {
+            ImageFileActionPicker.Items.Add(pickerOption.Name);
+        }
+    }
+
+    public void uncheckImageFileCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = imageFilesCollectionView.GetVisualTreeDescendants();
+
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = false;
+            }
+        }
+    }
+
+    public void toggleImageFilesCheckBoxes()
+    {
+        var rootViewsAndTheirDescendants = imageFilesCollectionView.GetVisualTreeDescendants();
+
+        bool allChecked = true;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                allChecked = checkbox.IsChecked;
+            }
+        }
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                checkbox.IsChecked = !allChecked;
+            }
+        }
+    }
+
+    public void imageFileCheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox selectFolder = (CheckBox)sender;
+
+        updateImageFilesActionButton();
+    }
+
+    public async void updateImageFilesActionButton()
+    {
+        var rootViewsAndTheirDescendants = imageFilesCollectionView.GetVisualTreeDescendants();
+
+        int imageFilesCount = 0;
+        foreach (VisualElement element in rootViewsAndTheirDescendants)
+        {
+            if (element is Microsoft.Maui.Controls.CheckBox)
+            {
+                CheckBox checkbox = (CheckBox)element;
+                if (checkbox.IsChecked)
+                {
+                    imageFilesCount++;
+                }
+            }
+        }
+
+        if (imageFilesCount > 0)
+        {
+            string imageFilesLabel = imageFilesCount == 1 ? "Image File" : "Image Files";
+            selectedImageFilesCountLabel.Text = Convert.ToString(imageFilesCount) + " " + imageFilesLabel + " selected";
+        }
+        else
+        {
+            selectedImageFilesCountLabel.Text = "No Image Files selected";
+        }
+
+        PickerOption selectedOption = null;
+        foreach (var pickerOption in ImageFileActionPickerOptions)
+        {
+            if (Convert.ToInt32(pickerOption.ID) == ImageFileActionPicker.SelectedIndex)
+            {
+                selectedOption = pickerOption;
+                break;
+            }
+        }
+
+        if (imageFilesCount > 0 && (selectedOption != null && selectedOption.Name != ""))
+        {
+            updateImageFilesButton.BackgroundColor = Colors.Orange;
+            updateImageFilesButton.TextColor = Colors.Black;
+            updateImageFilesButtonImage.Color = Colors.White;
+            ImageFileActionPicker.TextColor = Colors.FloralWhite;
+        }
+        else
+        {
+            updateImageFilesButton.BackgroundColor = Colors.Black;
+            updateImageFilesButton.TextColor = Colors.Gray;
+            updateImageFilesButtonImage.Color = Colors.Gray;
+            ImageFileActionPicker.TextColor = Colors.Gray;
+        }
+    }
+
     public async void imageFilesSearchInputTextChanged(object sender, EventArgs e)
     {
         SearchBar searchBar = (SearchBar)sender;
         imageFilesCollectionView.ItemsSource = ImageFiles.Where(imageFile =>
             imageFile.fileName.Contains(searchBar.Text, StringComparison.OrdinalIgnoreCase)
         );
+
+        ImageFileActionPicker.SelectedIndex = 0;
+
+        uncheckImageFileCheckBoxes();
+
+        updateImageFilesActionButton();
+
     }
 
     public async void addImageFileToSelectedItems(ImageFile imageFile)
@@ -407,6 +643,51 @@ public partial class DisplayPage : ContentPage
     public async void ImageFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
+    }
+
+    public string getImageFileURL(ImageFile imageFile)
+    {
+        string url = "https://link12.ddns.net/" +
+            imageFile.folder.dataUrl +
+            "/image/" + imageFile.dataUrl;
+        return url;
+    }
+
+    private async void ImageFileOpenWebURL_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            ImageFile imageFile = (ImageFile)button.BindingContext;
+            string url = getImageFileURL(imageFile);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+    }
+
+    private async void ImageFileSetClipboardButton_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            ImageFile imageFile = (ImageFile)button.BindingContext;
+            string url = getImageFileURL(imageFile);
+            await Clipboard.Default.SetTextAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+
+        ImageFileActionLabel.Text = "Image File URL copied to clipboard";
+
+        SetTimeout(() =>
+        {
+            ImageFileActionLabel.Text = "";
+        }, 2000);
     }
 
     public async void videoFilesSearchInputTextChanged(object sender, EventArgs e)
@@ -850,7 +1131,6 @@ public partial class DisplayPage : ContentPage
             mediaElement.Play();
         }
     }
-
 
     public string getAudioFileURL(AudioFile audioFile)
     {

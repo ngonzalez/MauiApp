@@ -70,6 +70,8 @@ namespace MauiApp1
             FolderStatePicker.SelectedIndexChanged += new EventHandler(FolderStatePickerOnSelectedIndexChanged);
             FolderActionPicker.SelectedIndexChanged += new EventHandler(FolderActionPickerOnSelectedIndexChanged);
 
+            selectedFoldersCountLabel.Text = "No Folders selected";
+
             PopulateFolderStatePicker();
 
             PopulateFolderActionPicker();
@@ -340,25 +342,6 @@ namespace MauiApp1
             CheckBox selectFolder = (CheckBox)sender;
 
             updatePublishButton();
-        }
-
-        public void toggleCheckBox(object sender, EventArgs e)
-        {
-            Button nameButton = (Button)sender;
-
-            var rootViewsAndTheirDescendants = foldersCollectionView.GetVisualTreeDescendants();
-
-            foreach (VisualElement element in rootViewsAndTheirDescendants)
-            {
-                if (element is Microsoft.Maui.Controls.CheckBox)
-                {
-                    CheckBox checkbox = (CheckBox)element;
-                    if (checkbox.ClassId == nameButton.ClassId)
-                    {
-                        checkbox.IsChecked = !checkbox.IsChecked;
-                    }
-                }
-            }
         }
 
         public void uncheckCheckBoxes()

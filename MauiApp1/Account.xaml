@@ -22,7 +22,7 @@
 
             <Button
                 Text="Upload Files"
-                FontSize="20"
+                FontSize="14"
                 x:Name="uploadsLink"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -34,7 +34,7 @@
                     <FontImageSource
                             FontFamily="FontAwesome7FreeSolid"
                             Glyph="{StaticResource IconUpload}"
-                            Size="20"
+                            Size="14"
                             Color="SeaShell" />
                 </Button.ImageSource>
                 <VisualStateManager.VisualStateGroups>
@@ -62,7 +62,7 @@
 
             <Button
                 Text="List Folders"
-                FontSize="20"
+                FontSize="14"
                 x:Name="listFoldersList"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -74,7 +74,7 @@
                     <FontImageSource
                             FontFamily="FontAwesome7FreeSolid"
                             Glyph="{StaticResource IconFolderTree}"
-                            Size="20"
+                            Size="14"
                             Color="SeaShell" />
                 </Button.ImageSource>
                 <VisualStateManager.VisualStateGroups>
@@ -101,7 +101,7 @@
             </Button>
             <Button
                 Text="Edit My Account"
-                FontSize="20"
+                FontSize="14"
                 x:Name="accountLink"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -113,7 +113,7 @@
                     <FontImageSource
                             FontFamily="FontAwesome7FreeSolid"
                             Glyph="{StaticResource IconUserGear}"
-                            Size="20"
+                            Size="14"
                             Color="SeaShell" />
                 </Button.ImageSource>
                 <VisualStateManager.VisualStateGroups>
@@ -141,7 +141,7 @@
 
             <Button
                 Text="Sign-Out"
-                FontSize="20"
+                FontSize="14"
                 x:Name="signOutLink"
                 BackgroundColor="Black"
                 TextColor="Gray"

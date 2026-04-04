@@ -169,78 +169,35 @@
                                                     Grid.Row="0"
                                                     Grid.Column="1"
                                                     Text="{Binding name}"
-                                                    Clicked="toggleCheckBox"
+                                                    Clicked="displayFiles"
                                                     ClassId="{Binding id}"
                                                     TextColor="FloralWhite"
                                                     BackgroundColor="Transparent"
-                                                    FontSize="20"
+                                                    FontSize="15"
                                                     Padding="10">
                                                     <Button.ImageSource>
                                                         <FontImageSource
                                                             FontFamily="FontAwesome7FreeSolid"
                                                             Glyph="{StaticResource IconFolder}"
-                                                            Size="25"
+                                                            Size="20"
                                                             Color="SeaShell" />
                                                     </Button.ImageSource>
                                                 </Button>
-                                                <Button
-                                                    Grid.Row="0"
-                                                    Grid.Column="2"
-                                                    Text="View Files"
-                                                    Clicked="displayFiles"
-                                                    TextColor="FloralWhite"
-                                                    FontSize="14"
-                                                    BackgroundColor="Transparent"
-                                                    BorderColor="#333"
-                                                    BorderWidth="1"
-                                                    CornerRadius="5"
-                                                    VerticalOptions="Center"
-                                                    HorizontalOptions="Center">
-                                                    <Button.ImageSource>
-                                                        <FontImageSource
-                                                            FontFamily="FontAwesome7FreeSolid"
-                                                            Glyph="{StaticResource IconPlus}"
-                                                            Size="14"
-                                                            Color="FloralWhite" />
-                                                    </Button.ImageSource>
-                                                    <VisualStateManager.VisualStateGroups>
-                                                        <VisualStateGroupList>
-                                                            <VisualStateGroup x:Name="CommonStates">
-                                                                <VisualState x:Name="Normal">
-                                                                    <VisualState.Setters>
-                                                                        <Setter Property="Scale" Value="1" />
-                                                                    </VisualState.Setters>
-                                                                </VisualState>
-                                                                <VisualState x:Name="Pressed">
-                                                                    <VisualState.Setters>
-                                                                        <Setter Property="Scale" Value="0.9" />
-                                                                    </VisualState.Setters>
-                                                                </VisualState>
-                                                                <VisualState x:Name="PointerOver">
-                                                                    <VisualState.Setters>
-                                                                        <Setter Property="BorderColor" Value="#444" />
-                                                                        <Setter Property="BackgroundColor" Value="#222" />
-                                                                    </VisualState.Setters>
-                                                                </VisualState>
-                                                            </VisualStateGroup>
-                                                        </VisualStateGroupList>
-                                                    </VisualStateManager.VisualStateGroups>
-                                                </Button>
                                                 <Label
                                                     Grid.Row="0"
-                                                    Grid.Column="3"
+                                                    Grid.Column="2"
                                                     Text="{Binding state}"
-                                                    Margin="10"
-                                                    Padding="10"
-                                                    BackgroundColor="Transparent"
-                                                    FontSize="14"
+                                                    FontSize="12"
                                                     VerticalOptions="Center"
-                                                    HorizontalOptions="Center">
+                                                    HorizontalOptions="Center"
+                                                    BackgroundColor="Transparent"
+                                                    Padding="10">
                                                 </Label>
                                                 <Button
                                                     Grid.Row="0"
-                                                    Grid.Column="4"
+                                                    Grid.Column="3"
                                                     Clicked="SetClipboardButton_Clicked"
+                                                    FontSize="12"
                                                     ToolTipProperties.Text="Copy URL"
                                                     BackgroundColor="Transparent"
                                                     BorderColor="Black"
@@ -252,7 +209,7 @@
                                                         <FontImageSource
                                                            FontFamily="FontAwesome7FreeSolid"
                                                            Glyph="{StaticResource IconClone}"
-                                                           Size="14"
+                                                           Size="12"
                                                            Color="FloralWhite" />
                                                     </Button.ImageSource>
                                                     <VisualStateManager.VisualStateGroups>
@@ -280,11 +237,11 @@
                                                 </Button>
                                                 <Button
                                                     Grid.Row="0"
-                                                    Grid.Column="5"
+                                                    Grid.Column="4"
                                                     Text="Open Web URL"
                                                     Clicked="OpenWebURL_Clicked"
                                                     TextColor="FloralWhite"
-                                                    FontSize="14"
+                                                    FontSize="12"
                                                     BackgroundColor="Transparent"
                                                     BorderColor="Black"
                                                     BorderWidth="1"
@@ -295,7 +252,7 @@
                                                         <FontImageSource
                                                             FontFamily="FontAwesome7FreeSolid"
                                                             Glyph="{StaticResource IconEarthEurope}"
-                                                            Size="14"
+                                                            Size="12"
                                                             Color="FloralWhite" />
                                                     </Button.ImageSource>
                                                     <VisualStateManager.VisualStateGroups>
@@ -353,7 +310,7 @@
                         <Button
                             x:Name="updateFoldersButton"
                             Text="Update Folders"
-                            FontSize="20"
+                            FontSize="14"
                             Clicked="updateFoldersButtonClicked"
                             FontAttributes="Bold"
                             SemanticProperties.Hint="Update Folders"
@@ -369,7 +326,7 @@
                                     x:Name="updateFoldersButtonImage"
                                     FontFamily="FontAwesome7FreeSolid"
                                     Glyph="{StaticResource IconChevronRight}"
-                                    Size="20"
+                                    Size="14"
                                     Color="Gray" />
                             </Button.ImageSource>
                             <VisualStateManager.VisualStateGroups>
@@ -399,14 +356,14 @@
                             x:Name="refreshFilesButton"
                             BackgroundColor="Black"
                             TextColor="FloralWhite"
-                            FontSize="20"
+                            FontSize="14"
                             VerticalOptions="Center"
                             HorizontalOptions="Center">
                             <Button.ImageSource>
                                 <FontImageSource
                                     FontFamily="FontAwesome7FreeSolid"
                                     Glyph="{StaticResource IconRotate}"
-                                    Size="15"
+                                    Size="14"
                                     Color="FloralWhite" />
                             </Button.ImageSource>
                             <VisualStateManager.VisualStateGroups>
