@@ -37,13 +37,13 @@ namespace MauiApp1
 
         private readonly IFolderPicker _folderPicker;
 
-        private readonly IApiService _apiService;
-
         private readonly IAlertService _alertService;
+
+        private readonly IApiService _apiService;
 
         private readonly AppShellViewModel _appShellViewModel;
 
-        public FolderListPage(IFolderPicker folderPicker, IApiService apiService, IAlertService alertService, AppShellViewModel appShellViewModel)
+        public FolderListPage(IFolderPicker folderPicker, IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel)
         {
             _folderPicker = folderPicker;
             _apiService = apiService;
@@ -183,7 +183,7 @@ namespace MauiApp1
         {
             Button button = (Button)sender;
             Folder folder = (Folder)button.BindingContext;
-            Window secondWindow = new Window(new DisplayPage(_apiService, _appShellViewModel, folder));
+            Window secondWindow = new Window(new DisplayPage(_alertService, _apiService, _appShellViewModel, folder));
             App.Current.OpenWindow(secondWindow);
         }
 

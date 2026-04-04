@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Core.Primitives;
+using MauiApp1.Platforms.Windows;
 using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.ObjectModel;
@@ -7,6 +8,13 @@ using System.Text.Json;
 using Windows.System;
 
 namespace MauiApp1;
+
+public class CollectionTypeIds
+{
+    public string id { get; set; }
+
+    public string type { get; set; }
+}
 
 public class VideoStreamResponse
 {
@@ -22,6 +30,8 @@ public class AudioStreamResponse
 }
 public partial class DisplayPage : ContentPage
 {
+    private readonly IAlertService _alertService;
+
     private readonly IApiService _apiService;
 
     private readonly AppShellViewModel _appShellViewModel;
@@ -45,8 +55,9 @@ public partial class DisplayPage : ContentPage
     public ObservableCollection<TextFile> TextFiles { get; set; }
     public ObservableCollection<TextFile> SelectedTextFiles { get; set; }
 
-    public DisplayPage(IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
+    public DisplayPage(IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
+        _alertService = alertService;
         _apiService = apiService;
         _appShellViewModel = appShellViewModel;
         _folder = folder;
@@ -581,6 +592,78 @@ public partial class DisplayPage : ContentPage
             //mediaElement.Source = new Uri("http://192.168.1.11:3001/playlists/video-" + id + ".m3u8");
             mediaElement.Source = new Uri("https://link12.ddns.net:5050/playlists/video-" + id + ".m3u8");
             mediaElement.Play();
+        }
+    }
+
+
+    public void SetTimeout(Action action, int ms)
+    {
+        Task.Delay(ms).ContinueWith((task) =>
+        {
+            action();
+        }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+
+    public string getVideoFileURL(VideoFile videoFile)
+    {
+        string url = "https://link12.ddns.net/" +
+            videoFile.folder.dataUrl +
+            "/video/" + videoFile.dataUrl;
+        return url;
+    }
+
+    private async void VideoFileOpenWebURL_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            VideoFile videoFile = (VideoFile)button.BindingContext;
+            string url = getVideoFileURL(videoFile);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+    }
+
+    private async void VideoFileSetClipboardButton_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button button = (Button)sender;
+            VideoFile videoFile = (VideoFile)button.BindingContext;
+            string url = getVideoFileURL(videoFile);
+            await Clipboard.Default.SetTextAsync(url);
+        }
+        catch (Exception _ex)
+        {
+            //
+        }
+
+        VideoFileActionLabel.Text = "Video File URL copied to clipboard";
+
+        SetTimeout(() =>
+        {
+            VideoFileActionLabel.Text = "";
+        }, 2000);
+    }
+
+    public async void VideoFileDeleteButton_Clicked(object sender, EventArgs e)
+    {
+        Button button = (Button)sender;
+        VideoFile videoFile = (VideoFile)button.BindingContext;
+
+        string action = await DisplayActionSheet("Delete Video File?", "Cancel", "Delete", string.Concat(videoFile.fileName));
+        if (action == "Delete") {
+            var videoFileIds = new CollectionTypeIds
+            {
+                id = Convert.ToString(videoFile.id),
+                type = "VideoFile"
+            };
+
+            byte[] body = JsonSerializer.SerializeToUtf8Bytes(videoFileIds);
+            (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
         }
     }
 

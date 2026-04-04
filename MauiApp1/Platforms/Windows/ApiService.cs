@@ -119,5 +119,16 @@ namespace MauiApp1.Platforms.Windows
             int status = (int)response.StatusCode;
             return (status, json);
         }
+
+        public async Task<(int, String)> DeleteAttachments(byte[] body)
+        {
+            ByteArrayContent content = new ByteArrayContent(body);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            content.Headers.ContentLength = body.Length;
+            var response = await _httpClient.PostAsync("/attachments/delete", content);
+            string json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
     }
 }

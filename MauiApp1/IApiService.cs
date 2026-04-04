@@ -19,5 +19,7 @@
         Task<(int, String)> UnarchiveFolders(byte[] body);
 
         Task<(int, String)> DeleteFolders(byte[] body);
+
+        Task<(int, String)> DeleteAttachments(byte[] body);
     }
 }
