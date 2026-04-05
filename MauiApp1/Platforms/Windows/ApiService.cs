@@ -11,7 +11,6 @@ namespace MauiApp1.Platforms.Windows
         {
             _httpClient = new HttpClient()
             {
-                //BaseAddress = new Uri("http://192.168.1.11:3000")
                 BaseAddress = new Uri("https://link12.ddns.net:4040")
             };
 
@@ -21,7 +20,6 @@ namespace MauiApp1.Platforms.Windows
 
             _httpClientStreamingService = new HttpClient()
             {
-                //BaseAddress = new Uri("http://192.168.1.11:3001")
                 BaseAddress = new Uri("https://link12.ddns.net:5050")
             };
 
