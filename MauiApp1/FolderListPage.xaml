@@ -187,6 +187,7 @@
                                                     Grid.Row="0"
                                                     Grid.Column="2"
                                                     Text="{Binding state}"
+                                                    TextColor="Gray"
                                                     FontSize="12"
                                                     VerticalOptions="Center"
                                                     HorizontalOptions="Center"
