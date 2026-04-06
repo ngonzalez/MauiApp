@@ -314,13 +314,9 @@ public partial class DisplayPage : ContentPage
     {
         Button button = (Button)sender;
         PdfFile pdfFile = (PdfFile)button.BindingContext;
-        string url = "https://link12.ddns.net/";
-        url += pdfFile.folder.dataUrl;
-        url += "/pdfWebView/";
-        url += pdfFile.dataUrl;
         try
         {
-            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(pdfFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -332,13 +328,9 @@ public partial class DisplayPage : ContentPage
     {
         Button button = (Button)sender;
         TextFile textFile = (TextFile)button.BindingContext;
-        string url = "https://link12.ddns.net/";
-        url += textFile.folder.dataUrl;
-        url += "/textWebView/";
-        url += textFile.dataUrl;
         try
         {
-            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(textFile.webUrl);
         }
         catch (Exception _ex)
         {
