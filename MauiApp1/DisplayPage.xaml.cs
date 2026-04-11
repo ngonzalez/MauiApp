@@ -316,7 +316,7 @@ public partial class DisplayPage : ContentPage
         PdfFile pdfFile = (PdfFile)button.BindingContext;
         try
         {
-            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(pdfFile.webUrl);
+            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(pdfFile.webViewUrl);
         }
         catch (Exception _ex)
         {
@@ -330,7 +330,7 @@ public partial class DisplayPage : ContentPage
         TextFile textFile = (TextFile)button.BindingContext;
         try
         {
-            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(textFile.webUrl);
+            Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(textFile.webViewUrl);
         }
         catch (Exception _ex)
         {
