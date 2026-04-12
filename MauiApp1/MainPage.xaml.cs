@@ -20,33 +20,39 @@ public static class MimeTypeMapper
             { ".md", "text/markdown" },
             { ".txt", "text/plain" },
 
-            /* JPEG */
+            /* IMAGES */
+            { ".bmp", "image/bmp" },
+            { ".gif", "image/gif" },
             { ".jpg", "image/jpeg" },
             { ".jpeg", "image/jpeg" },
+            { ".png", "image/png" },
+            { ".tif", "image/tiff" },
+            { ".tiff", "image/tiff" },
+            { ".webp", "image/webp" },
 
-            /* FLAC */
-            { ".flac", "audio/flac" },
-
-            /* MP3 */
-            { ".mp3", "audio/mpeg" },
-
-            /* AAC MP4 ALAC  **/
-            { ".aac", "audio/m4a" },
-            { ".m4a", "audio/x-m4a" },
-
-            /* AIFF */
+            /* AUDIO */
+            { ".aac", "audio/aac" },
+            { ".m4a", "audio/aac" },
             { ".aff", "audio/x-aiff" },
             { ".aif", "audio/x-aiff" },
             { ".aiff", "audio/x-aiff" },
-
-            /* WAV */
+            { ".flac", "audio/flac" },
+            { ".mka", "audio/x-matroska" },
+            { ".mp3", "audio/mpeg" },
             { ".wav", "audio/wav" },
+            { ".weba", "audio/webm" },
 
-            /* MKV */
-            { ".mkv", "video/x-matroska" },
-
-            /* MP4 */
-            { ".mp4", "video/mp4" },
+            /* VIDEO */
+            { "3gp", "video/3gpp" },
+            { "mkv", "video/x-matroska" },
+            { "mp4", "video/mp4" },
+            { "mp4v", "video/mp4" },
+            { "mpg4", "video/mp4" },
+            { "m1v", "video/mpeg" },
+            { "m2v", "video/mpeg" },
+            { "mpg", "video/mpeg" },
+            { "mpeg", "video/mpeg" },
+            { "webm", "video/webm" },
         };
     public static string GetMimeType(string extension)
     {
