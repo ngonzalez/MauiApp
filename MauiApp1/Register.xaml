@@ -34,6 +34,64 @@
             <Label
                 TextColor="#CCC"
                 FontSize="15">
+                Account Code
+            </Label>
+
+            <Entry
+                Placeholder="Account Code"
+                x:Name="accountCode"
+                TextChanged="OnAccountCodeCompleted" />
+
+            <Grid x:Name="AccountInfo">
+                <VerticalStackLayout>
+                    <Label
+                        TextColor="#CCC"
+                        FontSize="15"
+                        Padding="5">
+                        Account UUID
+                    </Label>
+
+                    <Entry
+                        Placeholder="Account UUID"
+                        x:Name="accountUuid"
+                        TextColor="Grey"
+                        Opacity="0.9"
+                        IsReadOnly="True" />
+
+                    <Label
+                        TextColor="#CCC"
+                        FontSize="15"
+                        Padding="5">
+                        Account Name
+                    </Label>
+
+                    <Entry
+                        Placeholder="Account Name"
+                        x:Name="accountName"
+                        TextColor="Grey"
+                        Opacity="0.9"
+                        IsReadOnly="True" />
+
+                    <Label
+                        TextColor="#CCC"
+                        FontSize="15"
+                        Padding="5">
+                        Account Address
+                    </Label>
+
+                    <Entry
+                        Placeholder="Account Address"
+                        x:Name="accountAddress"
+                        TextColor="Grey"
+                        Opacity="0.9"
+                        IsReadOnly="True" />
+
+                </VerticalStackLayout>
+            </Grid>
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15">
                 First name
             </Label>
 
