@@ -13,15 +13,24 @@ public class RegisterResponse
     public User user { get; set; }
 
     public string message { get; set; }
+}
 
-    public string sessionId { get; set; }
+public class AccountCodeResponse
+{
 
+    public Account account { get; set; }
+
+    public string message { get; set; }
 }
 
 public partial class RegisterPage : ContentPage
 {
 
     private readonly IAuthenticate _authenticate;
+
+    private string AccountCode;
+
+    private Guid AccountUUID;
 
     private string FirstName;
 
@@ -41,11 +50,39 @@ public partial class RegisterPage : ContentPage
         BindingContext = this;
 
         signInLink.Clicked += new EventHandler(signInLinkClicked);
+        AccountInfo.IsVisible = false;
     }
 
     public void signInLinkClicked(object sender, EventArgs e)
     {
         Shell.Current.GoToAsync("signinpage");
+    }
+
+    private async void OnAccountCodeCompleted(object sender, EventArgs e)
+    {
+        AccountCode = ((Entry)sender).Text;
+
+        var values = new Dictionary<string, string> {
+            { "accountCode", AccountCode }
+        };
+
+        (int _statusCode, var response) = await _authenticate.sendAccountCode(values);
+
+        AccountCodeResponse jsonResponse = JsonSerializer.Deserialize<AccountCodeResponse>(response);
+
+        if (jsonResponse.account != null)
+        {
+            Account account = jsonResponse.account;
+            accountUuid.Text = Convert.ToString(account.uuid);
+            accountName.Text = account.name;
+            accountAddress.Text = account.address;
+            AccountUUID = (Guid)account.uuid;
+            AccountInfo.IsVisible = true;
+        }
+        else
+        {
+            AccountInfo.IsVisible = false;
+        }
     }
 
     private async void OnFirstNameCompleted(object sender, EventArgs e)
@@ -76,6 +113,7 @@ public partial class RegisterPage : ContentPage
             { "lastName", LastName },
             { "emailAddress", EmailAddress },
             { "password", Password },
+            { "accountUuid", Convert.ToString(AccountUUID) },
             { "uuid", Convert.ToString(uuid) }
         };
 

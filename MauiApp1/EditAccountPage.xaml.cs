@@ -49,11 +49,11 @@ namespace MauiApp1
 
         private string LastName;
 
+        private string EmailAddress;
+
         private string Password;
 
         private string PasswordConfirmation;
-
-        private string EmailAddress;
 
         public EditAccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
         {
@@ -73,10 +73,12 @@ namespace MauiApp1
             BindingContext = this;
 
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
+            accountUuid.Text = Convert.ToString(_appShellViewModel.CurrentUser.accountUuid);
+            accountName.Text = _appShellViewModel.CurrentUser.accountName;
+            accountAddress.Text = _appShellViewModel.CurrentUser.accountAddress;
             editAccountFirstName.Text = _appShellViewModel.CurrentUser.firstName;
             editAccountLastName.Text = _appShellViewModel.CurrentUser.lastName;
             editAccountEmailAddress.Text = _appShellViewModel.CurrentUser.emailAddress;
-            editAccountUuid.Text = Convert.ToString(_appShellViewModel.CurrentUser.uuid);
             editAccountCreatedAt.Text = Convert.ToString(_appShellViewModel.CurrentUser.createdAt);
             editAccountUpdatedAt.Text = Convert.ToString(_appShellViewModel.CurrentUser.updatedAt);
             changeEmailCurrentEmailAddress.Text = _appShellViewModel.CurrentUser.emailAddress;
@@ -99,13 +101,18 @@ namespace MauiApp1
             LastName = ((Entry)sender).Text;
         }
 
+        private async void OnEmailAddressCompleted(object sender, EventArgs e)
+        {
+            EmailAddress = ((Entry)sender).Text;
+        }
+
         public async void OnUpdateAccountClicked(object sender, EventArgs e)
         {
             var values = new Dictionary<string, string> {
                 { "id", Convert.ToString(_appShellViewModel.CurrentUser.id!) },
                 { "firstName", FirstName },
                 { "lastName", LastName },
-                { "emailAddress", _appShellViewModel.CurrentUser.emailAddress! },
+                { "emailAddress", EmailAddress },
                 { "deliverNotificationsSignIn", Convert.ToString(editAccountDeliverNotificationsOnSignIn.IsChecked).ToLower() },
                 { "deliverNotificationsAccountUpdate", Convert.ToString(editAccountDeliverNotificationsOnAccountUpdate.IsChecked).ToLower() }
             };

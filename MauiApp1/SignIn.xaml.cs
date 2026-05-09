@@ -67,7 +67,7 @@ public partial class SignInPage : ContentPage
 
         if (jsonResponse.user != null)
         {
-            if (jsonResponse.user.id != null)
+            if (jsonResponse.user.emailAddressValidatedAt != null)
             {
                 string sessionInfo = getSessionId(jsonResponse);
 
@@ -80,7 +80,6 @@ public partial class SignInPage : ContentPage
                 await _authenticate.setCurrentUser(jsonResponse.user);
 
                 await Shell.Current.GoToAsync("accountpage");
-
             }
 
             signInErrors.Text = "";
