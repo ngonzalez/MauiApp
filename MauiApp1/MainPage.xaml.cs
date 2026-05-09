@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net.Mail;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text.Json;
 
@@ -43,16 +44,16 @@ public static class MimeTypeMapper
             { ".weba", "audio/webm" },
 
             /* VIDEO */
-            { "3gp", "video/3gpp" },
-            { "mkv", "video/x-matroska" },
-            { "mp4", "video/mp4" },
-            { "mp4v", "video/mp4" },
-            { "mpg4", "video/mp4" },
-            { "m1v", "video/mpeg" },
-            { "m2v", "video/mpeg" },
-            { "mpg", "video/mpeg" },
-            { "mpeg", "video/mpeg" },
-            { "webm", "video/webm" },
+            { ".3gp", "video/3gpp" },
+            { ".mkv", "video/x-matroska" },
+            { ".mp4", "video/mp4" },
+            { ".mp4v", "video/mp4" },
+            { ".mpg4", "video/mp4" },
+            { ".m1v", "video/mpeg" },
+            { ".m2v", "video/mpeg" },
+            { ".mpg", "video/mpeg" },
+            { ".mpeg", "video/mpeg" },
+            { ".webm", "video/webm" },
         };
     public static string GetMimeType(string extension)
     {
@@ -85,16 +86,19 @@ namespace MauiApp1
 
         private readonly IApiService _apiService;
 
+        private readonly IAuthenticate _authenticate;
+
         private readonly IAlertService _alertService;
 
         private readonly AppShellViewModel _appShellViewModel;
 
-        public MainPage(IFolderPicker folderPicker, IApiService apiService, IAlertService alertService, AppShellViewModel appShellViewModel)
+        public MainPage(IAuthenticate authenticate, IFolderPicker folderPicker, IApiService apiService, IAlertService alertService, AppShellViewModel appShellViewModel)
         {
             _folderPicker = folderPicker;
+            _authenticate = authenticate;
             _apiService = apiService;
-            _appShellViewModel = appShellViewModel;
             _alertService = alertService;
+            _appShellViewModel = appShellViewModel;
 
             var sessionID = _appShellViewModel.SessionID;
 
@@ -204,6 +208,13 @@ namespace MauiApp1
             {
                 long length = new System.IO.FileInfo(uploadFile.filePath).Length;
 
+                var fileInfo = new Dictionary<string, string>
+                {
+                    { "fileSize", Convert.ToString(length) },
+                    { "fileName", uploadFile.filePath },
+                    { "mimeType", uploadFile.mimeType }
+                };
+
                 if (length >= 104857600) // 100 Megabytes = 104857600 Bytes
                 {
                     string tempDirectory = GetTemporaryDirectory();
@@ -246,11 +257,15 @@ namespace MauiApp1
 
                     SendUploadFile(uploadFile);
 
+                    CreateEvent(uploadFile, fileInfo);
+
                     System.Threading.Thread.Sleep(5000);
                 }
                 else
                 {
                     SendFile(uploadFile);
+
+                    CreateEvent(uploadFile, fileInfo);
                 }
 
                 // Progress bar
@@ -259,6 +274,48 @@ namespace MauiApp1
                 progressBarText.Text = Convert.ToString(Convert.ToInt32(progress * 100)) + "%";
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
             }
+        }
+
+        private async void CreateEvent(UploadFile uploadFile, Dictionary<string, string> uploadDetails)
+        {
+            var accountUuid = _appShellViewModel.CurrentUser.accountUuid;
+            var accountUuidUnwrapped = accountUuid!;
+            var url = "https://link12.ddns.net/uploads/" + Convert.ToString(uploadFile.uuid);
+
+            var platformDetails = new Dictionary<string, string> {
+                { "Model", DeviceInfo.Current.Model },
+                { "Manufacturer", DeviceInfo.Current.Manufacturer },
+                { "Name", DeviceInfo.Current.Name },
+                { "VersionString", DeviceInfo.Current.VersionString },
+                { "Idiom", Convert.ToString(DeviceInfo.Current.Idiom) },
+                { "Platform", Convert.ToString(DeviceInfo.Current.Platform) },
+            };
+
+            var parameters = new Dictionary<string, Dictionary<string, string>>
+            {
+                {
+                    "platformDetails",
+                    platformDetails
+                },
+                {
+                    "uploadDetails",
+                    uploadDetails
+                }
+            };
+
+            byte[] parametersBody = JsonSerializer.SerializeToUtf8Bytes(parameters);
+            string encodedParameters = Convert.ToBase64String(parametersBody);
+
+            var values = new Event {
+                accountUuid = (Guid)accountUuid,
+                url = url,
+                eventType = "upload",
+                parameters = encodedParameters
+            };
+
+            byte[] encodedValues = JsonSerializer.SerializeToUtf8Bytes(values);
+
+            (int _statusCode, var response) = await _apiService.CreateEvent(encodedValues);
         }
 
         private async void OnSendDataClicked(object sender, EventArgs e)
@@ -290,28 +347,33 @@ namespace MauiApp1
 
         public async void SendFileBatch(UploadFile uploadFile, int filesCount, string filePath, int i)
         {
-            using (FileStream inputFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
-            using (CryptoStream base64Stream = new CryptoStream(inputFile, new ToBase64Transform(), CryptoStreamMode.Read))
-            using (MemoryStream memoryStream = new MemoryStream())
+            User currentUser = await _authenticate.getCurrentUser();
+            if (currentUser != null)
             {
-                base64Stream.CopyTo(memoryStream);
-                byte[] byteArray = memoryStream.ToArray();
-                memoryStream.Close();
-
-                UploadFile splitUploadFile = new UploadFile
+                using (FileStream inputFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
+                using (CryptoStream base64Stream = new CryptoStream(inputFile, new ToBase64Transform(), CryptoStreamMode.Read))
+                using (MemoryStream memoryStream = new MemoryStream())
                 {
-                    sessionId = _appShellViewModel.SessionID,
-                    uuid = Guid.NewGuid(),
-                    uploadFileUuid = uploadFile.uuid,
-                    itemData = System.Text.Encoding.UTF8.GetString(byteArray),
-                    filePath = uploadFile.filePath + "." + (Convert.ToString(i + 1)) + "-" + filesCount + ".block",
-                    mimeType = "application/octet-stream",
-                    createdAt = uploadFile.createdAt,
-                    updatedAt = uploadFile.updatedAt,
-                    source = uploadFile.source,
-                };
+                    base64Stream.CopyTo(memoryStream);
+                    byte[] byteArray = memoryStream.ToArray();
+                    memoryStream.Close();
 
-                SendUploadFile(splitUploadFile);
+                    UploadFile splitUploadFile = new UploadFile
+                    {
+                        sessionId = _appShellViewModel.SessionID,
+                        userId = (int)currentUser.id,
+                        uuid = Guid.NewGuid(),
+                        uploadFileUuid = uploadFile.uuid,
+                        itemData = System.Text.Encoding.UTF8.GetString(byteArray),
+                        filePath = uploadFile.filePath + "." + (Convert.ToString(i + 1)) + "-" + filesCount + ".block",
+                        mimeType = "application/octet-stream",
+                        createdAt = uploadFile.createdAt,
+                        updatedAt = uploadFile.updatedAt,
+                        source = uploadFile.source,
+                    };
+
+                    SendUploadFile(splitUploadFile);
+                }
             }
         }
 
@@ -348,38 +410,44 @@ namespace MauiApp1
 
         public async void CreateUploadFile(string filePath, UploadFolder uploadFolder)
         {
-            DateTime createdAt = System.IO.File.GetCreationTime(filePath);
-            DateTime updatedAt = System.IO.File.GetLastAccessTime(filePath);
-
-            string _fileName = Path.GetFileName(filePath);
-            string fileExt = Path.GetExtension(filePath);
-            string mimeType = MimeTypeMapper.GetMimeType(fileExt);
-            byte[] byteArray = new byte[4096];
-            string itemData = System.Text.Encoding.UTF8.GetString(byteArray);
-
-            if (mimeType != "application/octet-stream")
+            User currentUser = await _authenticate.getCurrentUser();
+            if (currentUser != null)
             {
-                UploadFile uploadFile = new UploadFile
+                DateTime createdAt = System.IO.File.GetCreationTime(filePath);
+                DateTime updatedAt = System.IO.File.GetLastAccessTime(filePath);
+
+                int userId = (int)currentUser.id;
+                string _fileName = Path.GetFileName(filePath);
+                string fileExt = Path.GetExtension(filePath);
+                string mimeType = MimeTypeMapper.GetMimeType(fileExt);
+                byte[] byteArray = new byte[4096];
+                string itemData = System.Text.Encoding.UTF8.GetString(byteArray);
+
+                if (mimeType != "application/octet-stream")
                 {
-                    sessionId = _appShellViewModel.SessionID,
-                    uuid = Guid.NewGuid(),
-                    createdAt = createdAt,
-                    updatedAt = updatedAt,
-                    filePath = filePath,
-                    itemData = itemData,
-                    mimeType = mimeType,
-                    source = uploadFolder.Type,
-                };
+                    UploadFile uploadFile = new UploadFile
+                    {
+                        sessionId = _appShellViewModel.SessionID,
+                        userId = userId,
+                        uuid = Guid.NewGuid(),
+                        createdAt = createdAt,
+                        updatedAt = updatedAt,
+                        filePath = filePath,
+                        itemData = itemData,
+                        mimeType = mimeType,
+                        source = uploadFolder.Type,
+                    };
 
-                UploadFiles.Add(uploadFile);
+                    UploadFiles.Add(uploadFile);
 
-                UploadFilesCount++;
+                    UploadFilesCount++;
 
-                labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " " + (UploadFilesCount > 1 ? "Files" : "File") + " selected";
-                labelFilesCount.TextColor = Colors.White;
+                    labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " " + (UploadFilesCount > 1 ? "Files" : "File") + " selected";
+                    labelFilesCount.TextColor = Colors.White;
 
-                resetLink.TextColor = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
-                resetLinkImage.Color = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
+                    resetLink.TextColor = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
+                    resetLinkImage.Color = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;
+                }
             }
         }
 

@@ -15,5 +15,6 @@
     public int? bitrate { get; set; }
     public int? sampleRate { get; set; }
     public int? channels { get; set; }
-
+    public string webUrl { get; set; }
+    public string webViewUrl { get; set; }
 }

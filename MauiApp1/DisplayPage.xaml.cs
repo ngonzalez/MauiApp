@@ -40,6 +40,8 @@ public partial class DisplayPage : ContentPage
 
     private readonly IApiService _apiService;
 
+    private readonly IAuthenticate _authenticate;
+
     private readonly AppShellViewModel _appShellViewModel;
 
     private Folder _folder;
@@ -67,8 +69,9 @@ public partial class DisplayPage : ContentPage
     public ObservableCollection<TextFile> TextFiles { get; set; }
     public ObservableCollection<TextFile> SelectedTextFiles { get; set; }
 
-    public DisplayPage(IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
+    public DisplayPage(IAuthenticate authenticate, IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
+        _authenticate = authenticate;
         _alertService = alertService;
         _apiService = apiService;
         _appShellViewModel = appShellViewModel;
@@ -168,138 +171,178 @@ public partial class DisplayPage : ContentPage
         string folderId = Convert.ToString(_folder.id);
         var folderIdsUtf8 = JsonSerializer.SerializeToUtf8Bytes("," + folderId);
         string encodedFolderId = Convert.ToBase64String(folderIdsUtf8);
-        (int _statusCode, var response) = await _apiService.getUploads("?folderIds=" + encodedFolderId);
-        var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
-        // ImageFile
-        ImageFiles = new ObservableCollection<ImageFile> { };
-
-        while (ImageFiles.Count() > 0)
+        User currentUser = await _authenticate.getCurrentUser();
+        if (currentUser != null)
         {
-            ImageFiles.RemoveAt(0);
-        }
+            Guid accountUuid = (Guid)_appShellViewModel.CurrentUser.accountUuid;
+            (int _statusCode, var response) = await _apiService.getUploads(accountUuid, "?folderIds=" + encodedFolderId);
+            var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.imageFiles.Length > 0)
+            // ImageFile
+            ImageFiles = new ObservableCollection<ImageFile> { };
+
+            while (ImageFiles.Count() > 0)
             {
-                foreach (ImageFile imageFile in upload.imageFiles)
+                ImageFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.imageFiles.Length > 0)
                 {
-                    ImageFiles.Add(imageFile);
+                    foreach (ImageFile imageFile in upload.imageFiles)
+                    {
+                        ImageFiles.Add(imageFile);
+                    }
                 }
             }
-        }
 
-        imageFilesCollectionView.ItemsSource = ImageFiles;
-        string imageFileLabel = ImageFiles.Count() > 1 ? "Image Files" : "Image File";
-        imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " " + imageFileLabel;
-        GridImageFiles.IsVisible = ImageFiles.Count() > 0;
-        GridImageFilesDetails.IsVisible = ImageFiles.Count() > 0;
-        imageFilesCountLabel.Text = Convert.ToString(ImageFiles.Count() + " " + imageFileLabel);
+            imageFilesCollectionView.ItemsSource = ImageFiles;
+            string imageFileLabel = ImageFiles.Count() > 1 ? "Image Files" : "Image File";
+            imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " " + imageFileLabel;
+            GridImageFiles.IsVisible = ImageFiles.Count() > 0;
+            GridImageFilesDetails.IsVisible = ImageFiles.Count() > 0;
+            imageFilesCountLabel.Text = Convert.ToString(ImageFiles.Count() + " " + imageFileLabel);
 
-        // VideoFile
-        VideoFiles = new ObservableCollection<VideoFile> { };
+            // VideoFile
+            VideoFiles = new ObservableCollection<VideoFile> { };
 
-        while (VideoFiles.Count() > 0)
-        {
-            VideoFiles.RemoveAt(0);
-        }
-
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.videoFiles.Length > 0)
+            while (VideoFiles.Count() > 0)
             {
-                foreach (VideoFile videoFile in upload.videoFiles)
+                VideoFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.videoFiles.Length > 0)
                 {
-                    VideoFiles.Add(videoFile);
+                    foreach (VideoFile videoFile in upload.videoFiles)
+                    {
+                        VideoFiles.Add(videoFile);
+                    }
                 }
             }
-        }
 
-        videoFilesCollectionView.ItemsSource = VideoFiles;
-        string videoFileLabel = VideoFiles.Count() > 1 ? "Video Files" : "Video File";
-        videoFilesCount.Text = Convert.ToString(VideoFiles.Count()) + " " + videoFileLabel;
-        GridVideoFiles.IsVisible = VideoFiles.Count() > 0;
-        GridVideoFilesDetails.IsVisible = VideoFiles.Count() > 0;
-        videoFilesCountLabel.Text = Convert.ToString(VideoFiles.Count() + " " + videoFileLabel);
+            videoFilesCollectionView.ItemsSource = VideoFiles;
+            string videoFileLabel = VideoFiles.Count() > 1 ? "Video Files" : "Video File";
+            videoFilesCount.Text = Convert.ToString(VideoFiles.Count()) + " " + videoFileLabel;
+            GridVideoFiles.IsVisible = VideoFiles.Count() > 0;
+            GridVideoFilesDetails.IsVisible = VideoFiles.Count() > 0;
+            videoFilesCountLabel.Text = Convert.ToString(VideoFiles.Count() + " " + videoFileLabel);
 
-        // AudioFile
-        AudioFiles = new ObservableCollection<AudioFile> { };
+            // AudioFile
+            AudioFiles = new ObservableCollection<AudioFile> { };
 
-        while (AudioFiles.Count() > 0)
-        {
-            AudioFiles.RemoveAt(0);
-        }
-
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.audioFiles.Length > 0)
+            while (AudioFiles.Count() > 0)
             {
-                foreach (AudioFile audioFile in upload.audioFiles)
+                AudioFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.audioFiles.Length > 0)
                 {
-                    AudioFiles.Add(audioFile);
+                    foreach (AudioFile audioFile in upload.audioFiles)
+                    {
+                        AudioFiles.Add(audioFile);
+                    }
                 }
             }
-        }
 
-        audioFilesCollectionView.ItemsSource = AudioFiles;
-        string audioFileLabel = AudioFiles.Count() > 1 ? "Audio Files" : "Audio File";
-        audioFilesCount.Text = Convert.ToString(AudioFiles.Count()) + " " + audioFileLabel;
-        GridAudioFiles.IsVisible = AudioFiles.Count() > 0;
-        GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
-        audioFilesCountLabel.Text = Convert.ToString(AudioFiles.Count() + " " + audioFileLabel);
+            audioFilesCollectionView.ItemsSource = AudioFiles;
+            string audioFileLabel = AudioFiles.Count() > 1 ? "Audio Files" : "Audio File";
+            audioFilesCount.Text = Convert.ToString(AudioFiles.Count()) + " " + audioFileLabel;
+            GridAudioFiles.IsVisible = AudioFiles.Count() > 0;
+            GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
+            audioFilesCountLabel.Text = Convert.ToString(AudioFiles.Count() + " " + audioFileLabel);
 
-        // PdfFile
-        PdfFiles = new ObservableCollection<PdfFile> { };
+            // PdfFile
+            PdfFiles = new ObservableCollection<PdfFile> { };
 
-        while (PdfFiles.Count() > 0)
-        {
-            PdfFiles.RemoveAt(0);
-        }
-
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.pdfFiles.Length > 0)
+            while (PdfFiles.Count() > 0)
             {
-                foreach (PdfFile pdfFile in upload.pdfFiles)
+                PdfFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.pdfFiles.Length > 0)
                 {
-                    PdfFiles.Add(pdfFile);
+                    foreach (PdfFile pdfFile in upload.pdfFiles)
+                    {
+                        PdfFiles.Add(pdfFile);
+                    }
                 }
             }
-        }
 
-        pdfFilesCollectionView.ItemsSource = PdfFiles;
-        string pdfFileLabel = PdfFiles.Count() > 1 ? "Pdf Files" : "Pdf File";
-        pdfFilesCount.Text = Convert.ToString(PdfFiles.Count()) + " " + pdfFileLabel;
-        GridPdfFiles.IsVisible = PdfFiles.Count() > 0;
-        GridPdfFilesDetails.IsVisible = PdfFiles.Count() > 0;
-        pdfFilesCountLabel.Text = Convert.ToString(PdfFiles.Count() + " " + pdfFileLabel);
+            pdfFilesCollectionView.ItemsSource = PdfFiles;
+            string pdfFileLabel = PdfFiles.Count() > 1 ? "Pdf Files" : "Pdf File";
+            pdfFilesCount.Text = Convert.ToString(PdfFiles.Count()) + " " + pdfFileLabel;
+            GridPdfFiles.IsVisible = PdfFiles.Count() > 0;
+            GridPdfFilesDetails.IsVisible = PdfFiles.Count() > 0;
+            pdfFilesCountLabel.Text = Convert.ToString(PdfFiles.Count() + " " + pdfFileLabel);
 
-        // TextFile
-        TextFiles = new ObservableCollection<TextFile> { };
+            // TextFile
+            TextFiles = new ObservableCollection<TextFile> { };
 
-        while (TextFiles.Count() > 0)
-        {
-            TextFiles.RemoveAt(0);
-        }
-
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.textFiles.Length > 0)
+            while (TextFiles.Count() > 0)
             {
-                foreach (TextFile textFile in upload.textFiles)
+                TextFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.textFiles.Length > 0)
                 {
-                    TextFiles.Add(textFile);
+                    foreach (TextFile textFile in upload.textFiles)
+                    {
+                        TextFiles.Add(textFile);
+                    }
                 }
             }
-        }
 
-        textFilesCollectionView.ItemsSource = TextFiles;
-        string textFileLabel = TextFiles.Count() > 1 ? "Text Files" : "Text File";
-        textFilesCount.Text = Convert.ToString(TextFiles.Count()) + " " + textFileLabel;
-        GridTextFiles.IsVisible = TextFiles.Count() > 0;
-        GridTextFilesDetails.IsVisible = TextFiles.Count() > 0;
-        textFilesCountLabel.Text = Convert.ToString(TextFiles.Count() + " " + textFileLabel);
+            textFilesCollectionView.ItemsSource = TextFiles;
+            string textFileLabel = TextFiles.Count() > 1 ? "Text Files" : "Text File";
+            textFilesCount.Text = Convert.ToString(TextFiles.Count()) + " " + textFileLabel;
+            GridTextFiles.IsVisible = TextFiles.Count() > 0;
+            GridTextFilesDetails.IsVisible = TextFiles.Count() > 0;
+            textFilesCountLabel.Text = Convert.ToString(TextFiles.Count() + " " + textFileLabel);
+        }
+    }
+
+    public async void LoadAudioStream(AudioFile audioFile)
+    {
+        string audioFileId = Convert.ToString(audioFile.id);
+
+        (int _statusCode, var response) = await _apiService.getAudioStream(audioFileId);
+
+        AudioStreamResponse jsonResponse = JsonSerializer.Deserialize<AudioStreamResponse>(response);
+
+        if (jsonResponse != null)
+        {
+            if (jsonResponse.m3u8Exists)
+            {
+                AudioStreams.Add(jsonResponse);
+            }
+        }
+    }
+
+    public async void LoadVideoStream(VideoFile videoFile)
+    {
+        string videoFileId = Convert.ToString(videoFile.id);
+
+        (int _statusCode, var response) = await _apiService.getVideoStream(videoFileId);
+
+        VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
+
+        if (jsonResponse != null)
+        {
+            if (jsonResponse.m3u8Exists)
+            {
+                VideoStreams.Add(jsonResponse);
+            }
+        }
     }
 
     public async void openNewWindowImageFile(object sender, EventArgs e)
@@ -672,22 +715,13 @@ public partial class DisplayPage : ContentPage
         ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
     }
 
-    public string getImageFileURL(ImageFile imageFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            imageFile.folder.dataUrl +
-            "/image/" + imageFile.dataUrl;
-        return url;
-    }
-
     private async void ImageFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             ImageFile imageFile = (ImageFile)button.BindingContext;
-            string url = getImageFileURL(imageFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(imageFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -701,8 +735,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             ImageFile imageFile = (ImageFile)button.BindingContext;
-            string url = getImageFileURL(imageFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(imageFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -946,7 +979,7 @@ public partial class DisplayPage : ContentPage
     public async void addVideoFileToSelectedItems(VideoFile videoFile)
     {
         SelectedVideoFiles.Add(videoFile);
-        GridMediaProcessing.IsVisible = videoFile.aasmState == "created";
+        //GridMediaProcessing.IsVisible = videoFile.aasmState == "created";
     }
 
     public async void previousLinkVideoFileClicked(object sender, EventArgs e)
@@ -1047,6 +1080,7 @@ public partial class DisplayPage : ContentPage
 
         addVideoFileToSelectedItems(videoFile);
 
+        LoadVideoStream(videoFile);
     }
 
     public async void SelectedVideoFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1066,25 +1100,17 @@ public partial class DisplayPage : ContentPage
 
         try
         {
-            for (int i = 0; i < 10; i++)
+            string videoFileId = Convert.ToString(videoFile.id);
+
+            (int _statusCode, var response) = await _apiService.getVideoStream(videoFileId);
+
+            VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
+
+            if (jsonResponse != null)
             {
-                string videoFileId = Convert.ToString(videoFile.id);
-
-                (int _statusCode, var response) = await _apiService.getVideoStream(videoFileId);
-
-                VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
-
-                if (jsonResponse != null)
+                if (jsonResponse.m3u8Exists)
                 {
-                    if (jsonResponse.m3u8Exists)
-                    {
-                        VideoStreams.Add(jsonResponse);
-                        break;
-                    }
-                    else
-                    {
-                        System.Threading.Thread.Sleep(500);
-                    }
+                    VideoStreams.Add(jsonResponse);
                 }
             }
         }
@@ -1129,22 +1155,13 @@ public partial class DisplayPage : ContentPage
         }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
-    public string getVideoFileURL(VideoFile videoFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            videoFile.folder.dataUrl +
-            "/video/" + videoFile.dataUrl;
-        return url;
-    }
-
     private async void VideoFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             VideoFile videoFile = (VideoFile)button.BindingContext;
-            string url = getVideoFileURL(videoFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(videoFile.webViewUrl);
         }
         catch (Exception _ex)
         {
@@ -1158,8 +1175,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             VideoFile videoFile = (VideoFile)button.BindingContext;
-            string url = getVideoFileURL(videoFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(videoFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -1173,10 +1189,6 @@ public partial class DisplayPage : ContentPage
             VideoFileActionLabel.Text = "";
         }, 2000);
     }
-
-
-
-
 
     public List<string> getSelectedAudioFileIds()
     {
@@ -1408,7 +1420,7 @@ public partial class DisplayPage : ContentPage
     public async void addAudioFileToSelectedItems(AudioFile audioFile)
     {
         SelectedAudioFiles.Add(audioFile);
-        GridMediaProcessing.IsVisible = audioFile.aasmState == "created";
+        //GridMediaProcessing.IsVisible = audioFile.aasmState == "created";
     }
 
     public async void previousLinkAudioFileClicked(object sender, EventArgs e)
@@ -1508,6 +1520,8 @@ public partial class DisplayPage : ContentPage
         }
 
         addAudioFileToSelectedItems(audioFile);
+
+        LoadAudioStream(audioFile);
     }
 
     public async void SelectedAudioFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1527,25 +1541,17 @@ public partial class DisplayPage : ContentPage
 
         try
         {
-            for (int i = 0; i < 10; i++)
+            string audioFileId = Convert.ToString(audioFile.id);
+
+            (int _statusCode, var response) = await _apiService.getAudioStream(audioFileId);
+
+            AudioStreamResponse jsonResponse = JsonSerializer.Deserialize<AudioStreamResponse>(response);
+
+            if (jsonResponse != null)
             {
-                string audioFileId = Convert.ToString(audioFile.id);
-
-                (int _statusCode, var response) = await _apiService.getAudioStream(audioFileId);
-
-                AudioStreamResponse jsonResponse = JsonSerializer.Deserialize<AudioStreamResponse>(response);
-
-                if (jsonResponse != null)
+                if (jsonResponse.m3u8Exists)
                 {
-                    if (jsonResponse.m3u8Exists)
-                    {
-                        AudioStreams.Add(jsonResponse);
-                        break;
-                    }
-                    else
-                    {
-                        System.Threading.Thread.Sleep(500);
-                    }
+                    AudioStreams.Add(jsonResponse);
                 }
             }
         }
@@ -1582,22 +1588,13 @@ public partial class DisplayPage : ContentPage
         }
     }
 
-    public string getAudioFileURL(AudioFile audioFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            audioFile.folder.dataUrl +
-            "/audio/" + audioFile.dataUrl;
-        return url;
-    }
-
     private async void AudioFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             AudioFile audioFile = (AudioFile)button.BindingContext;
-            string url = getAudioFileURL(audioFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(audioFile.webViewUrl);
         }
         catch (Exception _ex)
         {
@@ -1611,8 +1608,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             AudioFile audioFile = (AudioFile)button.BindingContext;
-            string url = getAudioFileURL(audioFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(audioFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -1955,22 +1951,13 @@ public partial class DisplayPage : ContentPage
         PdfFile _selectedPdfFile = e.CurrentSelection.FirstOrDefault() as PdfFile;
     }
 
-    public string getPdfFileURL(PdfFile pdfFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            pdfFile.folder.dataUrl +
-            "/pdf/" + pdfFile.dataUrl;
-        return url;
-    }
-
     private async void PdfFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             PdfFile pdfFile = (PdfFile)button.BindingContext;
-            string url = getPdfFileURL(pdfFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(pdfFile.webViewUrl);
         }
         catch (Exception _ex)
         {
@@ -1984,8 +1971,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             PdfFile pdfFile = (PdfFile)button.BindingContext;
-            string url = getPdfFileURL(pdfFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(pdfFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -2328,22 +2314,13 @@ public partial class DisplayPage : ContentPage
         TextFile _selectedTextFile = e.CurrentSelection.FirstOrDefault() as TextFile;
     }
 
-    public string getTextFileURL(TextFile textFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            textFile.folder.dataUrl +
-            "/text/" + textFile.dataUrl;
-        return url;
-    }
-
     private async void TextFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             TextFile textFile = (TextFile)button.BindingContext;
-            string url = getTextFileURL(textFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(textFile.webViewUrl);
         }
         catch (Exception _ex)
         {
@@ -2357,8 +2334,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             TextFile textFile = (TextFile)button.BindingContext;
-            string url = getTextFileURL(textFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(textFile.webUrl);
         }
         catch (Exception _ex)
         {

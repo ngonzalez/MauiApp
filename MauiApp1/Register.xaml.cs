@@ -30,7 +30,7 @@ public partial class RegisterPage : ContentPage
 
     private string AccountCode;
 
-    private Guid AccountUUID;
+    private string AccountUUID;
 
     private string FirstName;
 
@@ -73,14 +73,18 @@ public partial class RegisterPage : ContentPage
         if (jsonResponse.account != null)
         {
             Account account = jsonResponse.account;
+            AccountUUID = Convert.ToString(account.uuid);
             accountUuid.Text = Convert.ToString(account.uuid);
             accountName.Text = account.name;
             accountAddress.Text = account.address;
-            AccountUUID = (Guid)account.uuid;
             AccountInfo.IsVisible = true;
         }
         else
         {
+            AccountUUID = "";
+            accountUuid.Text = "";
+            accountName.Text = "";
+            accountAddress.Text = "";
             AccountInfo.IsVisible = false;
         }
     }
@@ -109,12 +113,12 @@ public partial class RegisterPage : ContentPage
     {
         Guid uuid = Guid.NewGuid();
         var values = new Dictionary<string, string> {
+            { "accountUuid", AccountUUID },
+            { "uuid", Convert.ToString(uuid) },
             { "firstName", FirstName },
             { "lastName", LastName },
             { "emailAddress", EmailAddress },
-            { "password", Password },
-            { "accountUuid", Convert.ToString(AccountUUID) },
-            { "uuid", Convert.ToString(uuid) }
+            { "password", Password }
         };
 
         (int _statusCode, var response) = await _authenticate.registerAccount(values);
