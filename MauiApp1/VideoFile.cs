@@ -17,5 +17,5 @@
     public int? width { get; set; }
     public int? height { get; set; }
     public int? aspectRatio { get; set; }
-
+    public string webUrl { get; set; }
 }

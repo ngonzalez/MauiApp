@@ -559,12 +559,6 @@ namespace MauiApp1
             updateFoldersActionButton();
         }
 
-        private string getFolderURL(Folder folder)
-        {
-            string url = "https://link12.ddns.net/" + folder.dataUrl;
-            return url;
-        }
-
         public void SetTimeout(Action action, int ms)
         {
             Task.Delay(ms).ContinueWith((task) =>
@@ -579,8 +573,7 @@ namespace MauiApp1
             {
                 Button button = (Button)sender;
                 Folder folder = (Folder)button.BindingContext;
-                string url = getFolderURL(folder);
-                await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+                await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(folder.webUrl);
             }
             catch (Exception _ex)
             {
@@ -594,8 +587,7 @@ namespace MauiApp1
             {
                 Button button = (Button)sender;
                 Folder folder = (Folder)button.BindingContext;
-                string url = getFolderURL(folder);
-                await Clipboard.Default.SetTextAsync(url);
+                await Clipboard.Default.SetTextAsync(folder.webUrl);
             }
             catch (Exception _ex)
             {

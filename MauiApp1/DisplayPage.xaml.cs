@@ -672,22 +672,13 @@ public partial class DisplayPage : ContentPage
         ImageFile _selectedImageFile = e.CurrentSelection.FirstOrDefault() as ImageFile;
     }
 
-    public string getImageFileURL(ImageFile imageFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            imageFile.folder.dataUrl +
-            "/image/" + imageFile.dataUrl;
-        return url;
-    }
-
     private async void ImageFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             ImageFile imageFile = (ImageFile)button.BindingContext;
-            string url = getImageFileURL(imageFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(imageFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -701,8 +692,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             ImageFile imageFile = (ImageFile)button.BindingContext;
-            string url = getImageFileURL(imageFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(imageFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -1129,22 +1119,13 @@ public partial class DisplayPage : ContentPage
         }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
-    public string getVideoFileURL(VideoFile videoFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            videoFile.folder.dataUrl +
-            "/video/" + videoFile.dataUrl;
-        return url;
-    }
-
     private async void VideoFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             VideoFile videoFile = (VideoFile)button.BindingContext;
-            string url = getVideoFileURL(videoFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(videoFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -1158,8 +1139,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             VideoFile videoFile = (VideoFile)button.BindingContext;
-            string url = getVideoFileURL(videoFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(videoFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -1173,10 +1153,6 @@ public partial class DisplayPage : ContentPage
             VideoFileActionLabel.Text = "";
         }, 2000);
     }
-
-
-
-
 
     public List<string> getSelectedAudioFileIds()
     {
@@ -1582,22 +1558,13 @@ public partial class DisplayPage : ContentPage
         }
     }
 
-    public string getAudioFileURL(AudioFile audioFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            audioFile.folder.dataUrl +
-            "/audio/" + audioFile.dataUrl;
-        return url;
-    }
-
     private async void AudioFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             AudioFile audioFile = (AudioFile)button.BindingContext;
-            string url = getAudioFileURL(audioFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(audioFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -1611,8 +1578,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             AudioFile audioFile = (AudioFile)button.BindingContext;
-            string url = getAudioFileURL(audioFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(audioFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -1955,22 +1921,13 @@ public partial class DisplayPage : ContentPage
         PdfFile _selectedPdfFile = e.CurrentSelection.FirstOrDefault() as PdfFile;
     }
 
-    public string getPdfFileURL(PdfFile pdfFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            pdfFile.folder.dataUrl +
-            "/pdf/" + pdfFile.dataUrl;
-        return url;
-    }
-
     private async void PdfFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             PdfFile pdfFile = (PdfFile)button.BindingContext;
-            string url = getPdfFileURL(pdfFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(pdfFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -1984,8 +1941,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             PdfFile pdfFile = (PdfFile)button.BindingContext;
-            string url = getPdfFileURL(pdfFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(pdfFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -2328,22 +2284,13 @@ public partial class DisplayPage : ContentPage
         TextFile _selectedTextFile = e.CurrentSelection.FirstOrDefault() as TextFile;
     }
 
-    public string getTextFileURL(TextFile textFile)
-    {
-        string url = "https://link12.ddns.net/" +
-            textFile.folder.dataUrl +
-            "/text/" + textFile.dataUrl;
-        return url;
-    }
-
     private async void TextFileOpenWebURL_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = (Button)sender;
             TextFile textFile = (TextFile)button.BindingContext;
-            string url = getTextFileURL(textFile);
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(url);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(textFile.webUrl);
         }
         catch (Exception _ex)
         {
@@ -2357,8 +2304,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             TextFile textFile = (TextFile)button.BindingContext;
-            string url = getTextFileURL(textFile);
-            await Clipboard.Default.SetTextAsync(url);
+            await Clipboard.Default.SetTextAsync(textFile.webUrl);
         }
         catch (Exception _ex)
         {

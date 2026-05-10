@@ -12,5 +12,5 @@
     public int? height { get; set; }
     public string? dimensions { get; set; }
     public float? megapixels { get; set; }
-
+    public string webUrl { get; set; }
 }
