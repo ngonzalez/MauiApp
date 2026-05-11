@@ -21,7 +21,6 @@ namespace MauiApp1
                     fonts.AddFont("Font Awesome 7 Brands-Regular-400.otf", "FontAwesome7BrandsRegular");
                 });
 
-            //#if WINDOWS
             builder.Services.AddSingleton<AppShell>();
             builder.Services.AddSingleton<AppShellViewModel>();
             builder.Services.AddTransient<IFolderPicker, MauiApp1.Platforms.Windows.FolderPicker>();
@@ -38,7 +37,6 @@ namespace MauiApp1
             builder.Services.AddTransient<DisplayPage>();
             builder.Services.AddTransient<ShowImageFilePage>();
             builder.Services.AddTransient<App>();
-            //#endif
 
             builder.Logging.AddDebug();
 
