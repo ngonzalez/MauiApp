@@ -5,6 +5,6 @@
     public string state { get; set; }
     public string dataUrl { get; set; }
     public string? folder { get; set; }
-    public string? subfolder { get; set; }
+    public string? parentFolder { get; set; }
     public string webUrl { get; set; }
 }
