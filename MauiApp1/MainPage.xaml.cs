@@ -43,16 +43,16 @@ public static class MimeTypeMapper
             { ".weba", "audio/webm" },
 
             /* VIDEO */
-            { "3gp", "video/3gpp" },
-            { "mkv", "video/x-matroska" },
-            { "mp4", "video/mp4" },
-            { "mp4v", "video/mp4" },
-            { "mpg4", "video/mp4" },
-            { "m1v", "video/mpeg" },
-            { "m2v", "video/mpeg" },
-            { "mpg", "video/mpeg" },
-            { "mpeg", "video/mpeg" },
-            { "webm", "video/webm" },
+            { ".3gp", "video/3gpp" },
+            { ".mkv", "video/x-matroska" },
+            { ".mp4", "video/mp4" },
+            { ".mp4v", "video/mp4" },
+            { ".mpg4", "video/mp4" },
+            { ".m1v", "video/mpeg" },
+            { ".m2v", "video/mpeg" },
+            { ".mpg", "video/mpeg" },
+            { ".mpeg", "video/mpeg" },
+            { ".webm", "video/webm" },
         };
     public static string GetMimeType(string extension)
     {
