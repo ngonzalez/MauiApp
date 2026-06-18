@@ -21,5 +21,7 @@
         Task<(int, String)> DeleteFolders(byte[] body);
 
         Task<(int, String)> DeleteAttachments(byte[] body);
+
+        Task<(int, String)> CreateEvent(byte[] body);
     }
 }

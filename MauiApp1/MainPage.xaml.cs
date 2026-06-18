@@ -93,8 +93,8 @@ namespace MauiApp1
         {
             _folderPicker = folderPicker;
             _apiService = apiService;
-            _appShellViewModel = appShellViewModel;
             _alertService = alertService;
+            _appShellViewModel = appShellViewModel;
 
             var sessionID = _appShellViewModel.SessionID;
 
@@ -246,11 +246,15 @@ namespace MauiApp1
 
                     SendUploadFile(uploadFile);
 
+                    CreateEvent(uploadFile);
+
                     System.Threading.Thread.Sleep(5000);
                 }
                 else
                 {
                     SendFile(uploadFile);
+
+                    CreateEvent(uploadFile);
                 }
 
                 // Progress bar
@@ -259,6 +263,36 @@ namespace MauiApp1
                 progressBarText.Text = Convert.ToString(Convert.ToInt32(progress * 100)) + "%";
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
             }
+        }
+
+        private async void CreateEvent(UploadFile uploadFile)
+        {
+            var accountUuid = _appShellViewModel.CurrentUser.accountUuid;
+            var accountUuidUnwrapped = accountUuid!;
+            var url = "https://link12.ddns.net/uploads/" + Convert.ToString(uploadFile.uuid);
+
+            var parameters = new Dictionary<string, string> {
+                { "Model", DeviceInfo.Current.Model },
+                { "Manufacturer", DeviceInfo.Current.Manufacturer },
+                { "Name", DeviceInfo.Current.Name },
+                { "VersionString", DeviceInfo.Current.VersionString },
+                { "Idiom", Convert.ToString(DeviceInfo.Current.Idiom) },
+                { "Platform", Convert.ToString(DeviceInfo.Current.Platform) },
+            };
+
+            byte[] body = JsonSerializer.SerializeToUtf8Bytes(parameters);
+            string encodedParameters = Convert.ToBase64String(body);
+
+            var values = new Event {
+                accountUuid = (Guid)accountUuid,
+                url = url,
+                eventType = "upload",
+                parameters = encodedParameters
+            };
+
+            byte[] encodedValues = JsonSerializer.SerializeToUtf8Bytes(values);
+
+            (int _statusCode, var response) = await _apiService.CreateEvent(encodedValues);
         }
 
         private async void OnSendDataClicked(object sender, EventArgs e)
