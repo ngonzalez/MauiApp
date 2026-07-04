@@ -302,6 +302,40 @@ public partial class DisplayPage : ContentPage
         textFilesCountLabel.Text = Convert.ToString(TextFiles.Count() + " " + textFileLabel);
     }
 
+    public async void LoadAudioStream(AudioFile audioFile)
+    {
+        string audioFileId = Convert.ToString(audioFile.id);
+
+        (int _statusCode, var response) = await _apiService.getAudioStream(audioFileId);
+
+        AudioStreamResponse jsonResponse = JsonSerializer.Deserialize<AudioStreamResponse>(response);
+
+        if (jsonResponse != null)
+        {
+            if (jsonResponse.m3u8Exists)
+            {
+                AudioStreams.Add(jsonResponse);
+            }
+        }
+    }
+
+    public async void LoadVideoStream(VideoFile videoFile)
+    {
+        string videoFileId = Convert.ToString(videoFile.id);
+
+        (int _statusCode, var response) = await _apiService.getVideoStream(videoFileId);
+
+        VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
+
+        if (jsonResponse != null)
+        {
+            if (jsonResponse.m3u8Exists)
+            {
+                VideoStreams.Add(jsonResponse);
+            }
+        }
+    }
+
     public async void openNewWindowImageFile(object sender, EventArgs e)
     {
         Button button = (Button)sender;
@@ -936,7 +970,7 @@ public partial class DisplayPage : ContentPage
     public async void addVideoFileToSelectedItems(VideoFile videoFile)
     {
         SelectedVideoFiles.Add(videoFile);
-        GridMediaProcessing.IsVisible = videoFile.aasmState == "created";
+        //GridMediaProcessing.IsVisible = videoFile.aasmState == "created";
     }
 
     public async void previousLinkVideoFileClicked(object sender, EventArgs e)
@@ -1037,6 +1071,7 @@ public partial class DisplayPage : ContentPage
 
         addVideoFileToSelectedItems(videoFile);
 
+        LoadVideoStream(videoFile);
     }
 
     public async void SelectedVideoFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1384,7 +1419,7 @@ public partial class DisplayPage : ContentPage
     public async void addAudioFileToSelectedItems(AudioFile audioFile)
     {
         SelectedAudioFiles.Add(audioFile);
-        GridMediaProcessing.IsVisible = audioFile.aasmState == "created";
+        //GridMediaProcessing.IsVisible = audioFile.aasmState == "created";
     }
 
     public async void previousLinkAudioFileClicked(object sender, EventArgs e)
@@ -1484,6 +1519,8 @@ public partial class DisplayPage : ContentPage
         }
 
         addAudioFileToSelectedItems(audioFile);
+
+        LoadAudioStream(audioFile);
     }
 
     public async void SelectedAudioFilesSelectionChanged(object sender, SelectionChangedEventArgs e)
