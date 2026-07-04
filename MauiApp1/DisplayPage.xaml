@@ -2170,48 +2170,6 @@
                                                                 </VisualStateGroupList>
                                                             </VisualStateManager.VisualStateGroups>
                                                         </Button>
-                                                        <Button
-                                                            Text="Open Web URL"
-                                                            TextColor="FloralWhite"
-                                                            Clicked="PdfFileOpenWebURL_Clicked"
-                                                            FontSize="12"
-                                                            BackgroundColor="Transparent"
-                                                            BorderColor="#444"
-                                                            BorderWidth="1"
-                                                            CornerRadius="5"
-                                                            Padding="10"
-                                                            Margin="10"
-                                                            VerticalOptions="Center"
-                                                            HorizontalOptions="Center">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconEarthEurope}"
-                                                                    Size="12"
-                                                                    Color="FloralWhite" />
-                                                            </Button.ImageSource>
-                                                            <VisualStateManager.VisualStateGroups>
-                                                                <VisualStateGroupList>
-                                                                    <VisualStateGroup x:Name="CommonStates">
-                                                                        <VisualState x:Name="Normal">
-                                                                            <VisualState.Setters>
-                                                                                <Setter Property="Scale" Value="1" />
-                                                                            </VisualState.Setters>
-                                                                        </VisualState>
-                                                                        <VisualState x:Name="Pressed">
-                                                                            <VisualState.Setters>
-                                                                                <Setter Property="Scale" Value="0.9" />
-                                                                            </VisualState.Setters>
-                                                                        </VisualState>
-                                                                        <VisualState x:Name="PointerOver">
-                                                                            <VisualState.Setters>
-                                                                                <Setter Property="BackgroundColor" Value="#222" />
-                                                                            </VisualState.Setters>
-                                                                        </VisualState>
-                                                                    </VisualStateGroup>
-                                                                </VisualStateGroupList>
-                                                            </VisualStateManager.VisualStateGroups>
-                                                        </Button>
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
@@ -2759,48 +2717,6 @@
                                                                 <FontImageSource
                                                                     FontFamily="FontAwesome7FreeSolid"
                                                                     Glyph="{StaticResource IconClone}"
-                                                                    Size="12"
-                                                                    Color="FloralWhite" />
-                                                            </Button.ImageSource>
-                                                            <VisualStateManager.VisualStateGroups>
-                                                                <VisualStateGroupList>
-                                                                    <VisualStateGroup x:Name="CommonStates">
-                                                                        <VisualState x:Name="Normal">
-                                                                            <VisualState.Setters>
-                                                                                <Setter Property="Scale" Value="1" />
-                                                                            </VisualState.Setters>
-                                                                        </VisualState>
-                                                                        <VisualState x:Name="Pressed">
-                                                                            <VisualState.Setters>
-                                                                                <Setter Property="Scale" Value="0.9" />
-                                                                            </VisualState.Setters>
-                                                                        </VisualState>
-                                                                        <VisualState x:Name="PointerOver">
-                                                                            <VisualState.Setters>
-                                                                                <Setter Property="BackgroundColor" Value="#222" />
-                                                                            </VisualState.Setters>
-                                                                        </VisualState>
-                                                                    </VisualStateGroup>
-                                                                </VisualStateGroupList>
-                                                            </VisualStateManager.VisualStateGroups>
-                                                        </Button>
-                                                        <Button
-                                                            Text="Open Web URL"
-                                                            TextColor="FloralWhite"
-                                                            Clicked="TextFileOpenWebURL_Clicked"
-                                                            FontSize="12"
-                                                            BackgroundColor="Transparent"
-                                                            BorderColor="#444"
-                                                            BorderWidth="1"
-                                                            CornerRadius="5"
-                                                            Padding="10"
-                                                            Margin="10"
-                                                            VerticalOptions="Center"
-                                                            HorizontalOptions="Center">
-                                                            <Button.ImageSource>
-                                                                <FontImageSource
-                                                                    FontFamily="FontAwesome7FreeSolid"
-                                                                    Glyph="{StaticResource IconEarthEurope}"
                                                                     Size="12"
                                                                     Color="FloralWhite" />
                                                             </Button.ImageSource>

@@ -18,4 +18,5 @@
     public int? height { get; set; }
     public int? aspectRatio { get; set; }
     public string webUrl { get; set; }
+    public string webViewUrl { get; set; }
 }

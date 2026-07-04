@@ -1125,7 +1125,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             VideoFile videoFile = (VideoFile)button.BindingContext;
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(videoFile.webUrl);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(videoFile.webViewUrl);
         }
         catch (Exception _ex)
         {
@@ -1564,7 +1564,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             AudioFile audioFile = (AudioFile)button.BindingContext;
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(audioFile.webUrl);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(audioFile.webViewUrl);
         }
         catch (Exception _ex)
         {
@@ -1927,7 +1927,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             PdfFile pdfFile = (PdfFile)button.BindingContext;
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(pdfFile.webUrl);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(pdfFile.webViewUrl);
         }
         catch (Exception _ex)
         {
@@ -2290,7 +2290,7 @@ public partial class DisplayPage : ContentPage
         {
             Button button = (Button)sender;
             TextFile textFile = (TextFile)button.BindingContext;
-            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(textFile.webUrl);
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(textFile.webViewUrl);
         }
         catch (Exception _ex)
         {
