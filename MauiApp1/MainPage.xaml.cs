@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net.Mail;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text.Json;
 
@@ -204,6 +205,13 @@ namespace MauiApp1
             {
                 long length = new System.IO.FileInfo(uploadFile.filePath).Length;
 
+                var fileInfo = new Dictionary<string, string>
+                {
+                    { "fileSize", Convert.ToString(length) },
+                    { "fileName", uploadFile.filePath },
+                    { "mimeType", uploadFile.mimeType }
+                };
+
                 if (length >= 104857600) // 100 Megabytes = 104857600 Bytes
                 {
                     string tempDirectory = GetTemporaryDirectory();
@@ -246,7 +254,7 @@ namespace MauiApp1
 
                     SendUploadFile(uploadFile);
 
-                    CreateEvent(uploadFile);
+                    CreateEvent(uploadFile, fileInfo);
 
                     System.Threading.Thread.Sleep(5000);
                 }
@@ -254,7 +262,7 @@ namespace MauiApp1
                 {
                     SendFile(uploadFile);
 
-                    CreateEvent(uploadFile);
+                    CreateEvent(uploadFile, fileInfo);
                 }
 
                 // Progress bar
@@ -265,13 +273,13 @@ namespace MauiApp1
             }
         }
 
-        private async void CreateEvent(UploadFile uploadFile)
+        private async void CreateEvent(UploadFile uploadFile, Dictionary<string, string> uploadDetails)
         {
             var accountUuid = _appShellViewModel.CurrentUser.accountUuid;
             var accountUuidUnwrapped = accountUuid!;
             var url = "https://link12.ddns.net/uploads/" + Convert.ToString(uploadFile.uuid);
 
-            var parameters = new Dictionary<string, string> {
+            var platformDetails = new Dictionary<string, string> {
                 { "Model", DeviceInfo.Current.Model },
                 { "Manufacturer", DeviceInfo.Current.Manufacturer },
                 { "Name", DeviceInfo.Current.Name },
@@ -280,8 +288,20 @@ namespace MauiApp1
                 { "Platform", Convert.ToString(DeviceInfo.Current.Platform) },
             };
 
-            byte[] body = JsonSerializer.SerializeToUtf8Bytes(parameters);
-            string encodedParameters = Convert.ToBase64String(body);
+            var parameters = new Dictionary<string, Dictionary<string, string>>
+            {
+                {
+                    "platformDetails",
+                    platformDetails
+                },
+                {
+                    "uploadDetails",
+                    uploadDetails
+                }
+            };
+
+            byte[] parametersBody = JsonSerializer.SerializeToUtf8Bytes(parameters);
+            string encodedParameters = Convert.ToBase64String(parametersBody);
 
             var values = new Event {
                 accountUuid = (Guid)accountUuid,
