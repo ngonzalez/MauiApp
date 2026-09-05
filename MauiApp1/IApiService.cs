@@ -2,7 +2,7 @@
 {
     public interface IApiService
     {
-        Task<(int, String)> getUploads(string ids);
+        Task<(int, String)> getUploads(Guid accountUuid, string ids);
 
         Task<(int, String)> CreatePostAsync(byte[] body);
 

@@ -40,6 +40,8 @@ public partial class DisplayPage : ContentPage
 
     private readonly IApiService _apiService;
 
+    private readonly IAuthenticate _authenticate;
+
     private readonly AppShellViewModel _appShellViewModel;
 
     private Folder _folder;
@@ -67,8 +69,9 @@ public partial class DisplayPage : ContentPage
     public ObservableCollection<TextFile> TextFiles { get; set; }
     public ObservableCollection<TextFile> SelectedTextFiles { get; set; }
 
-    public DisplayPage(IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
+    public DisplayPage(IAuthenticate authenticate, IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel, Folder folder)
     {
+        _authenticate = authenticate;
         _alertService = alertService;
         _apiService = apiService;
         _appShellViewModel = appShellViewModel;
@@ -168,138 +171,144 @@ public partial class DisplayPage : ContentPage
         string folderId = Convert.ToString(_folder.id);
         var folderIdsUtf8 = JsonSerializer.SerializeToUtf8Bytes("," + folderId);
         string encodedFolderId = Convert.ToBase64String(folderIdsUtf8);
-        (int _statusCode, var response) = await _apiService.getUploads("?folderIds=" + encodedFolderId);
-        var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
-        // ImageFile
-        ImageFiles = new ObservableCollection<ImageFile> { };
-
-        while (ImageFiles.Count() > 0)
+        User currentUser = await _authenticate.getCurrentUser();
+        if (currentUser != null)
         {
-            ImageFiles.RemoveAt(0);
-        }
+            Guid accountUuid = (Guid)_appShellViewModel.CurrentUser.accountUuid;
+            (int _statusCode, var response) = await _apiService.getUploads(accountUuid, "?folderIds=" + encodedFolderId);
+            var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.imageFiles.Length > 0)
+            // ImageFile
+            ImageFiles = new ObservableCollection<ImageFile> { };
+
+            while (ImageFiles.Count() > 0)
             {
-                foreach (ImageFile imageFile in upload.imageFiles)
+                ImageFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.imageFiles.Length > 0)
                 {
-                    ImageFiles.Add(imageFile);
+                    foreach (ImageFile imageFile in upload.imageFiles)
+                    {
+                        ImageFiles.Add(imageFile);
+                    }
                 }
             }
-        }
 
-        imageFilesCollectionView.ItemsSource = ImageFiles;
-        string imageFileLabel = ImageFiles.Count() > 1 ? "Image Files" : "Image File";
-        imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " " + imageFileLabel;
-        GridImageFiles.IsVisible = ImageFiles.Count() > 0;
-        GridImageFilesDetails.IsVisible = ImageFiles.Count() > 0;
-        imageFilesCountLabel.Text = Convert.ToString(ImageFiles.Count() + " " + imageFileLabel);
+            imageFilesCollectionView.ItemsSource = ImageFiles;
+            string imageFileLabel = ImageFiles.Count() > 1 ? "Image Files" : "Image File";
+            imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " " + imageFileLabel;
+            GridImageFiles.IsVisible = ImageFiles.Count() > 0;
+            GridImageFilesDetails.IsVisible = ImageFiles.Count() > 0;
+            imageFilesCountLabel.Text = Convert.ToString(ImageFiles.Count() + " " + imageFileLabel);
 
-        // VideoFile
-        VideoFiles = new ObservableCollection<VideoFile> { };
+            // VideoFile
+            VideoFiles = new ObservableCollection<VideoFile> { };
 
-        while (VideoFiles.Count() > 0)
-        {
-            VideoFiles.RemoveAt(0);
-        }
-
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.videoFiles.Length > 0)
+            while (VideoFiles.Count() > 0)
             {
-                foreach (VideoFile videoFile in upload.videoFiles)
+                VideoFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.videoFiles.Length > 0)
                 {
-                    VideoFiles.Add(videoFile);
+                    foreach (VideoFile videoFile in upload.videoFiles)
+                    {
+                        VideoFiles.Add(videoFile);
+                    }
                 }
             }
-        }
 
-        videoFilesCollectionView.ItemsSource = VideoFiles;
-        string videoFileLabel = VideoFiles.Count() > 1 ? "Video Files" : "Video File";
-        videoFilesCount.Text = Convert.ToString(VideoFiles.Count()) + " " + videoFileLabel;
-        GridVideoFiles.IsVisible = VideoFiles.Count() > 0;
-        GridVideoFilesDetails.IsVisible = VideoFiles.Count() > 0;
-        videoFilesCountLabel.Text = Convert.ToString(VideoFiles.Count() + " " + videoFileLabel);
+            videoFilesCollectionView.ItemsSource = VideoFiles;
+            string videoFileLabel = VideoFiles.Count() > 1 ? "Video Files" : "Video File";
+            videoFilesCount.Text = Convert.ToString(VideoFiles.Count()) + " " + videoFileLabel;
+            GridVideoFiles.IsVisible = VideoFiles.Count() > 0;
+            GridVideoFilesDetails.IsVisible = VideoFiles.Count() > 0;
+            videoFilesCountLabel.Text = Convert.ToString(VideoFiles.Count() + " " + videoFileLabel);
 
-        // AudioFile
-        AudioFiles = new ObservableCollection<AudioFile> { };
+            // AudioFile
+            AudioFiles = new ObservableCollection<AudioFile> { };
 
-        while (AudioFiles.Count() > 0)
-        {
-            AudioFiles.RemoveAt(0);
-        }
-
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.audioFiles.Length > 0)
+            while (AudioFiles.Count() > 0)
             {
-                foreach (AudioFile audioFile in upload.audioFiles)
+                AudioFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.audioFiles.Length > 0)
                 {
-                    AudioFiles.Add(audioFile);
+                    foreach (AudioFile audioFile in upload.audioFiles)
+                    {
+                        AudioFiles.Add(audioFile);
+                    }
                 }
             }
-        }
 
-        audioFilesCollectionView.ItemsSource = AudioFiles;
-        string audioFileLabel = AudioFiles.Count() > 1 ? "Audio Files" : "Audio File";
-        audioFilesCount.Text = Convert.ToString(AudioFiles.Count()) + " " + audioFileLabel;
-        GridAudioFiles.IsVisible = AudioFiles.Count() > 0;
-        GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
-        audioFilesCountLabel.Text = Convert.ToString(AudioFiles.Count() + " " + audioFileLabel);
+            audioFilesCollectionView.ItemsSource = AudioFiles;
+            string audioFileLabel = AudioFiles.Count() > 1 ? "Audio Files" : "Audio File";
+            audioFilesCount.Text = Convert.ToString(AudioFiles.Count()) + " " + audioFileLabel;
+            GridAudioFiles.IsVisible = AudioFiles.Count() > 0;
+            GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
+            audioFilesCountLabel.Text = Convert.ToString(AudioFiles.Count() + " " + audioFileLabel);
 
-        // PdfFile
-        PdfFiles = new ObservableCollection<PdfFile> { };
+            // PdfFile
+            PdfFiles = new ObservableCollection<PdfFile> { };
 
-        while (PdfFiles.Count() > 0)
-        {
-            PdfFiles.RemoveAt(0);
-        }
-
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.pdfFiles.Length > 0)
+            while (PdfFiles.Count() > 0)
             {
-                foreach (PdfFile pdfFile in upload.pdfFiles)
+                PdfFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.pdfFiles.Length > 0)
                 {
-                    PdfFiles.Add(pdfFile);
+                    foreach (PdfFile pdfFile in upload.pdfFiles)
+                    {
+                        PdfFiles.Add(pdfFile);
+                    }
                 }
             }
-        }
 
-        pdfFilesCollectionView.ItemsSource = PdfFiles;
-        string pdfFileLabel = PdfFiles.Count() > 1 ? "Pdf Files" : "Pdf File";
-        pdfFilesCount.Text = Convert.ToString(PdfFiles.Count()) + " " + pdfFileLabel;
-        GridPdfFiles.IsVisible = PdfFiles.Count() > 0;
-        GridPdfFilesDetails.IsVisible = PdfFiles.Count() > 0;
-        pdfFilesCountLabel.Text = Convert.ToString(PdfFiles.Count() + " " + pdfFileLabel);
+            pdfFilesCollectionView.ItemsSource = PdfFiles;
+            string pdfFileLabel = PdfFiles.Count() > 1 ? "Pdf Files" : "Pdf File";
+            pdfFilesCount.Text = Convert.ToString(PdfFiles.Count()) + " " + pdfFileLabel;
+            GridPdfFiles.IsVisible = PdfFiles.Count() > 0;
+            GridPdfFilesDetails.IsVisible = PdfFiles.Count() > 0;
+            pdfFilesCountLabel.Text = Convert.ToString(PdfFiles.Count() + " " + pdfFileLabel);
 
-        // TextFile
-        TextFiles = new ObservableCollection<TextFile> { };
+            // TextFile
+            TextFiles = new ObservableCollection<TextFile> { };
 
-        while (TextFiles.Count() > 0)
-        {
-            TextFiles.RemoveAt(0);
-        }
-
-        foreach (Upload upload in uploadsResponse)
-        {
-            if (upload.textFiles.Length > 0)
+            while (TextFiles.Count() > 0)
             {
-                foreach (TextFile textFile in upload.textFiles)
+                TextFiles.RemoveAt(0);
+            }
+
+            foreach (Upload upload in uploadsResponse)
+            {
+                if (upload.textFiles.Length > 0)
                 {
-                    TextFiles.Add(textFile);
+                    foreach (TextFile textFile in upload.textFiles)
+                    {
+                        TextFiles.Add(textFile);
+                    }
                 }
             }
-        }
 
-        textFilesCollectionView.ItemsSource = TextFiles;
-        string textFileLabel = TextFiles.Count() > 1 ? "Text Files" : "Text File";
-        textFilesCount.Text = Convert.ToString(TextFiles.Count()) + " " + textFileLabel;
-        GridTextFiles.IsVisible = TextFiles.Count() > 0;
-        GridTextFilesDetails.IsVisible = TextFiles.Count() > 0;
-        textFilesCountLabel.Text = Convert.ToString(TextFiles.Count() + " " + textFileLabel);
+            textFilesCollectionView.ItemsSource = TextFiles;
+            string textFileLabel = TextFiles.Count() > 1 ? "Text Files" : "Text File";
+            textFilesCount.Text = Convert.ToString(TextFiles.Count()) + " " + textFileLabel;
+            GridTextFiles.IsVisible = TextFiles.Count() > 0;
+            GridTextFilesDetails.IsVisible = TextFiles.Count() > 0;
+            textFilesCountLabel.Text = Convert.ToString(TextFiles.Count() + " " + textFileLabel);
+        }
     }
 
     public async void LoadAudioStream(AudioFile audioFile)
@@ -1091,25 +1100,17 @@ public partial class DisplayPage : ContentPage
 
         try
         {
-            for (int i = 0; i < 10; i++)
+            string videoFileId = Convert.ToString(videoFile.id);
+
+            (int _statusCode, var response) = await _apiService.getVideoStream(videoFileId);
+
+            VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
+
+            if (jsonResponse != null)
             {
-                string videoFileId = Convert.ToString(videoFile.id);
-
-                (int _statusCode, var response) = await _apiService.getVideoStream(videoFileId);
-
-                VideoStreamResponse jsonResponse = JsonSerializer.Deserialize<VideoStreamResponse>(response);
-
-                if (jsonResponse != null)
+                if (jsonResponse.m3u8Exists)
                 {
-                    if (jsonResponse.m3u8Exists)
-                    {
-                        VideoStreams.Add(jsonResponse);
-                        break;
-                    }
-                    else
-                    {
-                        System.Threading.Thread.Sleep(500);
-                    }
+                    VideoStreams.Add(jsonResponse);
                 }
             }
         }
@@ -1540,25 +1541,17 @@ public partial class DisplayPage : ContentPage
 
         try
         {
-            for (int i = 0; i < 10; i++)
+            string audioFileId = Convert.ToString(audioFile.id);
+
+            (int _statusCode, var response) = await _apiService.getAudioStream(audioFileId);
+
+            AudioStreamResponse jsonResponse = JsonSerializer.Deserialize<AudioStreamResponse>(response);
+
+            if (jsonResponse != null)
             {
-                string audioFileId = Convert.ToString(audioFile.id);
-
-                (int _statusCode, var response) = await _apiService.getAudioStream(audioFileId);
-
-                AudioStreamResponse jsonResponse = JsonSerializer.Deserialize<AudioStreamResponse>(response);
-
-                if (jsonResponse != null)
+                if (jsonResponse.m3u8Exists)
                 {
-                    if (jsonResponse.m3u8Exists)
-                    {
-                        AudioStreams.Add(jsonResponse);
-                        break;
-                    }
-                    else
-                    {
-                        System.Threading.Thread.Sleep(500);
-                    }
+                    AudioStreams.Add(jsonResponse);
                 }
             }
         }

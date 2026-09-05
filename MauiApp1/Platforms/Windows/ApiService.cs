@@ -28,9 +28,10 @@ namespace MauiApp1.Platforms.Windows
             );
         }
 
-        public async Task<(int, String)> getUploads(string ids)
+        public async Task<(int, String)> getUploads(Guid accountUuid, string ids)
         {
-            var response = await _httpClient.GetAsync("/upload" + ids);
+            var accountUuidStr = Convert.ToString(accountUuid);
+            var response = await _httpClient.GetAsync("/upload/" + accountUuidStr + "/" + ids);
             string json = await response.Content.ReadAsStringAsync();
             int status = (int)response.StatusCode;
             return (status, json);

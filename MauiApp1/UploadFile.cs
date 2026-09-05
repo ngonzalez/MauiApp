@@ -2,6 +2,8 @@
 {
     public required Guid uuid { get; set; }
 
+    public required int userId { get; set; }
+
     public Guid uploadFileUuid { get; set; }
 
     public required int sessionId { get; set; }

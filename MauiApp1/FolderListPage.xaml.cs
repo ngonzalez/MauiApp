@@ -41,11 +41,14 @@ namespace MauiApp1
 
         private readonly IApiService _apiService;
 
+        private readonly IAuthenticate _authenticate;
+
         private readonly AppShellViewModel _appShellViewModel;
 
-        public FolderListPage(IFolderPicker folderPicker, IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel)
+        public FolderListPage(IAuthenticate authenticate, IFolderPicker folderPicker, IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel)
         {
             _folderPicker = folderPicker;
+            _authenticate = authenticate;
             _apiService = apiService;
             _appShellViewModel = appShellViewModel;
             _alertService = alertService;
@@ -185,7 +188,7 @@ namespace MauiApp1
         {
             Button button = (Button)sender;
             Folder folder = (Folder)button.BindingContext;
-            Window secondWindow = new Window(new DisplayPage(_alertService, _apiService, _appShellViewModel, folder));
+            Window secondWindow = new Window(new DisplayPage(_authenticate, _alertService, _apiService, _appShellViewModel, folder));
             App.Current.OpenWindow(secondWindow);
         }
 
@@ -193,119 +196,123 @@ namespace MauiApp1
         {
             ActivityIndicator.IsRunning = true;
 
-            (int _statusCode, var response) = await _apiService.getUploads("");
-            var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
+            User currentUser = await _authenticate.getCurrentUser();
+            if (currentUser != null) {
+                Guid accountUuid = (Guid)_appShellViewModel.CurrentUser.accountUuid;
+                (int _statusCode, var response) = await _apiService.getUploads(accountUuid, "");
+                var uploadsResponse = JsonSerializer.Deserialize<Upload[]>(response);
 
-            while (Folders.Count() > 0)
-            {
-                Folders.RemoveAt(0);
-            }
+                while (Folders.Count() > 0)
+                {
+                    Folders.RemoveAt(0);
+                }
 
-            Folders = new ObservableCollection<Folder> { };
+                Folders = new ObservableCollection<Folder> { };
 
-            foreach (var item in uploadsResponse)
-            {
-                if (item.imageFiles.Length > 0)
+                foreach (var item in uploadsResponse)
                 {
-                    foreach (ImageFile imageFile in item.imageFiles)
+                    if (item.imageFiles.Length > 0)
                     {
-                        if (imageFile.folder != null)
+                        foreach (ImageFile imageFile in item.imageFiles)
                         {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
+                            if (imageFile.folder != null)
                             {
-                                if (folder.id == imageFile.folder.id)
+                                bool found = false;
+                                foreach (Folder folder in Folders)
                                 {
-                                    found = true;
+                                    if (folder.id == imageFile.folder.id)
+                                    {
+                                        found = true;
+                                    }
                                 }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(imageFile.folder);
+                                if (!found)
+                                {
+                                    Folders.Add(imageFile.folder);
+                                }
                             }
                         }
                     }
-                }
-                if (item.textFiles.Length > 0)
-                {
-                    foreach (TextFile textFile in item.textFiles)
+                    if (item.textFiles.Length > 0)
                     {
-                        if (textFile.folder != null)
+                        foreach (TextFile textFile in item.textFiles)
                         {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
+                            if (textFile.folder != null)
                             {
-                                if (folder.id == textFile.folder.id)
+                                bool found = false;
+                                foreach (Folder folder in Folders)
                                 {
-                                    found = true;
+                                    if (folder.id == textFile.folder.id)
+                                    {
+                                        found = true;
+                                    }
                                 }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(textFile.folder);
+                                if (!found)
+                                {
+                                    Folders.Add(textFile.folder);
+                                }
                             }
                         }
                     }
-                }
-                if (item.pdfFiles.Length > 0)
-                {
-                    foreach (PdfFile pdfFile in item.pdfFiles)
+                    if (item.pdfFiles.Length > 0)
                     {
-                        if (pdfFile.folder != null)
+                        foreach (PdfFile pdfFile in item.pdfFiles)
                         {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
+                            if (pdfFile.folder != null)
                             {
-                                if (folder.id == pdfFile.folder.id)
+                                bool found = false;
+                                foreach (Folder folder in Folders)
                                 {
-                                    found = true;
+                                    if (folder.id == pdfFile.folder.id)
+                                    {
+                                        found = true;
+                                    }
                                 }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(pdfFile.folder);
+                                if (!found)
+                                {
+                                    Folders.Add(pdfFile.folder);
+                                }
                             }
                         }
                     }
-                }
-                if (item.audioFiles.Length > 0)
-                {
-                    foreach (AudioFile audioFile in item.audioFiles)
+                    if (item.audioFiles.Length > 0)
                     {
-                        if (audioFile.folder != null)
+                        foreach (AudioFile audioFile in item.audioFiles)
                         {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
+                            if (audioFile.folder != null)
                             {
-                                if (folder.id == audioFile.folder.id)
+                                bool found = false;
+                                foreach (Folder folder in Folders)
                                 {
-                                    found = true;
+                                    if (folder.id == audioFile.folder.id)
+                                    {
+                                        found = true;
+                                    }
                                 }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(audioFile.folder);
+                                if (!found)
+                                {
+                                    Folders.Add(audioFile.folder);
+                                }
                             }
                         }
                     }
-                }
-                if (item.videoFiles.Length > 0)
-                {
-                    foreach (VideoFile videoFile in item.videoFiles)
+                    if (item.videoFiles.Length > 0)
                     {
-                        if (videoFile.folder != null)
+                        foreach (VideoFile videoFile in item.videoFiles)
                         {
-                            bool found = false;
-                            foreach (Folder folder in Folders)
+                            if (videoFile.folder != null)
                             {
-                                if (folder.id == videoFile.folder.id)
+                                bool found = false;
+                                foreach (Folder folder in Folders)
                                 {
-                                    found = true;
+                                    if (folder.id == videoFile.folder.id)
+                                    {
+                                        found = true;
+                                    }
                                 }
-                            }
-                            if (!found)
-                            {
-                                Folders.Add(videoFile.folder);
+                                if (!found)
+                                {
+                                    Folders.Add(videoFile.folder);
+                                }
                             }
                         }
                     }
