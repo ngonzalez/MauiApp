@@ -278,7 +278,7 @@ namespace MauiApp1
         {
             var accountUuid = _appShellViewModel.CurrentUser.accountUuid;
             var accountUuidUnwrapped = accountUuid!;
-            var url = "https://link12.ddns.net/uploads/" + Convert.ToString(uploadFile.uuid);
+            var url = "https://appshare.site/uploads/" + Convert.ToString(uploadFile.uuid);
 
             var platformDetails = new Dictionary<string, string> {
                 { "Model", DeviceInfo.Current.Model },

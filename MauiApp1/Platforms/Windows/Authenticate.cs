@@ -18,7 +18,7 @@ namespace MauiApp1.Platforms.Windows
             _appShellViewModel = appShellViewModel;
             _httpClient = new HttpClient(new BearerTokenHandler(appShellViewModel))
             {
-                BaseAddress = new Uri("https://link12.ddns.net:4040")
+                BaseAddress = new Uri("https://api.appshare.site")
             };
         }
 

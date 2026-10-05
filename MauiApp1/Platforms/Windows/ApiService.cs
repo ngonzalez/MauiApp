@@ -11,7 +11,7 @@ namespace MauiApp1.Platforms.Windows
         {
             _httpClient = new HttpClient(new BearerTokenHandler(appShellViewModel))
             {
-                BaseAddress = new Uri("https://link12.ddns.net:4040")
+                BaseAddress = new Uri("https://api.appshare.site")
             };
 
             _httpClient.DefaultRequestHeaders.Accept.Add(
@@ -20,7 +20,7 @@ namespace MauiApp1.Platforms.Windows
 
             _httpClientStreamingService = new HttpClient()
             {
-                BaseAddress = new Uri("https://link12.ddns.net:5050")
+                BaseAddress = new Uri("https://stream.appshare.site")
             };
 
             _httpClientStreamingService.DefaultRequestHeaders.Accept.Add(
