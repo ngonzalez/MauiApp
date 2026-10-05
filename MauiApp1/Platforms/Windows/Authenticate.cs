@@ -16,7 +16,7 @@ namespace MauiApp1.Platforms.Windows
         public Authenticate(AppShellViewModel appShellViewModel)
         {
             _appShellViewModel = appShellViewModel;
-            _httpClient = new HttpClient()
+            _httpClient = new HttpClient(new BearerTokenHandler(appShellViewModel))
             {
                 BaseAddress = new Uri("https://link12.ddns.net:4040")
             };
@@ -33,14 +33,14 @@ namespace MauiApp1.Platforms.Windows
             return true;
         }
 
-        public async Task<int> getSessionID()
+        public async Task<string?> getToken()
         {
-            return _appShellViewModel.SessionID;
+            return _appShellViewModel.Token;
         }
 
-        public async Task<bool> setSessionID(int sessionID)
+        public async Task<bool> setToken(string? token)
         {
-            _appShellViewModel.SessionID = sessionID;
+            _appShellViewModel.Token = token;
             return true;
         }
 

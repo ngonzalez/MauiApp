@@ -22,9 +22,7 @@ public partial class AccountPage : ContentPage
         _authenticate = authenticate;
         _appShellViewModel = appShellViewModel;
 
-        var sessionID = _appShellViewModel.SessionID;
-
-        if (sessionID == null || sessionID == 0)
+        if (string.IsNullOrEmpty(_appShellViewModel.Token))
         {
             Shell.Current.GoToAsync("signinpage");
             return;
@@ -54,7 +52,7 @@ public partial class AccountPage : ContentPage
 
         _authenticate.setCurrentUser(new User { });
 
-        _authenticate.setSessionID(0);
+        _authenticate.setToken(null);
 
         Shell.Current.GoToAsync("signinpage");
     }

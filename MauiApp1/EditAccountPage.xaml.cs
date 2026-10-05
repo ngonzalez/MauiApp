@@ -61,9 +61,7 @@ namespace MauiApp1
 
             _appShellViewModel = appShellViewModel;
 
-            var sessionID = _appShellViewModel.SessionID;
-
-            if (sessionID == null || sessionID == 0)
+            if (string.IsNullOrEmpty(_appShellViewModel.Token))
             {
                 Shell.Current.GoToAsync("signinpage");
             }

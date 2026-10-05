@@ -7,9 +7,9 @@
 
         Task<bool> setCurrentUser(User user);
 
-        Task<bool> setSessionID(int sessionID);
+        Task<bool> setToken(string? token);
 
-        Task<int> getSessionID();
+        Task<string?> getToken();
 
         Task<(int, String)> registerAccount(Dictionary<string, string> values);
 

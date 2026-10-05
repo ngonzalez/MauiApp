@@ -12,12 +12,14 @@ public partial class AppShellViewModel
         set { _user = value; }
     }
 
-    private int _sessionID;
+    // The token of POST /session, sent as "Authorization: Bearer <token>"
+    // (BearerTokenHandler); null when signed out
+    private string? _token;
 
-    public int SessionID
+    public string? Token
     {
-        get { return _sessionID; }
-        set { _sessionID = value; }
+        get { return _token; }
+        set { _token = value; }
     }
 
     private JsonSerializerOptions _jsonOptions;

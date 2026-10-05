@@ -1,6 +1,4 @@
 using Microsoft.Toolkit.Uwp.Notifications;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 
 
@@ -13,15 +11,8 @@ public class NewSessionResponse
 
     public string message { get; set; }
 
-    public string sessionId { get; set; }
-
-}
-
-public class SessionInfo
-{
-    public int sessionId { get; set; }
-
-    public DateTime expiresAt { get; set; }
+    // Sent back as "Authorization: Bearer <token>" (BearerTokenHandler)
+    public string? token { get; set; }
 
 }
 
@@ -69,13 +60,7 @@ public partial class SignInPage : ContentPage
         {
             if (jsonResponse.user.emailAddressValidatedAt != null)
             {
-                string sessionInfo = getSessionId(jsonResponse);
-
-                SessionInfo jsonSessionInfo = JsonSerializer.Deserialize<SessionInfo>(sessionInfo);
-
-                int sessionId = jsonSessionInfo.sessionId;
-
-                await _authenticate.setSessionID(sessionId);
+                await _authenticate.setToken(jsonResponse.token);
 
                 await _authenticate.setCurrentUser(jsonResponse.user);
 
@@ -101,37 +86,6 @@ public partial class SignInPage : ContentPage
                     .Show();
             }
         }
-    }
-
-    private string getSessionId(NewSessionResponse jsonResponse)
-    {
-        // session id
-        string sessionId = jsonResponse.sessionId;
-        string[] subs = sessionId.Split(':');
-
-        // iv
-        string iv_hex = subs[0];
-        byte[] iv_data = Enumerable.Range(0, iv_hex.Length)
-                                   .Where(x => x % 2 == 0)
-                                   .Select(x => Convert.ToByte(iv_hex.Substring(x, 2), 16))
-                                   .ToArray();
-
-        // encrypted
-        string encrypted_hex = subs[1];
-        byte[] encrypted_data = Enumerable.Range(0, encrypted_hex.Length)
-                                          .Where(x => x % 2 == 0)
-                                          .Select(x => Convert.ToByte(encrypted_hex.Substring(x, 2), 16))
-                                          .ToArray();
-
-        // aes
-        using var aes = Aes.Create();
-        aes.Key = Encoding.UTF8.GetBytes("a797255fd895fd168cf4b44057a99da2"); // SECRET_KEY_BASE[0, 32]
-        aes.IV = iv_data;
-        using var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-        using var ms = new MemoryStream(encrypted_data);
-        using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read);
-        using var sr = new StreamReader(cs);
-        return sr.ReadToEnd();
     }
 
     private async void OnEmailAddressCompleted(object sender, EventArgs e)

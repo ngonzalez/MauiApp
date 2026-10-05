@@ -6,8 +6,6 @@
 
     public Guid uploadFileUuid { get; set; }
 
-    public required int sessionId { get; set; }
-
     public required string itemData { get; set; }
 
     public required string filePath { get; set; }

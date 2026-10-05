@@ -100,9 +100,7 @@ namespace MauiApp1
             _alertService = alertService;
             _appShellViewModel = appShellViewModel;
 
-            var sessionID = _appShellViewModel.SessionID;
-
-            if (sessionID == null || sessionID == 0)
+            if (string.IsNullOrEmpty(_appShellViewModel.Token))
             {
                 Shell.Current.GoToAsync("signinpage");
             }
@@ -360,7 +358,6 @@ namespace MauiApp1
 
                     UploadFile splitUploadFile = new UploadFile
                     {
-                        sessionId = _appShellViewModel.SessionID,
                         userId = (int)currentUser.id,
                         uuid = Guid.NewGuid(),
                         uploadFileUuid = uploadFile.uuid,
@@ -427,7 +424,6 @@ namespace MauiApp1
                 {
                     UploadFile uploadFile = new UploadFile
                     {
-                        sessionId = _appShellViewModel.SessionID,
                         userId = userId,
                         uuid = Guid.NewGuid(),
                         createdAt = createdAt,

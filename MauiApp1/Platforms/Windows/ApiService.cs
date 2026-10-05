@@ -7,9 +7,9 @@ namespace MauiApp1.Platforms.Windows
         private readonly HttpClient _httpClient;
 
         private readonly HttpClient _httpClientStreamingService;
-        public ApiService()
+        public ApiService(AppShellViewModel appShellViewModel)
         {
-            _httpClient = new HttpClient()
+            _httpClient = new HttpClient(new BearerTokenHandler(appShellViewModel))
             {
                 BaseAddress = new Uri("https://link12.ddns.net:4040")
             };
