@@ -76,6 +76,11 @@ namespace MauiApp1
 {
     public partial class MainPage : ContentPage
     {
+        // Files above this size are sent in chunks of this size: about 71MB
+        // per request once encoded, under nginx's 75MB request limit (and
+        // Cloudflare's 100MB)
+        private const int ChunkSize = 70 * 1024 * 1024;
+
 
         public ObservableCollection<UploadFolder> UploadFolders { get; set; }
 
@@ -214,7 +219,7 @@ namespace MauiApp1
                     { "mimeType", uploadFile.mimeType }
                 };
 
-                if (length >= 104857600) // 100 Megabytes = 104857600 Bytes
+                if (length >= ChunkSize)
                 {
                     string tempDirectory = GetTemporaryDirectory();
                     string fileName = Convert.ToString(uploadFile.uuid) + ".zip";
@@ -222,7 +227,7 @@ namespace MauiApp1
 
                     CompressZip(uploadFile.filePath, tempFile);
 
-                    SplitFile(tempFile, 104857600, tempDirectory);
+                    SplitFile(tempFile, ChunkSize, tempDirectory);
 
                     try
                     {
