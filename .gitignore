@@ -2,3 +2,6 @@
 .vs/
 bin/
 obj/
+
+# macOS Finder metadata
+.DS_Store
