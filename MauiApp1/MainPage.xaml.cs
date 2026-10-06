@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text.Json;
+using MauiApp1.Resources.Strings;
 
 public static class MimeTypeMapper
 {
@@ -115,7 +116,7 @@ namespace MauiApp1
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             resetLink.Clicked += new EventHandler(resetLinkClicked);
 
-            labelFilesCount.Text = "No items found";
+            labelFilesCount.Text = AppResources.Get("NoItemsFound");
             labelFilesCount.TextColor = Colors.Grey;
         }
 
@@ -145,7 +146,7 @@ namespace MauiApp1
 
             // Labels
             FolderLabel.Text = "";
-            labelFilesCount.Text = "No items found";
+            labelFilesCount.Text = AppResources.Get("NoItemsFound");
             labelFilesCount.TextColor = Colors.Grey;
             resetLink.TextColor = Colors.Grey;
             resetLinkImage.Color = Colors.Grey;
@@ -438,7 +439,7 @@ namespace MauiApp1
 
                     UploadFilesCount++;
 
-                    labelFilesCount.Text = Convert.ToString(UploadFilesCount) + " " + (UploadFilesCount > 1 ? "Files" : "File") + " selected";
+                    labelFilesCount.Text = AppResources.Count("FilesSelected", UploadFilesCount);
                     labelFilesCount.TextColor = Colors.White;
 
                     resetLink.TextColor = UploadFilesCount > 0 ? Colors.FloralWhite : Colors.Grey;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
              x:Class="MauiApp1.RegisterPage">
 
     <ScrollView>
@@ -9,7 +10,7 @@
             Spacing="25">
 
             <Button
-                Text="Back to sign-in"
+                Text="{strings:Translate BackToSignIn}"
                 x:Name="signInLink"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -38,7 +39,7 @@
             </Label>
 
             <Entry
-                Placeholder="Account Code"
+                Placeholder="{strings:Translate AccountCode}"
                 x:Name="accountCode"
                 TextChanged="OnAccountCodeCompleted" />
 
@@ -52,7 +53,7 @@
                     </Label>
 
                     <Entry
-                        Placeholder="Account UUID"
+                        Placeholder="{strings:Translate AccountUuid}"
                         x:Name="accountUuid"
                         TextColor="Grey"
                         Opacity="0.9"
@@ -66,7 +67,7 @@
                     </Label>
 
                     <Entry
-                        Placeholder="Account Name"
+                        Placeholder="{strings:Translate AccountName}"
                         x:Name="accountName"
                         TextColor="Grey"
                         Opacity="0.9"
@@ -80,7 +81,7 @@
                     </Label>
 
                     <Entry
-                        Placeholder="Account Address"
+                        Placeholder="{strings:Translate AccountAddress}"
                         x:Name="accountAddress"
                         TextColor="Grey"
                         Opacity="0.9"
@@ -96,7 +97,7 @@
             </Label>
 
             <Entry
-                Placeholder="First Name"
+                Placeholder="{strings:Translate FirstName}"
                 TextChanged="OnFirstNameCompleted" />
 
             <Label
@@ -106,7 +107,7 @@
             </Label>
 
             <Entry
-                Placeholder="Last Name"
+                Placeholder="{strings:Translate LastName}"
                 TextChanged="OnLastNameCompleted" />
 
             <Label
@@ -116,7 +117,7 @@
             </Label>
 
             <Entry
-                Placeholder="Email Address"
+                Placeholder="{strings:Translate EmailAddress}"
                 TextChanged="OnEmailAddressCompleted" />
 
             <Label
@@ -126,15 +127,15 @@
             </Label>
 
             <Entry
-                Placeholder="Password"
+                Placeholder="{strings:Translate Password}"
                 IsPassword="True"
                 TextChanged="OnPasswordCompleted" />
 
             <Button
-                Text="Register"
+                Text="{strings:Translate Register}"
                 FontSize="14"
                 FontAttributes="Bold"
-                SemanticProperties.Hint="Register"
+                SemanticProperties.Hint="{strings:Translate Register}"
                 Clicked="OnRegisterClicked"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"

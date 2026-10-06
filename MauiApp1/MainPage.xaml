@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
              x:Class="MauiApp1.MainPage">
 
     <ScrollView>
@@ -9,7 +10,7 @@
             Spacing="25">
 
             <Button
-                Text="Back to my account"
+                Text="{strings:Translate BackToMyAccount}"
                 x:Name="myAccountLink"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -29,7 +30,7 @@
                 Source="dotnet_bot.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+                SemanticProperties.Description="{strings:Translate DotNetBotDescription}" />
 
             <Grid>
                 <HorizontalStackLayout
@@ -67,13 +68,13 @@
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
                             Padding="10"
-                            Text="Load folder"/>
+                            Text="{strings:Translate LoadFolder}"/>
 
                         <Button
-                            Text="Pick Folder"
+                            Text="{strings:Translate PickFolder}"
                             FontSize="15"
                             FontAttributes="Bold"
-                            SemanticProperties.Hint="Allows you to pick a folder on the filesystem"
+                            SemanticProperties.Hint="{strings:Translate PickFolderHint}"
                             Clicked="OnPickFolderClicked"
                             TextColor="FloralWhite"
                             BackgroundColor="Black"
@@ -113,9 +114,9 @@
                             </VisualStateManager.VisualStateGroups>
                         </Button>
                         <Button
-                            Text="Reset"
+                            Text="{strings:Translate Reset}"
                             FontSize="15"
-                            SemanticProperties.Hint="Reset selection"
+                            SemanticProperties.Hint="{strings:Translate ResetSelection}"
                             x:Name="resetLink"
                             BackgroundColor="Black"
                             TextColor="Grey"
@@ -166,13 +167,13 @@
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
                             Padding="10"
-                            Text="Upload"/>
+                            Text="{strings:Translate Upload}"/>
 
                         <Button
-                            Text="Send Files"
+                            Text="{strings:Translate SendFiles}"
                             FontSize="15"
                             FontAttributes="Bold"
-                            SemanticProperties.Hint="POST data to our servers"
+                            SemanticProperties.Hint="{strings:Translate SendFilesHint}"
                             Clicked="OnSendDataClicked"
                             TextColor="FloralWhite"
                             BackgroundColor="Black"

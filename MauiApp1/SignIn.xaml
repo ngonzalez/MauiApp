@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
              x:Class="MauiApp1.SignInPage"
              Title="">
 
@@ -13,27 +14,27 @@
                 Source="dotnet_bot.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+                SemanticProperties.Description="{strings:Translate DotNetBotDescription}" />
 
             <Label
-                Text="Welcome to .NET MAUI!"
+                Text="{strings:Translate Welcome}"
                 VerticalOptions="Center"
                 HorizontalOptions="Center" />
 
             <Entry
-                Placeholder="E-Mail Address"
+                Placeholder="{strings:Translate EmailAddress}"
                 TextChanged="OnEmailAddressCompleted" />
 
             <Entry
-                Placeholder="Password"
+                Placeholder="{strings:Translate Password}"
                 IsPassword="True"
                 TextChanged="OnPasswordCompleted" />
 
             <Button
-                Text="Sign-In"
+                Text="{strings:Translate SignIn}"
                 FontSize="14"
                 FontAttributes="Bold"
-                SemanticProperties.Hint="Sign-In"
+                SemanticProperties.Hint="{strings:Translate SignIn}"
                 Clicked="OnSignInClicked"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -76,9 +77,9 @@
                 HorizontalTextAlignment="Center" />
 
             <Button
-                Text="Register for a new user account"
+                Text="{strings:Translate RegisterNewAccount}"
                 FontSize="14"
-                SemanticProperties.Hint="Register"
+                SemanticProperties.Hint="{strings:Translate Register}"
                 Clicked="OnRegisterClicked"
                 BackgroundColor="Transparent"
                 BorderColor="#222"
@@ -116,9 +117,9 @@
             </Button>
 
             <Button
-                Text="Reset your password"
+                Text="{strings:Translate ResetYourPassword}"
                 FontSize="14"
-                SemanticProperties.Hint="Reset Password"
+                SemanticProperties.Hint="{strings:Translate ResetPassword}"
                 Clicked="OnResetPasswordClicked"
                 BackgroundColor="Transparent"
                 BorderColor="#222"

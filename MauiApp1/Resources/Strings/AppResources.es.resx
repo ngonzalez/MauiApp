@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountAddress" xml:space="preserve">
+    <value>Dirección de la cuenta</value>
+  </data>
+  <data name="AccountCode" xml:space="preserve">
+    <value>Código de la cuenta</value>
+  </data>
+  <data name="AccountName" xml:space="preserve">
+    <value>Nombre de la cuenta</value>
+  </data>
+  <data name="AccountTitle" xml:space="preserve">
+    <value>Cuenta</value>
+  </data>
+  <data name="AccountUuid" xml:space="preserve">
+    <value>UUID de la cuenta</value>
+  </data>
+  <data name="ArchiveFolders" xml:space="preserve">
+    <value>Archivar las carpetas</value>
+  </data>
+  <data name="Archived" xml:space="preserve">
+    <value>Archivadas</value>
+  </data>
+  <data name="AspectRatioLabel" xml:space="preserve">
+    <value>Relación de aspecto:</value>
+  </data>
+  <data name="AudioFileUrlCopied" xml:space="preserve">
+    <value>URL del archivo de audio copiada al portapapeles</value>
+  </data>
+  <data name="AudioFilesCountMany" xml:space="preserve">
+    <value>{0} archivos de audio</value>
+  </data>
+  <data name="AudioFilesCountOne" xml:space="preserve">
+    <value>{0} archivo de audio</value>
+  </data>
+  <data name="AudioFilesSelectedMany" xml:space="preserve">
+    <value>{0} archivos de audio seleccionados</value>
+  </data>
+  <data name="AudioFilesSelectedOne" xml:space="preserve">
+    <value>{0} archivo de audio seleccionado</value>
+  </data>
+  <data name="BackToMyAccount" xml:space="preserve">
+    <value>Volver a mi cuenta</value>
+  </data>
+  <data name="BackToSignIn" xml:space="preserve">
+    <value>Volver al inicio de sesión</value>
+  </data>
+  <data name="BitrateLabel" xml:space="preserve">
+    <value>Tasa de bits:</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ChannelsLabel" xml:space="preserve">
+    <value>Canales:</value>
+  </data>
+  <data name="CopyUrl" xml:space="preserve">
+    <value>Copiar la URL</value>
+  </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>Creado el</value>
+  </data>
+  <data name="CurrentEmailAddress" xml:space="preserve">
+    <value>Correo electrónico actual</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="DeleteAudioFiles" xml:space="preserve">
+    <value>Eliminar los archivos de audio</value>
+  </data>
+  <data name="DeleteFolders" xml:space="preserve">
+    <value>Eliminar las carpetas</value>
+  </data>
+  <data name="DeleteImageFiles" xml:space="preserve">
+    <value>Eliminar las imágenes</value>
+  </data>
+  <data name="DeletePdfFiles" xml:space="preserve">
+    <value>Eliminar los PDF</value>
+  </data>
+  <data name="DeleteTextFiles" xml:space="preserve">
+    <value>Eliminar los archivos de texto</value>
+  </data>
+  <data name="DeleteVideoFiles" xml:space="preserve">
+    <value>Eliminar los vídeos</value>
+  </data>
+  <data name="DimensionsLabel" xml:space="preserve">
+    <value>Dimensiones:</value>
+  </data>
+  <data name="DotNetBotDescription" xml:space="preserve">
+    <value>El robot de .NET en el aerodeslizador número nueve</value>
+  </data>
+  <data name="EditMyAccount" xml:space="preserve">
+    <value>Editar mi cuenta</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Correo electrónico</value>
+  </data>
+  <data name="EmailAddressNotFound" xml:space="preserve">
+    <value>Correo electrónico no encontrado</value>
+  </data>
+  <data name="FileSizeLabel" xml:space="preserve">
+    <value>Tamaño:</value>
+  </data>
+  <data name="FilenameLabel" xml:space="preserve">
+    <value>Nombre del archivo:</value>
+  </data>
+  <data name="FilesSelectedMany" xml:space="preserve">
+    <value>{0} archivos seleccionados</value>
+  </data>
+  <data name="FilesSelectedOne" xml:space="preserve">
+    <value>{0} archivo seleccionado</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="FoldersCountMany" xml:space="preserve">
+    <value>{0} carpetas</value>
+  </data>
+  <data name="FoldersCountOne" xml:space="preserve">
+    <value>{0} carpeta</value>
+  </data>
+  <data name="FoldersSelectedMany" xml:space="preserve">
+    <value>{0} carpetas seleccionadas</value>
+  </data>
+  <data name="FoldersSelectedOne" xml:space="preserve">
+    <value>{0} carpeta seleccionada</value>
+  </data>
+  <data name="FormatInfoLabel" xml:space="preserve">
+    <value>Formato:</value>
+  </data>
+  <data name="FrameRateLabel" xml:space="preserve">
+    <value>Fotogramas por segundo:</value>
+  </data>
+  <data name="HeightLabel" xml:space="preserve">
+    <value>Alto:</value>
+  </data>
+  <data name="ImageFileUrlCopied" xml:space="preserve">
+    <value>URL de la imagen copiada al portapapeles</value>
+  </data>
+  <data name="ImageFilesCountMany" xml:space="preserve">
+    <value>{0} imágenes</value>
+  </data>
+  <data name="ImageFilesCountOne" xml:space="preserve">
+    <value>{0} imagen</value>
+  </data>
+  <data name="ImageFilesSelectedMany" xml:space="preserve">
+    <value>{0} imágenes seleccionadas</value>
+  </data>
+  <data name="ImageFilesSelectedOne" xml:space="preserve">
+    <value>{0} imagen seleccionada</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Apellidos</value>
+  </data>
+  <data name="LengthLabel" xml:space="preserve">
+    <value>Duración:</value>
+  </data>
+  <data name="ListFolders" xml:space="preserve">
+    <value>Mis carpetas</value>
+  </data>
+  <data name="LoadAudioFile" xml:space="preserve">
+    <value>Cargar el archivo de audio</value>
+  </data>
+  <data name="LoadFolder" xml:space="preserve">
+    <value>Cargar una carpeta</value>
+  </data>
+  <data name="LoadVideoFile" xml:space="preserve">
+    <value>Cargar el vídeo</value>
+  </data>
+  <data name="MegapixelsLabel" xml:space="preserve">
+    <value>Megapíxeles:</value>
+  </data>
+  <data name="MimeTypeLabel" xml:space="preserve">
+    <value>Tipo MIME:</value>
+  </data>
+  <data name="MyAccount" xml:space="preserve">
+    <value>Mi cuenta</value>
+  </data>
+  <data name="MyAccountWithEmail" xml:space="preserve">
+    <value>Mi cuenta ({0})</value>
+  </data>
+  <data name="NewEmailAddress" xml:space="preserve">
+    <value>Nuevo correo electrónico</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Siguiente ⭢</value>
+  </data>
+  <data name="NoAudioFilesSelected" xml:space="preserve">
+    <value>Ningún archivo de audio seleccionado</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>No hay datos.</value>
+  </data>
+  <data name="NoFoldersSelected" xml:space="preserve">
+    <value>Ninguna carpeta seleccionada</value>
+  </data>
+  <data name="NoImageFilesSelected" xml:space="preserve">
+    <value>Ninguna imagen seleccionada</value>
+  </data>
+  <data name="NoItemsFound" xml:space="preserve">
+    <value>No se encontraron elementos</value>
+  </data>
+  <data name="NoPdfFilesSelected" xml:space="preserve">
+    <value>Ningún PDF seleccionado</value>
+  </data>
+  <data name="NoTextFilesSelected" xml:space="preserve">
+    <value>Ningún archivo de texto seleccionado</value>
+  </data>
+  <data name="NoVideoFilesSelected" xml:space="preserve">
+    <value>Ningún vídeo seleccionado</value>
+  </data>
+  <data name="OpenInNewWindow" xml:space="preserve">
+    <value>Abrir en una ventana nueva</value>
+  </data>
+  <data name="OpenInWebView" xml:space="preserve">
+    <value>Abrir en la vista web</value>
+  </data>
+  <data name="OpenWebUrl" xml:space="preserve">
+    <value>Abrir la página web</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parámetros</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="PasswordConfirmation" xml:space="preserve">
+    <value>Confirmación de la contraseña</value>
+  </data>
+  <data name="PdfFileUrlCopied" xml:space="preserve">
+    <value>URL del PDF copiada al portapapeles</value>
+  </data>
+  <data name="PdfFilesCountMany" xml:space="preserve">
+    <value>{0} PDF</value>
+  </data>
+  <data name="PdfFilesCountOne" xml:space="preserve">
+    <value>{0} PDF</value>
+  </data>
+  <data name="PdfFilesSelectedMany" xml:space="preserve">
+    <value>{0} PDF seleccionados</value>
+  </data>
+  <data name="PdfFilesSelectedOne" xml:space="preserve">
+    <value>{0} PDF seleccionado</value>
+  </data>
+  <data name="PickFolder" xml:space="preserve">
+    <value>Elegir una carpeta</value>
+  </data>
+  <data name="PickFolderHint" xml:space="preserve">
+    <value>Permite elegir una carpeta del ordenador</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>⭠ Anterior</value>
+  </data>
+  <data name="PublishFolders" xml:space="preserve">
+    <value>Publicar las carpetas</value>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Publicadas</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registrarse</value>
+  </data>
+  <data name="RegisterNewAccount" xml:space="preserve">
+    <value>Registrar una cuenta nueva</value>
+  </data>
+  <data name="RemoveFromSelection" xml:space="preserve">
+    <value>Quitar de la selección</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Restablecer</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Restablecer la contraseña</value>
+  </data>
+  <data name="ResetSelection" xml:space="preserve">
+    <value>Borrar la selección</value>
+  </data>
+  <data name="ResetYourPassword" xml:space="preserve">
+    <value>He olvidado mi contraseña</value>
+  </data>
+  <data name="SampleRateLabel" xml:space="preserve">
+    <value>Frecuencia de muestreo:</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Buscar…</value>
+  </data>
+  <data name="SelectAction" xml:space="preserve">
+    <value>Elegir una acción</value>
+  </data>
+  <data name="SelectAudioFiles" xml:space="preserve">
+    <value>Seleccionar los archivos de audio</value>
+  </data>
+  <data name="SelectFolders" xml:space="preserve">
+    <value>Seleccionar las carpetas</value>
+  </data>
+  <data name="SelectImageFiles" xml:space="preserve">
+    <value>Seleccionar las imágenes</value>
+  </data>
+  <data name="SelectPdfFiles" xml:space="preserve">
+    <value>Seleccionar los PDF</value>
+  </data>
+  <data name="SelectTextFiles" xml:space="preserve">
+    <value>Seleccionar los archivos de texto</value>
+  </data>
+  <data name="SelectVideoFiles" xml:space="preserve">
+    <value>Seleccionar los vídeos</value>
+  </data>
+  <data name="SendFiles" xml:space="preserve">
+    <value>Enviar los archivos</value>
+  </data>
+  <data name="SendFilesHint" xml:space="preserve">
+    <value>Envía los archivos a nuestros servidores</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Cerrar sesión</value>
+  </data>
+  <data name="TextFileUrlCopied" xml:space="preserve">
+    <value>URL del archivo de texto copiada al portapapeles</value>
+  </data>
+  <data name="TextFilesCountMany" xml:space="preserve">
+    <value>{0} archivos de texto</value>
+  </data>
+  <data name="TextFilesCountOne" xml:space="preserve">
+    <value>{0} archivo de texto</value>
+  </data>
+  <data name="TextFilesSelectedMany" xml:space="preserve">
+    <value>{0} archivos de texto seleccionados</value>
+  </data>
+  <data name="TextFilesSelectedOne" xml:space="preserve">
+    <value>{0} archivo de texto seleccionado</value>
+  </data>
+  <data name="TitleLabel" xml:space="preserve">
+    <value>Título:</value>
+  </data>
+  <data name="UnarchiveFolders" xml:space="preserve">
+    <value>Desarchivar las carpetas</value>
+  </data>
+  <data name="UnpublishFolders" xml:space="preserve">
+    <value>Despublicar las carpetas</value>
+  </data>
+  <data name="UpdateAccount" xml:space="preserve">
+    <value>Actualizar la cuenta</value>
+  </data>
+  <data name="UpdateAudioFiles" xml:space="preserve">
+    <value>Actualizar los archivos de audio</value>
+  </data>
+  <data name="UpdateEmail" xml:space="preserve">
+    <value>Cambiar el correo electrónico</value>
+  </data>
+  <data name="UpdateEmailAddress" xml:space="preserve">
+    <value>Cambiar el correo electrónico</value>
+  </data>
+  <data name="UpdateFolders" xml:space="preserve">
+    <value>Actualizar las carpetas</value>
+  </data>
+  <data name="UpdateImageFiles" xml:space="preserve">
+    <value>Actualizar las imágenes</value>
+  </data>
+  <data name="UpdatePassword" xml:space="preserve">
+    <value>Cambiar la contraseña</value>
+  </data>
+  <data name="UpdatePdfFiles" xml:space="preserve">
+    <value>Actualizar los PDF</value>
+  </data>
+  <data name="UpdateTextFiles" xml:space="preserve">
+    <value>Actualizar los archivos de texto</value>
+  </data>
+  <data name="UpdateVideoFiles" xml:space="preserve">
+    <value>Actualizar los vídeos</value>
+  </data>
+  <data name="UpdatedAt" xml:space="preserve">
+    <value>Actualizado el</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Subir</value>
+  </data>
+  <data name="UploadFiles" xml:space="preserve">
+    <value>Subir archivos</value>
+  </data>
+  <data name="VideoFileUrlCopied" xml:space="preserve">
+    <value>URL del vídeo copiada al portapapeles</value>
+  </data>
+  <data name="VideoFilesCountMany" xml:space="preserve">
+    <value>{0} vídeos</value>
+  </data>
+  <data name="VideoFilesCountOne" xml:space="preserve">
+    <value>{0} vídeo</value>
+  </data>
+  <data name="VideoFilesSelectedMany" xml:space="preserve">
+    <value>{0} vídeos seleccionados</value>
+  </data>
+  <data name="VideoFilesSelectedOne" xml:space="preserve">
+    <value>{0} vídeo seleccionado</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>¡Bienvenido a .NET MAUI!</value>
+  </data>
+  <data name="WidthLabel" xml:space="preserve">
+    <value>Ancho:</value>
+  </data>
+</root>

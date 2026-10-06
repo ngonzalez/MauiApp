@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
              x:Class="MauiApp1.FolderListPage">
 
     <ScrollView>
@@ -9,7 +10,7 @@
             Spacing="10">
 
             <Button
-                Text="Back to my account"
+                Text="{strings:Translate BackToMyAccount}"
                 x:Name="myAccountLink"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -40,10 +41,10 @@
 
                     <Button
                         x:Name="selectAllFolders"
-                        Text="Select Folders"
+                        Text="{strings:Translate SelectFolders}"
                         FontSize="14"
                         FontAttributes="Bold"
-                        SemanticProperties.Hint="Select Folders"
+                        SemanticProperties.Hint="{strings:Translate SelectFolders}"
                         BackgroundColor="Transparent"
                         TextColor="Gray">
                         <Button.ImageSource>
@@ -79,7 +80,7 @@
                     <Picker x:Name="FolderStatePicker"
                             FontSize="14"
                             FontAttributes="Bold"
-                            SemanticProperties.Hint="Select Folders"
+                            SemanticProperties.Hint="{strings:Translate SelectFolders}"
                             BackgroundColor="Transparent"
                             TextColor="Gray"
                             Margin="10" />
@@ -106,7 +107,7 @@
 
                     <SearchBar
                         x:Name="folderSearchBar"
-                        Placeholder="Search..."
+                        Placeholder="{strings:Translate Search}"
                         BackgroundColor="Black"
                         TextColor="FloralWhite"
                         TextChanged="foldersSearchInputTextChanged" />
@@ -124,7 +125,7 @@
 
                                 <CollectionView.EmptyView>
                                     <Label
-                                        Text="No data found."
+                                        Text="{strings:Translate NoDataFound}"
                                         FontSize="20"
                                         BackgroundColor="Transparent"
                                         TextColor="FloralWhite"
@@ -199,7 +200,7 @@
                                                     Grid.Column="3"
                                                     Clicked="SetClipboardButton_Clicked"
                                                     FontSize="12"
-                                                    ToolTipProperties.Text="Copy URL"
+                                                    ToolTipProperties.Text="{strings:Translate CopyUrl}"
                                                     BackgroundColor="Transparent"
                                                     BorderColor="Black"
                                                     BorderWidth="1"
@@ -239,7 +240,7 @@
                                                 <Button
                                                     Grid.Row="0"
                                                     Grid.Column="4"
-                                                    Text="Open Web URL"
+                                                    Text="{strings:Translate OpenWebUrl}"
                                                     Clicked="OpenWebURL_Clicked"
                                                     TextColor="FloralWhite"
                                                     FontSize="12"
@@ -304,17 +305,17 @@
                         <Picker x:Name="FolderActionPicker"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Action"
+                                SemanticProperties.Hint="{strings:Translate SelectAction}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray"
                                 Margin="10" />
                         <Button
                             x:Name="updateFoldersButton"
-                            Text="Update Folders"
+                            Text="{strings:Translate UpdateFolders}"
                             FontSize="14"
                             Clicked="updateFoldersButtonClicked"
                             FontAttributes="Bold"
-                            SemanticProperties.Hint="Update Folders"
+                            SemanticProperties.Hint="{strings:Translate UpdateFolders}"
                             BackgroundColor="Black"
                             BorderColor="Black"
                             BorderWidth="1"
@@ -353,7 +354,7 @@
                             </VisualStateManager.VisualStateGroups>
                         </Button>
                         <Button
-                            Text="Refresh"
+                            Text="{strings:Translate Refresh}"
                             x:Name="refreshFilesButton"
                             BackgroundColor="Black"
                             TextColor="FloralWhite"

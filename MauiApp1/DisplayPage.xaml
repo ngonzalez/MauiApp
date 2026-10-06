@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MauiApp1.DisplayPage"
              Loaded="DisplayPageLoaded"
@@ -93,7 +94,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="⭠ Previous"
+                                                            Text="{strings:Translate PreviousPage}"
                                                             Clicked="previousLinkImageFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -131,7 +132,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Open in new window"
+                                                            Text="{strings:Translate OpenInNewWindow}"
                                                             Clicked="openNewWindowImageFile"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
@@ -176,7 +177,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Next ⭢"
+                                                            Text="{strings:Translate NextPage}"
                                                             Clicked="nextLinkImageFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -236,13 +237,13 @@
                                                                 MaximumWidthRequest="450">
                                                                 <TableView Intent="Menu">
                                                                     <TableRoot>
-                                                                        <TableSection Title="Parameters">
-                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
-                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
-                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
-                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
-                                                                            <TextCell Text="Dimensions:" Detail="{Binding dimensions}" />
-                                                                            <TextCell Text="Megapixels:" Detail="{Binding megapixels}" />
+                                                                        <TableSection Title="{strings:Translate Parameters}">
+                                                                            <TextCell Text="{strings:Translate FilenameLabel}" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="{strings:Translate MimeTypeLabel}" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="{strings:Translate FormatInfoLabel}" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="{strings:Translate FileSizeLabel}" Detail="{Binding fileSize}" />
+                                                                            <TextCell Text="{strings:Translate DimensionsLabel}" Detail="{Binding dimensions}" />
+                                                                            <TextCell Text="{strings:Translate MegapixelsLabel}" Detail="{Binding megapixels}" />
                                                                         </TableSection>
                                                                     </TableRoot>
                                                                 </TableView>
@@ -251,7 +252,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            ToolTipProperties.Text="Copy URL"
+                                                            ToolTipProperties.Text="{strings:Translate CopyUrl}"
                                                             Clicked="ImageFileSetClipboardButton_Clicked"
                                                             FontSize="12"
                                                             BackgroundColor="Transparent"
@@ -292,7 +293,7 @@
                                                             </VisualStateManager.VisualStateGroups>
                                                         </Button>
                                                         <Button
-                                                            Text="Open Web URL"
+                                                            Text="{strings:Translate OpenWebUrl}"
                                                             TextColor="FloralWhite"
                                                             Clicked="ImageFileOpenWebURL_Clicked"
                                                             FontSize="12"
@@ -336,7 +337,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Remove from selection"
+                                                            Text="{strings:Translate RemoveFromSelection}"
                                                             Clicked="removeImageFileFromSelection"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -405,10 +406,10 @@
 
                             <Button
                                 x:Name="selectAllImageFiles"
-                                Text="Select Image Files"
+                                Text="{strings:Translate SelectImageFiles}"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Image Files"
+                                SemanticProperties.Hint="{strings:Translate SelectImageFiles}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray">
                                 <Button.ImageSource>
@@ -444,7 +445,7 @@
 
                         <SearchBar
                             x:Name="imageFilesSearchBar"
-                            Placeholder="Search..."
+                            Placeholder="{strings:Translate Search}"
                             BackgroundColor="Black"
                             TextColor="FloralWhite"
                             TextChanged="imageFilesSearchInputTextChanged" />
@@ -466,7 +467,7 @@
 
                                     <CollectionView.EmptyView>
                                         <Label
-                                            Text="No data found."
+                                            Text="{strings:Translate NoDataFound}"
                                             FontSize="15"
                                             BackgroundColor="Transparent"
                                             TextColor="FloralWhite"
@@ -557,17 +558,17 @@
                             <Picker x:Name="ImageFileActionPicker"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Action"
+                                SemanticProperties.Hint="{strings:Translate SelectAction}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray"
                                 Margin="10" />
                             <Button
                                 x:Name="updateImageFilesButton"
-                                Text="Update Image Files"
+                                Text="{strings:Translate UpdateImageFiles}"
                                 FontSize="14"
                                 Clicked="updateImageFilesButtonClicked"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Update Image Files"
+                                SemanticProperties.Hint="{strings:Translate UpdateImageFiles}"
                                 BackgroundColor="Black"
                                 BorderColor="Black"
                                 BorderWidth="1"
@@ -606,7 +607,7 @@
                                 </VisualStateManager.VisualStateGroups>
                             </Button>
                             <Button
-                                Text="Refresh"
+                                Text="{strings:Translate Refresh}"
                                 x:Name="refreshImageFilesButton"
                                 BackgroundColor="Black"
                                 TextColor="FloralWhite"
@@ -700,7 +701,7 @@
                                                 <VerticalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="⭠ Previous"
+                                                            Text="{strings:Translate PreviousPage}"
                                                             Clicked="previousLinkVideoFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -738,7 +739,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Load Video File"
+                                                            Text="{strings:Translate LoadVideoFile}"
                                                             Clicked="playVideoFileClicked"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
@@ -783,7 +784,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Next ⭢"
+                                                            Text="{strings:Translate NextPage}"
                                                             Clicked="nextLinkVideoFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -852,18 +853,18 @@
                                                                 MaximumWidthRequest="450">
                                                                 <TableView Intent="Menu">
                                                                     <TableRoot>
-                                                                        <TableSection Title="Parameters">
-                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
-                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
-                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
-                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
-                                                                            <TextCell Text="Title:" Detail="{Binding title}" />
-                                                                            <TextCell Text="Length:" Detail="{Binding length}" />
-                                                                            <TextCell Text="Bitrate:" Detail="{Binding bitrate}" />
-                                                                            <TextCell Text="Frame Rate:" Detail="{Binding frameRate}" />
-                                                                            <TextCell Text="Width:" Detail="{Binding width}" />
-                                                                            <TextCell Text="Height:" Detail="{Binding height}" />
-                                                                            <TextCell Text="Aspect Ratio:" Detail="{Binding aspectRatio}" />
+                                                                        <TableSection Title="{strings:Translate Parameters}">
+                                                                            <TextCell Text="{strings:Translate FilenameLabel}" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="{strings:Translate MimeTypeLabel}" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="{strings:Translate FormatInfoLabel}" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="{strings:Translate FileSizeLabel}" Detail="{Binding fileSize}" />
+                                                                            <TextCell Text="{strings:Translate TitleLabel}" Detail="{Binding title}" />
+                                                                            <TextCell Text="{strings:Translate LengthLabel}" Detail="{Binding length}" />
+                                                                            <TextCell Text="{strings:Translate BitrateLabel}" Detail="{Binding bitrate}" />
+                                                                            <TextCell Text="{strings:Translate FrameRateLabel}" Detail="{Binding frameRate}" />
+                                                                            <TextCell Text="{strings:Translate WidthLabel}" Detail="{Binding width}" />
+                                                                            <TextCell Text="{strings:Translate HeightLabel}" Detail="{Binding height}" />
+                                                                            <TextCell Text="{strings:Translate AspectRatioLabel}" Detail="{Binding aspectRatio}" />
                                                                         </TableSection>
                                                                     </TableRoot>
                                                                 </TableView>
@@ -873,7 +874,7 @@
 
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            ToolTipProperties.Text="Copy URL"
+                                                            ToolTipProperties.Text="{strings:Translate CopyUrl}"
                                                             Clicked="VideoFileSetClipboardButton_Clicked"
                                                             FontSize="12"
                                                             BackgroundColor="Transparent"
@@ -914,7 +915,7 @@
                                                             </VisualStateManager.VisualStateGroups>
                                                         </Button>
                                                         <Button
-                                                            Text="Open Web URL"
+                                                            Text="{strings:Translate OpenWebUrl}"
                                                             TextColor="FloralWhite"
                                                             Clicked="VideoFileOpenWebURL_Clicked"
                                                             FontSize="12"
@@ -958,7 +959,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Remove from selection"
+                                                            Text="{strings:Translate RemoveFromSelection}"
                                                             Clicked="removeVideoFileFromSelection"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -1027,10 +1028,10 @@
 
                             <Button
                                 x:Name="selectAllVideoFiles"
-                                Text="Select Video Files"
+                                Text="{strings:Translate SelectVideoFiles}"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Video Files"
+                                SemanticProperties.Hint="{strings:Translate SelectVideoFiles}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray">
                                 <Button.ImageSource>
@@ -1066,7 +1067,7 @@
 
                         <SearchBar
                             x:Name="videoFilesSearchBar"
-                            Placeholder="Search..."
+                            Placeholder="{strings:Translate Search}"
                             BackgroundColor="Black"
                             TextColor="FloralWhite"
                             TextChanged="videoFilesSearchInputTextChanged" />
@@ -1088,7 +1089,7 @@
 
                                     <CollectionView.EmptyView>
                                         <Label
-                                            Text="No data found."
+                                            Text="{strings:Translate NoDataFound}"
                                             FontSize="20"
                                             BackgroundColor="Transparent"
                                             TextColor="FloralWhite"
@@ -1191,17 +1192,17 @@
                             <Picker x:Name="VideoFileActionPicker"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Action"
+                                SemanticProperties.Hint="{strings:Translate SelectAction}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray"
                                 Margin="10" />
                             <Button
                                 x:Name="updateVideoFilesButton"
-                                Text="Update Video Files"
+                                Text="{strings:Translate UpdateVideoFiles}"
                                 FontSize="14"
                                 Clicked="updateVideoFilesButtonClicked"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Update Video Files"
+                                SemanticProperties.Hint="{strings:Translate UpdateVideoFiles}"
                                 BackgroundColor="Black"
                                 BorderColor="Black"
                                 BorderWidth="1"
@@ -1240,7 +1241,7 @@
                                 </VisualStateManager.VisualStateGroups>
                             </Button>
                             <Button
-                                Text="Refresh"
+                                Text="{strings:Translate Refresh}"
                                 x:Name="refreshVideoFilesButton"
                                 BackgroundColor="Black"
                                 TextColor="FloralWhite"
@@ -1334,7 +1335,7 @@
                                                 <VerticalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="⭠ Previous"
+                                                            Text="{strings:Translate PreviousPage}"
                                                             Clicked="previousLinkAudioFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -1372,7 +1373,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Load Audio File"
+                                                            Text="{strings:Translate LoadAudioFile}"
                                                             Clicked="playAudioFileClicked"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
@@ -1417,7 +1418,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Next ⭢"
+                                                            Text="{strings:Translate NextPage}"
                                                             Clicked="nextLinkAudioFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -1486,16 +1487,16 @@
                                                                 MaximumWidthRequest="450">
                                                                 <TableView Intent="Menu">
                                                                     <TableRoot>
-                                                                        <TableSection Title="Parameters">
-                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
-                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
-                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
-                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
-                                                                            <TextCell Text="Title:" Detail="{Binding title}" />
-                                                                            <TextCell Text="Length:" Detail="{Binding length}" />
-                                                                            <TextCell Text="Bitrate:" Detail="{Binding bitrate}" />
-                                                                            <TextCell Text="Sample Rate:" Detail="{Binding sampleRate}" />
-                                                                            <TextCell Text="Channels:" Detail="{Binding channels}" />
+                                                                        <TableSection Title="{strings:Translate Parameters}">
+                                                                            <TextCell Text="{strings:Translate FilenameLabel}" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="{strings:Translate MimeTypeLabel}" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="{strings:Translate FormatInfoLabel}" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="{strings:Translate FileSizeLabel}" Detail="{Binding fileSize}" />
+                                                                            <TextCell Text="{strings:Translate TitleLabel}" Detail="{Binding title}" />
+                                                                            <TextCell Text="{strings:Translate LengthLabel}" Detail="{Binding length}" />
+                                                                            <TextCell Text="{strings:Translate BitrateLabel}" Detail="{Binding bitrate}" />
+                                                                            <TextCell Text="{strings:Translate SampleRateLabel}" Detail="{Binding sampleRate}" />
+                                                                            <TextCell Text="{strings:Translate ChannelsLabel}" Detail="{Binding channels}" />
                                                                         </TableSection>
                                                                     </TableRoot>
                                                                 </TableView>
@@ -1504,7 +1505,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            ToolTipProperties.Text="Copy URL"
+                                                            ToolTipProperties.Text="{strings:Translate CopyUrl}"
                                                             Clicked="AudioFileSetClipboardButton_Clicked"
                                                             FontSize="12"
                                                             BackgroundColor="Transparent"
@@ -1545,7 +1546,7 @@
                                                             </VisualStateManager.VisualStateGroups>
                                                         </Button>
                                                         <Button
-                                                            Text="Open Web URL"
+                                                            Text="{strings:Translate OpenWebUrl}"
                                                             TextColor="FloralWhite"
                                                             Clicked="AudioFileOpenWebURL_Clicked"
                                                             FontSize="12"
@@ -1589,7 +1590,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Remove from selection"
+                                                            Text="{strings:Translate RemoveFromSelection}"
                                                             Clicked="removeAudioFileFromSelection"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -1658,10 +1659,10 @@
 
                             <Button
                                 x:Name="selectAllAudioFiles"
-                                Text="Select Audio Files"
+                                Text="{strings:Translate SelectAudioFiles}"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Audio Files"
+                                SemanticProperties.Hint="{strings:Translate SelectAudioFiles}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray">
                                 <Button.ImageSource>
@@ -1697,7 +1698,7 @@
 
                         <SearchBar
                             x:Name="audioFilesSearchBar"
-                            Placeholder="Search..."
+                            Placeholder="{strings:Translate Search}"
                             BackgroundColor="Black"
                             TextColor="FloralWhite"
                             TextChanged="audioFilesSearchInputTextChanged" />
@@ -1719,7 +1720,7 @@
 
                                     <CollectionView.EmptyView>
                                         <Label
-                                            Text="No data found."
+                                            Text="{strings:Translate NoDataFound}"
                                             FontSize="20"
                                             BackgroundColor="Transparent"
                                             TextColor="FloralWhite"
@@ -1822,17 +1823,17 @@
                             <Picker x:Name="AudioFileActionPicker"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Action"
+                                SemanticProperties.Hint="{strings:Translate SelectAction}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray"
                                 Margin="10" />
                             <Button
                                 x:Name="updateAudioFilesButton"
-                                Text="Update Audio Files"
+                                Text="{strings:Translate UpdateAudioFiles}"
                                 FontSize="14"
                                 Clicked="updateAudioFilesButtonClicked"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Update Audio Files"
+                                SemanticProperties.Hint="{strings:Translate UpdateAudioFiles}"
                                 BackgroundColor="Black"
                                 BorderColor="Black"
                                 BorderWidth="1"
@@ -1871,7 +1872,7 @@
                                 </VisualStateManager.VisualStateGroups>
                             </Button>
                             <Button
-                                Text="Refresh"
+                                Text="{strings:Translate Refresh}"
                                 x:Name="refreshAudioFilesButton"
                                 BackgroundColor="Black"
                                 TextColor="FloralWhite"
@@ -1965,7 +1966,7 @@
                                                 <VerticalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="⭠ Previous"
+                                                            Text="{strings:Translate PreviousPage}"
                                                             Clicked="previousLinkPdfFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -2003,7 +2004,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Open in web view"
+                                                            Text="{strings:Translate OpenInWebView}"
                                                             Clicked="openNewWindowPdfFile"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
@@ -2048,7 +2049,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Next ⭢"
+                                                            Text="{strings:Translate NextPage}"
                                                             Clicked="nextLinkPdfFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -2117,11 +2118,11 @@
                                                                 MaximumWidthRequest="450">
                                                                 <TableView Intent="Menu">
                                                                     <TableRoot>
-                                                                        <TableSection Title="Parameters">
-                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
-                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
-                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
-                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
+                                                                        <TableSection Title="{strings:Translate Parameters}">
+                                                                            <TextCell Text="{strings:Translate FilenameLabel}" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="{strings:Translate MimeTypeLabel}" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="{strings:Translate FormatInfoLabel}" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="{strings:Translate FileSizeLabel}" Detail="{Binding fileSize}" />
                                                                         </TableSection>
                                                                     </TableRoot>
                                                                 </TableView>
@@ -2130,7 +2131,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            ToolTipProperties.Text="Copy URL"
+                                                            ToolTipProperties.Text="{strings:Translate CopyUrl}"
                                                             Clicked="PdfFileSetClipboardButton_Clicked"
                                                             FontSize="12"
                                                             BackgroundColor="Transparent"
@@ -2173,7 +2174,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Remove from selection"
+                                                            Text="{strings:Translate RemoveFromSelection}"
                                                             Clicked="removePdfFileFromSelection"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -2242,10 +2243,10 @@
 
                             <Button
                                 x:Name="selectAllPdfFiles"
-                                Text="Select Pdf Files"
+                                Text="{strings:Translate SelectPdfFiles}"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Pdf Files"
+                                SemanticProperties.Hint="{strings:Translate SelectPdfFiles}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray">
                                 <Button.ImageSource>
@@ -2281,7 +2282,7 @@
 
                         <SearchBar
                             x:Name="pdfFilesSearchBar"
-                            Placeholder="Search..."
+                            Placeholder="{strings:Translate Search}"
                             BackgroundColor="Black"
                             TextColor="FloralWhite"
                             TextChanged="pdfFilesSearchInputTextChanged" />
@@ -2303,7 +2304,7 @@
 
                                     <CollectionView.EmptyView>
                                         <Label
-                                            Text="No data found."
+                                            Text="{strings:Translate NoDataFound}"
                                             FontSize="20"
                                             BackgroundColor="Transparent"
                                             TextColor="FloralWhite"
@@ -2394,17 +2395,17 @@
                             <Picker x:Name="PdfFileActionPicker"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Action"
+                                SemanticProperties.Hint="{strings:Translate SelectAction}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray"
                                 Margin="10" />
                             <Button
                                 x:Name="updatePdfFilesButton"
-                                Text="Update Pdf Files"
+                                Text="{strings:Translate UpdatePdfFiles}"
                                 FontSize="14"
                                 Clicked="updatePdfFilesButtonClicked"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Update Pdf Files"
+                                SemanticProperties.Hint="{strings:Translate UpdatePdfFiles}"
                                 BackgroundColor="Black"
                                 BorderColor="Black"
                                 BorderWidth="1"
@@ -2443,7 +2444,7 @@
                                 </VisualStateManager.VisualStateGroups>
                             </Button>
                             <Button
-                                Text="Refresh"
+                                Text="{strings:Translate Refresh}"
                                 x:Name="refreshPdfFilesButton"
                                 BackgroundColor="Black"
                                 TextColor="FloralWhite"
@@ -2537,7 +2538,7 @@
                                                 <VerticalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="⭠ Previous"
+                                                            Text="{strings:Translate PreviousPage}"
                                                             Clicked="previousLinkTextFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -2575,7 +2576,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Open in web view"
+                                                            Text="{strings:Translate OpenInWebView}"
                                                             Clicked="openNewWindowTextFile"
                                                             TextColor="Grey"
                                                             BackgroundColor="Transparent"
@@ -2620,7 +2621,7 @@
                                                         <Rectangle WidthRequest="10" BackgroundColor="Transparent" />
 
                                                         <Button
-                                                            Text="Next ⭢"
+                                                            Text="{strings:Translate NextPage}"
                                                             Clicked="nextLinkTextFileClicked"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -2689,11 +2690,11 @@
                                                                 MaximumWidthRequest="450">
                                                                 <TableView Intent="Menu">
                                                                     <TableRoot>
-                                                                        <TableSection Title="Parameters">
-                                                                            <TextCell Text="Filename:" Detail="{Binding fileName}" />
-                                                                            <TextCell Text="Mime Type:" Detail="{Binding mimeType}" />
-                                                                            <TextCell Text="Format Info:" Detail="{Binding formatInfo}" />
-                                                                            <TextCell Text="File Size:" Detail="{Binding fileSize}" />
+                                                                        <TableSection Title="{strings:Translate Parameters}">
+                                                                            <TextCell Text="{strings:Translate FilenameLabel}" Detail="{Binding fileName}" />
+                                                                            <TextCell Text="{strings:Translate MimeTypeLabel}" Detail="{Binding mimeType}" />
+                                                                            <TextCell Text="{strings:Translate FormatInfoLabel}" Detail="{Binding formatInfo}" />
+                                                                            <TextCell Text="{strings:Translate FileSizeLabel}" Detail="{Binding fileSize}" />
                                                                         </TableSection>
                                                                     </TableRoot>
                                                                 </TableView>
@@ -2702,7 +2703,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            ToolTipProperties.Text="Copy URL"
+                                                            ToolTipProperties.Text="{strings:Translate CopyUrl}"
                                                             Clicked="TextFileSetClipboardButton_Clicked"
                                                             FontSize="12"
                                                             BackgroundColor="Transparent"
@@ -2745,7 +2746,7 @@
                                                     </HorizontalStackLayout>
                                                     <HorizontalStackLayout>
                                                         <Button
-                                                            Text="Remove from selection"
+                                                            Text="{strings:Translate RemoveFromSelection}"
                                                             Clicked="removeTextFileFromSelection"
                                                             TextColor="Gray"
                                                             BackgroundColor="Transparent"
@@ -2814,10 +2815,10 @@
 
                             <Button
                                 x:Name="selectAllTextFiles"
-                                Text="Select Text Files"
+                                Text="{strings:Translate SelectTextFiles}"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Text Files"
+                                SemanticProperties.Hint="{strings:Translate SelectTextFiles}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray">
                                 <Button.ImageSource>
@@ -2852,7 +2853,7 @@
                         </HorizontalStackLayout>
                         <SearchBar
                             x:Name="textFilesSearchBar"
-                            Placeholder="Search..."
+                            Placeholder="{strings:Translate Search}"
                             BackgroundColor="Black"
                             TextColor="FloralWhite"
                             TextChanged="textFilesSearchInputTextChanged" />
@@ -2874,7 +2875,7 @@
 
                                     <CollectionView.EmptyView>
                                         <Label
-                                            Text="No data found."
+                                            Text="{strings:Translate NoDataFound}"
                                             FontSize="20"
                                             BackgroundColor="Transparent"
                                             TextColor="FloralWhite"
@@ -2965,17 +2966,17 @@
                             <Picker x:Name="TextFileActionPicker"
                                 FontSize="14"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Select Action"
+                                SemanticProperties.Hint="{strings:Translate SelectAction}"
                                 BackgroundColor="Transparent"
                                 TextColor="Gray"
                                 Margin="10" />
                             <Button
                                 x:Name="updateTextFilesButton"
-                                Text="Update Text Files"
+                                Text="{strings:Translate UpdateTextFiles}"
                                 FontSize="14"
                                 Clicked="updateTextFilesButtonClicked"
                                 FontAttributes="Bold"
-                                SemanticProperties.Hint="Update Text Files"
+                                SemanticProperties.Hint="{strings:Translate UpdateTextFiles}"
                                 BackgroundColor="Black"
                                 BorderColor="Black"
                                 BorderWidth="1"
@@ -3014,7 +3015,7 @@
                                 </VisualStateManager.VisualStateGroups>
                             </Button>
                             <Button
-                                Text="Refresh"
+                                Text="{strings:Translate Refresh}"
                                 x:Name="refreshTextFilesButton"
                                 BackgroundColor="Black"
                                 TextColor="FloralWhite"

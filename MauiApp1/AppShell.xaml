@@ -3,12 +3,13 @@
     x:Class="MauiApp1.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
     xmlns:local="clr-namespace:MauiApp1"
     Title="MauiApp1"
     FlyoutIsPresented="True"
     FlyoutBehavior="Locked">
 
-    <FlyoutItem Title="Account">
+    <FlyoutItem Title="{strings:Translate AccountTitle}">
         <Tab>
             <ShellContent ContentTemplate="{DataTemplate local:AccountPage}" />
         </Tab>

@@ -1,6 +1,7 @@
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Drawing;
 using System.Text.Json;
+using MauiApp1.Resources.Strings;
 
 namespace MauiApp1;
 
@@ -30,7 +31,7 @@ public partial class AccountPage : ContentPage
 
         InitializeComponent();
 
-        myAccountLabel.Text = "My Account (" + _appShellViewModel.CurrentUser.emailAddress + ")";
+        myAccountLabel.Text = AppResources.Format("MyAccountWithEmail", _appShellViewModel.CurrentUser.emailAddress);
         uploadsLink.Clicked += new EventHandler(uploadsLinkClicked);
         listFoldersList.Clicked += new EventHandler(listFoldersListClicked);
         signOutLink.Clicked += new EventHandler(signOutLinkClicked);

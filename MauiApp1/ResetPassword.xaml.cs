@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Windows.Networking;
+using MauiApp1.Resources.Strings;
 
 
 namespace MauiApp1;
@@ -59,7 +60,7 @@ public partial class ResetPasswordPage : ContentPage
         switch(_statusCode)
         {
             case 200: resetPasswordInput.Text = ""; break;
-            case 422: resetPasswordErrors.Text = "Email address not found"; break;
+            case 422: resetPasswordErrors.Text = AppResources.Get("EmailAddressNotFound"); break;
         }
 
         if (jsonResponse.message != null)

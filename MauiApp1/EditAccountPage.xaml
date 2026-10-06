@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
              x:Class="MauiApp1.EditAccountPage">
 
     <ScrollView>
@@ -9,7 +10,7 @@
             Spacing="25">
 
             <Button
-                Text="Back to my account"
+                Text="{strings:Translate BackToMyAccount}"
                 x:Name="myAccountLink"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -29,7 +30,7 @@
                 Source="dotnet_bot.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+                SemanticProperties.Description="{strings:Translate DotNetBotDescription}" />
 
             <Label
                 FontSize="20"
@@ -45,7 +46,7 @@
             </Label>
 
             <Entry
-                Placeholder="Account UUID"
+                Placeholder="{strings:Translate AccountUuid}"
                 x:Name="accountUuid"
                 TextColor="Grey"
                 Opacity="0.9"
@@ -59,7 +60,7 @@
             </Label>
 
             <Entry
-                Placeholder="Account Name"
+                Placeholder="{strings:Translate AccountName}"
                 x:Name="accountName"
                 TextColor="Grey"
                 Opacity="0.9"
@@ -73,7 +74,7 @@
             </Label>
 
             <Entry
-                Placeholder="Account Address"
+                Placeholder="{strings:Translate AccountAddress}"
                 x:Name="accountAddress"
                 TextColor="Grey"
                 Opacity="0.9"
@@ -86,7 +87,7 @@
             </Label>
 
             <Entry
-                Placeholder="First Name"
+                Placeholder="{strings:Translate FirstName}"
                 x:Name="editAccountFirstName"
                 TextChanged="OnFirstNameCompleted" />
 
@@ -97,7 +98,7 @@
             </Label>
 
             <Entry
-                Placeholder="Last Name"
+                Placeholder="{strings:Translate LastName}"
                 x:Name="editAccountLastName"
                 TextChanged="OnLastNameCompleted" />
 
@@ -108,7 +109,7 @@
             </Label>
 
             <Entry
-                Placeholder="Email Address"
+                Placeholder="{strings:Translate EmailAddress}"
                 x:Name="editAccountEmailAddress"
                 TextChanged="OnEmailAddressCompleted"/>
 
@@ -119,7 +120,7 @@
             </Label>
 
             <Entry
-                Placeholder="Created At"
+                Placeholder="{strings:Translate CreatedAt}"
                 x:Name="editAccountCreatedAt"
                 TextColor="Grey"
                 Opacity="0.9"
@@ -132,7 +133,7 @@
             </Label>
 
             <Entry
-                Placeholder="Updated At"
+                Placeholder="{strings:Translate UpdatedAt}"
                 x:Name="editAccountUpdatedAt"
                 TextColor="Grey"
                 Opacity="0.9"
@@ -157,9 +158,9 @@
                 x:Name="editAccountDeliverNotificationsOnAccountUpdate" />
 
             <Button
-                Text="Update Account"
+                Text="{strings:Translate UpdateAccount}"
                 FontAttributes="Bold"
-                SemanticProperties.Hint="Update Account"
+                SemanticProperties.Hint="{strings:Translate UpdateAccount}"
                 Clicked="OnUpdateAccountClicked"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -206,7 +207,7 @@
             </Label>
 
             <Entry
-                Placeholder="Password"
+                Placeholder="{strings:Translate Password}"
                 IsPassword="True"
                 x:Name="changePasswordPassword"
                 TextChanged="OnPasswordCompleted" />
@@ -218,15 +219,15 @@
             </Label>
 
             <Entry
-                Placeholder="Password Confirmation"
+                Placeholder="{strings:Translate PasswordConfirmation}"
                 IsPassword="True"
                 x:Name="changePasswordPasswordConfirmation"
                 TextChanged="OnPasswordConfirmationCompleted" />
 
             <Button
-                Text="Update Password"
+                Text="{strings:Translate UpdatePassword}"
                 FontAttributes="Bold"
-                SemanticProperties.Hint="Update Password"
+                SemanticProperties.Hint="{strings:Translate UpdatePassword}"
                 Clicked="OnUpdatePasswordClicked"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"
@@ -273,7 +274,7 @@
             </Label>
 
             <Entry
-                Placeholder="Current Email Address"
+                Placeholder="{strings:Translate CurrentEmailAddress}"
                 x:Name="changeEmailCurrentEmailAddress"
                 TextColor="Grey"
                 Opacity="0.9"
@@ -286,14 +287,14 @@
             </Label>
 
             <Entry
-                Placeholder="New Email Address"
+                Placeholder="{strings:Translate NewEmailAddress}"
                 x:Name="changeEmailNewEmailAddress"
                 TextChanged="OnNewEmailAddressCompleted" />
 
             <Button
-                Text="Update Email Address"
+                Text="{strings:Translate UpdateEmailAddress}"
                 FontAttributes="Bold"
-                SemanticProperties.Hint="Update Email"
+                SemanticProperties.Hint="{strings:Translate UpdateEmail}"
                 Clicked="OnUpdateEmailClicked"
                 BackgroundColor="Black"
                 TextColor="FloralWhite"

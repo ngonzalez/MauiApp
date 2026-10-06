@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using Windows.System;
+using MauiApp1.Resources.Strings;
 
 namespace MauiApp1;
 
@@ -130,35 +131,35 @@ public partial class DisplayPage : ContentPage
         // Image File Actions
         selectAllImageFiles.Clicked += new EventHandler(selectAllImageFilesButtonClicked);
         ImageFileActionPicker.SelectedIndexChanged += new EventHandler(ImageFileActionPickerOnSelectedIndexChanged);
-        selectedImageFilesCountLabel.Text = "No Image Files selected";
+        selectedImageFilesCountLabel.Text = AppResources.Get("NoImageFilesSelected");
         refreshImageFilesButton.Clicked += new EventHandler(refreshImageFilesButtonClicked);
         PopulateImageFilesActionPicker();
 
         // Video File Actions
         selectAllVideoFiles.Clicked += new EventHandler(selectAllVideoFilesButtonClicked);
         VideoFileActionPicker.SelectedIndexChanged += new EventHandler(VideoFileActionPickerOnSelectedIndexChanged);
-        selectedVideoFilesCountLabel.Text = "No Video Files selected";
+        selectedVideoFilesCountLabel.Text = AppResources.Get("NoVideoFilesSelected");
         refreshVideoFilesButton.Clicked += new EventHandler(refreshVideoFilesButtonClicked);
         PopulateVideoFilesActionPicker();
 
         // Audio File Actions
         selectAllAudioFiles.Clicked += new EventHandler(selectAllAudioFilesButtonClicked);
         AudioFileActionPicker.SelectedIndexChanged += new EventHandler(AudioFileActionPickerOnSelectedIndexChanged);
-        selectedAudioFilesCountLabel.Text = "No Audio Files selected";
+        selectedAudioFilesCountLabel.Text = AppResources.Get("NoAudioFilesSelected");
         refreshAudioFilesButton.Clicked += new EventHandler(refreshAudioFilesButtonClicked);
         PopulateAudioFilesActionPicker();
 
         // Pdf File Actions
         selectAllPdfFiles.Clicked += new EventHandler(selectAllPdfFilesButtonClicked);
         PdfFileActionPicker.SelectedIndexChanged += new EventHandler(PdfFileActionPickerOnSelectedIndexChanged);
-        selectedPdfFilesCountLabel.Text = "No Pdf Files selected";
+        selectedPdfFilesCountLabel.Text = AppResources.Get("NoPdfFilesSelected");
         refreshPdfFilesButton.Clicked += new EventHandler(refreshPdfFilesButtonClicked);
         PopulatePdfFilesActionPicker();
 
         // Text File Actions
         selectAllTextFiles.Clicked += new EventHandler(selectAllTextFilesButtonClicked);
         TextFileActionPicker.SelectedIndexChanged += new EventHandler(TextFileActionPickerOnSelectedIndexChanged);
-        selectedTextFilesCountLabel.Text = "No Text Files selected";
+        selectedTextFilesCountLabel.Text = AppResources.Get("NoTextFilesSelected");
         refreshTextFilesButton.Clicked += new EventHandler(refreshTextFilesButtonClicked);
         PopulateTextFilesActionPicker();
 
@@ -199,11 +200,11 @@ public partial class DisplayPage : ContentPage
             }
 
             imageFilesCollectionView.ItemsSource = ImageFiles;
-            string imageFileLabel = ImageFiles.Count() > 1 ? "Image Files" : "Image File";
-            imageFilesCount.Text = Convert.ToString(ImageFiles.Count()) + " " + imageFileLabel;
+            string imageFileLabel = AppResources.Count("ImageFilesCount", ImageFiles.Count());
+            imageFilesCount.Text = imageFileLabel;
             GridImageFiles.IsVisible = ImageFiles.Count() > 0;
             GridImageFilesDetails.IsVisible = ImageFiles.Count() > 0;
-            imageFilesCountLabel.Text = Convert.ToString(ImageFiles.Count() + " " + imageFileLabel);
+            imageFilesCountLabel.Text = imageFileLabel;
 
             // VideoFile
             VideoFiles = new ObservableCollection<VideoFile> { };
@@ -225,11 +226,11 @@ public partial class DisplayPage : ContentPage
             }
 
             videoFilesCollectionView.ItemsSource = VideoFiles;
-            string videoFileLabel = VideoFiles.Count() > 1 ? "Video Files" : "Video File";
-            videoFilesCount.Text = Convert.ToString(VideoFiles.Count()) + " " + videoFileLabel;
+            string videoFileLabel = AppResources.Count("VideoFilesCount", VideoFiles.Count());
+            videoFilesCount.Text = videoFileLabel;
             GridVideoFiles.IsVisible = VideoFiles.Count() > 0;
             GridVideoFilesDetails.IsVisible = VideoFiles.Count() > 0;
-            videoFilesCountLabel.Text = Convert.ToString(VideoFiles.Count() + " " + videoFileLabel);
+            videoFilesCountLabel.Text = videoFileLabel;
 
             // AudioFile
             AudioFiles = new ObservableCollection<AudioFile> { };
@@ -251,11 +252,11 @@ public partial class DisplayPage : ContentPage
             }
 
             audioFilesCollectionView.ItemsSource = AudioFiles;
-            string audioFileLabel = AudioFiles.Count() > 1 ? "Audio Files" : "Audio File";
-            audioFilesCount.Text = Convert.ToString(AudioFiles.Count()) + " " + audioFileLabel;
+            string audioFileLabel = AppResources.Count("AudioFilesCount", AudioFiles.Count());
+            audioFilesCount.Text = audioFileLabel;
             GridAudioFiles.IsVisible = AudioFiles.Count() > 0;
             GridAudioFilesDetails.IsVisible = AudioFiles.Count() > 0;
-            audioFilesCountLabel.Text = Convert.ToString(AudioFiles.Count() + " " + audioFileLabel);
+            audioFilesCountLabel.Text = audioFileLabel;
 
             // PdfFile
             PdfFiles = new ObservableCollection<PdfFile> { };
@@ -277,11 +278,11 @@ public partial class DisplayPage : ContentPage
             }
 
             pdfFilesCollectionView.ItemsSource = PdfFiles;
-            string pdfFileLabel = PdfFiles.Count() > 1 ? "Pdf Files" : "Pdf File";
-            pdfFilesCount.Text = Convert.ToString(PdfFiles.Count()) + " " + pdfFileLabel;
+            string pdfFileLabel = AppResources.Count("PdfFilesCount", PdfFiles.Count());
+            pdfFilesCount.Text = pdfFileLabel;
             GridPdfFiles.IsVisible = PdfFiles.Count() > 0;
             GridPdfFilesDetails.IsVisible = PdfFiles.Count() > 0;
-            pdfFilesCountLabel.Text = Convert.ToString(PdfFiles.Count() + " " + pdfFileLabel);
+            pdfFilesCountLabel.Text = pdfFileLabel;
 
             // TextFile
             TextFiles = new ObservableCollection<TextFile> { };
@@ -303,11 +304,11 @@ public partial class DisplayPage : ContentPage
             }
 
             textFilesCollectionView.ItemsSource = TextFiles;
-            string textFileLabel = TextFiles.Count() > 1 ? "Text Files" : "Text File";
-            textFilesCount.Text = Convert.ToString(TextFiles.Count()) + " " + textFileLabel;
+            string textFileLabel = AppResources.Count("TextFilesCount", TextFiles.Count());
+            textFilesCount.Text = textFileLabel;
             GridTextFiles.IsVisible = TextFiles.Count() > 0;
             GridTextFilesDetails.IsVisible = TextFiles.Count() > 0;
-            textFilesCountLabel.Text = Convert.ToString(TextFiles.Count() + " " + textFileLabel);
+            textFilesCountLabel.Text = textFileLabel;
         }
     }
 
@@ -428,9 +429,9 @@ public partial class DisplayPage : ContentPage
 
         if (selectedOption != null)
         {
-            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", ImageFileNames));
+            string action = await DisplayActionSheet(selectedOption.Name, AppResources.Get("Cancel"), AppResources.Get("Delete"), String.Join("\n", ImageFileNames));
 
-            if (action == "Delete")
+            if (action == AppResources.Get("Delete"))
             {
                 var imageFileIds = new CollectionIds
                 {
@@ -440,7 +441,7 @@ public partial class DisplayPage : ContentPage
 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(imageFileIds);
 
-                if (selectedOption.Name == "Delete Image Files")
+                if (selectedOption.ID == "1")
 
                 {
                     (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
@@ -492,7 +493,7 @@ public partial class DisplayPage : ContentPage
         ImageFileActionPickerOptions = new List<PickerOption>
             {
                 new PickerOption { ID = "0", Name = "" },
-                new PickerOption { ID = "1", Name = "Delete Image Files" },
+                new PickerOption { ID = "1", Name = AppResources.Get("DeleteImageFiles") },
             };
 
         foreach (var pickerOption in ImageFileActionPickerOptions)
@@ -564,12 +565,11 @@ public partial class DisplayPage : ContentPage
 
         if (imageFilesCount > 0)
         {
-            string imageFilesLabel = imageFilesCount == 1 ? "Image File" : "Image Files";
-            selectedImageFilesCountLabel.Text = Convert.ToString(imageFilesCount) + " " + imageFilesLabel + " selected";
+            selectedImageFilesCountLabel.Text = AppResources.Count("ImageFilesSelected", imageFilesCount);
         }
         else
         {
-            selectedImageFilesCountLabel.Text = "No Image Files selected";
+            selectedImageFilesCountLabel.Text = AppResources.Get("NoImageFilesSelected");
         }
 
         PickerOption selectedOption = null;
@@ -742,7 +742,7 @@ public partial class DisplayPage : ContentPage
             //
         }
 
-        ImageFileActionLabel.Text = "Image File URL copied to clipboard";
+        ImageFileActionLabel.Text = AppResources.Get("ImageFileUrlCopied");
 
         SetTimeout(() =>
         {
@@ -792,9 +792,9 @@ public partial class DisplayPage : ContentPage
 
         if (selectedOption != null)
         {
-            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", VideoFileNames));
+            string action = await DisplayActionSheet(selectedOption.Name, AppResources.Get("Cancel"), AppResources.Get("Delete"), String.Join("\n", VideoFileNames));
 
-            if (action == "Delete")
+            if (action == AppResources.Get("Delete"))
             {
                 var videoFileIds = new CollectionIds
                 {
@@ -804,7 +804,7 @@ public partial class DisplayPage : ContentPage
 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(videoFileIds);
 
-                if (selectedOption.Name == "Delete Video Files")
+                if (selectedOption.ID == "1")
 
                 {
                     (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
@@ -856,7 +856,7 @@ public partial class DisplayPage : ContentPage
         VideoFileActionPickerOptions = new List<PickerOption>
             {
                 new PickerOption { ID = "0", Name = "" },
-                new PickerOption { ID = "1", Name = "Delete Video Files" },
+                new PickerOption { ID = "1", Name = AppResources.Get("DeleteVideoFiles") },
             };
 
         foreach (var pickerOption in VideoFileActionPickerOptions)
@@ -928,12 +928,11 @@ public partial class DisplayPage : ContentPage
 
         if (videoFilesCount > 0)
         {
-            string videoFilesLabel = videoFilesCount == 1 ? "Video File" : "Video Files";
-            selectedVideoFilesCountLabel.Text = Convert.ToString(videoFilesCount) + " " + videoFilesLabel + " selected";
+            selectedVideoFilesCountLabel.Text = AppResources.Count("VideoFilesSelected", videoFilesCount);
         }
         else
         {
-            selectedVideoFilesCountLabel.Text = "No Video Files selected";
+            selectedVideoFilesCountLabel.Text = AppResources.Get("NoVideoFilesSelected");
         }
 
         PickerOption selectedOption = null;
@@ -1182,7 +1181,7 @@ public partial class DisplayPage : ContentPage
             //
         }
 
-        VideoFileActionLabel.Text = "Video File URL copied to clipboard";
+        VideoFileActionLabel.Text = AppResources.Get("VideoFileUrlCopied");
 
         SetTimeout(() =>
         {
@@ -1232,9 +1231,9 @@ public partial class DisplayPage : ContentPage
 
         if (selectedOption != null)
         {
-            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", AudioFileNames));
+            string action = await DisplayActionSheet(selectedOption.Name, AppResources.Get("Cancel"), AppResources.Get("Delete"), String.Join("\n", AudioFileNames));
 
-            if (action == "Delete")
+            if (action == AppResources.Get("Delete"))
             {
 
                 var audioFileIds = new CollectionIds
@@ -1245,7 +1244,7 @@ public partial class DisplayPage : ContentPage
 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(audioFileIds);
 
-                if (selectedOption.Name == "Delete Audio Files")
+                if (selectedOption.ID == "1")
 
                 {
                     (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
@@ -1297,7 +1296,7 @@ public partial class DisplayPage : ContentPage
         AudioFileActionPickerOptions = new List<PickerOption>
             {
                 new PickerOption { ID = "0", Name = "" },
-                new PickerOption { ID = "1", Name = "Delete Audio Files" },
+                new PickerOption { ID = "1", Name = AppResources.Get("DeleteAudioFiles") },
             };
 
         foreach (var pickerOption in AudioFileActionPickerOptions)
@@ -1369,12 +1368,11 @@ public partial class DisplayPage : ContentPage
 
         if (audioFilesCount > 0)
         {
-            string audioFilesLabel = audioFilesCount == 1 ? "Audio File" : "Audio Files";
-            selectedAudioFilesCountLabel.Text = Convert.ToString(audioFilesCount) + " " + audioFilesLabel + " selected";
+            selectedAudioFilesCountLabel.Text = AppResources.Count("AudioFilesSelected", audioFilesCount);
         }
         else
         {
-            selectedImageFilesCountLabel.Text = "No Image Files selected";
+            selectedImageFilesCountLabel.Text = AppResources.Get("NoImageFilesSelected");
         }
 
         PickerOption selectedOption = null;
@@ -1615,7 +1613,7 @@ public partial class DisplayPage : ContentPage
             //
         }
 
-        AudioFileActionLabel.Text = "Audio File URL copied to clipboard";
+        AudioFileActionLabel.Text = AppResources.Get("AudioFileUrlCopied");
 
         SetTimeout(() =>
         {
@@ -1665,9 +1663,9 @@ public partial class DisplayPage : ContentPage
 
         if (selectedOption != null)
         {
-            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", PdfFileNames));
+            string action = await DisplayActionSheet(selectedOption.Name, AppResources.Get("Cancel"), AppResources.Get("Delete"), String.Join("\n", PdfFileNames));
 
-            if (action == "Delete")
+            if (action == AppResources.Get("Delete"))
             {
                 var pdfFileIds = new CollectionIds
                 {
@@ -1677,7 +1675,7 @@ public partial class DisplayPage : ContentPage
 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(pdfFileIds);
 
-                if (selectedOption.Name == "Delete Pdf Files")
+                if (selectedOption.ID == "1")
 
                 {
                     (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
@@ -1729,7 +1727,7 @@ public partial class DisplayPage : ContentPage
         PdfFileActionPickerOptions = new List<PickerOption>
             {
                 new PickerOption { ID = "0", Name = "" },
-                new PickerOption { ID = "1", Name = "Delete Pdf Files" },
+                new PickerOption { ID = "1", Name = AppResources.Get("DeletePdfFiles") },
             };
 
         foreach (var pickerOption in PdfFileActionPickerOptions)
@@ -1801,12 +1799,11 @@ public partial class DisplayPage : ContentPage
 
         if (pdfFilesCount > 0)
         {
-            string pdfFilesLabel = pdfFilesCount == 1 ? "Pdf File" : "Pdf Files";
-            selectedPdfFilesCountLabel.Text = Convert.ToString(pdfFilesCount) + " " + pdfFilesLabel + " selected";
+            selectedPdfFilesCountLabel.Text = AppResources.Count("PdfFilesSelected", pdfFilesCount);
         }
         else
         {
-            selectedPdfFilesCountLabel.Text = "No Pdf Files selected";
+            selectedPdfFilesCountLabel.Text = AppResources.Get("NoPdfFilesSelected");
         }
 
         PickerOption selectedOption = null;
@@ -1978,7 +1975,7 @@ public partial class DisplayPage : ContentPage
             //
         }
 
-        PdfFileActionLabel.Text = "Pdf File URL copied to clipboard";
+        PdfFileActionLabel.Text = AppResources.Get("PdfFileUrlCopied");
 
         SetTimeout(() =>
         {
@@ -2028,9 +2025,9 @@ public partial class DisplayPage : ContentPage
 
         if (selectedOption != null)
         {
-            string action = await DisplayActionSheet(selectedOption.Name, "Cancel", "Delete", String.Join("\n", TextFileNames));
+            string action = await DisplayActionSheet(selectedOption.Name, AppResources.Get("Cancel"), AppResources.Get("Delete"), String.Join("\n", TextFileNames));
 
-            if (action == "Delete")
+            if (action == AppResources.Get("Delete"))
             {
                 var textFileIds = new CollectionIds
                 {
@@ -2040,7 +2037,7 @@ public partial class DisplayPage : ContentPage
 
                 byte[] body = JsonSerializer.SerializeToUtf8Bytes(textFileIds);
 
-                if (selectedOption.Name == "Delete Text Files")
+                if (selectedOption.ID == "1")
 
                 {
                     (int _statusCode, var response) = await _apiService.DeleteAttachments(body);
@@ -2092,7 +2089,7 @@ public partial class DisplayPage : ContentPage
         TextFileActionPickerOptions = new List<PickerOption>
             {
                 new PickerOption { ID = "0", Name = "" },
-                new PickerOption { ID = "1", Name = "Delete Text Files" },
+                new PickerOption { ID = "1", Name = AppResources.Get("DeleteTextFiles") },
             };
 
         foreach (var pickerOption in TextFileActionPickerOptions)
@@ -2164,12 +2161,11 @@ public partial class DisplayPage : ContentPage
 
         if (textFilesCount > 0)
         {
-            string textFilesLabel = textFilesCount == 1 ? "Text File" : "Text Files";
-            selectedTextFilesCountLabel.Text = Convert.ToString(textFilesCount) + " " + textFilesLabel + " selected";
+            selectedTextFilesCountLabel.Text = AppResources.Count("TextFilesSelected", textFilesCount);
         }
         else
         {
-            selectedTextFilesCountLabel.Text = "No Text Files selected";
+            selectedTextFilesCountLabel.Text = AppResources.Get("NoTextFilesSelected");
         }
 
         PickerOption selectedOption = null;
@@ -2341,7 +2337,7 @@ public partial class DisplayPage : ContentPage
             //
         }
 
-        TextFileActionLabel.Text = "Text File URL copied to clipboard";
+        TextFileActionLabel.Text = AppResources.Get("TextFileUrlCopied");
 
         SetTimeout(() =>
         {

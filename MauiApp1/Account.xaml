@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
              x:Class="MauiApp1.AccountPage">
 
     <ScrollView>
@@ -12,16 +13,16 @@
                 Source="dotnet_bot.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+                SemanticProperties.Description="{strings:Translate DotNetBotDescription}" />
 
             <Label
-                Text="My Account"
+                Text="{strings:Translate MyAccount}"
                 x:Name="myAccountLabel"
                 VerticalOptions="Center"
                 HorizontalOptions="Center" />
 
             <Button
-                Text="Upload Files"
+                Text="{strings:Translate UploadFiles}"
                 FontSize="14"
                 x:Name="uploadsLink"
                 BackgroundColor="Black"
@@ -61,7 +62,7 @@
             </Button>
 
             <Button
-                Text="List Folders"
+                Text="{strings:Translate ListFolders}"
                 FontSize="14"
                 x:Name="listFoldersList"
                 BackgroundColor="Black"
@@ -100,7 +101,7 @@
                 </VisualStateManager.VisualStateGroups>
             </Button>
             <Button
-                Text="Edit My Account"
+                Text="{strings:Translate EditMyAccount}"
                 FontSize="14"
                 x:Name="accountLink"
                 BackgroundColor="Black"
@@ -140,7 +141,7 @@
             </Button>
 
             <Button
-                Text="Sign-Out"
+                Text="{strings:Translate SignOut}"
                 FontSize="14"
                 x:Name="signOutLink"
                 BackgroundColor="Black"

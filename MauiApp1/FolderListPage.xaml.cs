@@ -9,6 +9,7 @@ using System.IO.Compression;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text.Json;
+using MauiApp1.Resources.Strings;
 
 public class PickerOption
 {
@@ -71,7 +72,7 @@ namespace MauiApp1
             FolderStatePicker.SelectedIndexChanged += new EventHandler(FolderStatePickerOnSelectedIndexChanged);
             FolderActionPicker.SelectedIndexChanged += new EventHandler(FolderActionPickerOnSelectedIndexChanged);
 
-            selectedFoldersCountLabel.Text = "No Folders selected";
+            selectedFoldersCountLabel.Text = AppResources.Get("NoFoldersSelected");
 
             PopulateFolderStatePicker();
 
@@ -84,8 +85,7 @@ namespace MauiApp1
         {
             foldersCollectionView.ItemsSource = folders;
             int foldersCount = folders.Count();
-            string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
-            foldersCountLabel.Text = Convert.ToString(folders.Count() + " " + folderLabel);
+            foldersCountLabel.Text = AppResources.Count("FoldersCount", foldersCount);
         }
 
         private void FolderStatePickerOnSelectedIndexChanged(object sender, EventArgs e)
@@ -105,7 +105,7 @@ namespace MauiApp1
 
             if (selectedOption != null)
             {
-                if (selectedOption.Name == "")
+                if (selectedOption.ID == "0")
                 {
                     var folders = Folders.Where(folder =>
                         folder.state == "created" || folder.state == "published"
@@ -117,7 +117,7 @@ namespace MauiApp1
 
                     FolderStatePicker.TextColor = Colors.Gray;
                 }
-                else if (selectedOption.Name == "Published")
+                else if (selectedOption.ID == "1")
                 {
                     var folders = Folders.Where(folder =>
                         folder.state == "published"
@@ -129,7 +129,7 @@ namespace MauiApp1
 
                     FolderStatePicker.TextColor = Colors.FloralWhite;
                 }
-                else if (selectedOption.Name == "Archived")
+                else if (selectedOption.ID == "2")
                 {
                     var folders = Folders.Where(folder =>
                         folder.state == "archived"
@@ -154,8 +154,8 @@ namespace MauiApp1
             FolderStatePickerOptions = new List<PickerOption>
             {
                 new PickerOption { ID = "0", Name = "" },
-                new PickerOption { ID = "1", Name = "Published" },
-                new PickerOption { ID = "2", Name = "Archived" }
+                new PickerOption { ID = "1", Name = AppResources.Get("Published") },
+                new PickerOption { ID = "2", Name = AppResources.Get("Archived") }
             };
 
             foreach (var pickerOption in FolderStatePickerOptions)
@@ -169,11 +169,11 @@ namespace MauiApp1
             FolderActionPickerOptions = new List<PickerOption>
             {
                 new PickerOption { ID = "0", Name = "" },
-                new PickerOption { ID = "1", Name = "Publish Folders" },
-                new PickerOption { ID = "2", Name = "Unpublish Folders" },
-                new PickerOption { ID = "3", Name = "Archive Folders" },
-                new PickerOption { ID = "4", Name = "Unarchive Folders" },
-                new PickerOption { ID = "5", Name = "Delete Folders" },
+                new PickerOption { ID = "1", Name = AppResources.Get("PublishFolders") },
+                new PickerOption { ID = "2", Name = AppResources.Get("UnpublishFolders") },
+                new PickerOption { ID = "3", Name = AppResources.Get("ArchiveFolders") },
+                new PickerOption { ID = "4", Name = AppResources.Get("UnarchiveFolders") },
+                new PickerOption { ID = "5", Name = AppResources.Get("DeleteFolders") },
             };
 
             foreach (var pickerOption in FolderActionPickerOptions)
@@ -323,7 +323,7 @@ namespace MauiApp1
                 folder.state == "created" || folder.state == "published"
             );
 
-            foldersCountLabel.Text = Convert.ToString(Folders.Count() + " Folders");
+            foldersCountLabel.Text = AppResources.Count("FoldersCount", Folders.Count());
         }
 
         public async void FolderSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -405,12 +405,11 @@ namespace MauiApp1
 
             if (foldersCount > 0)
             {
-                string folderLabel = foldersCount == 1 ? "Folder" : "Folders";
-                selectedFoldersCountLabel.Text = Convert.ToString(foldersCount) + " " + folderLabel + " selected";
+                selectedFoldersCountLabel.Text = AppResources.Count("FoldersSelected", foldersCount);
             }
             else
             {
-                selectedFoldersCountLabel.Text = "No Folders selected";
+                selectedFoldersCountLabel.Text = AppResources.Get("NoFoldersSelected");
             }
 
             PickerOption selectedOption = null;
@@ -497,7 +496,7 @@ namespace MauiApp1
 
             if (selectedOption != null)
             {
-                string action = await DisplayActionSheet(selectedOption.Name, "Cancel", selectedOption.Name, String.Join("\n", FolderNames));
+                string action = await DisplayActionSheet(selectedOption.Name, AppResources.Get("Cancel"), selectedOption.Name, String.Join("\n", FolderNames));
 
                 if (action == selectedOption.Name)
                 {
@@ -508,23 +507,23 @@ namespace MauiApp1
 
                     byte[] body = JsonSerializer.SerializeToUtf8Bytes(folderIds);
 
-                    if (selectedOption.Name == "Publish Folders")
+                    if (selectedOption.ID == "1")
                     {
                         (int _statusCode, var response) = await _apiService.PublishFolders(body);
                     }
-                    else if (selectedOption.Name == "Unpublish Folders")
+                    else if (selectedOption.ID == "2")
                     {
                         (int _statusCode, var response) = await _apiService.UnpublishFolders(body);
                     }
-                    else if (selectedOption.Name == "Archive Folders")
+                    else if (selectedOption.ID == "3")
                     {
                         (int _statusCode, var response) = await _apiService.ArchiveFolders(body);
                     }
-                    else if (selectedOption.Name == "Unarchive Folders")
+                    else if (selectedOption.ID == "4")
                     {
                         (int _statusCode, var response) = await _apiService.UnarchiveFolders(body);
                     }
-                    else if (selectedOption.Name == "Delete Folders")
+                    else if (selectedOption.ID == "5")
                     {
                         (int _statusCode, var response) = await _apiService.DeleteFolders(body);
                     }
