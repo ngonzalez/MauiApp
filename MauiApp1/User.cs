@@ -4,6 +4,7 @@
     public Guid? accountUuid { get; set; }
     public string accountName { get; set; }
     public string accountAddress { get; set; }
+    public string? accountSubdomain { get; set; }
     public string? firstName { get; set; }
     public string? lastName { get; set; }
     public string? emailAddress { get; set; }

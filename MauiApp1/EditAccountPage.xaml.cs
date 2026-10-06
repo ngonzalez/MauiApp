@@ -73,6 +73,7 @@ namespace MauiApp1
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             accountUuid.Text = Convert.ToString(_appShellViewModel.CurrentUser.accountUuid);
             accountName.Text = _appShellViewModel.CurrentUser.accountName;
+            accountSubdomain.Text = _appShellViewModel.CurrentUser.accountSubdomain;
             accountAddress.Text = _appShellViewModel.CurrentUser.accountAddress;
             editAccountFirstName.Text = _appShellViewModel.CurrentUser.firstName;
             editAccountLastName.Text = _appShellViewModel.CurrentUser.lastName;
@@ -112,10 +113,12 @@ namespace MauiApp1
                 { "lastName", LastName },
                 { "emailAddress", EmailAddress },
                 { "deliverNotificationsSignIn", Convert.ToString(editAccountDeliverNotificationsOnSignIn.IsChecked).ToLower() },
-                { "deliverNotificationsAccountUpdate", Convert.ToString(editAccountDeliverNotificationsOnAccountUpdate.IsChecked).ToLower() }
+                { "deliverNotificationsAccountUpdate", Convert.ToString(editAccountDeliverNotificationsOnAccountUpdate.IsChecked).ToLower() },
+                // the address of the account's site: the backend keeps the previous one as a redirect
+                { "subdomain", (accountSubdomain.Text ?? "").Trim().ToLowerInvariant() }
             };
 
-            (int _statusCode, var response) = await _authenticate.updateAccount(values);
+            (int statusCode, var response) = await _authenticate.updateAccount(values);
 
             UpdateAccountResponse jsonResponse = JsonSerializer.Deserialize<UpdateAccountResponse>(response);
 
@@ -127,6 +130,11 @@ namespace MauiApp1
                     accountErrors.Text += error;
                     accountErrors.Text += "\n";
                 }
+            }
+            // refused (e.g. "Subdomain has already been taken"): nothing was saved
+            if (statusCode == 422 && jsonResponse?.message != null)
+            {
+                accountErrors.Text += jsonResponse.message;
             }
 
             ToastNotificationManagerCompat.History.Clear();

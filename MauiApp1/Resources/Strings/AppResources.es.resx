@@ -21,6 +21,9 @@
   <data name="AccountName" xml:space="preserve">
     <value>Nombre de la cuenta</value>
   </data>
+  <data name="AccountSubdomain" xml:space="preserve">
+    <value>Dirección de su sitio</value>
+  </data>
   <data name="AccountTitle" xml:space="preserve">
     <value>Cuenta</value>
   </data>
