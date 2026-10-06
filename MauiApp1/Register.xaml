@@ -28,15 +28,11 @@
 
             <Label
                 FontSize="20"
-                FontAttributes="Bold">
-                Register Account
-            </Label>
+                FontAttributes="Bold" Text="{strings:Translate RegisterAccount}" />
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Account Code
-            </Label>
+                FontSize="15" Text="{strings:Translate AccountCode}" />
 
             <Entry
                 Placeholder="{strings:Translate AccountCode}"
@@ -48,9 +44,7 @@
                     <Label
                         TextColor="#CCC"
                         FontSize="15"
-                        Padding="5">
-                        Account UUID
-                    </Label>
+                        Padding="5" Text="{strings:Translate AccountUuid}" />
 
                     <Entry
                         Placeholder="{strings:Translate AccountUuid}"
@@ -62,9 +56,7 @@
                     <Label
                         TextColor="#CCC"
                         FontSize="15"
-                        Padding="5">
-                        Account Name
-                    </Label>
+                        Padding="5" Text="{strings:Translate AccountName}" />
 
                     <Entry
                         Placeholder="{strings:Translate AccountName}"
@@ -76,9 +68,7 @@
                     <Label
                         TextColor="#CCC"
                         FontSize="15"
-                        Padding="5">
-                        Account Address
-                    </Label>
+                        Padding="5" Text="{strings:Translate AccountAddress}" />
 
                     <Entry
                         Placeholder="{strings:Translate AccountAddress}"
@@ -92,9 +82,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                First name
-            </Label>
+                FontSize="15" Text="{strings:Translate FirstName}" />
 
             <Entry
                 Placeholder="{strings:Translate FirstName}"
@@ -102,9 +90,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Last name
-            </Label>
+                FontSize="15" Text="{strings:Translate LastName}" />
 
             <Entry
                 Placeholder="{strings:Translate LastName}"
@@ -112,9 +98,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Email address
-            </Label>
+                FontSize="15" Text="{strings:Translate EmailAddress}" />
 
             <Entry
                 Placeholder="{strings:Translate EmailAddress}"
@@ -122,9 +106,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Password
-            </Label>
+                FontSize="15" Text="{strings:Translate Password}" />
 
             <Entry
                 Placeholder="{strings:Translate Password}"

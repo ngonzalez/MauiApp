@@ -21,6 +21,9 @@
   <data name="AccountName" xml:space="preserve">
     <value>Nom du compte</value>
   </data>
+  <data name="AccountSubdomain" xml:space="preserve">
+    <value>Adresse de votre site</value>
+  </data>
   <data name="AccountTitle" xml:space="preserve">
     <value>Compte</value>
   </data>
@@ -416,5 +419,32 @@
   </data>
   <data name="WidthLabel" xml:space="preserve">
     <value>Largeur :</value>
+  </data>
+  <data name="Processing" xml:space="preserve">
+    <value>Traitement en cours</value>
+  </data>
+  <data name="EditAccount" xml:space="preserve">
+    <value>Modifier le compte</value>
+  </data>
+  <data name="NotifyOnSignIn" xml:space="preserve">
+    <value>M'avertir lorsque je me connecte</value>
+  </data>
+  <data name="NotifyOnAccountUpdate" xml:space="preserve">
+    <value>M'avertir lorsque mon compte est modifié</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Changer de mot de passe</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nouveau mot de passe</value>
+  </data>
+  <data name="NewPasswordConfirmation" xml:space="preserve">
+    <value>Confirmation du nouveau mot de passe</value>
+  </data>
+  <data name="ChangeEmailAddress" xml:space="preserve">
+    <value>Changer d'adresse e-mail</value>
+  </data>
+  <data name="RegisterAccount" xml:space="preserve">
+    <value>Créer le compte</value>
   </data>
 </root>
