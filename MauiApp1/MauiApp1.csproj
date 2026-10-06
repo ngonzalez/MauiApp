@@ -17,7 +17,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>MauiApp1</ApplicationTitle>
+		<ApplicationTitle>Appshare</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>site.appshare.mauiapp1</ApplicationId>

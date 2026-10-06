@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
     xmlns:local="clr-namespace:MauiApp1"
-    Title="MauiApp1"
+    Title="Appshare"
     FlyoutIsPresented="True"
     FlyoutBehavior="Locked">
 

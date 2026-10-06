@@ -412,7 +412,7 @@
     <value>{0} vidéo sélectionnée</value>
   </data>
   <data name="Welcome" xml:space="preserve">
-    <value>Bienvenue dans .NET MAUI !</value>
+    <value>Bienvenue sur Appshare !</value>
   </data>
   <data name="WidthLabel" xml:space="preserve">
     <value>Largeur :</value>
