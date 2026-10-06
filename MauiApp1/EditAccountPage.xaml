@@ -34,16 +34,12 @@
 
             <Label
                 FontSize="20"
-                FontAttributes="Bold">
-                Edit Account
-            </Label>
+                FontAttributes="Bold" Text="{strings:Translate EditAccount}" />
 
             <Label
                 TextColor="#CCC"
                 FontSize="15"
-                Padding="5">
-                Account UUID
-            </Label>
+                Padding="5" Text="{strings:Translate AccountUuid}" />
 
             <Entry
                 Placeholder="{strings:Translate AccountUuid}"
@@ -55,9 +51,7 @@
             <Label
                 TextColor="#CCC"
                 FontSize="15"
-                Padding="5">
-                Account Name
-            </Label>
+                Padding="5" Text="{strings:Translate AccountName}" />
 
             <Entry
                 Placeholder="{strings:Translate AccountName}"
@@ -69,9 +63,7 @@
             <Label
                 TextColor="#CCC"
                 FontSize="15"
-                Padding="5">
-                Account Address
-            </Label>
+                Padding="5" Text="{strings:Translate AccountAddress}" />
 
             <Entry
                 Placeholder="{strings:Translate AccountAddress}"
@@ -82,9 +74,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                First name
-            </Label>
+                FontSize="15" Text="{strings:Translate FirstName}" />
 
             <Entry
                 Placeholder="{strings:Translate FirstName}"
@@ -93,9 +83,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Last name
-            </Label>
+                FontSize="15" Text="{strings:Translate LastName}" />
 
             <Entry
                 Placeholder="{strings:Translate LastName}"
@@ -104,9 +92,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Email address
-            </Label>
+                FontSize="15" Text="{strings:Translate EmailAddress}" />
 
             <Entry
                 Placeholder="{strings:Translate EmailAddress}"
@@ -115,9 +101,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Created At
-            </Label>
+                FontSize="15" Text="{strings:Translate CreatedAt}" />
 
             <Entry
                 Placeholder="{strings:Translate CreatedAt}"
@@ -128,9 +112,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Updated At
-            </Label>
+                FontSize="15" Text="{strings:Translate UpdatedAt}" />
 
             <Entry
                 Placeholder="{strings:Translate UpdatedAt}"
@@ -141,18 +123,14 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Deliver notifications on Sign-In
-            </Label>
+                FontSize="15" Text="{strings:Translate NotifyOnSignIn}" />
 
             <CheckBox
                 x:Name="editAccountDeliverNotificationsOnSignIn" />
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Deliver notifications on Account Update
-            </Label>
+                FontSize="15" Text="{strings:Translate NotifyOnAccountUpdate}" />
 
             <CheckBox
                 x:Name="editAccountDeliverNotificationsOnAccountUpdate" />
@@ -196,15 +174,11 @@
 
             <Label
                 FontSize="20"
-                FontAttributes="Bold">
-                Change Password
-            </Label>
+                FontAttributes="Bold" Text="{strings:Translate ChangePassword}" />
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                New Password
-            </Label>
+                FontSize="15" Text="{strings:Translate NewPassword}" />
 
             <Entry
                 Placeholder="{strings:Translate Password}"
@@ -214,9 +188,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                New Password Confirmation
-            </Label>
+                FontSize="15" Text="{strings:Translate NewPasswordConfirmation}" />
 
             <Entry
                 Placeholder="{strings:Translate PasswordConfirmation}"
@@ -263,15 +235,11 @@
 
             <Label
                 FontSize="20"
-                FontAttributes="Bold">
-                Change Email Address
-            </Label>
+                FontAttributes="Bold" Text="{strings:Translate ChangeEmailAddress}" />
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                Current Email Address
-            </Label>
+                FontSize="15" Text="{strings:Translate CurrentEmailAddress}" />
 
             <Entry
                 Placeholder="{strings:Translate CurrentEmailAddress}"
@@ -282,9 +250,7 @@
 
             <Label
                 TextColor="#CCC"
-                FontSize="15">
-                New Email Address
-            </Label>
+                FontSize="15" Text="{strings:Translate NewEmailAddress}" />
 
             <Entry
                 Placeholder="{strings:Translate NewEmailAddress}"

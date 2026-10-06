@@ -29,9 +29,7 @@
                         HorizontalOptions="Center"
                         TextColor="FloralWhite"
                         BackgroundColor="Transparent"
-                        Padding="10">
-                        Processing
-                    </Label>
+                        Padding="10" Text="{strings:Translate Processing}" />
                     <Image
                         MinimumWidthRequest="30"
                         MaximumWidthRequest="30">

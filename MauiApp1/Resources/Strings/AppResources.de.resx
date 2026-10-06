@@ -417,4 +417,31 @@
   <data name="WidthLabel" xml:space="preserve">
     <value>Breite:</value>
   </data>
+  <data name="Processing" xml:space="preserve">
+    <value>Wird verarbeitet</value>
+  </data>
+  <data name="EditAccount" xml:space="preserve">
+    <value>Konto bearbeiten</value>
+  </data>
+  <data name="NotifyOnSignIn" xml:space="preserve">
+    <value>Mich bei der Anmeldung benachrichtigen</value>
+  </data>
+  <data name="NotifyOnAccountUpdate" xml:space="preserve">
+    <value>Mich benachrichtigen, wenn mein Konto aktualisiert wird</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Neues Passwort</value>
+  </data>
+  <data name="NewPasswordConfirmation" xml:space="preserve">
+    <value>Neues Passwort bestätigen</value>
+  </data>
+  <data name="ChangeEmailAddress" xml:space="preserve">
+    <value>E-Mail-Adresse ändern</value>
+  </data>
+  <data name="RegisterAccount" xml:space="preserve">
+    <value>Konto registrieren</value>
+  </data>
 </root>
