@@ -12,66 +12,6 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using MauiApp1.Resources.Strings;
 
-public static class MimeTypeMapper
-{
-    private static readonly IDictionary<string, string> _mappings =
-        new Dictionary<string, string>()
-        {
-            /* DOCUMENTS */
-            { ".pdf", "application/pdf" },
-            { ".md", "text/markdown" },
-            { ".txt", "text/plain" },
-
-            /* IMAGES */
-            { ".bmp", "image/bmp" },
-            { ".gif", "image/gif" },
-            { ".jpg", "image/jpeg" },
-            { ".jpeg", "image/jpeg" },
-            { ".png", "image/png" },
-            { ".tif", "image/tiff" },
-            { ".tiff", "image/tiff" },
-            { ".webp", "image/webp" },
-
-            /* AUDIO */
-            { ".aac", "audio/aac" },
-            { ".m4a", "audio/aac" },
-            { ".aff", "audio/x-aiff" },
-            { ".aif", "audio/x-aiff" },
-            { ".aiff", "audio/x-aiff" },
-            { ".flac", "audio/flac" },
-            { ".mka", "audio/x-matroska" },
-            { ".mp3", "audio/mpeg" },
-            { ".wav", "audio/wav" },
-            { ".weba", "audio/webm" },
-
-            /* VIDEO */
-            { ".3gp", "video/3gpp" },
-            { ".mkv", "video/x-matroska" },
-            { ".mp4", "video/mp4" },
-            { ".mp4v", "video/mp4" },
-            { ".mpg4", "video/mp4" },
-            { ".m1v", "video/mpeg" },
-            { ".m2v", "video/mpeg" },
-            { ".mpg", "video/mpeg" },
-            { ".mpeg", "video/mpeg" },
-            { ".webm", "video/webm" },
-        };
-    public static string GetMimeType(string extension)
-    {
-        if (extension == null)
-        {
-            throw new ArgumentNullException("extension");
-        }
-        if (!extension.StartsWith("."))
-        {
-            extension = "." + extension;
-        }
-        string mime;
-        return _mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
-    }
-}
-
-
 namespace MauiApp1
 {
     public partial class MainPage : ContentPage
@@ -158,7 +98,27 @@ namespace MauiApp1
         // Send each file straight to the storage, in one request
         // (DirectUploadClient), one after the other; a failed file doesn't stop
         // the others and is reported at the end
+        // True while SendFiles runs: a second click doesn't send the files twice
+        private bool _sending;
+
         public async Task SendFiles()
+        {
+            if (_sending)
+            {
+                return;
+            }
+            _sending = true;
+            try
+            {
+                await SendEachFile();
+            }
+            finally
+            {
+                _sending = false;
+            }
+        }
+
+        private async Task SendEachFile()
         {
             int filesCount = 0;
             int totalFilesCount = UploadFiles.Count();
@@ -179,7 +139,16 @@ namespace MauiApp1
 
                     uploadFile.uuid = await _apiService.UploadFileAsync(uploadFile);
 
-                    await CreateEvent(uploadFile, fileInfo);
+                    // The file is uploaded: an event that can't be recorded
+                    // doesn't make it a failed upload
+                    try
+                    {
+                        await CreateEvent(uploadFile, fileInfo);
+                    }
+                    catch (Exception exception)
+                    {
+                        CrashLog.Write(exception, "CreateEvent");
+                    }
                 }
                 catch (Exception exception)
                 {
