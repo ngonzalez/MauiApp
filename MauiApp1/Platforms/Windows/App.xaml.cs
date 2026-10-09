@@ -17,6 +17,11 @@ namespace MauiApp1.WinUI
         public App()
         {
             this.InitializeComponent();
+
+            // Keep every crash in %LOCALAPPDATA%\Appshare\crash.log (CrashLog)
+            this.UnhandledException += (sender, e) => CrashLog.Write(e.Exception, "WinUI: " + e.Message);
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => CrashLog.Write(e.ExceptionObject as Exception, "AppDomain");
+            TaskScheduler.UnobservedTaskException += (sender, e) => CrashLog.Write(e.Exception, "Task");
         }
 
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
