@@ -114,8 +114,6 @@ namespace MauiApp1
                 { "emailAddress", EmailAddress },
                 { "deliverNotificationsSignIn", Convert.ToString(editAccountDeliverNotificationsOnSignIn.IsChecked).ToLower() },
                 { "deliverNotificationsAccountUpdate", Convert.ToString(editAccountDeliverNotificationsOnAccountUpdate.IsChecked).ToLower() },
-                // the address of the account's site: the backend keeps the previous one as a redirect
-                { "subdomain", (accountSubdomain.Text ?? "").Trim().ToLowerInvariant() }
             };
 
             (int statusCode, var response) = await _authenticate.updateAccount(values);
@@ -131,7 +129,7 @@ namespace MauiApp1
                     accountErrors.Text += "\n";
                 }
             }
-            // refused (e.g. "Subdomain has already been taken"): nothing was saved
+            // refused: nothing was saved
             if (statusCode == 422 && jsonResponse?.message != null)
             {
                 accountErrors.Text += jsonResponse.message;

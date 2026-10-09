@@ -66,15 +66,16 @@
                 Padding="5"
                 Text="{strings:Translate AccountSubdomain}" />
 
-            <!-- The address of the account's site: <subdomain>.appshare.site -->
+            <!-- The address of the account's site: <subdomain>.appshare.site.
+                 Read-only, like in DemoApp: it is chosen at registration -->
             <HorizontalStackLayout Spacing="4">
                 <Entry
                     Placeholder="{strings:Translate AccountSubdomain}"
                     x:Name="accountSubdomain"
                     WidthRequest="320"
-                    MaxLength="63"
-                    IsSpellCheckEnabled="False"
-                    IsTextPredictionEnabled="False" />
+                    TextColor="Grey"
+                    Opacity="0.9"
+                    IsReadOnly="True" />
                 <Label
                     Text=".appshare.site"
                     VerticalOptions="Center" />
