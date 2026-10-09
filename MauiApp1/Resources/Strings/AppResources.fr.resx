@@ -447,4 +447,10 @@
   <data name="RegisterAccount" xml:space="preserve">
     <value>Créer le compte</value>
   </data>
+  <data name="UploadsFailedMany" xml:space="preserve">
+    <value>{0} fichiers n'ont pas été envoyés</value>
+  </data>
+  <data name="UploadsFailedOne" xml:space="preserve">
+    <value>{0} fichier n'a pas été envoyé</value>
+  </data>
 </root>
