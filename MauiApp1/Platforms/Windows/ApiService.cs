@@ -7,6 +7,9 @@ namespace MauiApp1.Platforms.Windows
         private readonly HttpClient _httpClient;
 
         private readonly HttpClient _httpClientStreamingService;
+
+        private readonly DirectUploadClient _directUploadClient;
+
         public ApiService(AppShellViewModel appShellViewModel)
         {
             _httpClient = new HttpClient(new BearerTokenHandler(appShellViewModel))
@@ -26,6 +29,15 @@ namespace MauiApp1.Platforms.Windows
             _httpClientStreamingService.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json")
             );
+
+            // The files go to the storage's signed URLs: no session token, and
+            // no timeout (the default 100 seconds would stop a large video)
+            var storageClient = new HttpClient()
+            {
+                Timeout = Timeout.InfiniteTimeSpan
+            };
+
+            _directUploadClient = new DirectUploadClient(_httpClient, storageClient);
         }
 
         public async Task<(int, String)> getUploads(Guid accountUuid, string ids)
@@ -37,15 +49,9 @@ namespace MauiApp1.Platforms.Windows
             return (status, json);
         }
 
-        public async Task<(int, String)> CreatePostAsync(byte[] body)
+        public Task<Guid> UploadFileAsync(UploadFile uploadFile)
         {
-            ByteArrayContent content = new ByteArrayContent(body);
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-            content.Headers.ContentLength = body.Length;
-            var response = await _httpClient.PostAsync("/upload", content);
-            string json = await response.Content.ReadAsStringAsync();
-            int status = (int)response.StatusCode;
-            return (status, json);
+            return _directUploadClient.UploadAsync(uploadFile.filePath, uploadFile.source, uploadFile.mimeType, uploadFile.createdAt, uploadFile.updatedAt);
         }
 
         public async Task<(int, String)> getVideoStream(string id)

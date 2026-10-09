@@ -4,10 +4,6 @@
 
     public required int userId { get; set; }
 
-    public Guid uploadFileUuid { get; set; }
-
-    public required string itemData { get; set; }
-
     public required string filePath { get; set; }
 
     public required string mimeType { get; set; }

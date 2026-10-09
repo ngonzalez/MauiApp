@@ -4,7 +4,8 @@
     {
         Task<(int, String)> getUploads(Guid accountUuid, string ids);
 
-        Task<(int, String)> CreatePostAsync(byte[] body);
+        // Upload a file straight to the storage (DirectUploadClient); returns the upload's uuid
+        Task<Guid> UploadFileAsync(UploadFile uploadFile);
 
         Task<(int, String)> getVideoStream(string id);
 

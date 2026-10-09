@@ -76,12 +76,6 @@ namespace MauiApp1
 {
     public partial class MainPage : ContentPage
     {
-        // Files above this size are sent in chunks of this size: about 71MB
-        // per request once encoded, under nginx's 75MB request limit (and
-        // Cloudflare's 100MB)
-        private const int ChunkSize = 70 * 1024 * 1024;
-
-
         public ObservableCollection<UploadFolder> UploadFolders { get; set; }
 
         public ObservableCollection<UploadFile> UploadFiles { get; set; }
@@ -161,115 +155,35 @@ namespace MauiApp1
             progressBar.ProgressTo(value: 0, length: 100, easing: Easing.Linear);
         }
 
-        public static byte[] CompressGzip(byte[] raw)
-        {
-            using (MemoryStream memory = new MemoryStream())
-            {
-                using (GZipStream gzip = new GZipStream(memory, CompressionMode.Compress, true))
-                {
-                    gzip.Write(raw, 0, raw.Length);
-                }
-                return memory.ToArray();
-            }
-        }
-
-        public void CompressZip(string filePath, string zipPath)
-        {
-            using (FileStream inputFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
-            using (FileStream targetStream = new FileStream(zipPath, FileMode.Create))
-            using (ZipArchive archive = new ZipArchive(targetStream, ZipArchiveMode.Create))
-            {
-                ZipArchiveEntry entry = archive.CreateEntry(Path.GetFileName(filePath));
-
-                using (Stream entryStream = entry.Open())
-                {
-                    inputFile.CopyTo(entryStream);
-                }
-            }
-        }
-
-        public string GetTemporaryDirectory()
-        {
-            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-
-            if (System.IO.Directory.Exists(tempDirectory))
-            {
-                return GetTemporaryDirectory();
-            }
-            else
-            {
-                Directory.CreateDirectory(tempDirectory);
-                return tempDirectory;
-            }
-        }
-
-        public async void SendFiles()
+        // Send each file straight to the storage, in one request
+        // (DirectUploadClient), one after the other; a failed file doesn't stop
+        // the others and is reported at the end
+        public async Task SendFiles()
         {
             int filesCount = 0;
             int totalFilesCount = UploadFiles.Count();
+            var failures = new List<string>();
 
-            foreach (UploadFile uploadFile in UploadFiles)
+            foreach (UploadFile uploadFile in UploadFiles.ToList())
             {
-                long length = new System.IO.FileInfo(uploadFile.filePath).Length;
-
-                var fileInfo = new Dictionary<string, string>
+                try
                 {
-                    { "fileSize", Convert.ToString(length) },
-                    { "fileName", uploadFile.filePath },
-                    { "mimeType", uploadFile.mimeType }
-                };
+                    long length = new System.IO.FileInfo(uploadFile.filePath).Length;
 
-                if (length >= ChunkSize)
-                {
-                    string tempDirectory = GetTemporaryDirectory();
-                    string fileName = Convert.ToString(uploadFile.uuid) + ".zip";
-                    string tempFile = Path.Combine(tempDirectory, fileName);
-
-                    CompressZip(uploadFile.filePath, tempFile);
-
-                    SplitFile(tempFile, ChunkSize, tempDirectory);
-
-                    try
+                    var fileInfo = new Dictionary<string, string>
                     {
-                        System.IO.File.Delete(tempFile);
-                    }
-                    catch
-                    {
-                        //
-                    }
+                        { "fileSize", Convert.ToString(length) },
+                        { "fileName", uploadFile.filePath },
+                        { "mimeType", uploadFile.mimeType }
+                    };
 
-                    var splitFiles = System.IO.Directory.GetFiles(tempDirectory);
-                    int splitFilesCount = splitFiles.Count();
+                    uploadFile.uuid = await _apiService.UploadFileAsync(uploadFile);
 
-                    int i = 0;
-
-                    foreach (string filePath in splitFiles)
-                    {
-                        SendFileBatch(uploadFile, splitFilesCount, filePath, i);
-
-                        try
-                        {
-                            System.IO.File.Delete(filePath);
-                        }
-                        catch
-                        {
-                            //
-                        }
-
-                        i++;
-                    }
-
-                    SendUploadFile(uploadFile);
-
-                    CreateEvent(uploadFile, fileInfo);
-
-                    System.Threading.Thread.Sleep(5000);
+                    await CreateEvent(uploadFile, fileInfo);
                 }
-                else
+                catch (Exception exception)
                 {
-                    SendFile(uploadFile);
-
-                    CreateEvent(uploadFile, fileInfo);
+                    failures.Add(Path.GetFileName(uploadFile.filePath) + ": " + exception.Message);
                 }
 
                 // Progress bar
@@ -278,9 +192,14 @@ namespace MauiApp1
                 progressBarText.Text = Convert.ToString(Convert.ToInt32(progress * 100)) + "%";
                 await progressBar.ProgressTo(value: progress, length: 900, easing: Easing.Linear);
             }
+
+            if (failures.Count > 0)
+            {
+                await _alertService.DisplayAlertAsync(AppResources.Count("UploadsFailed", failures.Count), string.Join("\n", failures), "OK");
+            }
         }
 
-        private async void CreateEvent(UploadFile uploadFile, Dictionary<string, string> uploadDetails)
+        private async Task CreateEvent(UploadFile uploadFile, Dictionary<string, string> uploadDetails)
         {
             var accountUuid = _appShellViewModel.CurrentUser.accountUuid;
             var accountUuidUnwrapped = accountUuid!;
@@ -324,91 +243,7 @@ namespace MauiApp1
 
         private async void OnSendDataClicked(object sender, EventArgs e)
         {
-            SendFiles();
-        }
-
-        public async void SendUploadFile(UploadFile uploadFile)
-        {
-            byte[] body = JsonSerializer.SerializeToUtf8Bytes(uploadFile);
-            (int _statusCode, var response) = await _apiService.CreatePostAsync(CompressGzip(body));
-        }
-
-        public async void SendFile(UploadFile uploadFile)
-        {
-            using (FileStream inputFile = new FileStream(uploadFile.filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
-            using (CryptoStream base64Stream = new CryptoStream(inputFile, new ToBase64Transform(), CryptoStreamMode.Read))
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                base64Stream.CopyTo(memoryStream);
-                byte[] byteArray = memoryStream.ToArray();
-                memoryStream.Close();
-
-                uploadFile.itemData = System.Text.Encoding.UTF8.GetString(byteArray);
-
-                SendUploadFile(uploadFile);
-            }
-        }
-
-        public async void SendFileBatch(UploadFile uploadFile, int filesCount, string filePath, int i)
-        {
-            User currentUser = await _authenticate.getCurrentUser();
-            if (currentUser != null)
-            {
-                using (FileStream inputFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 1024 * 1024))
-                using (CryptoStream base64Stream = new CryptoStream(inputFile, new ToBase64Transform(), CryptoStreamMode.Read))
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    base64Stream.CopyTo(memoryStream);
-                    byte[] byteArray = memoryStream.ToArray();
-                    memoryStream.Close();
-
-                    UploadFile splitUploadFile = new UploadFile
-                    {
-                        userId = (int)currentUser.id,
-                        uuid = Guid.NewGuid(),
-                        uploadFileUuid = uploadFile.uuid,
-                        itemData = System.Text.Encoding.UTF8.GetString(byteArray),
-                        filePath = uploadFile.filePath + "." + (Convert.ToString(i + 1)) + "-" + filesCount + ".block",
-                        mimeType = "application/octet-stream",
-                        createdAt = uploadFile.createdAt,
-                        updatedAt = uploadFile.updatedAt,
-                        source = uploadFile.source,
-                    };
-
-                    SendUploadFile(splitUploadFile);
-                }
-            }
-        }
-
-        public async void SplitFile(string inputFile, int chunkSize, string path)
-        {
-            byte[] buffer = new byte[chunkSize];
-
-            using (Stream input = System.IO.File.OpenRead(inputFile))
-            {
-                int index = 0;
-                while (input.Position < input.Length)
-                {
-                    using (Stream output = System.IO.File.Create(path + "\\" + index))
-                    {
-                        int chunkBytesRead = 0;
-                        while (chunkBytesRead < chunkSize)
-                        {
-                            int bytesRead = input.Read(buffer,
-                                                       chunkBytesRead,
-                                                       chunkSize - chunkBytesRead);
-
-                            if (bytesRead == 0)
-                            {
-                                break;
-                            }
-                            chunkBytesRead += bytesRead;
-                        }
-                        output.Write(buffer, 0, chunkBytesRead);
-                    }
-                    index++;
-                }
-            }
+            await SendFiles();
         }
 
         public async void CreateUploadFile(string filePath, UploadFolder uploadFolder)
@@ -417,14 +252,12 @@ namespace MauiApp1
             if (currentUser != null)
             {
                 DateTime createdAt = System.IO.File.GetCreationTime(filePath);
-                DateTime updatedAt = System.IO.File.GetLastAccessTime(filePath);
+                DateTime updatedAt = System.IO.File.GetLastWriteTime(filePath);
 
                 int userId = (int)currentUser.id;
                 string _fileName = Path.GetFileName(filePath);
                 string fileExt = Path.GetExtension(filePath);
                 string mimeType = MimeTypeMapper.GetMimeType(fileExt);
-                byte[] byteArray = new byte[4096];
-                string itemData = System.Text.Encoding.UTF8.GetString(byteArray);
 
                 if (mimeType != "application/octet-stream")
                 {
@@ -435,7 +268,6 @@ namespace MauiApp1
                         createdAt = createdAt,
                         updatedAt = updatedAt,
                         filePath = filePath,
-                        itemData = itemData,
                         mimeType = mimeType,
                         source = uploadFolder.Type,
                     };
