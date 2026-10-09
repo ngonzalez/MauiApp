@@ -10,6 +10,7 @@
 	<ItemGroup>
 		<!-- The upload logic has no MAUI dependency: compile it here, not the whole app -->
 		<Compile Include="..\MauiApp1\DirectUploadClient.cs" Link="DirectUploadClient.cs" />
+		<Compile Include="..\MauiApp1\CrashLog.cs" Link="CrashLog.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
