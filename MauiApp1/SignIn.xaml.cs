@@ -45,7 +45,40 @@ public partial class SignInPage : ContentPage
         await Shell.Current.GoToAsync("registerpage");
     }
 
+    // True while a sign-in runs: Enter then a click doesn't send it twice
+    private bool _signingIn;
+
+    // Enter in the email address: on to the password
+    private void OnEmailAddressEnter(object sender, EventArgs e)
+    {
+        passwordEntry.Focus();
+    }
+
+    // The Sign in button, or Enter in the password. A failure (network,
+    // unreadable answer) is shown under the form instead of closing the app
     private async void OnSignInClicked(object sender, EventArgs e)
+    {
+        if (_signingIn)
+        {
+            return;
+        }
+        _signingIn = true;
+        try
+        {
+            await SignIn();
+        }
+        catch (Exception exception)
+        {
+            CrashLog.Write(exception, "SignIn");
+            signInErrors.Text = exception.Message;
+        }
+        finally
+        {
+            _signingIn = false;
+        }
+    }
+
+    private async Task SignIn()
     {
         var values = new Dictionary<string, string> {
             { "emailAddress", EmailAddress },
