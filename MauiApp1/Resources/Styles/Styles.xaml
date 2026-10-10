@@ -420,6 +420,11 @@
     <Style TargetType="Page" ApplyToDerivedTypes="True">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}" />
+        <!-- No back arrow at the top left: every page has its own links
+             (the display and image pages open in windows of their own) -->
+        <Setter Property="Shell.BackButtonBehavior">
+            <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+        </Setter>
     </Style>
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
