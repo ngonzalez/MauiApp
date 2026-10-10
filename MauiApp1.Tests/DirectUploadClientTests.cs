@@ -152,6 +152,75 @@ namespace MauiApp1.Tests
         }
 
         [Fact]
+        public async Task Md5OfAFileLargerThanOneBuffer()
+        {
+            byte[] data = new byte[9 * 1024 * 1024];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = (byte)(i % 251);
+            }
+            File.WriteAllBytes(_filePath, data);
+
+            Assert.Equal(Convert.ToBase64String(System.Security.Cryptography.MD5.HashData(data)), await DirectUploadClient.Md5Base64Async(_filePath));
+        }
+
+        [Fact]
+        public async Task AFailureWithoutJsonIsNamedByItsReason()
+        {
+            _api.Responses.Enqueue(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable) { Content = new StringContent("<html>down</html>") });
+
+            var error = await Assert.ThrowsAsync<DirectUploadException>(Upload);
+
+            Assert.Equal(503, error.StatusCode);
+            Assert.Equal("Service Unavailable", error.Message);
+        }
+
+        [Fact]
+        public async Task AFailureWithJsonButNoMessageIsNamedByItsReason()
+        {
+            _api.Responses.Enqueue(Json(HttpStatusCode.BadRequest, new { error = "invalid" }));
+
+            var error = await Assert.ThrowsAsync<DirectUploadException>(Upload);
+
+            Assert.Equal("Bad Request", error.Message);
+        }
+
+        [Fact]
+        public async Task SendsLocalDatesWithTheirOffset()
+        {
+            _api.Responses.Enqueue(Created());
+            _storage.Responses.Enqueue(new HttpResponseMessage(HttpStatusCode.Created));
+            _api.Responses.Enqueue(Json(HttpStatusCode.Accepted, new { uuid = Uuid, status = "processing" }));
+            var local = new DateTime(2026, 10, 1, 10, 0, 0, DateTimeKind.Local);
+
+            await _client.UploadAsync(_filePath, "root", "image/png", local, local);
+
+            string createdAt = JsonDocument.Parse(_api.Requests[0].Body).RootElement.GetProperty("createdAt").GetString()!;
+            Assert.Equal(new DateTimeOffset(local), DateTimeOffset.Parse(createdAt, System.Globalization.CultureInfo.InvariantCulture));
+            Assert.Matches(@"[+-]\d{2}:\d{2}$|Z$", createdAt);
+        }
+
+        [Fact]
+        public async Task ACancelledUploadSendsNothing()
+        {
+            using var cancelled = new CancellationTokenSource();
+            cancelled.Cancel();
+
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
+                _client.UploadAsync(_filePath, "root", "image/png", DateTime.UtcNow, DateTime.UtcNow, cancelled.Token));
+            Assert.Empty(_api.Requests);
+        }
+
+        [Fact]
+        public async Task AMissingFileSendsNothing()
+        {
+            File.Delete(_filePath);
+
+            await Assert.ThrowsAsync<FileNotFoundException>(Upload);
+            Assert.Empty(_api.Requests);
+        }
+
+        [Fact]
         public async Task AnExpiredSessionIsReported()
         {
             _api.Responses.Enqueue(new HttpResponseMessage(HttpStatusCode.Unauthorized));
