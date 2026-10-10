@@ -21,14 +21,21 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center" />
 
+            <!-- Enter: to the password, then sign in -->
             <Entry
+                x:Name="emailAddressEntry"
                 Placeholder="{strings:Translate EmailAddress}"
-                TextChanged="OnEmailAddressCompleted" />
+                ReturnType="Next"
+                TextChanged="OnEmailAddressCompleted"
+                Completed="OnEmailAddressEnter" />
 
             <Entry
+                x:Name="passwordEntry"
                 Placeholder="{strings:Translate Password}"
                 IsPassword="True"
-                TextChanged="OnPasswordCompleted" />
+                ReturnType="Go"
+                TextChanged="OnPasswordCompleted"
+                Completed="OnSignInClicked" />
 
             <Button
                 Text="{strings:Translate SignIn}"
