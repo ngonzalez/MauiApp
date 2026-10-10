@@ -28,6 +28,10 @@
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
+		<!-- The translations' resource assemblies (fr, de, es) are built by MSBuild
+		     itself: Visual Studio's AL.exe refuses the arm64 platform (AL1012)
+		     when the solution platform is Any CPU on an ARM64 machine -->
+		<GenerateSatelliteAssembliesForCore>true</GenerateSatelliteAssembliesForCore>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</TargetPlatformMinVersion>
