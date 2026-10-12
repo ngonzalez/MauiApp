@@ -453,4 +453,13 @@
   <data name="UploadsFailedOne" xml:space="preserve">
     <value>{0} fichier n'a pas été envoyé</value>
   </data>
+  <data name="PasswordContainsEmail" xml:space="preserve">
+    <value>Le mot de passe ne doit pas contenir votre adresse e-mail</value>
+  </data>
+  <data name="PasswordLetterAndDigit" xml:space="preserve">
+    <value>Le mot de passe doit contenir au moins une lettre et un chiffre</value>
+  </data>
+  <data name="PasswordTooShort" xml:space="preserve">
+    <value>Le mot de passe doit contenir au moins 12 caractères</value>
+  </data>
 </root>

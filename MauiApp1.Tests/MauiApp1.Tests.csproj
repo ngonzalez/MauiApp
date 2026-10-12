@@ -12,6 +12,7 @@
 		<Compile Include="..\MauiApp1\DirectUploadClient.cs" Link="DirectUploadClient.cs" />
 		<Compile Include="..\MauiApp1\CrashLog.cs" Link="CrashLog.cs" />
 		<Compile Include="..\MauiApp1\MimeTypeMapper.cs" Link="MimeTypeMapper.cs" />
+		<Compile Include="..\MauiApp1\PasswordRules.cs" Link="PasswordRules.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
