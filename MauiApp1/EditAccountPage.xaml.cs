@@ -1,4 +1,5 @@
-﻿using MauiApp1.Platforms.Windows;
+﻿using MauiApp1.Resources.Strings;
+using MauiApp1.Platforms.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.ObjectModel;
@@ -159,6 +160,13 @@ namespace MauiApp1
 
         public async void OnUpdatePasswordClicked(object sender, EventArgs e)
         {
+            var problems = PasswordRules.Check(Password, _appShellViewModel.CurrentUser.emailAddress);
+            if (problems.Count > 0)
+            {
+                passwordErrors.Text = string.Join("\n", problems.Select(problem => AppResources.Get(PasswordRules.MessageKey(problem))));
+                return;
+            }
+
             var values = new Dictionary<string, string> {
                 { "id", Convert.ToString(_appShellViewModel.CurrentUser.id!) },
                 { "password", Password },

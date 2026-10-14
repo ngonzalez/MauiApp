@@ -1,3 +1,4 @@
+using MauiApp1.Resources.Strings;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Security.Cryptography;
 using System.Text;
@@ -111,6 +112,13 @@ public partial class RegisterPage : ContentPage
 
     private async void OnRegisterClicked(object sender, EventArgs e)
     {
+        var problems = PasswordRules.Check(Password, EmailAddress);
+        if (problems.Count > 0)
+        {
+            registerErrors.Text = string.Join("\n", problems.Select(problem => AppResources.Get(PasswordRules.MessageKey(problem))));
+            return;
+        }
+
         Guid uuid = Guid.NewGuid();
         var values = new Dictionary<string, string> {
             { "accountUuid", AccountUUID },
