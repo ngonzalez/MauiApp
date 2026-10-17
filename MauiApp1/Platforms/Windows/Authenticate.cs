@@ -57,8 +57,9 @@ namespace MauiApp1.Platforms.Windows
         public async Task<(int, String)> sendAccountCode(Dictionary<string, string> values)
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var content = new FormUrlEncodedContent(values);
-            var response = await _httpClient.PostAsync("/accounts", content);
+            // GET /accounts?accountCode=: the account to register in
+            var query = await new FormUrlEncodedContent(values).ReadAsStringAsync();
+            var response = await _httpClient.GetAsync("/accounts?" + query);
             var json = await response.Content.ReadAsStringAsync();
             int status = (int)response.StatusCode;
             return (status, json);
@@ -87,7 +88,7 @@ namespace MauiApp1.Platforms.Windows
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var content = new FormUrlEncodedContent(values);
-            var response = await _httpClient.PutAsync("/account", content);
+            var response = await _httpClient.PutAsync("/user", content);
             var json = await response.Content.ReadAsStringAsync();
             int status = (int)response.StatusCode;
             return (status, json);
