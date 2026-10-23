@@ -9,10 +9,15 @@
     FlyoutIsPresented="True"
     FlyoutBehavior="Locked">
 
-    <FlyoutItem Title="{strings:Translate AccountTitle}">
+    <!-- The pages' root, hidden: tapping the flyout's only, already selected
+         item does nothing, so the Account menu item below does the navigation -->
+    <FlyoutItem Title="{strings:Translate AccountTitle}" FlyoutItemIsVisible="False">
         <Tab>
             <ShellContent ContentTemplate="{DataTemplate local:AccountPage}" />
         </Tab>
     </FlyoutItem>
+
+    <!-- My Account when signed in, the Sign In page otherwise -->
+    <MenuItem Text="{strings:Translate AccountTitle}" Clicked="AccountMenuItemClicked" />
 
 </Shell>
