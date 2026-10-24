@@ -5,6 +5,8 @@
         public App()
         {
             InitializeComponent();
+            // the status page's ongoing events, for the banner of every page
+            StatusMonitor.Shared.Start();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

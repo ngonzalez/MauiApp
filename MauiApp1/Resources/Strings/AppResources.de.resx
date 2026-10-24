@@ -462,4 +462,19 @@
   <data name="PasswordTooShort" xml:space="preserve">
     <value>Das Passwort muss mindestens 12 Zeichen enthalten</value>
   </data>
+  <data name="StatusDetails" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="StatusHide" xml:space="preserve">
+    <value>Ausblenden</value>
+  </data>
+  <data name="StatusMoreMany" xml:space="preserve">
+    <value>+{0} weitere</value>
+  </data>
+  <data name="StatusMoreOne" xml:space="preserve">
+    <value>+{0} weiteres</value>
+  </data>
+  <data name="StatusSince" xml:space="preserve">
+    <value>Seit {0}</value>
+  </data>
 </root>

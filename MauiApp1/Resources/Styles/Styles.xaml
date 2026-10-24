@@ -2,7 +2,8 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiApp1">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -417,13 +418,29 @@
     </Style>
     -->
 
-    <Style TargetType="Page" ApplyToDerivedTypes="True">
+    <!-- Every page's: one implicit style applies to an element, so the pages'
+         style with the status banner below is based on it -->
+    <Style x:Key="AppPage" TargetType="Page">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}" />
         <!-- No back arrow at the top left: every page has its own links
              (the display and image pages open in windows of their own) -->
         <Setter Property="Shell.BackButtonBehavior">
             <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+        </Setter>
+    </Style>
+
+    <Style TargetType="Page" ApplyToDerivedTypes="True" BasedOn="{StaticResource AppPage}" />
+
+    <!-- The pages: the status banner (StatusBanner) above their content -->
+    <Style TargetType="ContentPage" ApplyToDerivedTypes="True" BasedOn="{StaticResource AppPage}">
+        <Setter Property="ControlTemplate">
+            <ControlTemplate>
+                <Grid RowDefinitions="Auto,*">
+                    <local:StatusBanner Grid.Row="0" />
+                    <ContentPresenter Grid.Row="1" />
+                </Grid>
+            </ControlTemplate>
         </Setter>
     </Style>
 
