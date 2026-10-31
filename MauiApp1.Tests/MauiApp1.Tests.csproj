@@ -13,6 +13,7 @@
 		<Compile Include="..\MauiApp1\CrashLog.cs" Link="CrashLog.cs" />
 		<Compile Include="..\MauiApp1\MimeTypeMapper.cs" Link="MimeTypeMapper.cs" />
 		<Compile Include="..\MauiApp1\PasswordRules.cs" Link="PasswordRules.cs" />
+		<Compile Include="..\MauiApp1\PlanUsage.cs" Link="PlanUsage.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

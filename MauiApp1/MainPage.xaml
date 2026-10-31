@@ -221,6 +221,25 @@
                 </HorizontalStackLayout>
             </Grid>
 
+            <!-- The account's plan and what the files take of it (GET /account) -->
+            <Grid>
+                <VerticalStackLayout
+                    x:Name="planPanel"
+                    IsVisible="False"
+                    HorizontalOptions="Center"
+                    Spacing="4"
+                    Margin="10">
+                    <Label
+                        x:Name="planLabel"
+                        FontSize="12"
+                        TextColor="Grey"
+                        HorizontalTextAlignment="Center" />
+                    <ProgressBar
+                        x:Name="planBar"
+                        WidthRequest="240" />
+                </VerticalStackLayout>
+            </Grid>
+
             <Grid>
                 <VerticalStackLayout>
                     <Label 
