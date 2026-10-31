@@ -21,6 +21,33 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center" />
 
+            <!-- The account's plan and what it uses of it (GET /account) -->
+            <VerticalStackLayout
+                x:Name="planPanel"
+                IsVisible="False"
+                WidthRequest="260"
+                HorizontalOptions="Center"
+                Spacing="6">
+                <Label
+                    Text="{strings:Translate AccountUsage}"
+                    FontAttributes="Bold"
+                    FontSize="14" />
+                <Label
+                    x:Name="planNameLabel"
+                    FontSize="12"
+                    TextColor="Grey" />
+                <Label
+                    x:Name="planStorageLabel"
+                    FontSize="12" />
+                <ProgressBar
+                    x:Name="planStorageBar" />
+                <Label
+                    x:Name="planUsersLabel"
+                    FontSize="12" />
+                <ProgressBar
+                    x:Name="planUsersBar" />
+            </VerticalStackLayout>
+
             <Button
                 Text="{strings:Translate UploadFiles}"
                 FontSize="14"
