@@ -59,6 +59,28 @@ namespace MauiApp1
             labelFilesCount.TextColor = Colors.Grey;
         }
 
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await RefreshPlanUsage();
+        }
+
+        // The account's plan under the buttons: read when the page appears and
+        // after each import; hidden when it can't be read (signed out, offline)
+        private async Task RefreshPlanUsage()
+        {
+            PlanUsage? plan = string.IsNullOrEmpty(_appShellViewModel.Token) ? null : await _apiService.GetPlanUsageAsync();
+            planPanel.IsVisible = plan != null;
+            if (plan == null)
+            {
+                return;
+            }
+            planLabel.Text = AppResources.Format("PlanSummary", plan.Name, PlanUsage.FormatSize(plan.StorageUsed),
+                                                 PlanUsage.FormatSize(plan.StorageLimit), plan.UsersCount, plan.UsersLimit);
+            planBar.Progress = plan.StorageFraction;
+            planBar.ProgressColor = plan.StorageUsed >= plan.StorageLimit ? Colors.Red : Colors.CornflowerBlue;
+        }
+
         public int getUploadFilesCount()
         {
             return UploadFiles.Count();
@@ -111,6 +133,7 @@ namespace MauiApp1
             try
             {
                 await SendEachFile();
+                await RefreshPlanUsage();
             }
             finally
             {

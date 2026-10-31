@@ -447,6 +447,9 @@
   <data name="RegisterAccount" xml:space="preserve">
     <value>Registrar la cuenta</value>
   </data>
+  <data name="PlanSummary" xml:space="preserve">
+    <value>Plan {0} · {1} de {2} · {3} de {4} usuarios</value>
+  </data>
   <data name="UploadsFailedMany" xml:space="preserve">
     <value>{0} archivos no se han subido</value>
   </data>

@@ -54,6 +54,20 @@ namespace MauiApp1.Platforms.Windows
             return _directUploadClient.UploadAsync(uploadFile.filePath, uploadFile.source, uploadFile.mimeType, uploadFile.createdAt, uploadFile.updatedAt);
         }
 
+        public async Task<PlanUsage?> GetPlanUsageAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("/account");
+                return response.IsSuccessStatusCode ? PlanUsage.Parse(await response.Content.ReadAsStringAsync()) : null;
+            }
+            catch (HttpRequestException)
+            {
+                // offline: the page just doesn't show the plan
+                return null;
+            }
+        }
+
         public async Task<(int, String)> getVideoStream(string id)
         {
             var response = await _httpClientStreamingService.GetAsync("/video_files/" + id);
