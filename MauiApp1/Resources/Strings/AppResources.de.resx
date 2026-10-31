@@ -447,6 +447,18 @@
   <data name="RegisterAccount" xml:space="preserve">
     <value>Konto registrieren</value>
   </data>
+  <data name="AccountUsage" xml:space="preserve">
+    <value>Kontonutzung</value>
+  </data>
+  <data name="PlanName" xml:space="preserve">
+    <value>Tarif {0}</value>
+  </data>
+  <data name="PlanStorage" xml:space="preserve">
+    <value>Speicher: {0} von {1}</value>
+  </data>
+  <data name="PlanUsers" xml:space="preserve">
+    <value>Benutzer: {0} von {1}</value>
+  </data>
   <data name="PlanSummary" xml:space="preserve">
     <value>Tarif {0} · {1} von {2} · {3} von {4} Benutzern</value>
   </data>

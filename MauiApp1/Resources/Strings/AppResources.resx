@@ -447,6 +447,18 @@
   <data name="RegisterAccount" xml:space="preserve">
     <value>Register Account</value>
   </data>
+  <data name="AccountUsage" xml:space="preserve">
+    <value>Account usage</value>
+  </data>
+  <data name="PlanName" xml:space="preserve">
+    <value>{0} plan</value>
+  </data>
+  <data name="PlanStorage" xml:space="preserve">
+    <value>Storage: {0} of {1}</value>
+  </data>
+  <data name="PlanUsers" xml:space="preserve">
+    <value>Users: {0} of {1}</value>
+  </data>
   <data name="PlanSummary" xml:space="preserve">
     <value>{0} plan · {1} of {2} · {3} of {4} users</value>
   </data>
