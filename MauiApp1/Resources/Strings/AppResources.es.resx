@@ -444,6 +444,30 @@
   <data name="ChangeEmailAddress" xml:space="preserve">
     <value>Cambiar el correo electrónico</value>
   </data>
+  <data name="InviteUsers" xml:space="preserve">
+    <value>Invitar usuarios</value>
+  </data>
+  <data name="InviteUsersDescription" xml:space="preserve">
+    <value>Envíe por correo electrónico una invitación para unirse a esta cuenta.</value>
+  </data>
+  <data name="SendInvitation" xml:space="preserve">
+    <value>Enviar invitación</value>
+  </data>
+  <data name="EmailAddressRequired" xml:space="preserve">
+    <value>Introduzca un correo electrónico</value>
+  </data>
+  <data name="EmailAddressInvalid" xml:space="preserve">
+    <value>Introduzca un correo electrónico válido</value>
+  </data>
+  <data name="InvitationSentTo" xml:space="preserve">
+    <value>Invitación enviada a {0}</value>
+  </data>
+  <data name="InvitationTooMany" xml:space="preserve">
+    <value>Demasiadas invitaciones: inténtelo de nuevo más tarde.</value>
+  </data>
+  <data name="InvitationFailed" xml:space="preserve">
+    <value>No se pudo enviar la invitación (error {0}).</value>
+  </data>
   <data name="RegisterAccount" xml:space="preserve">
     <value>Registrar la cuenta</value>
   </data>
