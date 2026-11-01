@@ -10,6 +10,8 @@ namespace MauiApp1.Platforms.Windows
 
         private readonly DirectUploadClient _directUploadClient;
 
+        private readonly InvitationClient _invitationClient;
+
         public ApiService(AppShellViewModel appShellViewModel)
         {
             _httpClient = new HttpClient(new BearerTokenHandler(appShellViewModel))
@@ -38,6 +40,8 @@ namespace MauiApp1.Platforms.Windows
             };
 
             _directUploadClient = new DirectUploadClient(_httpClient, storageClient);
+
+            _invitationClient = new InvitationClient(_httpClient);
         }
 
         public async Task<(int, String)> getUploads(Guid accountUuid, string ids)
@@ -52,6 +56,11 @@ namespace MauiApp1.Platforms.Windows
         public Task<Guid> UploadFileAsync(UploadFile uploadFile)
         {
             return _directUploadClient.UploadAsync(uploadFile.filePath, uploadFile.source, uploadFile.mimeType, uploadFile.createdAt, uploadFile.updatedAt);
+        }
+
+        public Task<InvitationClient.Result> SendInvitationAsync(string emailAddress)
+        {
+            return _invitationClient.SendAsync(emailAddress);
         }
 
         public async Task<PlanUsage?> GetPlanUsageAsync()

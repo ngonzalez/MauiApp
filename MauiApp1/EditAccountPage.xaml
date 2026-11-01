@@ -315,6 +315,61 @@
 
             <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
 
+            <!-- Invite someone by email to join this account (POST /invitations) -->
+            <Label
+                FontSize="20"
+                FontAttributes="Bold" Text="{strings:Translate InviteUsers}" />
+
+            <Label
+                FontSize="15" Text="{strings:Translate InviteUsersDescription}" />
+
+            <Label
+                TextColor="#CCC"
+                FontSize="15" Text="{strings:Translate EmailAddress}" />
+
+            <Entry
+                Placeholder="{strings:Translate EmailAddress}"
+                x:Name="invitationEmailAddress"
+                Keyboard="Email"
+                Completed="OnSendInvitationClicked" />
+
+            <Button
+                Text="{strings:Translate SendInvitation}"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="{strings:Translate SendInvitation}"
+                Clicked="OnSendInvitationClicked"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                HorizontalOptions="Center">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+
+            <Label
+                x:Name="invitationErrors"
+                HorizontalTextAlignment="Center" />
+
+            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

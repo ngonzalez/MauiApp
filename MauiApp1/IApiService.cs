@@ -28,5 +28,9 @@
         Task<(int, String)> DeleteAttachments(byte[] body);
 
         Task<(int, String)> CreateEvent(byte[] body);
+
+        // Invite someone by email to join the signed-in user's account
+        // (POST /invitations, InvitationClient); throws on a network failure
+        Task<InvitationClient.Result> SendInvitationAsync(string emailAddress);
     }
 }

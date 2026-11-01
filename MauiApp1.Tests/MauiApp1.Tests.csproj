@@ -14,6 +14,7 @@
 		<Compile Include="..\MauiApp1\MimeTypeMapper.cs" Link="MimeTypeMapper.cs" />
 		<Compile Include="..\MauiApp1\PasswordRules.cs" Link="PasswordRules.cs" />
 		<Compile Include="..\MauiApp1\PlanUsage.cs" Link="PlanUsage.cs" />
+		<Compile Include="..\MauiApp1\InvitationClient.cs" Link="InvitationClient.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

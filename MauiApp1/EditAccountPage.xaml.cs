@@ -46,6 +46,8 @@ namespace MauiApp1
 
         private readonly AppShellViewModel _appShellViewModel;
 
+        private readonly IApiService _apiService;
+
         private string FirstName;
 
         private string LastName;
@@ -56,11 +58,13 @@ namespace MauiApp1
 
         private string PasswordConfirmation;
 
-        public EditAccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel)
+        public EditAccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel, IApiService apiService)
         {
             _authenticate = authenticate;
 
             _appShellViewModel = appShellViewModel;
+
+            _apiService = apiService;
 
             if (string.IsNullOrEmpty(_appShellViewModel.Token))
             {
@@ -245,6 +249,76 @@ namespace MauiApp1
                 new ToastContentBuilder()
                     .AddText(string.Concat(jsonResponse.message))
                     .Show();
+            }
+        }
+
+        // True while an invitation is sent: Enter then a click doesn't send it twice
+        private bool _sendingInvitation;
+
+        // The Send invitation button, or Enter in the address. The address is
+        // checked first (InvitationClient.Check); a failure (network) is shown
+        // under the form instead of closing the app
+        public async void OnSendInvitationClicked(object sender, EventArgs e)
+        {
+            if (_sendingInvitation)
+            {
+                return;
+            }
+
+            string emailAddress = (invitationEmailAddress.Text ?? "").Trim();
+            InvitationClient.Problem? problem = InvitationClient.Check(emailAddress);
+            if (problem != null)
+            {
+                invitationErrors.Text = AppResources.Get(InvitationClient.MessageKey(problem.Value));
+                return;
+            }
+
+            _sendingInvitation = true;
+            invitationErrors.Text = "";
+            try
+            {
+                InvitationClient.Result result = await _apiService.SendInvitationAsync(emailAddress);
+
+                switch (result.Outcome)
+                {
+                    case InvitationClient.Outcome.Sent:
+                        string message = result.Message ?? AppResources.Format("InvitationSentTo", emailAddress);
+                        invitationEmailAddress.Text = "";
+                        invitationErrors.Text = message;
+
+                        ToastNotificationManagerCompat.History.Clear();
+
+                        new ToastContentBuilder()
+                            .AddText(message)
+                            .Show();
+                        break;
+
+                    case InvitationClient.Outcome.NotSignedIn:
+                        // the session is over: sign in again, like Sign out
+                        await _authenticate.setCurrentUser(new User { });
+                        await _authenticate.setToken(null);
+                        await Shell.Current.GoToAsync("signinpage");
+                        break;
+
+                    case InvitationClient.Outcome.TooManyRequests:
+                        invitationErrors.Text = AppResources.Get("InvitationTooMany");
+                        break;
+
+                    default:
+                        invitationErrors.Text = result.Messages.Count > 0
+                            ? string.Join("\n", result.Messages)
+                            : AppResources.Format("InvitationFailed", result.StatusCode);
+                        break;
+                }
+            }
+            catch (Exception exception)
+            {
+                CrashLog.Write(exception, "SendInvitation");
+                invitationErrors.Text = exception.Message;
+            }
+            finally
+            {
+                _sendingInvitation = false;
             }
         }
     }
