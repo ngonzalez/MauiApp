@@ -41,6 +41,17 @@ namespace MauiApp1.Tests
         }
 
         [Fact]
+        public void HasNoPlanWithAnEmptyName()
+        {
+            PlanUsage? none = PlanUsage.Parse("""{"account":{"plan":{"name":"","storage":{"used":2048,"limit":0},"users":{"count":1,"limit":1}}}}""");
+
+            Assert.Equal(new PlanUsage("", 2048, 0, 1, 1), none);
+            Assert.False(none!.HasPlan);
+            Assert.False(none.IsFull);
+            Assert.True(new PlanUsage("Pro", 0, 5368709120, 1, 3).HasPlan);
+        }
+
+        [Fact]
         public void IsFullWhenTheFilesOrTheUsersReachTheLimit()
         {
             Assert.False(new PlanUsage("5GB", 51357725, 5368709120, 1, 3).IsFull);

@@ -462,6 +462,9 @@
   <data name="PlanSummary" xml:space="preserve">
     <value>Formule {0} · {1} sur {2} · {3} utilisateurs sur {4}</value>
   </data>
+  <data name="PlanNone" xml:space="preserve">
+    <value>Aucune formule : votre site est hors ligne et n'accepte plus de fichiers.</value>
+  </data>
   <data name="UploadsFailedMany" xml:space="preserve">
     <value>{0} fichiers n'ont pas été envoyés</value>
   </data>

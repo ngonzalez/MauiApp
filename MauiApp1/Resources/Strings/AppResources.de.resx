@@ -462,6 +462,9 @@
   <data name="PlanSummary" xml:space="preserve">
     <value>Tarif {0} · {1} von {2} · {3} von {4} Benutzern</value>
   </data>
+  <data name="PlanNone" xml:space="preserve">
+    <value>Kein Tarif: Ihre Website ist offline und nimmt keine neuen Dateien an.</value>
+  </data>
   <data name="UploadsFailedMany" xml:space="preserve">
     <value>{0} Dateien wurden nicht hochgeladen</value>
   </data>
