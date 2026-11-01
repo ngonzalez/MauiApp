@@ -75,6 +75,14 @@ namespace MauiApp1
             {
                 return;
             }
+            // without a plan: the site is offline, in red, without the bar
+            planBar.IsVisible = plan.HasPlan;
+            planLabel.TextColor = plan.HasPlan ? Colors.Grey : Colors.Red;
+            if (!plan.HasPlan)
+            {
+                planLabel.Text = AppResources.Get("PlanNone");
+                return;
+            }
             planLabel.Text = AppResources.Format("PlanSummary", plan.Name, PlanUsage.FormatSize(plan.StorageUsed),
                                                  PlanUsage.FormatSize(plan.StorageLimit), plan.UsersCount, plan.UsersLimit);
             planBar.Progress = plan.StorageFraction;

@@ -4,15 +4,20 @@ using System.Text.Json;
 namespace MauiApp1
 {
     // The account's plan and what it uses of it: the "plan" of the backend's
-    // GET /account, with the signed-in session's token. 5GB: files up to
-    // 5 GiB and 3 users; 10GB: 10 GiB and 10 users.
+    // GET /account, with the signed-in session's token. Pro: files up to
+    // 5 GiB and 3 users; Business: 10 GiB and 10 users. Every plan is paid:
+    // without one (an empty name) the account's site is offline.
     public record PlanUsage(string Name, long StorageUsed, long StorageLimit, int UsersCount, int UsersLimit)
     {
         // How much of the storage the files take, from 0 to 1
         public double StorageFraction => StorageLimit > 0 ? Math.Min((double)StorageUsed / StorageLimit, 1) : 0;
 
-        // True when the account has no room left for files or users
-        public bool IsFull => StorageUsed >= StorageLimit || UsersCount >= UsersLimit;
+        // False without a plan: no subscription, or it ended
+        public bool HasPlan => !string.IsNullOrEmpty(Name);
+
+        // True when the account's plan has no room left for files or users
+        // (never without a plan: it has none to fill)
+        public bool IsFull => HasPlan && (StorageUsed >= StorageLimit || UsersCount >= UsersLimit);
 
         // The plan of a GET /account answer; null without one (a backend
         // before plans) or for an answer that can't be read
