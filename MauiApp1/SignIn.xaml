@@ -83,45 +83,53 @@
                 x:Name="signInErrors"
                 HorizontalTextAlignment="Center" />
 
-            <Button
-                Text="{strings:Translate RegisterNewAccount}"
-                FontSize="14"
-                SemanticProperties.Hint="{strings:Translate Register}"
-                Clicked="OnRegisterClicked"
-                BackgroundColor="Transparent"
-                BorderColor="#222"
-                BorderWidth="1"
-                TextColor="FloralWhite"
-                HorizontalOptions="Center">
-                <Button.ImageSource>
-                    <FontImageSource
-                        FontFamily="FontAwesome7FreeSolid"
-                        Glyph="{StaticResource IconClipboardList}"
-                        Size="14"
-                        Color="SeaShell" />
-                </Button.ImageSource>
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="Scale" Value="1" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Pressed">
-                                <VisualState.Setters>
-                                    <Setter Property="Scale" Value="1" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="PointerOver">
-                                <VisualState.Setters>
-                                    <Setter Property="BorderColor" Value="#555" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </VisualStateManager.VisualStateGroups>
-            </Button>
+            <!-- Registration is on the website; invitations come with a link -->
+            <VerticalStackLayout Spacing="8">
+                <Button
+                    Text="{strings:Translate RegisterNewAccount}"
+                    FontSize="14"
+                    SemanticProperties.Hint="{strings:Translate Register}"
+                    Clicked="OnRegisterClicked"
+                    BackgroundColor="Transparent"
+                    BorderColor="#222"
+                    BorderWidth="1"
+                    TextColor="FloralWhite"
+                    HorizontalOptions="Center">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="FontAwesome7FreeSolid"
+                            Glyph="{StaticResource IconClipboardList}"
+                            Size="14"
+                            Color="SeaShell" />
+                    </Button.ImageSource>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Property="BorderColor" Value="#555" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+                <Label
+                    Text="{strings:Translate InvitedToAccount}"
+                    FontSize="12"
+                    TextColor="Grey"
+                    HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
 
             <Button
                 Text="{strings:Translate ResetYourPassword}"

@@ -8,7 +8,6 @@
 
             Routing.RegisterRoute("signinpage", typeof(SignInPage));
             Routing.RegisterRoute("folderlistpage", typeof(FolderListPage));
-            Routing.RegisterRoute("registerpage", typeof(RegisterPage));
             Routing.RegisterRoute("resetpasswordpage", typeof(ResetPasswordPage));
             Routing.RegisterRoute("accountpage", typeof(AccountPage));
             Routing.RegisterRoute("editaccountpage", typeof(EditAccountPage));

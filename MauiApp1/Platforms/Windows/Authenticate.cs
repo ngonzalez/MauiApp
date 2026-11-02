@@ -44,27 +44,6 @@ namespace MauiApp1.Platforms.Windows
             return true;
         }
 
-        public async Task<(int, String)> registerAccount(Dictionary<string, string> values)
-        {
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var content = new FormUrlEncodedContent(values);
-            var response = await _httpClient.PostAsync("/registration", content);
-            var json = await response.Content.ReadAsStringAsync();
-            int status = (int)response.StatusCode;
-            return (status, json);
-        }
-
-        public async Task<(int, String)> sendAccountCode(Dictionary<string, string> values)
-        {
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            // GET /accounts?accountCode=: the account to register in
-            var query = await new FormUrlEncodedContent(values).ReadAsStringAsync();
-            var response = await _httpClient.GetAsync("/accounts?" + query);
-            var json = await response.Content.ReadAsStringAsync();
-            int status = (int)response.StatusCode;
-            return (status, json);
-        }
-
         public async Task<(int, String)> newSession(Dictionary<string, string> values)
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
