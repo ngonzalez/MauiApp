@@ -15,9 +15,6 @@
   <data name="AccountAddress" xml:space="preserve">
     <value>Dirección de la cuenta</value>
   </data>
-  <data name="AccountCode" xml:space="preserve">
-    <value>Código de la cuenta</value>
-  </data>
   <data name="AccountName" xml:space="preserve">
     <value>Nombre de la cuenta</value>
   </data>
@@ -282,6 +279,9 @@
   <data name="RegisterNewAccount" xml:space="preserve">
     <value>Registrar una cuenta nueva</value>
   </data>
+  <data name="InvitedToAccount" xml:space="preserve">
+    <value>¿Te han invitado a una cuenta? Usa el enlace de tu correo de invitación.</value>
+  </data>
   <data name="RemoveFromSelection" xml:space="preserve">
     <value>Quitar de la selección</value>
   </data>
@@ -467,9 +467,6 @@
   </data>
   <data name="InvitationFailed" xml:space="preserve">
     <value>No se pudo enviar la invitación (error {0}).</value>
-  </data>
-  <data name="RegisterAccount" xml:space="preserve">
-    <value>Registrar la cuenta</value>
   </data>
   <data name="AccountUsage" xml:space="preserve">
     <value>Uso de la cuenta</value>

@@ -15,9 +15,6 @@
   <data name="AccountAddress" xml:space="preserve">
     <value>Account Address</value>
   </data>
-  <data name="AccountCode" xml:space="preserve">
-    <value>Account Code</value>
-  </data>
   <data name="AccountName" xml:space="preserve">
     <value>Account Name</value>
   </data>
@@ -282,6 +279,9 @@
   <data name="RegisterNewAccount" xml:space="preserve">
     <value>Register for a new user account</value>
   </data>
+  <data name="InvitedToAccount" xml:space="preserve">
+    <value>Invited to an account? Use the link in your invitation email.</value>
+  </data>
   <data name="RemoveFromSelection" xml:space="preserve">
     <value>Remove from selection</value>
   </data>
@@ -467,9 +467,6 @@
   </data>
   <data name="InvitationFailed" xml:space="preserve">
     <value>The invitation could not be sent (error {0}).</value>
-  </data>
-  <data name="RegisterAccount" xml:space="preserve">
-    <value>Register Account</value>
   </data>
   <data name="AccountUsage" xml:space="preserve">
     <value>Account usage</value>

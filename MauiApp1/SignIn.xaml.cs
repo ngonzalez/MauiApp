@@ -40,9 +40,21 @@ public partial class SignInPage : ContentPage
         await Shell.Current.GoToAsync("resetpasswordpage");
     }
 
+    // New accounts are created (and paid) on the website; people join an
+    // existing account through the link of an invitation email
+    private const string RegistrationUrl = "https://register.appshare.site";
+
     private async void OnRegisterClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("registerpage");
+        try
+        {
+            await Browser.Default.OpenAsync(new Uri(RegistrationUrl), BrowserLaunchMode.SystemPreferred);
+        }
+        catch (Exception exception)
+        {
+            CrashLog.Write(exception, "Register");
+            signInErrors.Text = exception.Message;
+        }
     }
 
     // True while a sign-in runs: Enter then a click doesn't send it twice
