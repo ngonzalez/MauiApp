@@ -48,6 +48,8 @@ namespace MauiApp1
 
         private readonly IApiService _apiService;
 
+        private string AccountName;
+        private string AccountAddress;
         private string FirstName;
 
         private string LastName;
@@ -76,7 +78,6 @@ namespace MauiApp1
             BindingContext = this;
 
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
-            accountUuid.Text = Convert.ToString(_appShellViewModel.CurrentUser.accountUuid);
             accountName.Text = _appShellViewModel.CurrentUser.accountName;
             accountSubdomain.Text = _appShellViewModel.CurrentUser.accountSubdomain;
             accountAddress.Text = _appShellViewModel.CurrentUser.accountAddress;
@@ -93,6 +94,16 @@ namespace MauiApp1
         public void accountLinkClicked(object sender, EventArgs e)
         {
             Shell.Current.GoToAsync("accountpage");
+        }
+
+        private async void OnAccountNameCompleted(object sender, EventArgs e)
+        {
+            AccountName = ((Entry)sender).Text;
+        }
+
+        private async void OnAccountAddressCompleted(object sender, EventArgs e)
+        {
+            AccountAddress = ((Entry)sender).Text;
         }
 
         private async void OnFirstNameCompleted(object sender, EventArgs e)
@@ -114,6 +125,8 @@ namespace MauiApp1
         {
             var values = new Dictionary<string, string> {
                 { "id", Convert.ToString(_appShellViewModel.CurrentUser.id!) },
+                { "accountName", AccountName },
+                { "accountAddress", AccountAddress },
                 { "firstName", FirstName },
                 { "lastName", LastName },
                 { "emailAddress", EmailAddress },
