@@ -76,7 +76,6 @@ namespace MauiApp1
             BindingContext = this;
 
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
-            accountUuid.Text = Convert.ToString(_appShellViewModel.CurrentUser.accountUuid);
             accountName.Text = _appShellViewModel.CurrentUser.accountName;
             accountSubdomain.Text = _appShellViewModel.CurrentUser.accountSubdomain;
             accountAddress.Text = _appShellViewModel.CurrentUser.accountAddress;

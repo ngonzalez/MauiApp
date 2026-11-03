@@ -24,9 +24,6 @@
   <data name="AccountTitle" xml:space="preserve">
     <value>Konto</value>
   </data>
-  <data name="AccountUuid" xml:space="preserve">
-    <value>Konto-UUID</value>
-  </data>
   <data name="ArchiveFolders" xml:space="preserve">
     <value>Ordner archivieren</value>
   </data>
