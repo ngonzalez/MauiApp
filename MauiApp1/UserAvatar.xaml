@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- The signed-in user's picture in a circle (CurrentUserAvatar), their
+     initials when there is none, a person icon without a name either.
+     Size: the circle's diameter -->
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
+             x:Class="MauiApp1.UserAvatar">
+    <Border x:Name="circle"
+            WidthRequest="32"
+            HeightRequest="32"
+            Padding="0"
+            StrokeThickness="0"
+            BackgroundColor="{AppThemeBinding Light=#E1E1E1, Dark=#6E6E6E}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            SemanticProperties.Description="{strings:Translate AvatarDescription}">
+        <Grid>
+            <Label x:Name="initials"
+                   Text="{Binding Initials}"
+                   IsVisible="{Binding HasInitials}"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light=#404040, Dark=White}"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+            <Label x:Name="icon"
+                   Text="{StaticResource IconUser}"
+                   IsVisible="{Binding HasNoInitials}"
+                   FontFamily="FontAwesome7FreeSolid"
+                   TextColor="{AppThemeBinding Light=#404040, Dark=White}"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+            <Image Source="{Binding Picture}"
+                   IsVisible="{Binding HasPicture}"
+                   Aspect="AspectFill" />
+        </Grid>
+    </Border>
+</ContentView>

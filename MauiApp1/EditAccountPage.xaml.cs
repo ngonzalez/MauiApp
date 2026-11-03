@@ -89,6 +89,8 @@ namespace MauiApp1
             changeEmailCurrentEmailAddress.Text = _appShellViewModel.CurrentUser.emailAddress;
             editAccountDeliverNotificationsOnSignIn.IsChecked = _appShellViewModel.CurrentUser.deliverNotificationsSignIn;
             editAccountDeliverNotificationsOnAccountUpdate.IsChecked = _appShellViewModel.CurrentUser.deliverNotificationsAccountUpdate!;
+
+            _ = LoadAvatarPresets();
         }
 
         public void accountLinkClicked(object sender, EventArgs e)
@@ -263,6 +265,168 @@ namespace MauiApp1
                     .AddText(string.Concat(jsonResponse.message))
                     .Show();
             }
+        }
+
+        // True while the picture is sent or removed: a second click waits for it
+        private bool _savingAvatar;
+
+        // The presets under the picture; hidden when they can't be read (offline)
+        private async Task LoadAvatarPresets()
+        {
+            try
+            {
+                (int statusCode, var response) = await _authenticate.getAvatarPresets();
+                List<AvatarPreset> presets = statusCode == 200 ? AvatarRules.ParsePresets(response) : new List<AvatarPreset>();
+                BindableLayout.SetItemsSource(avatarPresets, presets);
+                avatarPresetsPanel.IsVisible = presets.Count > 0;
+            }
+            catch (Exception exception)
+            {
+                System.Diagnostics.Debug.WriteLine($"AvatarPresets: {exception.Message}");
+                avatarPresetsPanel.IsVisible = false;
+            }
+        }
+
+        // Choose picture: a PNG, JPEG, WebP or GIF file of 5 MB at most, sent at once
+        public async void OnChoosePictureClicked(object sender, EventArgs e)
+        {
+            if (_savingAvatar)
+            {
+                return;
+            }
+
+            avatarErrors.Text = "";
+            try
+            {
+                FileResult? file = await FilePicker.Default.PickAsync(new PickOptions
+                {
+                    PickerTitle = AppResources.Get("ChoosePicture"),
+                    FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                    {
+                        { DevicePlatform.WinUI, AvatarRules.Extensions }
+                    })
+                });
+                if (file == null)
+                {
+                    // cancelled
+                    return;
+                }
+
+                AvatarRules.Problem? problem = AvatarRules.Check(file.FileName, new FileInfo(file.FullPath).Length);
+                if (problem != null)
+                {
+                    avatarErrors.Text = AppResources.Get(AvatarRules.MessageKey(problem.Value));
+                    return;
+                }
+
+                _savingAvatar = true;
+                byte[] picture = await File.ReadAllBytesAsync(file.FullPath);
+                (int statusCode, var response) = await _authenticate.updateAvatar(picture, file.FileName, AvatarRules.ContentType(file.FileName)!);
+                await ShowAvatarResponse(statusCode, response);
+            }
+            catch (Exception exception)
+            {
+                CrashLog.Write(exception, "UpdateAvatar");
+                avatarErrors.Text = exception.Message;
+            }
+            finally
+            {
+                _savingAvatar = false;
+            }
+        }
+
+        // A preset's thumbnail: it becomes the picture at once
+        private async void OnAvatarPresetTapped(object? sender, TappedEventArgs e)
+        {
+            if (_savingAvatar || (sender as BindableObject)?.BindingContext is not AvatarPreset preset)
+            {
+                return;
+            }
+
+            _savingAvatar = true;
+            avatarErrors.Text = "";
+            try
+            {
+                (int statusCode, var response) = await _authenticate.setAvatarPreset(preset.name);
+                await ShowAvatarResponse(statusCode, response);
+            }
+            catch (Exception exception)
+            {
+                CrashLog.Write(exception, "SetAvatarPreset");
+                avatarErrors.Text = exception.Message;
+            }
+            finally
+            {
+                _savingAvatar = false;
+            }
+        }
+
+        public async void OnRemovePictureClicked(object sender, EventArgs e)
+        {
+            if (_savingAvatar)
+            {
+                return;
+            }
+
+            _savingAvatar = true;
+            avatarErrors.Text = "";
+            try
+            {
+                (int statusCode, var response) = await _authenticate.deleteAvatar();
+                await ShowAvatarResponse(statusCode, response);
+            }
+            catch (Exception exception)
+            {
+                CrashLog.Write(exception, "DeleteAvatar");
+                avatarErrors.Text = exception.Message;
+            }
+            finally
+            {
+                _savingAvatar = false;
+            }
+        }
+
+        // The response of PUT or DELETE /user/avatar, like the account update's:
+        // the errors under the picture, the message in a toast, the new user
+        // (and so every avatar, CurrentUserAvatar) once it is saved
+        private async Task ShowAvatarResponse(int statusCode, string response)
+        {
+            UpdateAccountResponse? jsonResponse = null;
+            try
+            {
+                jsonResponse = JsonSerializer.Deserialize<UpdateAccountResponse>(response);
+            }
+            catch (JsonException)
+            {
+                // not the backend's JSON (a proxy's error page): the status below
+            }
+
+            if (jsonResponse?.message == null)
+            {
+                avatarErrors.Text = AppResources.Format("AvatarFailed", statusCode);
+                return;
+            }
+
+            avatarErrors.Text = "";
+            if (jsonResponse.user?.errors?.Length > 0)
+            {
+                avatarErrors.Text = string.Join("\n", jsonResponse.user.errors) + "\n";
+            }
+            // refused: nothing was saved
+            if (statusCode != 200)
+            {
+                avatarErrors.Text += jsonResponse.message;
+            }
+            else if (jsonResponse.user != null)
+            {
+                await _authenticate.setCurrentUser(jsonResponse.user);
+            }
+
+            ToastNotificationManagerCompat.History.Clear();
+
+            new ToastContentBuilder()
+                .AddText(jsonResponse.message)
+                .Show();
         }
 
         // True while an invitation is sent: Enter then a click doesn't send it twice

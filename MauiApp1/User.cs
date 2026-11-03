@@ -11,6 +11,8 @@
     public string? emailAddressValidatedAt { get; set; }
     public bool deliverNotificationsSignIn { get; set; }
     public bool deliverNotificationsAccountUpdate { get; set; }
+    // The picture's public address (it redirects to the image), null without one
+    public string? avatarUrl { get; set; }
     public string[]? errors { get; set; }
     public DateTime? createdAt { get; set; }
     public DateTime? updatedAt { get; set; }

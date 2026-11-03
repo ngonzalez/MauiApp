@@ -23,5 +23,16 @@
 
         Task<(int, String)> updateEmailAddress(Dictionary<string, string> values);
 
+        // The account picture: a PNG, JPEG, WebP or GIF file (PUT /user/avatar)
+        Task<(int, String)> updateAvatar(byte[] picture, string fileName, string contentType);
+
+        // The account picture: one of the presets, by name (PUT /user/avatar)
+        Task<(int, String)> setAvatarPreset(string name);
+
+        Task<(int, String)> deleteAvatar();
+
+        // The pictures to choose from (GET /avatars/presets, public)
+        Task<(int, String)> getAvatarPresets();
+
     }
 }
