@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
+             xmlns:local="clr-namespace:MauiApp1"
              x:Class="MauiApp1.EditAccountPage">
 
     <ScrollView>
@@ -35,6 +36,71 @@
             <Label
                 FontSize="20"
                 FontAttributes="Bold" Text="{strings:Translate EditAccount}" />
+
+            <!-- The account picture (PUT /user/avatar): a file or a preset,
+                 sent as soon as it is chosen -->
+            <local:UserAvatar
+                Size="96"
+                HorizontalOptions="Center" />
+
+            <HorizontalStackLayout
+                Spacing="10"
+                HorizontalOptions="Center">
+                <Button
+                    Text="{strings:Translate ChoosePicture}"
+                    SemanticProperties.Hint="{strings:Translate ChoosePicture}"
+                    Clicked="OnChoosePictureClicked"
+                    BackgroundColor="Black"
+                    TextColor="FloralWhite" />
+                <Button
+                    Text="{strings:Translate RemovePicture}"
+                    SemanticProperties.Hint="{strings:Translate RemovePicture}"
+                    Clicked="OnRemovePictureClicked"
+                    IsVisible="{Binding HasPicture, Source={x:Static local:CurrentUserAvatar.Shared}}"
+                    BackgroundColor="Black"
+                    TextColor="FloralWhite" />
+            </HorizontalStackLayout>
+
+            <!-- The presets (GET /avatars/presets), hidden when they can't be read -->
+            <VerticalStackLayout
+                x:Name="avatarPresetsPanel"
+                IsVisible="False"
+                Spacing="8">
+                <Label
+                    TextColor="#CCC"
+                    FontSize="15"
+                    HorizontalOptions="Center"
+                    Text="{strings:Translate ChooseAvatarPreset}" />
+                <FlexLayout
+                    x:Name="avatarPresets"
+                    Wrap="Wrap"
+                    JustifyContent="Center"
+                    MaximumWidthRequest="480">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="local:AvatarPreset">
+                            <Border
+                                WidthRequest="48"
+                                HeightRequest="48"
+                                Margin="4"
+                                Padding="0"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 24"
+                                ToolTipProperties.Text="{Binding name}">
+                                <Image
+                                    Source="{Binding url}"
+                                    Aspect="AspectFill" />
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnAvatarPresetTapped" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </VerticalStackLayout>
+
+            <Label
+                x:Name="avatarErrors"
+                HorizontalTextAlignment="Center" />
 
             <Label
                 TextColor="#CCC"

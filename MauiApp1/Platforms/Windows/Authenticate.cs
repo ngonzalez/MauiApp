@@ -30,6 +30,7 @@ namespace MauiApp1.Platforms.Windows
         public async Task<bool> setCurrentUser(User user)
         {
             _appShellViewModel.CurrentUser = user;
+            CurrentUserAvatar.Shared.Update(user);
             return true;
         }
 
@@ -98,6 +99,49 @@ namespace MauiApp1.Platforms.Windows
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var content = new FormUrlEncodedContent(values);
             var response = await _httpClient.PutAsync("/email", content);
+            var json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
+        // A plain multipart body (not gzipped), the file in the "avatar" field
+        public async Task<(int, String)> updateAvatar(byte[] picture, string fileName, string contentType)
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            using var content = new MultipartFormDataContent();
+            var file = new ByteArrayContent(picture);
+            file.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            content.Add(file, "avatar", fileName);
+            var response = await _httpClient.PutAsync("/user/avatar", content);
+            var json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
+        public async Task<(int, String)> setAvatarPreset(string name)
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var body = System.Text.Json.JsonSerializer.Serialize(new Dictionary<string, string> { { "preset", name } });
+            using var content = new StringContent(body, System.Text.Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync("/user/avatar", content);
+            var json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
+        public async Task<(int, String)> deleteAvatar()
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var response = await _httpClient.DeleteAsync("/user/avatar");
+            var json = await response.Content.ReadAsStringAsync();
+            int status = (int)response.StatusCode;
+            return (status, json);
+        }
+
+        public async Task<(int, String)> getAvatarPresets()
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var response = await _httpClient.GetAsync("/avatars/presets");
             var json = await response.Content.ReadAsStringAsync();
             int status = (int)response.StatusCode;
             return (status, json);

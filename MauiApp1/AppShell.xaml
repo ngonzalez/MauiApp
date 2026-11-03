@@ -9,6 +9,22 @@
     FlyoutIsPresented="True"
     FlyoutBehavior="Locked">
 
+    <!-- The signed-in user above the menu: their picture (UserAvatar), name
+         and account, following a new picture or a sign out -->
+    <Shell.FlyoutHeader>
+        <HorizontalStackLayout
+            BindingContext="{x:Static local:CurrentUserAvatar.Shared}"
+            IsVisible="{Binding IsSignedIn}"
+            Padding="14,12"
+            Spacing="10">
+            <local:UserAvatar Size="32" />
+            <VerticalStackLayout VerticalOptions="Center">
+                <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="13" LineBreakMode="TailTruncation" />
+                <Label Text="{Binding AccountName}" FontSize="12" TextColor="Grey" LineBreakMode="TailTruncation" />
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+    </Shell.FlyoutHeader>
+
     <!-- The pages' root, hidden: tapping the flyout's only, already selected
          item does nothing, so the Account menu item below does the navigation -->
     <FlyoutItem Title="{strings:Translate AccountTitle}" FlyoutItemIsVisible="False">

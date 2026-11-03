@@ -15,6 +15,7 @@
 		<Compile Include="..\MauiApp1\PasswordRules.cs" Link="PasswordRules.cs" />
 		<Compile Include="..\MauiApp1\PlanUsage.cs" Link="PlanUsage.cs" />
 		<Compile Include="..\MauiApp1\InvitationClient.cs" Link="InvitationClient.cs" />
+		<Compile Include="..\MauiApp1\AvatarRules.cs" Link="AvatarRules.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

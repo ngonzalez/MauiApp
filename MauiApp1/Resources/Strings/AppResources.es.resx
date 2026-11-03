@@ -513,4 +513,25 @@
   <data name="StatusSince" xml:space="preserve">
     <value>Desde {0}</value>
   </data>
+  <data name="ChoosePicture" xml:space="preserve">
+    <value>Elegir una foto</value>
+  </data>
+  <data name="RemovePicture" xml:space="preserve">
+    <value>Quitar la foto</value>
+  </data>
+  <data name="ChooseAvatarPreset" xml:space="preserve">
+    <value>O elige una de estas</value>
+  </data>
+  <data name="AvatarDescription" xml:space="preserve">
+    <value>Tu foto</value>
+  </data>
+  <data name="AvatarUnsupportedType" xml:space="preserve">
+    <value>La foto debe ser un archivo PNG, JPEG, WebP o GIF.</value>
+  </data>
+  <data name="AvatarTooLarge" xml:space="preserve">
+    <value>La foto no debe superar los 5 MB.</value>
+  </data>
+  <data name="AvatarFailed" xml:space="preserve">
+    <value>No se pudo guardar la foto (error {0}).</value>
+  </data>
 </root>
