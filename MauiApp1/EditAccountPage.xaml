@@ -44,9 +44,7 @@
             <Entry
                 Placeholder="{strings:Translate AccountName}"
                 x:Name="accountName"
-                TextColor="Grey"
-                Opacity="0.9"
-                IsReadOnly="True" />
+                TextChanged="OnAccountNameCompleted" />
 
             <Label
                 TextColor="#CCC"
@@ -77,9 +75,7 @@
             <Entry
                 Placeholder="{strings:Translate AccountAddress}"
                 x:Name="accountAddress"
-                TextColor="Grey"
-                Opacity="0.9"
-                IsReadOnly="True" />
+                TextChanged="OnAccountAddressCompleted" />
 
             <Label
                 TextColor="#CCC"
