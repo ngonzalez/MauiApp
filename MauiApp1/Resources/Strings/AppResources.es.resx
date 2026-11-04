@@ -63,6 +63,9 @@
   <data name="ChannelsLabel" xml:space="preserve">
     <value>Canales:</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
   <data name="CopyUrl" xml:space="preserve">
     <value>Copiar la URL</value>
   </data>
@@ -98,9 +101,6 @@
   </data>
   <data name="DotNetBotDescription" xml:space="preserve">
     <value>El robot de .NET en el aerodeslizador número nueve</value>
-  </data>
-  <data name="EditMyAccount" xml:space="preserve">
-    <value>Editar mi cuenta</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Correo electrónico</value>

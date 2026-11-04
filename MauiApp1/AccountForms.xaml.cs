@@ -40,7 +40,18 @@ namespace MauiApp1
 
     }
 
-    public partial class EditAccountPage : ContentPage
+    // My Account's forms, one at a time
+    public enum AccountForm
+    {
+        EditAccount,
+        ChangePassword,
+        ChangeEmailAddress,
+        InviteUsers
+    }
+
+    // The right pane of My Account (AccountPage): the form one of its buttons
+    // opened. Opening another form, or Close, empties the one shown
+    public partial class AccountForms : ContentView
     {
         private readonly IAuthenticate _authenticate;
 
@@ -56,11 +67,16 @@ namespace MauiApp1
 
         private string EmailAddress;
 
+        // Change Email Address's own field: Edit Account's EmailAddress is
+        // another one
+        private string NewEmailAddress;
+
         private string Password;
 
         private string PasswordConfirmation;
 
-        public EditAccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel, IApiService apiService)
+        // Built by AccountPage, which is only shown when signed in
+        public AccountForms(IAuthenticate authenticate, AppShellViewModel appShellViewModel, IApiService apiService)
         {
             _authenticate = authenticate;
 
@@ -68,16 +84,63 @@ namespace MauiApp1
 
             _apiService = apiService;
 
-            if (string.IsNullOrEmpty(_appShellViewModel.Token))
-            {
-                Shell.Current.GoToAsync("signinpage");
-            }
-
             InitializeComponent();
 
             BindingContext = this;
 
-            myAccountLink.Clicked += new EventHandler(accountLinkClicked);
+            FillFromCurrentUser();
+
+            _ = LoadAvatarPresets();
+        }
+
+        // Show `form` alone, emptied
+        public void Open(AccountForm form)
+        {
+            Reset();
+            editAccountSection.IsVisible = form == AccountForm.EditAccount;
+            changePasswordSection.IsVisible = form == AccountForm.ChangePassword;
+            changeEmailSection.IsVisible = form == AccountForm.ChangeEmailAddress;
+            inviteUsersSection.IsVisible = form == AccountForm.InviteUsers;
+            IsVisible = true;
+        }
+
+        // Hide the form shown, emptied
+        public void Close()
+        {
+            Reset();
+            editAccountSection.IsVisible = false;
+            changePasswordSection.IsVisible = false;
+            changeEmailSection.IsVisible = false;
+            inviteUsersSection.IsVisible = false;
+            IsVisible = false;
+        }
+
+        public void OnCloseClicked(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        // What was typed and the messages go; the account's details are
+        // read again from the signed-in user
+        private void Reset()
+        {
+            changePasswordPassword.Text = "";
+            changePasswordPasswordConfirmation.Text = "";
+            changeEmailNewEmailAddress.Text = "";
+            invitationEmailAddress.Text = "";
+
+            avatarErrors.Text = "";
+            accountErrors.Text = "";
+            passwordErrors.Text = "";
+            emailAddressErrors.Text = "";
+            invitationErrors.Text = "";
+
+            FillFromCurrentUser();
+        }
+
+        // The signed-in user's details in Edit Account and Change Email Address
+        private void FillFromCurrentUser()
+        {
             accountName.Text = _appShellViewModel.CurrentUser.accountName;
             accountSubdomain.Text = _appShellViewModel.CurrentUser.accountSubdomain;
             accountAddress.Text = _appShellViewModel.CurrentUser.accountAddress;
@@ -89,13 +152,6 @@ namespace MauiApp1
             changeEmailCurrentEmailAddress.Text = _appShellViewModel.CurrentUser.emailAddress;
             editAccountDeliverNotificationsOnSignIn.IsChecked = _appShellViewModel.CurrentUser.deliverNotificationsSignIn;
             editAccountDeliverNotificationsOnAccountUpdate.IsChecked = _appShellViewModel.CurrentUser.deliverNotificationsAccountUpdate!;
-
-            _ = LoadAvatarPresets();
-        }
-
-        public void accountLinkClicked(object sender, EventArgs e)
-        {
-            Shell.Current.GoToAsync("accountpage");
         }
 
         private async void OnAccountNameCompleted(object sender, EventArgs e)
@@ -226,13 +282,13 @@ namespace MauiApp1
 
         public void OnNewEmailAddressCompleted(object sender, EventArgs e)
         {
-            EmailAddress = ((Entry)sender).Text;
+            NewEmailAddress = ((Entry)sender).Text;
         }
         public async void OnUpdateEmailClicked(object sender, EventArgs e)
         {
             var values = new Dictionary<string, string> {
                 { "id", Convert.ToString(_appShellViewModel.CurrentUser.id!) },
-                { "emailAddress", EmailAddress }
+                { "emailAddress", NewEmailAddress }
             };
 
             (int statusCode, var response) = await _authenticate.updateEmailAddress(values);

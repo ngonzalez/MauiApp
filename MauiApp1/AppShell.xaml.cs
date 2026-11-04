@@ -10,7 +10,6 @@
             Routing.RegisterRoute("folderlistpage", typeof(FolderListPage));
             Routing.RegisterRoute("resetpasswordpage", typeof(ResetPasswordPage));
             Routing.RegisterRoute("accountpage", typeof(AccountPage));
-            Routing.RegisterRoute("editaccountpage", typeof(EditAccountPage));
             Routing.RegisterRoute("mainpage", typeof(MainPage));
             Routing.RegisterRoute("displaypage", typeof(DisplayPage));
             Routing.RegisterRoute("showimagefilepage", typeof(ShowImageFilePage));

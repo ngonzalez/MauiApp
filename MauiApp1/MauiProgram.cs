@@ -33,7 +33,6 @@ namespace MauiApp1
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<FolderListPage>();
             builder.Services.AddTransient<AccountPage>();
-            builder.Services.AddTransient<EditAccountPage>();
             builder.Services.AddTransient<DisplayPage>();
             builder.Services.AddTransient<ShowImageFilePage>();
             builder.Services.AddTransient<App>();
