@@ -56,6 +56,10 @@ namespace MauiApp1
 
         private string EmailAddress;
 
+        // Change Email Address's own field: Edit Account's EmailAddress is
+        // another one
+        private string NewEmailAddress;
+
         private string Password;
 
         private string PasswordConfirmation;
@@ -226,13 +230,13 @@ namespace MauiApp1
 
         public void OnNewEmailAddressCompleted(object sender, EventArgs e)
         {
-            EmailAddress = ((Entry)sender).Text;
+            NewEmailAddress = ((Entry)sender).Text;
         }
         public async void OnUpdateEmailClicked(object sender, EventArgs e)
         {
             var values = new Dictionary<string, string> {
                 { "id", Convert.ToString(_appShellViewModel.CurrentUser.id!) },
-                { "emailAddress", EmailAddress }
+                { "emailAddress", NewEmailAddress }
             };
 
             (int statusCode, var response) = await _authenticate.updateEmailAddress(values);
