@@ -1,38 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
              xmlns:local="clr-namespace:MauiApp1"
-             x:Class="MauiApp1.EditAccountPage">
+             x:Class="MauiApp1.AccountForms"
+             IsVisible="False">
 
-    <ScrollView>
+    <!-- The right pane of My Account (AccountPage): one form at a time,
+         opened by its buttons (Open), closed by Close -->
+    <VerticalStackLayout
+        Padding="30,20"
+        Spacing="25">
+
+        <!-- Edit Account: the picture and the user's details -->
         <VerticalStackLayout
-            Padding="30,0"
+            x:Name="editAccountSection"
+            IsVisible="False"
             Spacing="25">
-
-            <Button
-                Text="{strings:Translate BackToMyAccount}"
-                x:Name="myAccountLink"
-                BackgroundColor="Black"
-                TextColor="FloralWhite"
-                FontSize="20"
-                VerticalOptions="Center"
-                HorizontalOptions="Center">
-                <Button.ImageSource>
-                    <FontImageSource
-                        FontFamily="FontAwesome7FreeSolid"
-                        Glyph="{StaticResource IconCircleArrowLeft}"
-                        Size="20"
-                        Color="FloralWhite" />
-                </Button.ImageSource>
-            </Button>
-
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="{strings:Translate DotNetBotDescription}" />
-
             <Label
                 FontSize="20"
                 FontAttributes="Bold" Text="{strings:Translate EditAccount}" />
@@ -240,9 +224,13 @@
             <Label
                 x:Name="accountErrors"
                 HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
 
-            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
-
+        <!-- Change Password -->
+        <VerticalStackLayout
+            x:Name="changePasswordSection"
+            IsVisible="False"
+            Spacing="25">
             <Label
                 FontSize="20"
                 FontAttributes="Bold" Text="{strings:Translate ChangePassword}" />
@@ -301,9 +289,13 @@
             <Label
                 x:Name="passwordErrors"
                 HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
 
-            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
-
+        <!-- Change Email Address -->
+        <VerticalStackLayout
+            x:Name="changeEmailSection"
+            IsVisible="False"
+            Spacing="25">
             <Label
                 FontSize="20"
                 FontAttributes="Bold" Text="{strings:Translate ChangeEmailAddress}" />
@@ -362,10 +354,13 @@
             <Label
                 x:Name="emailAddressErrors"
                 HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
 
-            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
-
-            <!-- Invite someone by email to join this account (POST /invitations) -->
+        <!-- Invite someone by email to join this account (POST /invitations) -->
+        <VerticalStackLayout
+            x:Name="inviteUsersSection"
+            IsVisible="False"
+            Spacing="25">
             <Label
                 FontSize="20"
                 FontAttributes="Bold" Text="{strings:Translate InviteUsers}" />
@@ -417,9 +412,23 @@
             <Label
                 x:Name="invitationErrors"
                 HorizontalTextAlignment="Center" />
-
-            <Rectangle HeightRequest="70" BackgroundColor="Transparent" />
-
         </VerticalStackLayout>
-    </ScrollView>
-</ContentPage>
+
+        <Button
+            Text="{strings:Translate Close}"
+            SemanticProperties.Hint="{strings:Translate Close}"
+            Clicked="OnCloseClicked"
+            BackgroundColor="Black"
+            TextColor="FloralWhite"
+            HorizontalOptions="Center">
+            <Button.ImageSource>
+                <FontImageSource
+                    FontFamily="FontAwesome7FreeSolid"
+                    Glyph="{StaticResource IconXmark}"
+                    Size="14"
+                    Color="FloralWhite" />
+            </Button.ImageSource>
+        </Button>
+
+    </VerticalStackLayout>
+</ContentView>

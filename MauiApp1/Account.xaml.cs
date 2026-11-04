@@ -20,6 +20,9 @@ public partial class AccountPage : ContentPage
 
     private readonly IApiService _apiService;
 
+    // The right column: the form a button opened
+    private readonly AccountForms _forms;
+
     public AccountPage(IAuthenticate authenticate, AppShellViewModel appShellViewModel, IApiService apiService)
     {
         _authenticate = authenticate;
@@ -38,7 +41,13 @@ public partial class AccountPage : ContentPage
         uploadsLink.Clicked += new EventHandler(uploadsLinkClicked);
         listFoldersList.Clicked += new EventHandler(listFoldersListClicked);
         signOutLink.Clicked += new EventHandler(signOutLinkClicked);
-        accountLink.Clicked += new EventHandler(accountLinkClicked);
+        editAccountLink.Clicked += (sender, e) => OpenForm(AccountForm.EditAccount);
+        changePasswordLink.Clicked += (sender, e) => OpenForm(AccountForm.ChangePassword);
+        inviteUsersLink.Clicked += (sender, e) => OpenForm(AccountForm.InviteUsers);
+        changeEmailLink.Clicked += (sender, e) => OpenForm(AccountForm.ChangeEmailAddress);
+
+        _forms = new AccountForms(authenticate, appShellViewModel, apiService);
+        formPanel.Content = _forms;
     }
 
     protected override async void OnAppearing()
@@ -116,7 +125,8 @@ public partial class AccountPage : ContentPage
 
     }
 
-    public void accountLinkClicked(object sender, EventArgs e)
+    // A form on the right, the one open before closed (AccountForms.Open)
+    private void OpenForm(AccountForm form)
     {
         if (_appShellViewModel.CurrentUser.id == null)
         {
@@ -124,7 +134,7 @@ public partial class AccountPage : ContentPage
         }
         else
         {
-            Shell.Current.GoToAsync("editaccountpage");
+            _forms.Open(form);
         }
     }
 }
