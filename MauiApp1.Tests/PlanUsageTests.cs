@@ -20,6 +20,26 @@ namespace MauiApp1.Tests
             Assert.Equal(new PlanUsage("5GB", 51357725, 5368709120, 1, 3), PlanUsage.Parse(Summary));
         }
 
+        [Fact]
+        public void ReadsHowThePlanIsBilled()
+        {
+            PlanUsage? yearly = PlanUsage.Parse(Summary.Replace("\"name\":\"5GB\",", "\"name\":\"5GB\",\"interval\":\"yearly\","));
+
+            Assert.Equal(new PlanUsage("5GB", 51357725, 5368709120, 1, 3, "yearly"), yearly);
+            Assert.Equal("PlanNameYearly", yearly!.NameKey);
+            Assert.Equal("PlanNameMonthly", new PlanUsage("Pro", 0, 1, 1, 3, "monthly").NameKey);
+        }
+
+        [Fact]
+        public void HasNoPeriodFromABackendThatDoesntSendIt()
+        {
+            PlanUsage? plan = PlanUsage.Parse(Summary);
+
+            Assert.Null(plan!.Interval);
+            Assert.Equal("PlanName", plan.NameKey);
+            Assert.Equal("PlanName", PlanUsage.Parse(Summary.Replace("\"name\":\"5GB\",", "\"name\":\"5GB\",\"interval\":null,"))!.NameKey);
+        }
+
         [Theory]
         [InlineData("""{"account":{"name":"Acme","subdomain":"acme","siteUrl":"x"}}""")]
         [InlineData("""{"account":{"plan":null}}""")]

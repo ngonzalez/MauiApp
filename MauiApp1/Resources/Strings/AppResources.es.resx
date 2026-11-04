@@ -471,6 +471,12 @@
   <data name="PlanName" xml:space="preserve">
     <value>Plan {0}</value>
   </data>
+  <data name="PlanNameMonthly" xml:space="preserve">
+    <value>Plan {0}, mensual</value>
+  </data>
+  <data name="PlanNameYearly" xml:space="preserve">
+    <value>Plan {0}, anual</value>
+  </data>
   <data name="PlanStorage" xml:space="preserve">
     <value>Almacenamiento: {0} de {1}</value>
   </data>

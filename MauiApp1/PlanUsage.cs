@@ -6,9 +6,20 @@ namespace MauiApp1
     // The account's plan and what it uses of it: the "plan" of the backend's
     // GET /account, with the signed-in session's token. Pro: files up to
     // 5 GiB and 3 users; Business: 10 GiB and 10 users. Every plan is paid:
-    // without one (an empty name) the account's site is offline.
-    public record PlanUsage(string Name, long StorageUsed, long StorageLimit, int UsersCount, int UsersLimit)
+    // without one (an empty name) the account's site is offline. Interval:
+    // how it is billed, monthly or yearly (null without a plan, or from a
+    // backend that doesn't send it).
+    public record PlanUsage(string Name, long StorageUsed, long StorageLimit, int UsersCount, int UsersLimit, string? Interval = null)
     {
+        // The text of the plan's name, with its period when known:
+        // "Pro plan, yearly" (PlanNameYearly), "Pro plan" (PlanName)
+        public string NameKey => Interval switch
+        {
+            "yearly" => "PlanNameYearly",
+            "monthly" => "PlanNameMonthly",
+            _ => "PlanName"
+        };
+
         // How much of the storage the files take, from 0 to 1
         public double StorageFraction => StorageLimit > 0 ? Math.Min((double)StorageUsed / StorageLimit, 1) : 0;
 
@@ -33,9 +44,13 @@ namespace MauiApp1
                 }
                 JsonElement storage = plan.GetProperty("storage");
                 JsonElement users = plan.GetProperty("users");
+                string? interval = plan.TryGetProperty("interval", out JsonElement period) && period.ValueKind == JsonValueKind.String
+                    ? period.GetString()
+                    : null;
                 return new PlanUsage(plan.GetProperty("name").GetString() ?? "",
                                      storage.GetProperty("used").GetInt64(), storage.GetProperty("limit").GetInt64(),
-                                     users.GetProperty("count").GetInt32(), users.GetProperty("limit").GetInt32());
+                                     users.GetProperty("count").GetInt32(), users.GetProperty("limit").GetInt32(),
+                                     interval);
             }
             catch (Exception exception) when (exception is JsonException || exception is KeyNotFoundException || exception is InvalidOperationException || exception is FormatException)
             {
