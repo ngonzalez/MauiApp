@@ -4,44 +4,7 @@
              xmlns:strings="clr-namespace:MauiApp1.Resources.Strings"
              x:Class="MauiApp1.AccountPage">
 
-    <ContentPage.Resources>
-        <!-- The buttons opening My Account's forms, like the others here -->
-        <Style x:Key="AccountFormButton" TargetType="Button">
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="BackgroundColor" Value="Black" />
-            <Setter Property="TextColor" Value="FloralWhite" />
-            <Setter Property="BorderColor" Value="Black" />
-            <Setter Property="BorderWidth" Value="1" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="HorizontalOptions" Value="Center" />
-            <Setter Property="VisualStateManager.VisualStateGroups">
-                <VisualStateGroupList>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal">
-                            <VisualState.Setters>
-                                <Setter Property="Scale" Value="1" />
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState x:Name="Pressed">
-                            <VisualState.Setters>
-                                <Setter Property="Scale" Value="0.9" />
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState x:Name="PointerOver">
-                            <VisualState.Setters>
-                                <Setter Property="BorderColor" Value="#555" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-            </Setter>
-        </Style>
-    </ContentPage.Resources>
-
-    <!-- My Account on the left; on the right, the form one of its buttons
-         opened (AccountForms, added by the code) -->
-    <Grid ColumnDefinitions="380,*">
-    <ScrollView Grid.Column="0">
+    <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
@@ -164,11 +127,16 @@
                     </VisualStateGroupList>
                 </VisualStateManager.VisualStateGroups>
             </Button>
-            <!-- My Account's forms: each opens on the right (AccountForms) -->
             <Button
-                Text="{strings:Translate EditAccount}"
-                x:Name="editAccountLink"
-                Style="{StaticResource AccountFormButton}">
+                Text="{strings:Translate EditMyAccount}"
+                FontSize="14"
+                x:Name="accountLink"
+                BackgroundColor="Black"
+                TextColor="FloralWhite"
+                BorderColor="Black"
+                BorderWidth="1"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
                 <Button.ImageSource>
                     <FontImageSource
                             FontFamily="FontAwesome7FreeSolid"
@@ -176,45 +144,27 @@
                             Size="14"
                             Color="SeaShell" />
                 </Button.ImageSource>
-            </Button>
-
-            <Button
-                Text="{strings:Translate ChangePassword}"
-                x:Name="changePasswordLink"
-                Style="{StaticResource AccountFormButton}">
-                <Button.ImageSource>
-                    <FontImageSource
-                            FontFamily="FontAwesome7FreeSolid"
-                            Glyph="{StaticResource IconKey}"
-                            Size="14"
-                            Color="SeaShell" />
-                </Button.ImageSource>
-            </Button>
-
-            <Button
-                Text="{strings:Translate InviteUsers}"
-                x:Name="inviteUsersLink"
-                Style="{StaticResource AccountFormButton}">
-                <Button.ImageSource>
-                    <FontImageSource
-                            FontFamily="FontAwesome7FreeSolid"
-                            Glyph="{StaticResource IconUserPlus}"
-                            Size="14"
-                            Color="SeaShell" />
-                </Button.ImageSource>
-            </Button>
-
-            <Button
-                Text="{strings:Translate ChangeEmailAddress}"
-                x:Name="changeEmailLink"
-                Style="{StaticResource AccountFormButton}">
-                <Button.ImageSource>
-                    <FontImageSource
-                            FontFamily="FontAwesome7FreeSolid"
-                            Glyph="{StaticResource IconEnvelope}"
-                            Size="14"
-                            Color="SeaShell" />
-                </Button.ImageSource>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="#555" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
             </Button>
 
             <Button
@@ -228,13 +178,4 @@
 
         </VerticalStackLayout>
     </ScrollView>
-
-    <ScrollView Grid.Column="1">
-        <ContentView
-            x:Name="formPanel"
-            MaximumWidthRequest="560"
-            HorizontalOptions="Center"
-            VerticalOptions="Start" />
-    </ScrollView>
-    </Grid>
 </ContentPage>
