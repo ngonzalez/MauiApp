@@ -62,7 +62,7 @@ public partial class AccountPage : ContentPage
         {
             return;
         }
-        planNameLabel.Text = AppResources.Format("PlanName", plan.Name);
+        planNameLabel.Text = AppResources.Format(plan.NameKey, plan.Name);
         planStorageLabel.Text = AppResources.Format("PlanStorage", PlanUsage.FormatSize(plan.StorageUsed), PlanUsage.FormatSize(plan.StorageLimit));
         planStorageBar.Progress = plan.StorageFraction;
         planStorageBar.ProgressColor = plan.StorageUsed >= plan.StorageLimit ? Colors.Red : Colors.CornflowerBlue;
