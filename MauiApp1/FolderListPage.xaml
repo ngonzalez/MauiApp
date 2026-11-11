@@ -26,6 +26,16 @@
                 </Button.ImageSource>
             </Button>
 
+            <!-- Upload files (UploadPanel) above the folders: the list reads
+                 them again after an upload -->
+            <ContentView
+                x:Name="uploadPanelHost" />
+
+            <BoxView
+                HeightRequest="1"
+                Color="Gray"
+                Margin="0,10" />
+
             <Grid>
                 <HorizontalStackLayout>
                     <Label

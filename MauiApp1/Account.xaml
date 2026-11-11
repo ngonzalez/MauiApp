@@ -89,45 +89,6 @@
             </Button>
 
             <Button
-                Text="{strings:Translate ListFolders}"
-                FontSize="14"
-                x:Name="listFoldersList"
-                BackgroundColor="Black"
-                TextColor="FloralWhite"
-                BorderColor="Black"
-                BorderWidth="1"
-                VerticalOptions="Center"
-                HorizontalOptions="Center">
-                <Button.ImageSource>
-                    <FontImageSource
-                            FontFamily="FontAwesome7FreeSolid"
-                            Glyph="{StaticResource IconFolderTree}"
-                            Size="14"
-                            Color="SeaShell" />
-                </Button.ImageSource>
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="Scale" Value="1" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Pressed">
-                                <VisualState.Setters>
-                                    <Setter Property="Scale" Value="0.9" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="PointerOver">
-                                <VisualState.Setters>
-                                    <Setter Property="BorderColor" Value="#555" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </VisualStateManager.VisualStateGroups>
-            </Button>
-            <Button
                 Text="{strings:Translate EditMyAccount}"
                 FontSize="14"
                 x:Name="accountLink"

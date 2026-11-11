@@ -30,7 +30,6 @@ namespace MauiApp1
             builder.Services.AddTransient<IAlertService, MauiApp1.Platforms.Windows.AlertService>();
             builder.Services.AddTransient<SignInPage>();
             builder.Services.AddTransient<ResetPasswordPage>();
-            builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<FolderListPage>();
             builder.Services.AddTransient<AccountPage>();
             builder.Services.AddTransient<EditAccountPage>();

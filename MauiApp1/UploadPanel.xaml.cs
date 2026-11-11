@@ -14,7 +14,9 @@ using MauiApp1.Resources.Strings;
 
 namespace MauiApp1
 {
-    public partial class MainPage : ContentPage
+    // The upload part of FolderListPage (UploadPanel.xaml): Uploaded tells it
+    // to read its folders again once files are sent
+    public partial class UploadPanel : ContentView
     {
         public ObservableCollection<UploadFolder> UploadFolders { get; set; }
 
@@ -32,18 +34,13 @@ namespace MauiApp1
 
         private readonly AppShellViewModel _appShellViewModel;
 
-        public MainPage(IAuthenticate authenticate, IFolderPicker folderPicker, IApiService apiService, IAlertService alertService, AppShellViewModel appShellViewModel)
+        public UploadPanel(IAuthenticate authenticate, IFolderPicker folderPicker, IApiService apiService, IAlertService alertService, AppShellViewModel appShellViewModel)
         {
             _folderPicker = folderPicker;
             _authenticate = authenticate;
             _apiService = apiService;
             _alertService = alertService;
             _appShellViewModel = appShellViewModel;
-
-            if (string.IsNullOrEmpty(_appShellViewModel.Token))
-            {
-                Shell.Current.GoToAsync("signinpage");
-            }
 
             UploadFolders = new ObservableCollection<UploadFolder> { };
             UploadFiles = new ObservableCollection<UploadFile> { };
@@ -52,22 +49,19 @@ namespace MauiApp1
 
             BindingContext = this;
 
-            myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             resetLink.Clicked += new EventHandler(resetLinkClicked);
 
             labelFilesCount.Text = AppResources.Get("NoItemsFound");
             labelFilesCount.TextColor = Colors.Grey;
         }
 
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-            await RefreshPlanUsage();
-        }
+        // Files were sent (some may have failed): the folders' list reads them again
+        public event EventHandler? Uploaded;
 
-        // The account's plan under the buttons: read when the page appears and
-        // after each import; hidden when it can't be read (signed out, offline)
-        private async Task RefreshPlanUsage()
+        // The account's plan under the buttons: read when the page appears
+        // (FolderListPage) and after each import; hidden when it can't be
+        // read (signed out, offline)
+        public async Task RefreshPlanUsage()
         {
             PlanUsage? plan = string.IsNullOrEmpty(_appShellViewModel.Token) ? null : await _apiService.GetPlanUsageAsync();
             planPanel.IsVisible = plan != null;
@@ -92,11 +86,6 @@ namespace MauiApp1
         public int getUploadFilesCount()
         {
             return UploadFiles.Count();
-        }
-
-        public void accountLinkClicked(object sender, EventArgs e)
-        {
-            Shell.Current.GoToAsync("accountpage");
         }
 
         public void resetLinkClicked(object sender, EventArgs e)
@@ -140,8 +129,12 @@ namespace MauiApp1
             _sending = true;
             try
             {
-                await SendEachFile();
+                int sent = await SendEachFile();
                 await RefreshPlanUsage();
+                if (sent > 0)
+                {
+                    Uploaded?.Invoke(this, EventArgs.Empty);
+                }
             }
             finally
             {
@@ -149,7 +142,8 @@ namespace MauiApp1
             }
         }
 
-        private async Task SendEachFile()
+        // The number of files sent
+        private async Task<int> SendEachFile()
         {
             int filesCount = 0;
             int totalFilesCount = UploadFiles.Count();
@@ -197,6 +191,8 @@ namespace MauiApp1
             {
                 await _alertService.DisplayAlertAsync(AppResources.Count("UploadsFailed", failures.Count), string.Join("\n", failures), "OK");
             }
+
+            return totalFilesCount - failures.Count;
         }
 
         private async Task CreateEvent(UploadFile uploadFile, Dictionary<string, string> uploadDetails)

@@ -46,6 +46,9 @@ namespace MauiApp1
 
         private readonly AppShellViewModel _appShellViewModel;
 
+        // Upload files, above the folders
+        private readonly UploadPanel _uploadPanel;
+
         public FolderListPage(IAuthenticate authenticate, IFolderPicker folderPicker, IAlertService alertService, IApiService apiService, AppShellViewModel appShellViewModel)
         {
             _folderPicker = folderPicker;
@@ -66,6 +69,10 @@ namespace MauiApp1
 
             BindingContext = this;
 
+            _uploadPanel = new UploadPanel(authenticate, folderPicker, apiService, alertService, appShellViewModel);
+            _uploadPanel.Uploaded += (sender, e) => refreshButtonClicked(sender!, e);
+            uploadPanelHost.Content = _uploadPanel;
+
             myAccountLink.Clicked += new EventHandler(accountLinkClicked);
             refreshFilesButton.Clicked += new EventHandler(refreshButtonClicked);
             selectAllFolders.Clicked += new EventHandler(selectAllFoldersButtonClicked);
@@ -79,6 +86,13 @@ namespace MauiApp1
             PopulateFolderActionPicker();
 
             getUploads();
+        }
+
+        // The plan's storage under the upload buttons, read again each time
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await _uploadPanel.RefreshPlanUsage();
         }
 
         private void RefreshFolders(IEnumerable<Folder> folders)
